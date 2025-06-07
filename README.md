@@ -50,7 +50,7 @@ Alley is currently a work in progress. While it provides a strong base for PvP-f
 
 ## Installation
 
-1. Download the latest release of Alley from this repository.
+1. Download the latest release of Alley from [here](https://github.com/RevereInc/alley-practice/actions).
 2. Move the Alley.jar file into your server’s plugins directory.
 3. Restart your server to load the plugin.
 
