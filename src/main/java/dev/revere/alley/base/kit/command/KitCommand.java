@@ -53,6 +53,7 @@ public class KitCommand extends BaseCommand {
         new KitSetupFFACommand();
         new KitToggleFFACommand();
         new KitSetFfaSlotCommand();
+        new KitSetExtraSlotCommand();
         new KitSetCategoryCommand();
         new KitSetEditableCommand();
     }

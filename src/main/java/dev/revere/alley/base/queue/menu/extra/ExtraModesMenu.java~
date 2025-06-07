@@ -36,7 +36,7 @@ public class ExtraModesMenu extends Menu {
 
         for (Queue queue : Alley.getInstance().getQueueService().getQueues()) {
             if (!queue.isRanked() && queue.getKit().getCategory() == EnumKitCategory.EXTRA) {
-                buttons.put(queue.getKit().getExtraSlot(), new UnrankedButton(queue));
+                buttons.put(queue.getKit().getUnrankedSlot(), new UnrankedButton(queue));
             }
         }
 

@@ -36,6 +36,7 @@ public class Kit {
     private int unrankedSlot;
     private int rankedSlot;
     private int editorSlot;
+    private int extraSlot;
 
     private String ffaArenaName;
     private boolean ffaEnabled;
@@ -69,7 +70,7 @@ public class Kit {
      * @param armor        The armor in the kit.
      * @param editorItems  The items in the editor.
      */
-    public Kit(String name, String displayName, String description, String disclaimer, boolean enabled, boolean editable, EnumKitCategory category, Material icon, int durability, int unrankedSlot, int rankedSlot, int editorSlot, int ffaSlot, ItemStack[] items, ItemStack[] armor, ItemStack[] editorItems) {
+    public Kit(String name, String displayName, String description, String disclaimer, boolean enabled, boolean editable, EnumKitCategory category, Material icon, int durability, int unrankedSlot, int rankedSlot, int editorSlot, int extraSlot, int ffaSlot, ItemStack[] items, ItemStack[] armor, ItemStack[] editorItems) {
         this.name = name;
         this.displayName = displayName;
         this.description = description;
@@ -86,6 +87,7 @@ public class Kit {
         this.unrankedSlot = unrankedSlot;
         this.rankedSlot = rankedSlot;
         this.editorSlot = editorSlot;
+        this.extraSlot = extraSlot;
 
         this.ffaArenaName = "";
         this.ffaEnabled = false;

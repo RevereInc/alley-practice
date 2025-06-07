@@ -28,6 +28,7 @@ kit:
     unrankedslot-set: "&aSuccessfully set the unranked slot of the &b{kit-name} &akit to &b{slot}&a!"
     rankedslot-set: "&aSuccessfully set the ranked slot of the &b{kit-name} &akit to &b{slot}&a!"
     editorslot-set: "&aSuccessfully set the editor slot of the &b{kit-name} &akit to &b{slot}&a!"
+    extraslot-set: "&aSuccessfully set the extra slot of the &b{kit-name} &akit to &b{slot}&a!"
     ffaslot-set: "&aSuccessfully set the FFA slot of the &b{kit-name} &akit to &b{slot}&a!"
     slots-set: "&aSuccessfully set all slots of the &b{kit-name} &akit to &b{slot}&a!"
     description-set: "&aSuccessfully set the description of the &b{kit-name} &akit: &r{kit-description}"
