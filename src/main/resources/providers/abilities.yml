@@ -1,0 +1,28 @@
+MESSAGES:
+  COOLDOWN_EXPIRED: "Your %ability% is ready to use again!"
+
+
+SWITCHER:
+  ENABLED: true
+  COOLDOWN: 20
+
+  ICON:
+    DISPLAYNAME: "&b&lSwitcher"
+    MATERIAL: SNOWBALL
+    DATA: 0
+    DESCRIPTION:
+      - "&7Switch places with a player"
+      - "&7within 10 blocks of you."
+      - ""
+      - "&7Right-click to use."
+
+  ACTIONS:
+    RIGHT_CLICK:
+      ENABLED: true
+      TYPE: "LAUNCH_PROJECTILE"
+      PROJECTILE_TYPE: "SNOWBALL"
+
+    PROJECTILE_HIT:
+      ENABLED: true
+      TYPE: "SWITCH_POSITIONS"
+      SWITCH_POSITIONS: true
