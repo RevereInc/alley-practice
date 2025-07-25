@@ -83,7 +83,7 @@ public class Alley extends JavaPlugin {
     /**
      * Provides global, type-safe access to any managed service via its interface.
      *
-     * @param serviceInterface The class of the service interface you want (e.g., IProfileService.class).
+     * @param serviceInterface The class of the service interface you want (e.g., ProfileService.class).
      * @return The service instance.
      * @throws IllegalStateException if the service is not found.
      */

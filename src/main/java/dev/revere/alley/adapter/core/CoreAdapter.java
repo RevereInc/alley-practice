@@ -12,7 +12,7 @@ public interface CoreAdapter extends Service {
     /**
      * Gets the active core implementation that was detected during startup.
      *
-     * @return The ICore implementation for the currently enabled core plugin.
+     * @return The Core implementation for the currently enabled core plugin.
      */
     Core getCore();
 }
