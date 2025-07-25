@@ -1,10 +1,10 @@
 package dev.revere.alley.game.match.task.other;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.TitleReflectionService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -16,7 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class MatchRespawnTask extends BukkitRunnable {
     protected final Player player;
-    protected final AbstractMatch match;
+    protected final Match match;
     private int count;
 
     /**
@@ -26,7 +26,7 @@ public class MatchRespawnTask extends BukkitRunnable {
      * @param match  The match instance.
      * @param count  The countdown time in seconds.
      */
-    public MatchRespawnTask(Player player, AbstractMatch match, int count) {
+    public MatchRespawnTask(Player player, Match match, int count) {
         this.player = player;
         this.match = match;
         this.count = count;
@@ -40,12 +40,12 @@ public class MatchRespawnTask extends BukkitRunnable {
             return;
         }
 
-        if (this.match.getState() == EnumMatchState.ENDING_MATCH || this.match.getState() == EnumMatchState.ENDING_ROUND) {
+        if (this.match.getState() == MatchState.ENDING_MATCH || this.match.getState() == MatchState.ENDING_ROUND) {
             this.cancel();
             return;
         }
 
-        Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(TitleReflectionService.class).sendTitle(
+        Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
                 "&6&lRespawn",
                 "&fRespawning in &6" + this.count + "s",

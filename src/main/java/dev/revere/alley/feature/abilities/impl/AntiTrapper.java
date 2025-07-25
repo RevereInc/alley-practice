@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.abilities.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.abilities.AbstractAbility;
-import dev.revere.alley.feature.abilities.IAbilityService;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.AbilityService;
 import dev.revere.alley.feature.abilities.utils.DurationFormatter;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumGlobalCooldown;
+import dev.revere.alley.profile.enums.GlobalCooldown;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.TimeUtil;
 import dev.revere.alley.util.chat.CC;
@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AntiTrapper extends AbstractAbility {
+public class AntiTrapper extends Ability {
 
     private final Alley plugin = Alley.getInstance();
     public static Map<String, Long> cooldownvic;
@@ -50,8 +50,8 @@ public class AntiTrapper extends AbstractAbility {
             Player damager = (Player) event.getDamager();
             Player victim = (Player) event.getEntity();
 
-            IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-            IAbilityService abilityService = Alley.getInstance().getService(IAbilityService.class);
+            ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+            AbilityService abilityService = Alley.getInstance().getService(AbilityService.class);
 
             Profile profile = profileService.getProfile(damager.getUniqueId());
 
@@ -65,8 +65,8 @@ public class AntiTrapper extends AbstractAbility {
                     return;
                 }
 
-                if (profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).onCooldown(damager)) {
-                    damager.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).getRemainingMillis(damager), true, true)));
+                if (profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(damager)) {
+                    damager.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(damager), true, true)));
                     damager.updateInventory();
                     return;
                 }
@@ -77,7 +77,7 @@ public class AntiTrapper extends AbstractAbility {
 
                     // Apply cooldown on third hit
                     profile.getCooldown(AntiTrapper.class).applyCooldown(damager, 60 * 1000);
-                    profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
+                    profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
 
                     // Apply cooldown on victim to prevent interaction
                     AntiTrapper.cooldownvic.put(victim.getName(), System.currentTimeMillis() + (15 * 1000));
@@ -95,7 +95,7 @@ public class AntiTrapper extends AbstractAbility {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Action action = event.getAction();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
             if (!isAbility(player.getItemInHand())) {
                 return;

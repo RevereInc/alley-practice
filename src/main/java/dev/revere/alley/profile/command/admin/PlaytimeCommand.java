@@ -3,11 +3,11 @@ package dev.revere.alley.profile.command.admin;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfilePlayTimeData;
 import dev.revere.alley.tool.date.DateFormatter;
-import dev.revere.alley.tool.date.enums.EnumDateFormat;
+import dev.revere.alley.tool.date.enums.DateFormat;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.ChatColor;
@@ -40,7 +40,7 @@ public class PlaytimeCommand extends BaseCommand {
             return;
         }
 
-        Profile targetProfile = this.plugin.getService(IProfileService.class).getProfile(targetPlayer.getUniqueId());
+        Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId());
         if (targetProfile == null) {
             sender.sendMessage(CC.translate("&cThe player profile could not be found."));
             return;
@@ -56,7 +56,7 @@ public class PlaytimeCommand extends BaseCommand {
         int seconds = (int) (totalTimeInSeconds % 60);
 
         long firstJoin = targetProfile.getFirstJoin();
-        DateFormatter firstJoinFormatted = new DateFormatter(EnumDateFormat.TIME_PLUS_DATE, firstJoin);
+        DateFormatter firstJoinFormatted = new DateFormatter(DateFormat.TIME_PLUS_DATE, firstJoin);
 
         List<String> messages = new ArrayList<>();
         messages.add("");

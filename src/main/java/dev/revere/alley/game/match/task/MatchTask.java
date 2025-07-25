@@ -1,12 +1,12 @@
 package dev.revere.alley.game.match.task;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRoundsImpl;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.TitleReflectionService;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRounds;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 @Getter
 @Setter
 public class MatchTask extends BukkitRunnable {
-    private final AbstractMatch match;
+    private final Match match;
     private int stage;
 
     /**
@@ -30,7 +30,7 @@ public class MatchTask extends BukkitRunnable {
      *
      * @param match The match.
      */
-    public MatchTask(AbstractMatch match) {
+    public MatchTask(Match match) {
         this.match = match;
         this.stage = 6;
     }
@@ -46,7 +46,7 @@ public class MatchTask extends BukkitRunnable {
                 if (this.stage == 0) {
                     Alley.getInstance().getServer().getScheduler().runTask(Alley.getInstance(), this.match::handleRoundStart);
 
-                    this.match.setState(EnumMatchState.RUNNING);
+                    this.match.setState(MatchState.RUNNING);
                     this.match.sendMessage(CC.translate("&aMatch has started. Good luck!"));
 
                     this.sendTitleStarted();
@@ -62,7 +62,7 @@ public class MatchTask extends BukkitRunnable {
             case RESTARTING_ROUND:
                 if (this.stage == 0) {
                     Alley.getInstance().getServer().getScheduler().runTask(Alley.getInstance(), this.match::handleRoundStart);
-                    this.match.setState(EnumMatchState.RUNNING);
+                    this.match.setState(MatchState.RUNNING);
 
                     this.match.sendMessage(CC.translate("&aRound Started!"));
                     this.playSoundStarted();
@@ -74,7 +74,7 @@ public class MatchTask extends BukkitRunnable {
                 break;
             case ENDING_ROUND:
                 if (this.match.canStartRound()) {
-                    this.match.setState(EnumMatchState.RESTARTING_ROUND);
+                    this.match.setState(MatchState.RESTARTING_ROUND);
                     this.match.getRunnable().setStage(4);
                 }
                 break;
@@ -93,7 +93,7 @@ public class MatchTask extends BukkitRunnable {
      */
     private boolean hasToEnd() {
         long elapsedTime = System.currentTimeMillis() - match.getStartTime();
-        if (this.match.getKit().isSettingEnabled(KitSettingRoundsImpl.class)) {
+        if (this.match.getKit().isSettingEnabled(KitSettingRounds.class)) {
             return checkTime(elapsedTime, 900_000); // 15 minutes
         } else {
             return this.checkTime(elapsedTime, 1800_000); // 30 minutes (default)
@@ -108,9 +108,9 @@ public class MatchTask extends BukkitRunnable {
      * @return If the match ended.
      */
     private boolean checkTime(long elapsedTime, long timeLimit) {
-        if (this.match.getState() == EnumMatchState.RUNNING && elapsedTime >= timeLimit) {
+        if (this.match.getState() == MatchState.RUNNING && elapsedTime >= timeLimit) {
             this.match.sendMessage(CC.translate("&cMatch has ended due to time limit!"));
-            this.match.setState(EnumMatchState.ENDING_MATCH);
+            this.match.setState(MatchState.ENDING_MATCH);
             this.stage = 4;
             return true;
         }
@@ -119,7 +119,7 @@ public class MatchTask extends BukkitRunnable {
 
     private void sendTitleStarted() {
         this.match.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(matchGamePlayer -> {
-            Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(TitleReflectionService.class).sendTitle(
+            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                     matchGamePlayer.getTeamPlayer(),
                     "&6&lMatch started",
                     "&fGood Luck!"
@@ -129,7 +129,7 @@ public class MatchTask extends BukkitRunnable {
 
     private void sendTitleStarting() {
         this.match.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(matchGamePlayer -> {
-            Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(TitleReflectionService.class).sendTitle(
+            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                     matchGamePlayer.getTeamPlayer(),
                     "&6&lMatch",
                     "&fStarts in &6" + this.stage + "s",
@@ -142,10 +142,10 @@ public class MatchTask extends BukkitRunnable {
      * Send the disclaimer to the participants.
      */
     private void sendDisclaimer() {
-        FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMessagesConfig();
+        FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMessagesConfig();
         if (config.getBoolean("match.started.kit-disclaimer.enabled")) {
             if (this.match.getKit().getDisclaimer() == null) {
-                Alley.getInstance().getService(IConfigService.class).getMessagesConfig().getStringList("match.started.kit-disclaimer.not-set").forEach(message -> this.match.sendMessage(CC.translate(message)));
+                Alley.getInstance().getService(ConfigService.class).getMessagesConfig().getStringList("match.started.kit-disclaimer.not-set").forEach(message -> this.match.sendMessage(CC.translate(message)));
                 return;
             }
 

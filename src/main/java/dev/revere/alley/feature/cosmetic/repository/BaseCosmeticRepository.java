@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.cosmetic.repository;
 
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
-import dev.revere.alley.feature.cosmetic.interfaces.ICosmeticRepository;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
+import dev.revere.alley.feature.cosmetic.interfaces.CosmeticRepository;
 import dev.revere.alley.tool.logger.Logger;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ import java.util.*;
  * @date 6/1/2024
  */
 @Getter
-public abstract class BaseCosmeticRepository<T extends AbstractCosmetic> implements ICosmeticRepository<T> {
+public abstract class BaseCosmeticRepository<T extends BaseCosmetic> implements CosmeticRepository<T> {
     private final Map<String, T> cosmeticsByName;
 
     public BaseCosmeticRepository() {
@@ -36,7 +36,7 @@ public abstract class BaseCosmeticRepository<T extends AbstractCosmetic> impleme
     }
 
     @Override
-    public EnumCosmeticType getRepositoryType() {
+    public CosmeticType getRepositoryType() {
         if (cosmeticsByName.isEmpty()) {
             return null;
         }

@@ -1,16 +1,16 @@
 package dev.revere.alley.profile.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.base.hotbar.IHotbarService;
-import dev.revere.alley.base.spawn.ISpawnService;
-import dev.revere.alley.base.visibility.IVisibilityService;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.feature.music.IMusicService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.api.constant.PluginConstant;
+import dev.revere.alley.base.hotbar.HotbarService;
+import dev.revere.alley.base.spawn.SpawnService;
+import dev.revere.alley.base.visibility.VisibilityService;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
-import dev.revere.alley.adapter.core.ICoreAdapter;
+import dev.revere.alley.profile.enums.ProfileState;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.GameMode;
@@ -49,7 +49,7 @@ public class ProfileListener implements Listener {
         Profile profile = new Profile(event.getPlayer().getUniqueId());
         profile.load();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         profileService.getProfile(event.getPlayer().getUniqueId());
     }
 
@@ -63,7 +63,7 @@ public class ProfileListener implements Listener {
         event.setJoinMessage(null);
 
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         this.handlePlayerJoin(profile, player);
@@ -75,13 +75,13 @@ public class ProfileListener implements Listener {
         if (!(event.getEntity() instanceof Player)) return;
         Player player = (Player) event.getEntity();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == EnumProfileState.LOBBY
-                || profile.getState() == EnumProfileState.SPECTATING
-                || profile.getState() == EnumProfileState.EDITING
-                || profile.getState() == EnumProfileState.WAITING) {
+        if (profile.getState() == ProfileState.LOBBY
+                || profile.getState() == ProfileState.SPECTATING
+                || profile.getState() == ProfileState.EDITING
+                || profile.getState() == ProfileState.WAITING) {
             event.setCancelled(true);
         }
     }
@@ -89,8 +89,8 @@ public class ProfileListener implements Listener {
     @EventHandler
     private void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        IMusicService musicService = Alley.getInstance().getService(IMusicService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        MusicService musicService = Alley.getInstance().getService(MusicService.class);
 
         Profile profile = profileService.getProfile(player.getUniqueId());
 
@@ -107,12 +107,12 @@ public class ProfileListener implements Listener {
     private void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == EnumProfileState.LOBBY
-                || profile.getState() == EnumProfileState.EDITING
-                || profile.getState() == EnumProfileState.SPECTATING) {
+        if (profile.getState() == ProfileState.LOBBY
+                || profile.getState() == ProfileState.EDITING
+                || profile.getState() == ProfileState.SPECTATING) {
             if (player.getGameMode() == GameMode.CREATIVE) return;
             event.setCancelled(true);
 
@@ -135,13 +135,13 @@ public class ProfileListener implements Listener {
      * @param player  The player who joined.
      */
     private void handlePlayerJoin(Profile profile, Player player) {
-        ICoreAdapter coreAdapter = Alley.getInstance().getService(ICoreAdapter.class);
-        ISpawnService spawnService = Alley.getInstance().getService(ISpawnService.class);
-        IHotbarService hotbarService = Alley.getInstance().getService(IHotbarService.class);
-        IVisibilityService visibilityService = Alley.getInstance().getService(IVisibilityService.class);
-        IMusicService musicService = Alley.getInstance().getService(IMusicService.class);
+        CoreAdapter coreAdapter = Alley.getInstance().getService(CoreAdapter.class);
+        SpawnService spawnService = Alley.getInstance().getService(SpawnService.class);
+        HotbarService hotbarService = Alley.getInstance().getService(HotbarService.class);
+        VisibilityService visibilityService = Alley.getInstance().getService(VisibilityService.class);
+        MusicService musicService = Alley.getInstance().getService(MusicService.class);
 
-        profile.setState(EnumProfileState.LOBBY);
+        profile.setState(ProfileState.LOBBY);
         profile.setName(player.getName());
         profile.setOnline(true);
         profile.setMatch(null);
@@ -174,8 +174,8 @@ public class ProfileListener implements Listener {
      * @param player The player who joined.
      */
     private void sendJoinMessage(Player player) {
-        IConfigService configService = Alley.getInstance().getService(IConfigService.class);
-        IPluginConstant constants = Alley.getInstance().getService(IPluginConstant.class);
+        ConfigService configService = Alley.getInstance().getService(ConfigService.class);
+        PluginConstant constants = Alley.getInstance().getService(PluginConstant.class);
 
         FileConfiguration msgConfig = configService.getMessagesConfig();
         if (msgConfig.getBoolean("welcome-message.enabled")) {

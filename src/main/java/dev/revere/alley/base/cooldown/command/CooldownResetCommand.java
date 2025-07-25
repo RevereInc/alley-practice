@@ -4,8 +4,8 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.ICooldownRepository;
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
+import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.util.StringUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -36,15 +36,15 @@ public class CooldownResetCommand extends BaseCommand {
             return;
         }
 
-        EnumCooldownType type;
+        CooldownType type;
         try {
-            type = EnumCooldownType.valueOf(args[1].toUpperCase());
+            type = CooldownType.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cInvalid cooldown type. Valid types: " + String.join(", ", Arrays.stream(EnumCooldownType.values()).map(Enum::name).toArray(String[]::new))));
+            player.sendMessage(CC.translate("&cInvalid cooldown type. Valid types: " + String.join(", ", Arrays.stream(CooldownType.values()).map(Enum::name).toArray(String[]::new))));
             return;
         }
 
-        ICooldownRepository repository = this.plugin.getService(ICooldownRepository.class);
+        CooldownRepository repository = this.plugin.getService(CooldownRepository.class);
         Cooldown cooldown = repository.getCooldown(target.getUniqueId(), type);
         if (cooldown == null) {
             player.sendMessage(CC.translate("&cNo cooldown found for " + target.getName() + " of type " + StringUtil.formatEnumName(type) + "."));

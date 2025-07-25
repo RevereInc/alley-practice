@@ -3,14 +3,14 @@ package dev.revere.alley.base.arena.command.impl.manage;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
 import dev.revere.alley.base.arena.impl.FreeForAllArena;
 import dev.revere.alley.base.arena.impl.SharedArena;
 import dev.revere.alley.base.arena.impl.StandAloneArena;
 import dev.revere.alley.base.arena.selection.ArenaSelection;
-import dev.revere.alley.config.IConfigService;
+import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -38,7 +38,7 @@ public class ArenaCreateCommand extends BaseCommand {
         }
 
         String arenaName = args[0];
-        EnumArenaType arenaType = Arrays.stream(EnumArenaType.values())
+        ArenaType arenaType = Arrays.stream(ArenaType.values())
                 .filter(type -> type.name().equalsIgnoreCase(args[1]))
                 .findFirst()
                 .orElse(null);
@@ -48,7 +48,7 @@ public class ArenaCreateCommand extends BaseCommand {
             return;
         }
 
-        if (this.plugin.getService(IArenaService.class).getArenaByName(arenaName) != null) {
+        if (this.plugin.getService(ArenaService.class).getArenaByName(arenaName) != null) {
             player.sendMessage(ArenaLocale.ALREADY_EXISTS.getMessage());
             return;
         }
@@ -59,7 +59,7 @@ public class ArenaCreateCommand extends BaseCommand {
             return;
         }
 
-        AbstractArena arena;
+        Arena arena;
         switch (arenaType) {
             case SHARED:
                 arena = new SharedArena(arenaName, arenaSelection.getMinimum(), arenaSelection.getMaximum());
@@ -86,8 +86,8 @@ public class ArenaCreateCommand extends BaseCommand {
      * @param arenaType The type of the arena.
      * @return The default display name.
      */
-    private String getDefaultDisplayName(EnumArenaType arenaType) {
-        FileConfiguration config = this.plugin.getService(IConfigService.class).getSettingsConfig();
+    private String getDefaultDisplayName(ArenaType arenaType) {
+        FileConfiguration config = this.plugin.getService(ConfigService.class).getSettingsConfig();
 
         switch (arenaType) {
             case SHARED:

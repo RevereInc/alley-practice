@@ -1,13 +1,13 @@
 package dev.revere.alley.game.ffa.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.combat.ICombatService;
-import dev.revere.alley.game.ffa.IFFAService;
-import dev.revere.alley.game.ffa.cuboid.IFFASpawnService;
-import dev.revere.alley.game.ffa.enums.EnumFFAState;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.combat.CombatService;
+import dev.revere.alley.game.ffa.FFAService;
+import dev.revere.alley.game.ffa.cuboid.FFASpawnService;
+import dev.revere.alley.game.ffa.enums.FFAState;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.tool.cuboid.Cuboid;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public class FFACuboidListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        Cuboid cuboid = Alley.getInstance().getService(IFFASpawnService.class).getCuboid();
+        Cuboid cuboid = Alley.getInstance().getService(FFASpawnService.class).getCuboid();
         if (cuboid == null) {
             return;
         }
@@ -39,14 +39,14 @@ public class FFACuboidListener implements Listener {
             return;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (profile == null || profile.getState() != EnumProfileState.FFA) {
+        if (profile == null || profile.getState() != ProfileState.FFA) {
             return;
         }
 
-        IFFAService ffaService = Alley.getInstance().getService(IFFAService.class);
-        ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+        FFAService ffaService = Alley.getInstance().getService(FFAService.class);
+        CombatService combatService = Alley.getInstance().getService(CombatService.class);
 
         if (ffaService.getFFAMatch(player) == null || !ffaService.getMatchByPlayer(player).isPresent()) {
             return;
@@ -61,10 +61,10 @@ public class FFACuboidListener implements Listener {
             if (isInCuboid) {
                 if (combatService.isPlayerInCombat(playerId)) return;
                 player.sendMessage(CC.translate("&aYou have entered the FFA spawn area."));
-                ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(EnumFFAState.SPAWN));
+                ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.SPAWN));
             } else {
                 player.sendMessage(CC.translate("&cYou have left the FFA spawn area."));
-                ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(EnumFFAState.FIGHTING));
+                ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.FIGHTING));
             }
 
             this.playerStates.put(playerId, isInCuboid);

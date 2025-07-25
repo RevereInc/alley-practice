@@ -1,8 +1,7 @@
 package dev.revere.alley.tool.logger;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.feature.abilities.IAbilityService;
+import dev.revere.alley.api.constant.PluginConstant;
 import dev.revere.alley.util.chat.CC;
 import lombok.experimental.UtilityClass;
 import org.bukkit.command.ConsoleCommandSender;
@@ -106,7 +105,7 @@ public class Logger {
         String locationMessage = "&cError occurred at: Unknown location";
 
         for (StackTraceElement element : stackTrace) {
-            if (element.getClassName().startsWith(Alley.getInstance().getService(IPluginConstant.class).getPackageDirectory())) {
+            if (element.getClassName().startsWith(Alley.getInstance().getService(PluginConstant.class).getPackageDirectory())) {
                 locationMessage = "&cError occurred at: " + element.getClassName() + " (Line " + element.getLineNumber() + ")";
                 break;
             }

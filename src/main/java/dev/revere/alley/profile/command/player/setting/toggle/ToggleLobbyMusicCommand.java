@@ -4,8 +4,8 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.config.locale.impl.ProfileLocale;
-import dev.revere.alley.feature.music.IMusicService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -21,8 +21,8 @@ public class ToggleLobbyMusicCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
-        IProfileService profileService = this.plugin.getService(IProfileService.class);
-        IMusicService musicService = this.plugin.getService(IMusicService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
+        MusicService musicService = this.plugin.getService(MusicService.class);
 
         Profile profile = profileService.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setLobbyMusicEnabled(!profile.getProfileData().getSettingData().isLobbyMusicEnabled());

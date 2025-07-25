@@ -1,7 +1,7 @@
 package dev.revere.alley.tool.visual;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
+import dev.revere.alley.api.constant.PluginConstant;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -77,7 +77,7 @@ public class LoreHelper {
         } else if (player.hasPermission(permission) && !inUse) {
             return "&aClick to " + clickToAction + "!";
         } else {
-            return Alley.getInstance().getService(IPluginConstant.class).getPermissionLackMessage();
+            return Alley.getInstance().getService(PluginConstant.class).getPermissionLackMessage();
         }
     }
 

@@ -2,14 +2,14 @@ package dev.revere.alley.profile.menu.match.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.match.data.AbstractMatchData;
+import dev.revere.alley.game.match.data.MatchData;
 import dev.revere.alley.game.match.data.impl.MatchDataSoloImpl;
 import dev.revere.alley.tool.date.DateFormatter;
-import dev.revere.alley.tool.date.enums.EnumDateFormat;
+import dev.revere.alley.tool.date.enums.DateFormat;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -28,7 +28,7 @@ import java.util.UUID;
  */
 @AllArgsConstructor
 public class MatchHistoryViewButton extends Button {
-    protected final AbstractMatchData matchData;
+    protected final MatchData matchData;
 
     @Override
     public ItemStack getButtonItem(Player player) {
@@ -41,13 +41,13 @@ public class MatchHistoryViewButton extends Button {
             String winnerName = Bukkit.getOfflinePlayer(winnerUUID).getName();
             String loserName = Bukkit.getOfflinePlayer(loserUUID).getName();
 
-            DateFormatter dateFormatter = new DateFormatter(EnumDateFormat.DATE_PLUS_TIME, matchDataSolo.getCreationTime());
+            DateFormatter dateFormatter = new DateFormatter(DateFormat.DATE_PLUS_TIME, matchDataSolo.getCreationTime());
             String date = dateFormatter.getDateFormat().format(dateFormatter.getDate());
 
             String rankedStatus = matchDataSolo.isRanked() ? "&6Ranked" : "&9Unranked";
 
-            Kit kit = Alley.getInstance().getService(IKitService.class).getKit(matchDataSolo.getKit());
-            AbstractArena arena = Alley.getInstance().getService(IArenaService.class).getArenaByName(matchDataSolo.getArena());
+            Kit kit = Alley.getInstance().getService(KitService.class).getKit(matchDataSolo.getKit());
+            Arena arena = Alley.getInstance().getService(ArenaService.class).getArenaByName(matchDataSolo.getArena());
 
             return new ItemBuilder(Material.SKULL_ITEM)
                     .name("&a&l" + winnerName + " &7vs &c&l" + loserName + " &7(" + rankedStatus + "&7)")

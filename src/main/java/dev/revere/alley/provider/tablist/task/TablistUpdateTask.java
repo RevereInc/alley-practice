@@ -1,8 +1,8 @@
 package dev.revere.alley.provider.tablist.task;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.provider.tablist.ITablist;
-import dev.revere.alley.provider.tablist.impl.TablistVisualizer;
+import dev.revere.alley.provider.tablist.Tablist;
+import dev.revere.alley.provider.tablist.TablistImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -13,10 +13,10 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 07/09/2024 - 15:23
  */
 public class TablistUpdateTask extends BukkitRunnable {
-    protected final ITablist tablistVisualizer;
+    protected final Tablist tablistVisualizer;
 
     public TablistUpdateTask() {
-        this.tablistVisualizer = new TablistVisualizer(Alley.getInstance());
+        this.tablistVisualizer = new TablistImpl(Alley.getInstance());
     }
 
     @Override

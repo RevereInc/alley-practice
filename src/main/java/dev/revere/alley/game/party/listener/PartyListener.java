@@ -1,12 +1,11 @@
 package dev.revere.alley.game.party.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.game.party.IPartyService;
-import dev.revere.alley.game.party.Party;
 import dev.revere.alley.game.party.PartyService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.party.Party;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumChatChannel;
+import dev.revere.alley.profile.enums.ChatChannel;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,12 +24,12 @@ public class PartyListener implements Listener {
     private void onAsyncPlayerChatEvent(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
 
         Profile profile = profileService.getProfile(event.getPlayer().getUniqueId());
 
-        if (profile.getProfileData().getSettingData().getChatChannel().equalsIgnoreCase(EnumChatChannel.PARTY.toString())) {
+        if (profile.getProfileData().getSettingData().getChatChannel().equalsIgnoreCase(ChatChannel.PARTY.toString())) {
             if (profile.getParty() == null) {
                 player.sendMessage(CC.translate("&cYou're not in a party."));
                 event.setCancelled(true);
@@ -71,7 +70,7 @@ public class PartyListener implements Listener {
     @EventHandler
     private void onPlayerKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         Party party = profile.getParty();
@@ -80,17 +79,17 @@ public class PartyListener implements Listener {
         }
 
         if (party.getLeader() == player) {
-            Alley.getInstance().getService(IPartyService.class).disbandParty(player);
+            Alley.getInstance().getService(PartyService.class).disbandParty(player);
             return;
         }
 
-        Alley.getInstance().getService(IPartyService.class).leaveParty(player);
+        Alley.getInstance().getService(PartyService.class).leaveParty(player);
     }
 
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         Party party = profile.getParty();
@@ -99,10 +98,10 @@ public class PartyListener implements Listener {
         }
 
         if (party.getLeader() == player) {
-            Alley.getInstance().getService(IPartyService.class).disbandParty(player);
+            Alley.getInstance().getService(PartyService.class).disbandParty(player);
             return;
         }
 
-        Alley.getInstance().getService(IPartyService.class).leaveParty(player);
+        Alley.getInstance().getService(PartyService.class).leaveParty(player);
     }
 }

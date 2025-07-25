@@ -4,8 +4,8 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.base.queue.Queue;
-import dev.revere.alley.base.server.IServerService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.server.ServerService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.PlayerUtil;
@@ -79,14 +79,14 @@ public class UnrankedButton extends Button {
     public void clicked(Player player, int slot, ClickType clickType, int hotbarSlot) {
         if (clickType != ClickType.LEFT) return;
 
-        IServerService serverService = Alley.getInstance().getService(IServerService.class);
+        ServerService serverService = Alley.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
             player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
             player.closeInventory();
             return;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         this.queue.addPlayer(player, this.queue.isRanked() ? profile.getProfileData().getRankedKitData().get(this.queue.getKit().getName()).getElo() : 0);
         this.playNeutral(player);

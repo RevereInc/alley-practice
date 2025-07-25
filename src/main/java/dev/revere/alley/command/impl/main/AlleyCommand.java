@@ -4,7 +4,7 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.api.constant.IPluginConstant;
+import dev.revere.alley.api.constant.PluginConstant;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.command.CommandSender;
 
@@ -47,7 +47,7 @@ public class AlleyCommand extends BaseCommand {
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
 
-        if (sender.hasPermission(this.plugin.getService(IPluginConstant.class).getAdminPermissionPrefix())) {
+        if (sender.hasPermission(this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix())) {
             Arrays.asList(
                     "     &6&lAdmin Help",
                     "      &f│ /alley reload &7- &6Reloads the plugin.",

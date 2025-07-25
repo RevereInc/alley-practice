@@ -3,12 +3,12 @@ package dev.revere.alley.game.match.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.impl.MatchRegularImpl;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.impl.DefaultMatch;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.menu.statistic.StatisticsMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
@@ -31,10 +31,10 @@ import java.util.*;
  */
 @AllArgsConstructor
 public class SpectatorTeleportMenu extends PaginatedMenu {
-    private final FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMenusConfig();
+    private final FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMenusConfig();
     private final String path = "menus.spectator-teleport";
 
-    private final AbstractMatch match;
+    private final Match match;
 
     @Override
     public String getPrePaginatedTitle(Player player) {
@@ -69,15 +69,15 @@ public class SpectatorTeleportMenu extends PaginatedMenu {
 
     @AllArgsConstructor
     private static class SpectatorTeleportButton extends Button {
-        private final FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMenusConfig();
+        private final FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMenusConfig();
         private final String path = "menus.spectator-teleport";
 
         private final MatchGamePlayerImpl gamePlayer;
 
         @Override
         public ItemStack getButtonItem(Player player) {
-            Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(this.gamePlayer.getUuid());
-            MatchRegularImpl match = (MatchRegularImpl) profile.getMatch();
+            Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(this.gamePlayer.getUuid());
+            DefaultMatch match = (DefaultMatch) profile.getMatch();
 
             List<String> lore = new ArrayList<>();
             List<String> configLore = this.config.getStringList(this.path + ".buttons.spectator-teleport-button.lore");
@@ -132,7 +132,7 @@ public class SpectatorTeleportMenu extends PaginatedMenu {
 
     @AllArgsConstructor
     private static class MatchInfoButton extends Button {
-        private final AbstractMatch match;
+        private final Match match;
 
         @Override
         public ItemStack getButtonItem(Player player) {
@@ -140,7 +140,7 @@ public class SpectatorTeleportMenu extends PaginatedMenu {
                     .mapToInt(participant -> participant.getPlayers().size())
                     .sum();
 
-            FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMenusConfig();
+            FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMenusConfig();
             String path = "menus.spectator-teleport.buttons.match-info-button";
             String name = config.getString(path + ".name", "&6&lMatch Info");
             List<String> lore = config.getStringList(path + ".lore");

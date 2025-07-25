@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.layout.menu.button;
 
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
+import dev.revere.alley.base.kit.enums.KitCategory;
 import dev.revere.alley.feature.layout.menu.LayoutMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
  */
 @AllArgsConstructor
 public class LayoutModeSwitcherButton extends Button {
-    private EnumKitCategory kitCategory;
+    private KitCategory kitCategory;
 
     @Override
     public ItemStack getButtonItem(Player player) {
@@ -39,11 +39,11 @@ public class LayoutModeSwitcherButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        if (this.kitCategory == EnumKitCategory.EXTRA) {
-            new LayoutMenu(EnumKitCategory.EXTRA).openMenu(player);
+        if (this.kitCategory == KitCategory.EXTRA) {
+            new LayoutMenu(KitCategory.EXTRA).openMenu(player);
             return;
         }
 
-        new LayoutMenu(EnumKitCategory.NORMAL).openMenu(player);
+        new LayoutMenu(KitCategory.NORMAL).openMenu(player);
     }
 }

@@ -3,11 +3,11 @@ package dev.revere.alley.profile.menu.setting;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfileSettingData;
 import dev.revere.alley.profile.menu.setting.button.PracticeSettingsButton;
-import dev.revere.alley.profile.menu.setting.enums.EnumPracticeSettingType;
+import dev.revere.alley.profile.menu.setting.enums.PracticeSettingType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -28,10 +28,10 @@ public class PracticeSettingsMenu extends Menu {
     @Override
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         ProfileSettingData settings = profile.getProfileData().getSettingData();
 
-        for (EnumPracticeSettingType type : EnumPracticeSettingType.values()) {
+        for (PracticeSettingType type : PracticeSettingType.values()) {
             buttons.put(type.slot, new PracticeSettingsButton(
                     type.displayName,
                     type.material,

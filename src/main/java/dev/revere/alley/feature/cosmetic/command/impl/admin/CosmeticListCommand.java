@@ -1,14 +1,12 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
-import dev.revere.alley.feature.cosmetic.interfaces.ICosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
+import dev.revere.alley.feature.cosmetic.interfaces.Cosmetic;
 import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
-import dev.revere.alley.feature.cosmetic.repository.ICosmeticRepository;
-import dev.revere.alley.profile.progress.IProgressService;
+import dev.revere.alley.feature.cosmetic.repository.CosmeticService;
 import dev.revere.alley.util.StringUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -26,7 +24,7 @@ public class CosmeticListCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        Map<EnumCosmeticType, BaseCosmeticRepository<?>> repositories = this.plugin.getService(ICosmeticRepository.class).getRepositories();
+        Map<CosmeticType, BaseCosmeticRepository<?>> repositories = this.plugin.getService(CosmeticService.class).getRepositories();
 
         player.sendMessage("");
 
@@ -36,11 +34,11 @@ public class CosmeticListCommand extends BaseCommand {
             return;
         }
 
-        for (Map.Entry<EnumCosmeticType, BaseCosmeticRepository<?>> entry : repositories.entrySet()) {
-            EnumCosmeticType type = entry.getKey();
+        for (Map.Entry<CosmeticType, BaseCosmeticRepository<?>> entry : repositories.entrySet()) {
+            CosmeticType type = entry.getKey();
             BaseCosmeticRepository<?> repository = entry.getValue();
 
-            List<? extends ICosmetic> cosmetics = repository.getCosmetics();
+            List<? extends Cosmetic> cosmetics = repository.getCosmetics();
 
             if (cosmetics.isEmpty()) {
                 continue;
@@ -50,7 +48,7 @@ public class CosmeticListCommand extends BaseCommand {
             String header = String.format("     &6&l%s &f(%d)", friendlyTypeName, cosmetics.size());
             player.sendMessage(CC.translate(header));
 
-            for (ICosmetic cosmetic : cosmetics) {
+            for (Cosmetic cosmetic : cosmetics) {
                 player.sendMessage(CC.translate("      &f● &6" + cosmetic.getName()));
             }
         }

@@ -3,7 +3,7 @@ package dev.revere.alley.base.kit.command.impl.settings;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.kit.setting.IKitSettingService;
+import dev.revere.alley.base.kit.setting.KitSettingService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -17,7 +17,7 @@ public class KitSettingsCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        IKitSettingService kitSettingService = this.plugin.getService(IKitSettingService.class);
+        KitSettingService kitSettingService = this.plugin.getService(KitSettingService.class);
 
         player.sendMessage("");
         player.sendMessage(CC.translate("&6&lKit Settings List &f(" + kitSettingService.getSettings().size() + "&f)"));

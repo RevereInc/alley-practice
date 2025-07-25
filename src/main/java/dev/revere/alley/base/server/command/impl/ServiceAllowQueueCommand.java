@@ -1,9 +1,9 @@
-package dev.revere.alley.base.server.impl;
+package dev.revere.alley.base.server.command.impl;
 
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.server.IServerService;
+import dev.revere.alley.base.server.ServerService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -32,7 +32,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
             return;
         }
 
-        IServerService serverService = this.plugin.getService(IServerService.class);
+        ServerService serverService = this.plugin.getService(ServerService.class);
         serverService.clearAllQueues(player);
         serverService.setQueueingAllowed(allowQueue);
         player.sendMessage(CC.translate("&aYou've " + (allowQueue ? "&aenabled" : "&cdisabled") + " queueing."));

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.music;
 
-import dev.revere.alley.feature.music.enums.EnumMusicDisc;
+import dev.revere.alley.feature.music.enums.MusicDisc;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 @Getter
 public class MusicSession {
-    private final EnumMusicDisc disc;
+    private final MusicDisc disc;
     private final long startTime;
     private final Location jukeboxLocation;
 
@@ -22,7 +22,7 @@ public class MusicSession {
     @Setter private int elapsedSeconds = 0;
     @Setter private boolean paused = false;
 
-    public MusicSession(EnumMusicDisc disc, Location jukeboxLocation) {
+    public MusicSession(MusicDisc disc, Location jukeboxLocation) {
         this.disc = disc;
         this.startTime = System.currentTimeMillis();
         this.jukeboxLocation = jukeboxLocation;

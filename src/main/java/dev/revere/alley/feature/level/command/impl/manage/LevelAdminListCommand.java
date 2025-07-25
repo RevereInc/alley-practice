@@ -1,10 +1,8 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.level.ILevelService;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.command.CommandSender;
@@ -20,7 +18,7 @@ public class LevelAdminListCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
 
-        ILevelService levelService = this.plugin.getService(ILevelService.class);
+        LevelService levelService = this.plugin.getService(LevelService.class);
 
         sender.sendMessage("");
         sender.sendMessage(CC.translate("     &6&lLevel List &f(" + levelService.getLevels().size() + "&f)"));

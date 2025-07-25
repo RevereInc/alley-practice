@@ -1,11 +1,10 @@
 package dev.revere.alley.feature.level.command;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.api.constant.IPluginConstant;
+import dev.revere.alley.api.constant.PluginConstant;
 import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetDisplayNameCommand;
 import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetIconCommand;
 import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetMaxEloCommand;
@@ -14,7 +13,6 @@ import dev.revere.alley.feature.level.command.impl.manage.LevelAdminCreateComman
 import dev.revere.alley.feature.level.command.impl.manage.LevelAdminDeleteCommand;
 import dev.revere.alley.feature.level.command.impl.manage.LevelAdminListCommand;
 import dev.revere.alley.feature.level.command.impl.manage.LevelAdminViewCommand;
-import dev.revere.alley.profile.progress.IProgressService;
 import dev.revere.alley.util.chat.CC;
 
 import java.util.ArrayList;
@@ -47,7 +45,7 @@ public class LevelAdminCommand extends BaseCommand {
             return completion;
         }
 
-        if (!command.getPlayer().hasPermission(this.plugin.getService(IPluginConstant.class).getAdminPermissionPrefix())) {
+        if (!command.getPlayer().hasPermission(this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix())) {
             return completion;
         }
 

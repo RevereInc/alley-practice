@@ -3,11 +3,11 @@ package dev.revere.alley.game.duel.command;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.server.IServerService;
+import dev.revere.alley.base.server.ServerService;
 import dev.revere.alley.config.locale.impl.ProfileLocale;
-import dev.revere.alley.game.duel.IDuelRequestService;
+import dev.revere.alley.game.duel.DuelRequestService;
 import dev.revere.alley.game.duel.menu.DuelRequestMenu;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -40,20 +40,20 @@ public class DuelCommand extends BaseCommand {
             return;
         }
 
-        IDuelRequestService duelRequestService = this.plugin.getService(IDuelRequestService.class);
+        DuelRequestService duelRequestService = this.plugin.getService(DuelRequestService.class);
         if (duelRequestService.getDuelRequest(player, target) != null) {
             player.sendMessage(CC.translate("&cYou already have a pending duel request with this player."));
             return;
         }
 
-        IServerService serverService = this.plugin.getService(IServerService.class);
+        ServerService serverService = this.plugin.getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
             player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
             player.closeInventory();
             return;
         }
 
-        Profile targetProfile = this.plugin.getService(IProfileService.class).getProfile(target.getUniqueId());
+        Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (!targetProfile.getProfileData().getSettingData().isReceiveDuelRequestsEnabled()) {
             player.sendMessage(CC.translate("&cThis player has disabled duel requests."));
             return;

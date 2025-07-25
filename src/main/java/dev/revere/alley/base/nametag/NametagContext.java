@@ -1,7 +1,7 @@
 package dev.revere.alley.base.nametag;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import lombok.Getter;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class NametagContext {
         this.viewer = viewer;
         this.target = target;
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         this.viewerProfile = profileService.getProfile(viewer.getUniqueId());
         this.targetProfile = profileService.getProfile(target.getUniqueId());
     }

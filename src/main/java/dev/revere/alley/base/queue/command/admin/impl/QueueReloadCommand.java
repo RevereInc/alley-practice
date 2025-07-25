@@ -3,7 +3,7 @@ package dev.revere.alley.base.queue.command.admin.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.queue.IQueueService;
+import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,7 @@ public class QueueReloadCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
-        this.plugin.getService(IQueueService.class).reloadQueues();
+        this.plugin.getService(QueueService.class).reloadQueues();
         player.sendMessage(CC.translate("&aYou've reloaded the queues."));
     }
 }

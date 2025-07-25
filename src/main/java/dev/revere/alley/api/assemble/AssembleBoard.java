@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Getter
 public class AssembleBoard {
-    private final Assemble assemble;
+    private final AssembleServiceImpl assembleServiceImpl;
 
     private final List<AssembleBoardEntry> entries;
     private final List<String> identifiers;
@@ -26,10 +26,10 @@ public class AssembleBoard {
      * Assemble Board.
      *
      * @param player   that the board belongs to.
-     * @param assemble instance.
+     * @param assembleServiceImpl instance.
      */
-    public AssembleBoard(Player player, Assemble assemble) {
-        this.assemble = assemble;
+    public AssembleBoard(Player player, AssembleServiceImpl assembleServiceImpl) {
+        this.assembleServiceImpl = assembleServiceImpl;
         this.entries = new ArrayList<>();
         this.identifiers = new ArrayList<>();
         this.uuid = player.getUniqueId();
@@ -43,7 +43,7 @@ public class AssembleBoard {
      */
     public Scoreboard getScoreboard() {
         Player player = Bukkit.getPlayer(getUuid());
-        if (this.assemble.isHook() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
+        if (this.assembleServiceImpl.isHook() || player.getScoreboard() != Bukkit.getScoreboardManager().getMainScoreboard()) {
             return player.getScoreboard();
         }
 
@@ -60,7 +60,7 @@ public class AssembleBoard {
         if (scoreboard.getObjective("Assemble") == null) {
             Objective objective = scoreboard.registerNewObjective("Assemble", "dummy");
             objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-            objective.setDisplayName(getAssemble().getAdapter().getTitle(Bukkit.getPlayer(getUuid())));
+            objective.setDisplayName(getAssembleServiceImpl().getAdapter().getTitle(Bukkit.getPlayer(getUuid())));
             return objective;
         }
 
@@ -77,7 +77,7 @@ public class AssembleBoard {
         player.setScoreboard(scoreboard);
         this.getObjective();
 
-        if (this.assemble.isCallEvents()) {
+        if (this.assembleServiceImpl.isCallEvents()) {
             AssembleBoardCreatedEvent createdEvent = new AssembleBoardCreatedEvent(this);
             Bukkit.getPluginManager().callEvent(createdEvent);
         }
@@ -122,6 +122,6 @@ public class AssembleBoard {
      * @return ChatColor adjacent to position.
      */
     private String getRandomChatColor(int position) {
-        return this.assemble.getChatColorCache()[position].toString();
+        return this.assembleServiceImpl.getChatColorCache()[position].toString();
     }
 }

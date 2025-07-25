@@ -1,193 +1,91 @@
 package dev.revere.alley.base.server;
 
-import dev.revere.alley.base.hotbar.IHotbarService;
-import dev.revere.alley.base.spawn.ISpawnService;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.IMatchService;
-import dev.revere.alley.game.party.IPartyService;
-import dev.revere.alley.game.party.Party;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
-import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.util.chat.CC;
-import org.bukkit.Bukkit;
+import dev.revere.alley.plugin.lifecycle.Service;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 /**
- * @author Emmy
- * @project Alley
- * @since 09/03/2025
+ * @author Remi
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Service(provides = IServerService.class, priority = 300)
-public class ServerService implements IServerService {
-    private final IMatchService matchService;
-    private final IPartyService partyService;
-    private final IProfileService profileService;
-    private final IHotbarService hotbarService;
-    private final ISpawnService spawnService;
-    private final IConfigService configService;
-
-    private boolean queueingAllowed = true;
-
-    private final Set<Material> blockedCraftingItems = new HashSet<>();
-    private final String BLOCKED_ITEMS_PATH = "blocked-crafting-items";
+public interface ServerService extends Service {
+    /**
+     * Checks if players are currently allowed to join matchmaking queues.
+     *
+     * @return true if queueing is allowed, false otherwise.
+     */
+    boolean isQueueingAllowed();
 
     /**
-     * Constructor for dependency injection.
+     * Sets whether players are allowed to join matchmaking queues.
      *
-     * @param matchService   The match service.
-     * @param partyService   The party service.
-     * @param profileService The profile service.
-     * @param hotbarService  The hotbar service.
-     * @param spawnService   The spawn service.
-     * @param configService  The config service.
+     * @param allowed The new queueing status.
      */
-    public ServerService(IMatchService matchService, IPartyService partyService, IProfileService profileService, IHotbarService hotbarService, ISpawnService spawnService, IConfigService configService) {
-        this.matchService = matchService;
-        this.partyService = partyService;
-        this.profileService = profileService;
-        this.hotbarService = hotbarService;
-        this.spawnService = spawnService;
-        this.configService = configService;
-    }
+    void setQueueingAllowed(boolean allowed);
 
-    @Override
-    public void initialize(AlleyContext context) {
-        this.loadBlockedCraftingItems();
-    }
+    /**
+     * Forcefully ends all active matches on the server.
+     *
+     * @param issuer The staff member who initiated this action (can be null for console).
+     */
+    void endAllMatches(Player issuer);
 
-    @Override
-    public boolean isQueueingAllowed() {
-        return this.queueingAllowed;
-    }
+    /**
+     * Disbands all active parties on the server.
+     *
+     * @param issuer The staff member who initiated this action (can be null for console).
+     */
+    void disbandAllParties(Player issuer);
 
-    @Override
-    public void setQueueingAllowed(boolean allowed) {
-        this.queueingAllowed = allowed;
-    }
+    /**
+     * Removes all players from all matchmaking queues.
+     *
+     * @param issuer The staff member who initiated this action (can be null for console).
+     */
+    void clearAllQueues(Player issuer);
 
-    @Override
-    public void endAllMatches(Player issuer) {
-        List<AbstractMatch> matches = new ArrayList<>(this.matchService.getMatches());
-        if (matches.isEmpty()) {
-            if (issuer != null) issuer.sendMessage(CC.translate("&cCould not find any matches to end."));
-            return;
-        }
+    /**
+     * Loads the list of materials that are blocked from crafting.
+     * This method should be called during server startup to initialize the blocked crafting materials.
+     */
+    void loadBlockedCraftingItems();
 
-        int rankedMatches = 0;
-        int unrankedMatches = 0;
+    /**
+     * Retrieves a list of materials that are blocked from crafting.
+     *
+     * @return A list of blocked crafting materials.
+     */
+    Set<Material> getBlockedCraftingItems();
 
-        for (AbstractMatch match : matches) {
-            if (match.isRanked()) rankedMatches++;
-            else unrankedMatches++;
-            match.endMatch();
-        }
+    /**
+     * Adds a material to the list of blocked crafting materials.
+     *
+     * @param material The material to block from crafting.
+     */
+    void removeFromBlockedCraftingList(Material material);
 
-        if (issuer != null) {
-            issuer.sendMessage(CC.translate("&cEnding a total of &f" + unrankedMatches + " &cunranked matches and &f" + rankedMatches + " &cranked matches."));
-        }
-    }
+    /**
+     * Removes a material from the list of blocked crafting materials.
+     *
+     * @param material The material to unblock from crafting.
+     */
+    void addToBlockedCraftingList(Material material);
 
-    @Override
-    public void disbandAllParties(Player issuer) {
-        List<Party> parties = new ArrayList<>(this.partyService.getParties());
-        if (parties.isEmpty()) {
-            if (issuer != null) issuer.sendMessage(CC.translate("&cCould not find any parties to disband."));
-            return;
-        }
+    /**
+     * Checks if an item is craftable.
+     *
+     * @param material The material to check.
+     * @return true if the crafting recipe is valid, false otherwise.
+     */
+    boolean isCraftable(Material material);
 
-        if (issuer != null)
-            issuer.sendMessage(CC.translate("&cDisbanding a total of &f" + parties.size() + " &cparties."));
-
-        for (Party party : parties) {
-            this.partyService.disbandParty(party.getLeader());
-        }
-    }
-
-    @Override
-    public void clearAllQueues(Player issuer) {
-        int playersRemoved = 0;
-        for (Profile profile : this.profileService.getProfiles().values()) {
-            if (profile.getState() == EnumProfileState.WAITING && profile.getQueueProfile() != null) {
-                Player queuePlayer = Bukkit.getPlayer(profile.getUuid());
-                if (queuePlayer != null) {
-                    profile.getQueueProfile().getQueue().removePlayer(profile.getQueueProfile());
-
-                    profile.setState(EnumProfileState.LOBBY);
-                    profile.setQueueProfile(null);
-                    this.hotbarService.applyHotbarItems(queuePlayer);
-                    this.spawnService.teleportToSpawn(queuePlayer);
-                    queuePlayer.sendMessage(CC.translate("&cYou have been removed from the queue by an administrator."));
-                    playersRemoved++;
-                }
-            }
-        }
-
-        if (issuer != null) {
-            if (playersRemoved > 0) {
-                issuer.sendMessage(CC.translate("&cRemoved &f" + playersRemoved + " &cplayer(s) from the queue."));
-            } else {
-                issuer.sendMessage(CC.translate("&cCould not find any players in a queue."));
-            }
-        }
-    }
-
-    @Override
-    public Set<Material> getBlockedCraftingItems() {
-        return Collections.unmodifiableSet(this.blockedCraftingItems);
-    }
-
-    @Override
-    public void loadBlockedCraftingItems() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        List<String> blocked = config.getStringList(this.BLOCKED_ITEMS_PATH);
-
-        this.blockedCraftingItems.clear();
-        for (String mat : blocked) {
-            try {
-                Material material = Material.matchMaterial(mat);
-                this.blockedCraftingItems.add(material);
-            } catch (IllegalArgumentException exception) {
-                Logger.logException("Invalid material in blocked crafting items: " + mat, exception);
-            }
-        }
-    }
-
-    @Override
-    public void saveBlockedItems(Material material) {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        File configFile = this.configService.getConfigFile("settings.yml");
-
-        List<String> materialNames = this.blockedCraftingItems.stream().map(Material::name).collect(Collectors.toList());
-        config.set(this.BLOCKED_ITEMS_PATH, materialNames);
-
-        this.configService.saveConfig(configFile, config);
-    }
-
-    @Override
-    public void addToBlockedCraftingList(Material material) {
-        this.blockedCraftingItems.add(material);
-    }
-
-    @Override
-    public void removeFromBlockedCraftingList(Material material) {
-        this.blockedCraftingItems.remove(material);
-    }
-
-    @Override
-    public boolean isCraftable(Material material) {
-        ItemStack itemStack = new ItemStack(material);
-        return !Bukkit.getServer().getRecipesFor(itemStack).isEmpty();
-    }
+    /**
+     * Saves the current crafting conditions to the configuration file.
+     * This method should be called when the server is shutting down or when
+     * the crafting conditions are modified.
+     */
+    void saveBlockedItems(Material material);
 }

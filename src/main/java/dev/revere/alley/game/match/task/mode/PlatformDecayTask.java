@@ -2,8 +2,8 @@ package dev.revere.alley.game.match.task.mode;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.arena.impl.StandAloneArena;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  */
 public class PlatformDecayTask extends BukkitRunnable {
     private final JavaPlugin plugin;
-    private final AbstractMatch match;
+    private final Match match;
     private final int initialRadius;
     private final int sideRadius;
     private int currentRadius;
@@ -35,7 +35,7 @@ public class PlatformDecayTask extends BukkitRunnable {
     /**
      * Public constructor to start the decay process.
      */
-    private PlatformDecayTask(AbstractMatch match) {
+    private PlatformDecayTask(Match match) {
         this.plugin = Alley.getInstance();
         this.match = match;
 
@@ -70,13 +70,13 @@ public class PlatformDecayTask extends BukkitRunnable {
     /**
      * The static entry point to begin the decay task for a match.
      */
-    public static void start(AbstractMatch match) {
+    public static void start(Match match) {
         new PlatformDecayTask(match).runTaskTimer(Alley.getInstance(), 20L, FAST_INTERVAL);
     }
 
     @Override
     public void run() {
-        if (match.getState() != EnumMatchState.RUNNING) {
+        if (match.getState() != MatchState.RUNNING) {
             return;
         }
 

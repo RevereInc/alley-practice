@@ -3,7 +3,7 @@ package dev.revere.alley.base.queue.menu.sub;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.queue.IQueueService;
+import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.base.queue.Queue;
 import dev.revere.alley.base.queue.menu.button.RankedButton;
 import org.bukkit.entity.Player;
@@ -29,7 +29,7 @@ public class RankedMenu extends Menu {
 
         int slot = 10;
 
-        for (Queue queue : Alley.getInstance().getService(IQueueService.class).getQueues()) {
+        for (Queue queue : Alley.getInstance().getService(QueueService.class).getQueues()) {
             if (queue.isRanked()) {
                 slot = this.skipIfSlotCrossingBorder(slot);
                 buttons.put(slot++, new RankedButton(queue));

@@ -1,8 +1,8 @@
 package dev.revere.alley.base.nametag;
 
 import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.tool.reflection.IReflection;
-import dev.revere.alley.tool.reflection.impl.instance.DefaultReflection;
+import dev.revere.alley.tool.reflection.Reflection;
+import dev.revere.alley.tool.reflection.impl.instance.DefaultReflectionImpl;
 import lombok.Getter;
 import net.minecraft.server.v1_8_R3.PacketPlayOutScoreboardTeam;
 import org.bukkit.entity.Player;
@@ -17,14 +17,14 @@ import java.util.Collection;
  */
 @Getter
 public class NametagAdapter {
-    private final NametagService engine;
+    private final NametagServiceImpl engine;
     private final String name;
     private final String prefix;
     private final String suffix;
     private final NametagVisibility visibility;
-    private final IReflection reflection = DefaultReflection.INSTANCE;
+    private final Reflection reflection = DefaultReflectionImpl.INSTANCE;
 
-    public NametagAdapter(NametagService engine, String name, String prefix, String suffix, NametagVisibility visibility) {
+    public NametagAdapter(NametagServiceImpl engine, String name, String prefix, String suffix, NametagVisibility visibility) {
         this.engine = engine;
         this.name = name;
         this.prefix = prefix;
@@ -98,9 +98,9 @@ public class NametagAdapter {
      */
     private static final class PacketWrapper {
         private final PacketPlayOutScoreboardTeam packet;
-        private final IReflection reflectionService;
+        private final Reflection reflectionService;
 
-        public PacketWrapper(PacketPlayOutScoreboardTeam packet, IReflection reflectionService) {
+        public PacketWrapper(PacketPlayOutScoreboardTeam packet, Reflection reflectionService) {
             this.packet = packet;
             this.reflectionService = reflectionService;
         }

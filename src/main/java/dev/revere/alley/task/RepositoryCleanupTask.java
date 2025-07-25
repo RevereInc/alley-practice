@@ -1,11 +1,11 @@
 package dev.revere.alley.task;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.combat.ICombatService;
+import dev.revere.alley.base.combat.CombatService;
 import dev.revere.alley.game.duel.DuelRequest;
-import dev.revere.alley.game.duel.IDuelRequestService;
-import dev.revere.alley.game.match.snapshot.ISnapshotRepository;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.duel.DuelRequestService;
+import dev.revere.alley.game.match.snapshot.SnapshotService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.PartyRequest;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class RepositoryCleanupTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+        CombatService combatService = Alley.getInstance().getService(CombatService.class);
         if (!combatService.getCombatMap().isEmpty()) {
             combatService.getCombatMap().forEach((uuid, combat) -> {
                 Player player = this.plugin.getServer().getPlayer(uuid);
@@ -43,7 +43,7 @@ public class RepositoryCleanupTask extends BukkitRunnable {
             });
         }
 
-        IDuelRequestService duelRequestService = Alley.getInstance().getService(IDuelRequestService.class);
+        DuelRequestService duelRequestService = Alley.getInstance().getService(DuelRequestService.class);
         if (!duelRequestService.getDuelRequests().isEmpty()) {
             List<DuelRequest> expiredRequests = new ArrayList<>();
             synchronized (duelRequestService.getDuelRequests()) {
@@ -58,10 +58,10 @@ public class RepositoryCleanupTask extends BukkitRunnable {
             this.notifyDuelRequestIndividuals(expiredRequests);
         }
 
-        ISnapshotRepository snapshotRepository = Alley.getInstance().getService(ISnapshotRepository.class);
+        SnapshotService snapshotRepository = Alley.getInstance().getService(SnapshotService.class);
         snapshotRepository.getSnapshots().entrySet().removeIf(entry -> System.currentTimeMillis() - entry.getValue().getCreatedAt() >= 60_000);
 
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         if (!partyService.getParties().isEmpty()) {
             List<PartyRequest> expiredRequests = new ArrayList<>();
             synchronized (partyService.getPartyRequests()) {

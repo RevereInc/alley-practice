@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.killeffect.impl;
 
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import dev.revere.alley.util.particle.ParticleEffect;
 import org.bukkit.Material;
@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 02/04/2025
  */
-@CosmeticData(type = EnumCosmeticType.KILL_EFFECT, name = "Heart", description = "Spawn hearts at the opponent", permission = "heart", icon = Material.REDSTONE, slot = 15)
-public class HeartKillEffect extends AbstractCosmetic {
+@CosmeticData(type = CosmeticType.KILL_EFFECT, name = "Heart", description = "Spawn hearts at the opponent", permission = "heart", icon = Material.REDSTONE, slot = 15)
+public class HeartKillEffect extends BaseCosmetic {
 
     @Override
     public void execute(Player player) {

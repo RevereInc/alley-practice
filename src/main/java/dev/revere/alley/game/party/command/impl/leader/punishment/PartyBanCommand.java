@@ -3,7 +3,7 @@ package dev.revere.alley.game.party.command.impl.leader.punishment;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -35,6 +35,6 @@ public class PartyBanCommand extends BaseCommand {
             return;
         }
 
-        this.plugin.getService(IPartyService.class).banMember(player, target);
+        this.plugin.getService(PartyService.class).banMember(player, target);
     }
 }

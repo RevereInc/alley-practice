@@ -1,12 +1,11 @@
 package dev.revere.alley.api.command;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.api.constant.PluginConstant;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
-import lombok.Getter;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
@@ -20,7 +19,7 @@ public abstract class BaseCommand {
      */
     public BaseCommand() {
         this.plugin = Alley.getInstance();
-        this.plugin.getService(ICommandFramework.class).registerCommands(this);
+        this.plugin.getService(CommandFramework.class).registerCommands(this);
     }
 
     /**
@@ -50,7 +49,7 @@ public abstract class BaseCommand {
             return null;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(uuid);
         if (profile == null) {
             sender.sendMessage(CC.translate("&cThat player does not have a profile."));
@@ -66,6 +65,6 @@ public abstract class BaseCommand {
      * @return The admin permission prefix.
      */
     public String getAdminPermission() {
-        return this.plugin.getService(IPluginConstant.class).getAdminPermissionPrefix();
+        return this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix();
     }
 }

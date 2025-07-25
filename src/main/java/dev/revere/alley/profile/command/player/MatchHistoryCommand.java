@@ -3,9 +3,9 @@ package dev.revere.alley.profile.command.player;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.profile.menu.match.MatchHistorySelectKitMenu;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -21,8 +21,8 @@ public class MatchHistoryCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
-        Profile profile = this.plugin.getService(IProfileService.class).getProfile(player.getUniqueId());
-        if (profile.getState() != EnumProfileState.LOBBY) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+        if (profile.getState() != ProfileState.LOBBY) {
             player.sendMessage(CC.translate("&cYou cannot do this right now!"));
             return;
         }

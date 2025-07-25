@@ -3,9 +3,9 @@ package dev.revere.alley.base.arena.command.impl.data;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
 import dev.revere.alley.base.arena.impl.StandAloneArena;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
@@ -28,16 +28,16 @@ public class ArenaSetPortalCommand extends BaseCommand {
             return;
         }
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
         String name = args[0];
 
-        AbstractArena arena = arenaService.getArenaByName(name);
+        Arena arena = arenaService.getArenaByName(name);
         if (arena == null) {
             player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", name));
             return;
         }
 
-        if (arena.getType() != EnumArenaType.STANDALONE) {
+        if (arena.getType() != ArenaType.STANDALONE) {
             player.sendMessage(CC.translate("&cYou can only set portals for standalone arenas."));
             return;
         }

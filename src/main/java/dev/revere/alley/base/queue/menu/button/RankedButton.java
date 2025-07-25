@@ -2,11 +2,11 @@ package dev.revere.alley.base.queue.menu.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.hotbar.IHotbarService;
+import dev.revere.alley.base.hotbar.HotbarService;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.base.queue.Queue;
-import dev.revere.alley.base.server.IServerService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.server.ServerService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.PlayerUtil;
@@ -63,7 +63,7 @@ public class RankedButton extends Button {
                 "&6│ &rPlaying: &6" + this.queue.getQueueFightCount(),
                 "&6│ &rQueueing: &6" + this.queue.getProfiles().size(),
                 "",
-                "&f&lYour ELO: &6" + Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getProfileData().getRankedKitData().get(kit.getName()).getElo(),
+                "&f&lYour ELO: &6" + Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getProfileData().getRankedKitData().get(kit.getName()).getElo(),
                 " &f1. &6NULL &f- &6N/A",
                 " &f2. &6NULL &f- &6N/A",
                 " &f3. &6NULL &f- &6N/A",
@@ -79,14 +79,14 @@ public class RankedButton extends Button {
     public void clicked(Player player, int slot, ClickType clickType, int hotbarSlot) {
         if (clickType != ClickType.LEFT) return;
 
-        IServerService serverService = Alley.getInstance().getService(IServerService.class);
+        ServerService serverService = Alley.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
             player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
             player.closeInventory();
             return;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getProfileData().isRankedBanned()) {
             player.closeInventory();
@@ -104,6 +104,6 @@ public class RankedButton extends Button {
         PlayerUtil.reset(player, false, true);
         player.closeInventory();
         this.playNeutral(player);
-        Alley.getInstance().getService(IHotbarService.class).applyHotbarItems(player);
+        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
     }
 }

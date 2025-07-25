@@ -3,10 +3,10 @@ package dev.revere.alley.game.duel.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.duel.IDuelRequestService;
+import dev.revere.alley.game.duel.DuelRequestService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
@@ -47,7 +47,7 @@ public class DuelArenaSelectorMenu extends PaginatedMenu {
 
         int slot = 0;
 
-        for (AbstractArena arena : Alley.getInstance().getService(IArenaService.class).getArenas()) {
+        for (Arena arena : Alley.getInstance().getService(ArenaService.class).getArenas()) {
             if (arena.getKits().contains(this.kit.getName()) && arena.isEnabled()) {
                 buttons.put(slot++, new DuelArenaSelectorButton(this.targetPlayer, this.kit, arena));
             }
@@ -65,7 +65,7 @@ public class DuelArenaSelectorMenu extends PaginatedMenu {
     private static class DuelArenaSelectorButton extends Button {
         private Player targetPlayer;
         private Kit kit;
-        private AbstractArena arena;
+        private Arena arena;
 
         @Override
         public ItemStack getButtonItem(Player player) {
@@ -86,7 +86,7 @@ public class DuelArenaSelectorMenu extends PaginatedMenu {
         public void clicked(Player player, ClickType clickType) {
             player.closeInventory();
 
-            Alley.getInstance().getService(IDuelRequestService.class).createAndSendRequest(player, this.targetPlayer, this.kit, this.arena);
+            Alley.getInstance().getService(DuelRequestService.class).createAndSendRequest(player, this.targetPlayer, this.kit, this.arena);
         }
     }
 }

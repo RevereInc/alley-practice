@@ -4,9 +4,9 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
 import dev.revere.alley.api.menu.impl.BackButton;
-import dev.revere.alley.feature.music.IMusicService;
-import dev.revere.alley.feature.music.enums.EnumMusicDisc;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.feature.music.enums.MusicDisc;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.menu.music.button.MusicDiscSelectorButton;
 import dev.revere.alley.profile.menu.music.button.ToggleLobbyMusicButton;
@@ -32,13 +32,13 @@ public class MusicDiscSelectorMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
-        IMusicService musicService = Alley.getInstance().getService(IMusicService.class);
-        List<EnumMusicDisc> musicDiscs = musicService.getMusicDiscs();
+        MusicService musicService = Alley.getInstance().getService(MusicService.class);
+        List<MusicDisc> musicDiscs = musicService.getMusicDiscs();
 
         int slot = 10;
-        for (EnumMusicDisc disc : musicDiscs) {
+        for (MusicDisc disc : musicDiscs) {
             slot = this.skipIfSlotCrossingBorder(slot);
             buttons.put(slot, new MusicDiscSelectorButton(profile, disc));
             slot++;

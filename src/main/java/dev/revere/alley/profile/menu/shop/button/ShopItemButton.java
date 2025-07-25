@@ -2,9 +2,9 @@ package dev.revere.alley.profile.menu.shop.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 @AllArgsConstructor
 public class ShopItemButton extends Button {
-    private final AbstractCosmetic cosmetic;
+    private final BaseCosmetic cosmetic;
 
     @Override
     public ItemStack getButtonItem(Player player) {
@@ -54,7 +54,7 @@ public class ShopItemButton extends Button {
 
     @Override
     public void clicked(Player player, ClickType clickType) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
         if (player.hasPermission(cosmetic.getPermission())) {
             player.sendMessage(CC.translate("&cYou already own this cosmetic."));
@@ -70,7 +70,7 @@ public class ShopItemButton extends Button {
 
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
-        FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getSettingsConfig();
+        FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getSettingsConfig();
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.get("command.grant-cosmetic-permission-command").toString().replace("{player}", player.getName()).replace("%permission%", cosmetic.getPermission()));
 
         player.sendMessage(CC.translate("&aSuccessfully purchased the &6" + cosmetic.getName() + " &acosmetic!"));

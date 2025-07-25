@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.abilities.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.abilities.AbstractAbility;
-import dev.revere.alley.feature.abilities.IAbilityService;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.AbilityService;
 import dev.revere.alley.feature.abilities.utils.DurationFormatter;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumGlobalCooldown;
+import dev.revere.alley.profile.enums.GlobalCooldown;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class Cookie extends AbstractAbility {
+public class Cookie extends Ability {
     private final Alley plugin = Alley.getInstance();
 
     public Cookie() {
@@ -32,8 +32,8 @@ public class Cookie extends AbstractAbility {
 
             Player player = event.getPlayer();
 
-            IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-            IAbilityService abilityService = Alley.getInstance().getService(IAbilityService.class);
+            ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+            AbilityService abilityService = Alley.getInstance().getService(AbilityService.class);
 
             Profile profile = profileService.getProfile(player.getUniqueId());
 
@@ -43,8 +43,8 @@ public class Cookie extends AbstractAbility {
                 return;
             }
 
-            if(profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).onCooldown(player)){
-                player.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).getRemainingMillis(player), true, true)));
+            if(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(player)){
+                player.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(player), true, true)));
                 player.updateInventory();
                 return;
             }
@@ -52,7 +52,7 @@ public class Cookie extends AbstractAbility {
             PlayerUtil.decrement(player);
 
             profile.getCooldown(Cookie.class).applyCooldown(player, 60 * 1000);
-            profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).applyCooldown(player,  10 * 1000);
+            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(player,  10 * 1000);
 
             player.removePotionEffect(PotionEffectType.REGENERATION);
             player.removePotionEffect(PotionEffectType.INCREASE_DAMAGE);
@@ -68,7 +68,7 @@ public class Cookie extends AbstractAbility {
     public void checkCooldown(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Action action = event.getAction();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
             if (!isAbility(player.getItemInHand())) {
                 return;

@@ -4,13 +4,12 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.base.kit.service.IBaseRaidingService;
+import dev.revere.alley.base.kit.service.BaseRaidingService;
 import dev.revere.alley.feature.layout.data.LayoutData;
 import dev.revere.alley.feature.layout.menu.LayoutEditorMenu;
-import dev.revere.alley.game.match.player.enums.EnumBaseRaiderRole;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.player.enums.BaseRaiderRole;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.progress.IProgressService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -40,13 +39,13 @@ public class LayoutSelectRoleKitMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        IBaseRaidingService baseRaidingService = Alley.getInstance().getService(IBaseRaidingService.class);
+        BaseRaidingService baseRaidingService = Alley.getInstance().getService(BaseRaidingService.class);
 
-        Kit raiderKit = baseRaidingService.getRaidingKitByRole(this.kit, EnumBaseRaiderRole.RAIDER);
-        Kit trapperKit = baseRaidingService.getRaidingKitByRole(this.kit, EnumBaseRaiderRole.TRAPPER);
+        Kit raiderKit = baseRaidingService.getRaidingKitByRole(this.kit, BaseRaiderRole.RAIDER);
+        Kit trapperKit = baseRaidingService.getRaidingKitByRole(this.kit, BaseRaiderRole.TRAPPER);
 
-        buttons.put(12, new RoleButton(EnumBaseRaiderRole.RAIDER, raiderKit));
-        buttons.put(14, new RoleButton(EnumBaseRaiderRole.TRAPPER, trapperKit));
+        buttons.put(12, new RoleButton(BaseRaiderRole.RAIDER, raiderKit));
+        buttons.put(14, new RoleButton(BaseRaiderRole.TRAPPER, trapperKit));
 
         this.addGlass(buttons, 15);
 
@@ -60,7 +59,7 @@ public class LayoutSelectRoleKitMenu extends Menu {
 
     @AllArgsConstructor
     private static class RoleButton extends Button {
-        private final EnumBaseRaiderRole role;
+        private final BaseRaiderRole role;
         private final Kit kit;
 
         @Override
@@ -88,7 +87,7 @@ public class LayoutSelectRoleKitMenu extends Menu {
         public void clicked(Player player, ClickType clickType) {
             if (clickType != ClickType.LEFT) return;
 
-            Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+            Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
             LayoutData layout = profile.getProfileData().getLayoutData().getLayouts().get(this.kit.getName()).get(0);
             if (layout == null) {
                 player.sendMessage(CC.translate("&c&lError: No layout found for this kit!"));

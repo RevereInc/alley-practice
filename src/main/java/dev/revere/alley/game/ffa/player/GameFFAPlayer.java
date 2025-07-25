@@ -1,7 +1,7 @@
 package dev.revere.alley.game.ffa.player;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.game.ffa.enums.EnumFFAState;
+import dev.revere.alley.game.ffa.enums.FFAState;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class GameFFAPlayer {
     private final UUID uuid;
     private final String name;
 
-    private EnumFFAState state;
+    private FFAState state;
 
     /**
      * Constructor for the GameFFAPlayer class.
@@ -30,7 +30,7 @@ public class GameFFAPlayer {
     public GameFFAPlayer(UUID uuid, String name) {
         this.uuid = uuid;
         this.name = name;
-        this.state = EnumFFAState.SPAWN;
+        this.state = FFAState.SPAWN;
     }
 
     /**

@@ -2,13 +2,13 @@ package dev.revere.alley.game.match.task.other;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.arena.impl.StandAloneArena;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.TitleReflectionService;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class MatchCampProtectionTask extends BukkitRunnable {
-    private final TitleReflectionService titleReflectionService = Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(TitleReflectionService.class);
+    private final TitleReflectionServiceImpl titleReflectionServiceImpl = Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class);
 
     private final Player player;
     private int ticks;
@@ -44,14 +44,14 @@ public class MatchCampProtectionTask extends BukkitRunnable {
             return;
         }
 
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(this.player.getUniqueId());
-        AbstractMatch match = profile.getMatch();
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(this.player.getUniqueId());
+        Match match = profile.getMatch();
         if (match == null) {
             this.cancel();
             return;
         }
 
-        if (match.getState() == EnumMatchState.ENDING_MATCH) {
+        if (match.getState() == MatchState.ENDING_MATCH) {
             this.cancel();
             return;
         }
@@ -75,14 +75,14 @@ public class MatchCampProtectionTask extends BukkitRunnable {
         if (ticks <= damageStartPeriod) {
             int countdownValue = damageStartPeriod - ticks + 1;
 
-            this.titleReflectionService.sendTitle(
+            this.titleReflectionServiceImpl.sendTitle(
                     this.player,
                     "&cCAMP PROTECTION",
                     "&fYou will take damage in " + countdownValue + " seconds!"
             );
         } else {
             this.player.damage(4.0);
-            this.titleReflectionService.sendTitle(
+            this.titleReflectionServiceImpl.sendTitle(
                     this.player,
                     "&cTAKING DAMAGE!",
                     "&fMove down!"

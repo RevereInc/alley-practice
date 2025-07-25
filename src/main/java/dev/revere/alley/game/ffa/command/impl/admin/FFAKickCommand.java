@@ -3,8 +3,8 @@ package dev.revere.alley.game.ffa.command.impl.admin;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.ffa.AbstractFFAMatch;
-import dev.revere.alley.game.ffa.IFFAService;
+import dev.revere.alley.game.ffa.FFAMatch;
+import dev.revere.alley.game.ffa.FFAService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -33,7 +33,7 @@ public class FFAKickCommand extends BaseCommand {
             return;
         }
 
-        AbstractFFAMatch match = this.plugin.getService(IFFAService.class).getFFAMatch(target);
+        FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(target);
         if (match == null) {
             player.sendMessage(CC.translate("&cThis player is not in a FFA match."));
             return;

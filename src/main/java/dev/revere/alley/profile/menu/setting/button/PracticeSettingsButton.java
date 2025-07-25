@@ -3,9 +3,9 @@ package dev.revere.alley.profile.menu.setting.button;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.feature.cosmetic.menu.CosmeticsMenu;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumWorldTime;
+import dev.revere.alley.profile.enums.WorldTime;
 import dev.revere.alley.profile.menu.music.MusicDiscSelectorMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -41,10 +41,10 @@ public class PracticeSettingsButton extends Button {
 
     @Override
     public void clicked(Player player, int slot, ClickType clickType, int hotbarSlot) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
         if (this.material == Material.WATCH) {
-            EnumWorldTime newTime = this.getNextWorldTime(clickType, profile);
+            WorldTime newTime = this.getNextWorldTime(clickType, profile);
             profile.getProfileData().getSettingData().setTime(newTime.getName());
 
             switch (newTime) {
@@ -121,8 +121,8 @@ public class PracticeSettingsButton extends Button {
      * @param profile   the player's profile
      * @return the next world time
      */
-    private EnumWorldTime getNextWorldTime(ClickType clickType, Profile profile) {
-        EnumWorldTime[] timeStates = EnumWorldTime.values();
+    private WorldTime getNextWorldTime(ClickType clickType, Profile profile) {
+        WorldTime[] timeStates = WorldTime.values();
         int currentIndex = profile.getProfileData().getSettingData().getWorldTime().ordinal();
 
         if (clickType == ClickType.LEFT) {

@@ -3,7 +3,7 @@ package dev.revere.alley.game.ffa.command.impl.admin.manage;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.ffa.IFFAService;
+import dev.revere.alley.game.ffa.FFAService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -17,7 +17,7 @@ public class FFAListCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        IFFAService ffaService = this.plugin.getService(IFFAService.class);
+        FFAService ffaService = this.plugin.getService(FFAService.class);
 
         player.sendMessage("");
         player.sendMessage(CC.translate("     &6&lFFA Match List &f(" + ffaService.getMatches().size() + "&f)"));

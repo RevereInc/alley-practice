@@ -3,7 +3,7 @@ package dev.revere.alley.base.server.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.server.IServerService;
+import dev.revere.alley.base.server.ServerService;
 import dev.revere.alley.base.server.menu.button.ServiceClearChatButton;
 import dev.revere.alley.base.server.menu.button.ServiceClearLagButton;
 import dev.revere.alley.base.server.menu.button.ServicePrepareRebootButton;
@@ -31,7 +31,7 @@ public class ServiceMenu extends Menu {
 
         buttons.put(11, new ServiceClearChatButton());
 
-        if (Alley.getInstance().getService(IServerService.class).isQueueingAllowed()) {
+        if (Alley.getInstance().getService(ServerService.class).isQueueingAllowed()) {
             buttons.put(13, new ServicePrepareRebootButton());
         } else {
             buttons.put(13, new ServiceResetRebootButton());

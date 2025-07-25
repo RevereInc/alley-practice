@@ -4,7 +4,7 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.feature.emoji.command.impl.EmojiListCommand;
-import dev.revere.alley.feature.emoji.enums.EnumEmojiType;
+import dev.revere.alley.feature.emoji.enums.EmojiType;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.ClickableUtil;
 import org.bukkit.entity.Player;
@@ -31,7 +31,7 @@ public class EmojiCommand extends BaseCommand {
                 "",
                 "&6&lEmoji Help",
                 " &7To use an emoji, simply type the identifier in chat.",
-                " &7For example, if you want to use the &f" + EnumEmojiType.HEART.getFormat() + " &7emoji, type &f" + EnumEmojiType.HEART.getIdentifier() + "&7 in chat.",
+                " &7For example, if you want to use the &f" + EmojiType.HEART.getFormat() + " &7emoji, type &f" + EmojiType.HEART.getIdentifier() + "&7 in chat.",
                 ""
         ).forEach(line -> player.sendMessage(CC.translate(line)));
 

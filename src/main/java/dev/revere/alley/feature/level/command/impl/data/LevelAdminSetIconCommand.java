@@ -1,10 +1,8 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.level.ILevelService;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.util.chat.CC;
@@ -29,7 +27,7 @@ public class LevelAdminSetIconCommand extends BaseCommand {
         }
 
         String levelName = args[0];
-        ILevelService levelService = this.plugin.getService(ILevelService.class);
+        LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
             player.sendMessage(CC.translate("&cNo level found with that name!"));

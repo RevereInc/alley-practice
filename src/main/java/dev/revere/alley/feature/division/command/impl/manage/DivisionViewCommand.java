@@ -1,12 +1,10 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.feature.division.IDivisionService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -29,7 +27,7 @@ public class DivisionViewCommand extends BaseCommand {
             return;
         }
 
-        IDivisionService divisionService = this.plugin.getService(IDivisionService.class);
+        DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
             player.sendMessage(CC.translate("&cA division with that name does not exist."));

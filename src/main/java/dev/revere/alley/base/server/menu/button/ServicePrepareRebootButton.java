@@ -2,7 +2,7 @@ package dev.revere.alley.base.server.menu.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.server.IServerService;
+import dev.revere.alley.base.server.ServerService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Bukkit;
@@ -47,7 +47,7 @@ public class ServicePrepareRebootButton extends Button {
             return;
         }
 
-        IServerService serverService = Alley.getInstance().getService(IServerService.class);
+        ServerService serverService = Alley.getInstance().getService(ServerService.class);
 
         if (!serverService.isQueueingAllowed()) {
             player.sendMessage(CC.translate("&cThe server is already preparing for a reboot."));

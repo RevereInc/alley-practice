@@ -1,6 +1,6 @@
 package dev.revere.alley.game.match.data.impl;
 
-import dev.revere.alley.game.match.data.AbstractMatchData;
+import dev.revere.alley.game.match.data.MatchData;
 import lombok.Getter;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.UUID;
  * @since 29/05/2025
  */
 @Getter
-public class MatchDataTeamImpl extends AbstractMatchData {
+public class MatchDataTeamImpl extends MatchData {
     private final List<UUID> players;
     private final List<UUID> opponentPlayers;
 

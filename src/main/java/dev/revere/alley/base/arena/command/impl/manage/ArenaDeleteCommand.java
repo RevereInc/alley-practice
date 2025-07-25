@@ -4,7 +4,7 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.base.arena.IArenaService;
+import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class ArenaDeleteCommand extends BaseCommand {
     @CompleterData(name = "arena.delete")
     public List<String> arenaDeleteCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
 
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
@@ -38,7 +38,7 @@ public class ArenaDeleteCommand extends BaseCommand {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         if (args.length < 1) {
             player.sendMessage(CC.translate("&6Usage: &e/arena delete &6<arenaName>"));

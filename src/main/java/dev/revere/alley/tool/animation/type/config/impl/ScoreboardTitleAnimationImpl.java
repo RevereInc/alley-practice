@@ -1,7 +1,7 @@
 package dev.revere.alley.tool.animation.type.config.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
+import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.tool.animation.type.config.TextAnimation;
 
 /**
@@ -11,6 +11,6 @@ import dev.revere.alley.tool.animation.type.config.TextAnimation;
  */
 public class ScoreboardTitleAnimationImpl extends TextAnimation {
     public ScoreboardTitleAnimationImpl() {
-        super(Alley.getInstance().getService(IConfigService.class).getScoreboardConfig(), "scoreboard.title");
+        super(Alley.getInstance().getService(ConfigService.class).getScoreboardConfig(), "scoreboard.title");
     }
 }

@@ -4,8 +4,8 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -25,7 +25,7 @@ public class ArenaKitListCommand extends BaseCommand {
         List<String> completion = new ArrayList<>();
 
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            this.plugin.getService(IArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
+            this.plugin.getService(ArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
         }
 
         return completion;
@@ -43,8 +43,8 @@ public class ArenaKitListCommand extends BaseCommand {
         }
 
         String arenaName = args[0];
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
-        AbstractArena arena = arenaService.getArenaByName(arenaName);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
+        Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
             player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
             return;

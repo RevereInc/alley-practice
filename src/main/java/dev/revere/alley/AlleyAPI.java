@@ -1,10 +1,10 @@
 package dev.revere.alley;
 
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.ProfileData;
 import dev.revere.alley.util.chat.CC;
@@ -106,7 +106,7 @@ public class AlleyAPI {
      * @return The profile associated with the UUID.
      */
     public Profile getProfile(UUID uuid) {
-        return Alley.getInstance().getService(IProfileService.class).getProfile(uuid);
+        return Alley.getInstance().getService(ProfileService.class).getProfile(uuid);
     }
 
     /**
@@ -118,7 +118,7 @@ public class AlleyAPI {
      * @return The profile data associated with the UUID.
      */
     public ProfileData getProfileData(UUID uuid) {
-        return Alley.getInstance().getService(IProfileService.class).getProfile(uuid).getProfileData();
+        return Alley.getInstance().getService(ProfileService.class).getProfile(uuid).getProfileData();
     }
 
     /**
@@ -129,7 +129,7 @@ public class AlleyAPI {
      * @return The Kit object associated with the given name, or null if not found.
      */
     public Kit getKit(String kitName) {
-        return Alley.getInstance().getService(IKitService.class).getKits().stream().filter(kit -> kit.getName().equalsIgnoreCase(kitName)).findFirst().orElse(null);
+        return Alley.getInstance().getService(KitService.class).getKits().stream().filter(kit -> kit.getName().equalsIgnoreCase(kitName)).findFirst().orElse(null);
     }
 
     /**
@@ -139,8 +139,8 @@ public class AlleyAPI {
      * @param arenaName The name of the arena to retrieve.
      * @return The AbstractArena object associated with the given name, or null if not found.
      */
-    public AbstractArena getArena(String arenaName) {
-        return Alley.getInstance().getService(IArenaService.class).getArenas().stream().filter(arena -> arena.getName().equalsIgnoreCase(arenaName)).findFirst().orElse(null);
+    public Arena getArena(String arenaName) {
+        return Alley.getInstance().getService(ArenaService.class).getArenas().stream().filter(arena -> arena.getName().equalsIgnoreCase(arenaName)).findFirst().orElse(null);
     }
 
     /**
@@ -150,7 +150,7 @@ public class AlleyAPI {
      * @param kit The Kit object for which to retrieve a random arena.
      * @return A random AbstractArena object associated with the given kit.
      */
-    public AbstractArena getRandomArena(Kit kit) {
-        return Alley.getInstance().getService(IArenaService.class).getRandomArena(kit);
+    public Arena getRandomArena(Kit kit) {
+        return Alley.getInstance().getService(ArenaService.class).getRandomArena(kit);
     }
 }

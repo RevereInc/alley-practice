@@ -4,7 +4,7 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.match.snapshot.ISnapshotRepository;
+import dev.revere.alley.game.match.snapshot.SnapshotService;
 import dev.revere.alley.game.match.snapshot.Snapshot;
 import dev.revere.alley.game.match.snapshot.menu.SnapshotMenu;
 import dev.revere.alley.util.chat.CC;
@@ -31,7 +31,7 @@ public class InventoryCommand extends BaseCommand {
 
         String uuid = args[0];
         Snapshot snapshot;
-        ISnapshotRepository snapshotRepository = Alley.getInstance().getService(ISnapshotRepository.class);
+        SnapshotService snapshotRepository = Alley.getInstance().getService(SnapshotService.class);
 
         try {
             snapshot = snapshotRepository.getSnapshot(UUID.fromString(uuid));

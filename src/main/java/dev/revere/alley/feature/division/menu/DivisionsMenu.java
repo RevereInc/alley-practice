@@ -4,7 +4,7 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
 import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.IDivisionService;
+import dev.revere.alley.feature.division.DivisionService;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -26,7 +26,7 @@ public class DivisionsMenu extends Menu {
         final Map<Integer, Button> buttons = new HashMap<>();
 
         int slot = 10;
-        for (Division division : Alley.getInstance().getService(IDivisionService.class).getDivisions()) {
+        for (Division division : Alley.getInstance().getService(DivisionService.class).getDivisions()) {
             buttons.put(slot++, new DivisionButton(division));
             if (slot == 17 || slot == 26 || slot == 35 || slot == 44 || slot == 53) {
                 slot += 2;

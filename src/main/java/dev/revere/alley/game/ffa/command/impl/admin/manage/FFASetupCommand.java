@@ -3,12 +3,12 @@ package dev.revere.alley.game.ffa.command.impl.admin.manage;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.ffa.IFFAService;
+import dev.revere.alley.game.ffa.FFAService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -29,7 +29,7 @@ public class FFASetupCommand extends BaseCommand {
             return;
         }
 
-        IKitService kitService = this.plugin.getService(IKitService.class);
+        KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
             player.sendMessage(CC.translate("&cA kit with that name does not exist!"));
@@ -41,13 +41,13 @@ public class FFASetupCommand extends BaseCommand {
             return;
         }
 
-        AbstractArena arena = this.plugin.getService(IArenaService.class).getArenaByName(args[1]);
+        Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(args[1]);
         if (arena == null) {
             player.sendMessage(CC.translate("&cAn arena with that name does not exist!"));
             return;
         }
 
-        if (arena.getType() != EnumArenaType.FFA) {
+        if (arena.getType() != ArenaType.FFA) {
             player.sendMessage(CC.translate("&cYou can only set up FFA matches in FFA arenas!"));
             return;
         }
@@ -68,7 +68,7 @@ public class FFASetupCommand extends BaseCommand {
             return;
         }
 
-        IFFAService ffaService = this.plugin.getService(IFFAService.class);
+        FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
             player.sendMessage(CC.translate("&cThis kit is not eligible for FFA due to the kit setting it has enabled!"));
             return;

@@ -1,7 +1,7 @@
 package dev.revere.alley.adapter.core.impl;
 
-import dev.revere.alley.adapter.core.ICore;
-import dev.revere.alley.adapter.core.enums.EnumCoreType;
+import dev.revere.alley.adapter.core.Core;
+import dev.revere.alley.adapter.core.enums.CoreType;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import services.plasma.helium.api.HeliumAPI;
@@ -11,7 +11,7 @@ import services.plasma.helium.api.HeliumAPI;
  * @project Alley
  * @since 26/04/2025
  */
-public class HeliumCoreImpl implements ICore {
+public class HeliumCoreImpl implements Core {
     protected final HeliumAPI heliumAPI;
 
     /**
@@ -24,8 +24,8 @@ public class HeliumCoreImpl implements ICore {
     }
 
     @Override
-    public EnumCoreType getType() {
-        return EnumCoreType.HELIUM;
+    public CoreType getType() {
+        return CoreType.HELIUM;
     }
 
     @Override

@@ -1,17 +1,17 @@
 package dev.revere.alley.tool.logger;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.kit.IKitService;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.feature.division.IDivisionService;
-import dev.revere.alley.adapter.knockback.IKnockbackAdapter;
-import dev.revere.alley.feature.level.ILevelService;
-import dev.revere.alley.feature.title.ITitleService;
-import dev.revere.alley.game.ffa.IFFAService;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.adapter.core.ICoreAdapter;
+import dev.revere.alley.api.constant.PluginConstant;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.kit.KitService;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.adapter.knockback.KnockbackAdapter;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.title.TitleService;
+import dev.revere.alley.game.ffa.FFAService;
+import dev.revere.alley.profile.ProfileService;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.util.chat.CC;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
@@ -35,17 +35,17 @@ public class PluginLogger {
         Alley plugin = Alley.getInstance();
         Server server = plugin.getServer();
 
-        IPluginConstant constants = plugin.getService(IPluginConstant.class);
-        IConfigService configService = plugin.getService(IConfigService.class);
-        ICoreAdapter coreAdapter = plugin.getService(ICoreAdapter.class);
-        IKnockbackAdapter knockbackAdapter = plugin.getService(IKnockbackAdapter.class);
-        IKitService kitService = plugin.getService(IKitService.class);
-        IFFAService ffaService = plugin.getService(IFFAService.class);
-        IArenaService arenaService = plugin.getService(IArenaService.class);
-        IDivisionService divisionService = plugin.getService(IDivisionService.class);
-        ITitleService titleService = plugin.getService(ITitleService.class);
-        ILevelService levelService = plugin.getService(ILevelService.class);
-        IProfileService profileService = plugin.getService(IProfileService.class);
+        PluginConstant constants = plugin.getService(PluginConstant.class);
+        ConfigService configService = plugin.getService(ConfigService.class);
+        CoreAdapter coreAdapter = plugin.getService(CoreAdapter.class);
+        KnockbackAdapter knockbackAdapter = plugin.getService(KnockbackAdapter.class);
+        KitService kitService = plugin.getService(KitService.class);
+        FFAService ffaService = plugin.getService(FFAService.class);
+        ArenaService arenaService = plugin.getService(ArenaService.class);
+        DivisionService divisionService = plugin.getService(DivisionService.class);
+        TitleService titleService = plugin.getService(TitleService.class);
+        LevelService levelService = plugin.getService(LevelService.class);
+        ProfileService profileService = plugin.getService(ProfileService.class);
 
         ChatColor color = constants.getMainColor();
         ChatColor secondary = ChatColor.WHITE;

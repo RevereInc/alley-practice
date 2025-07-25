@@ -1,7 +1,7 @@
 package dev.revere.alley.game.ffa.menu;
 
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.game.ffa.AbstractFFAMatch;
+import dev.revere.alley.game.ffa.FFAMatch;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.SoundUtil;
 import dev.revere.alley.util.chat.CC;
@@ -17,7 +17,7 @@ import org.bukkit.inventory.ItemStack;
  */
 @AllArgsConstructor
 public class FFAButton extends Button {
-    private final AbstractFFAMatch match;
+    private final FFAMatch match;
 
     @Override
     public ItemStack getButtonItem(Player player) {

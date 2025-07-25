@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.killeffect.impl;
 
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import dev.revere.alley.util.particle.ParticleEffect;
 import org.bukkit.Location;
@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @date 01/06/2024
  */
-@CosmeticData(type = EnumCosmeticType.KILL_EFFECT, name = "Blood", description = "Spawn blood particles", permission = "blood", icon = Material.REDSTONE, slot = 12)
-public class BloodKillEffect extends AbstractCosmetic {
+@CosmeticData(type = CosmeticType.KILL_EFFECT, name = "Blood", description = "Spawn blood particles", permission = "blood", icon = Material.REDSTONE, slot = 12)
+public class BloodKillEffect extends BaseCosmetic {
 
     @Override
     public void execute(Player player) {

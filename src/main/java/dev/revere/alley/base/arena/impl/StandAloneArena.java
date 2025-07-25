@@ -1,16 +1,16 @@
 package dev.revere.alley.base.arena.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
-import dev.revere.alley.base.arena.schematic.IArenaSchematicService;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.impl.MatchBedImpl;
-import dev.revere.alley.game.match.impl.MatchRoundsImpl;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
+import dev.revere.alley.base.arena.schematic.ArenaSchematicService;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.impl.BedMatch;
+import dev.revere.alley.game.match.impl.RoundsMatch;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.serializer.Serializer;
 import lombok.Getter;
@@ -30,7 +30,7 @@ import java.util.UUID;
  */
 @Setter
 @Getter
-public class StandAloneArena extends AbstractArena {
+public class StandAloneArena extends Arena {
     protected final Alley plugin = Alley.getInstance();
 
     private boolean isTemporaryCopy = false;
@@ -56,7 +56,7 @@ public class StandAloneArena extends AbstractArena {
 
         if (team1Portal != null) this.team1Portal = team1Portal;
         if (team2Portal != null) this.team2Portal = team2Portal;
-        this.portalRadius = this.plugin.getService(IConfigService.class).getSettingsConfig().getInt("game.portal-radius");
+        this.portalRadius = this.plugin.getService(ConfigService.class).getSettingsConfig().getInt("game.portal-radius");
         this.heightLimit = heightLimit;
         this.voidLevel = voidLevel;
     }
@@ -69,20 +69,20 @@ public class StandAloneArena extends AbstractArena {
 
         if (team1Portal != null) this.team1Portal = team1Portal;
         if (team2Portal != null) this.team2Portal = team2Portal;
-        this.portalRadius = this.plugin.getService(IConfigService.class).getSettingsConfig().getInt("game.portal-radius");
+        this.portalRadius = this.plugin.getService(ConfigService.class).getSettingsConfig().getInt("game.portal-radius");
         this.heightLimit = heightLimit;
         this.voidLevel = voidLevel;
     }
 
     @Override
-    public EnumArenaType getType() {
-        return EnumArenaType.STANDALONE;
+    public ArenaType getType() {
+        return ArenaType.STANDALONE;
     }
 
     @Override
     public void createArena() {
         if (!this.isTemporaryCopy) {
-            IArenaService arenaService = this.plugin.getService(IArenaService.class);
+            ArenaService arenaService = this.plugin.getService(ArenaService.class);
             arenaService.registerNewArena(this);
             this.saveArena();
         }
@@ -91,7 +91,7 @@ public class StandAloneArena extends AbstractArena {
     @Override
     public void saveArena() {
         String name = "arenas." + this.getName();
-        IConfigService configService = this.plugin.getService(IConfigService.class);
+        ConfigService configService = this.plugin.getService(ConfigService.class);
         FileConfiguration config = configService.getArenasConfig();
 
         config.set(name, null);
@@ -115,17 +115,17 @@ public class StandAloneArena extends AbstractArena {
 
         configService.saveConfig(configService.getConfigFile("storage/arenas.yml"), config);
 
-        this.plugin.getService(IArenaSchematicService.class).updateSchematic(this);
+        this.plugin.getService(ArenaSchematicService.class).updateSchematic(this);
     }
 
     @Override
     public void deleteArena() {
         this.deleteCopiedArena();
 
-        FileConfiguration config = this.plugin.getService(IConfigService.class).getArenasConfig();
+        FileConfiguration config = this.plugin.getService(ConfigService.class).getArenasConfig();
         config.set("arenas." + this.getName(), null);
 
-        this.plugin.getService(IConfigService.class).saveConfig(this.plugin.getService(IConfigService.class).getConfigFile("storage/arenas.yml"), config);
+        this.plugin.getService(ConfigService.class).saveConfig(this.plugin.getService(ConfigService.class).getConfigFile("storage/arenas.yml"), config);
     }
 
     public void deleteCopiedArena() {
@@ -133,7 +133,7 @@ public class StandAloneArena extends AbstractArena {
             return;
         }
 
-        this.plugin.getService(IArenaSchematicService.class).delete(this);
+        this.plugin.getService(ArenaSchematicService.class).delete(this);
     }
 
     public void verifyArenaExists() {
@@ -271,7 +271,7 @@ public class StandAloneArena extends AbstractArena {
      * @param playerTeam     The team of the player.
      * @return Whether the player is in the enemy portal or not.
      */
-    public boolean isEnemyPortal(MatchRoundsImpl match, Location playerLocation, GameParticipant<MatchGamePlayerImpl> playerTeam) {
+    public boolean isEnemyPortal(RoundsMatch match, Location playerLocation, GameParticipant<MatchGamePlayerImpl> playerTeam) {
         Location enemyPortal = playerTeam == match.getParticipantA() ? this.team2Portal : this.team1Portal;
         return playerLocation.distance(enemyPortal) < this.portalRadius;
     }
@@ -287,12 +287,12 @@ public class StandAloneArena extends AbstractArena {
         Location bedLocation = block.getLocation();
 
         UUID breakerUUID = breakerParticipant.getLeader().getUuid();
-        Profile profile = this.plugin.getService(IProfileService.class).getProfile(breakerUUID);
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(breakerUUID);
 
         Location spawnA = this.getPos1();
         Location spawnB = this.getPos2();
 
-        MatchBedImpl match = (MatchBedImpl) profile.getMatch();
+        BedMatch match = (BedMatch) profile.getMatch();
 
         boolean isBreakerTeamA = match != null && match.getParticipantA() == breakerParticipant;
         Location ownSpawn = isBreakerTeamA ? spawnA : spawnB;

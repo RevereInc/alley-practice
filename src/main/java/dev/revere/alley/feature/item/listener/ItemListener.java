@@ -2,10 +2,10 @@ package dev.revere.alley.feature.item.listener;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.ICooldownRepository;
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
-import dev.revere.alley.feature.item.IItemService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
+import dev.revere.alley.feature.item.ItemService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Material;
@@ -28,7 +28,7 @@ public class ItemListener implements Listener {
     @EventHandler
     private void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         if (profile.getMatch() == null && profile.getFfaMatch() == null) {
             return;
         }
@@ -43,7 +43,7 @@ public class ItemListener implements Listener {
             return;
         }
         
-        IItemService itemService = Alley.getInstance().getService(IItemService.class);
+        ItemService itemService = Alley.getInstance().getService(ItemService.class);
         if (item.isSimilar(itemService.getGoldenHead())) {
             event.setCancelled(true);
 
@@ -60,8 +60,8 @@ public class ItemListener implements Listener {
      * @return true if the player is on cooldown, false otherwise.
      */
     private boolean isOnHeadCooldown(Player player) {
-        EnumCooldownType cooldownType = EnumCooldownType.GOLDEN_HEAD_CONSUME;
-        ICooldownRepository cooldownRepository = Alley.getInstance().getService(ICooldownRepository.class);
+        CooldownType cooldownType = CooldownType.GOLDEN_HEAD_CONSUME;
+        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
             player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTimeInMinutes() + " &cbefore consuming another &6&lGolden Head&c."));

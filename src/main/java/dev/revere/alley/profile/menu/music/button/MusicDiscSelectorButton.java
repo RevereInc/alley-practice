@@ -1,7 +1,7 @@
 package dev.revere.alley.profile.menu.music.button;
 
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.feature.music.enums.EnumMusicDisc;
+import dev.revere.alley.feature.music.enums.MusicDisc;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfileMusicData;
 import dev.revere.alley.tool.item.ItemBuilder;
@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 @AllArgsConstructor
 public class MusicDiscSelectorButton extends Button {
     private final Profile profile;
-    private final EnumMusicDisc disc;
+    private final MusicDisc disc;
 
     @Override
     public ItemStack getButtonItem(Player player) {

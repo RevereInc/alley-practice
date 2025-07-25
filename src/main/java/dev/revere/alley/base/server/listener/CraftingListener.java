@@ -1,10 +1,10 @@
 package dev.revere.alley.base.server.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.server.IServerService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.server.ServerService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,8 +25,8 @@ public class CraftingListener implements Listener {
             return;
         }
 
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
-        if (profile.getState() != EnumProfileState.PLAYING && profile.getState() != EnumProfileState.FFA && profile.getState() != EnumProfileState.SPECTATING) {
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        if (profile.getState() != ProfileState.PLAYING && profile.getState() != ProfileState.FFA && profile.getState() != ProfileState.SPECTATING) {
             return;
         }
 
@@ -35,7 +35,7 @@ public class CraftingListener implements Listener {
             return;
         }
 
-        if (Alley.getInstance().getService(IServerService.class).getBlockedCraftingItems().contains(result.getType())) {
+        if (Alley.getInstance().getService(ServerService.class).getBlockedCraftingItems().contains(result.getType())) {
             event.getInventory().setResult(null);
         }
     }

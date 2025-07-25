@@ -1,8 +1,8 @@
 package dev.revere.alley.game.match.player.data;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.player.enums.EnumBaseRaiderRole;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.player.enums.BaseRaiderRole;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,10 +31,10 @@ public class MatchGamePlayerData {
 
     private int wTaps;
 
-    private EnumBaseRaiderRole role;
+    private BaseRaiderRole role;
 
     public MatchGamePlayerData() {
-        this.lives = Alley.getInstance().getService(IConfigService.class).getSettingsConfig().getInt("game.lives", 3);
+        this.lives = Alley.getInstance().getService(ConfigService.class).getSettingsConfig().getInt("game.lives", 3);
         this.score = 0;
     }
 

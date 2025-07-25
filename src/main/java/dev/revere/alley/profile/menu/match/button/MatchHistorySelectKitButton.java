@@ -3,8 +3,8 @@ package dev.revere.alley.profile.menu.match.button;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.match.data.AbstractMatchData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.data.MatchData;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.menu.match.MatchHistoryViewMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
@@ -26,9 +26,9 @@ public class MatchHistorySelectKitButton extends Button {
 
     @Override
     public ItemStack getButtonItem(Player player) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
-        List<AbstractMatchData> matchDataList = profile.getProfileData().getPreviousMatches();
+        List<MatchData> matchDataList = profile.getProfileData().getPreviousMatches();
 
         int count = (int) matchDataList.stream()
                 .filter(matchData -> matchData.getKit().equals(this.kit.getName()))

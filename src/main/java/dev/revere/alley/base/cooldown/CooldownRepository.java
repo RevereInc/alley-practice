@@ -1,46 +1,44 @@
 package dev.revere.alley.base.cooldown;
 
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
-import dev.revere.alley.plugin.annotation.Service;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
+import dev.revere.alley.plugin.lifecycle.Service;
 import dev.revere.alley.tool.triple.impl.MutableTriple;
-import lombok.Getter;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author Remi
- * @project Alley
- * @date 5/27/2024
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = ICooldownRepository.class, priority = 200)
-public class CooldownRepository implements ICooldownRepository {
-    private final List<MutableTriple<UUID, EnumCooldownType, Cooldown>> cooldowns = new CopyOnWriteArrayList<>();
+public interface CooldownRepository extends Service {
+    List<MutableTriple<UUID, CooldownType, Cooldown>> getCooldowns();
 
-    @Override
-    public List<MutableTriple<UUID, EnumCooldownType, Cooldown>> getCooldowns() {
-        return cooldowns;
-    }
+    /**
+     * Adds or updates a cooldown for a specific player and type.
+     * If a cooldown of the same type already exists for the player, it is replaced.
+     *
+     * @param uuid     The UUID of the player.
+     * @param type     The type of cooldown.
+     * @param cooldown The Cooldown object containing duration information.
+     */
+    void addCooldown(UUID uuid, CooldownType type, Cooldown cooldown);
 
-    @Override
-    public void addCooldown(UUID uuid, EnumCooldownType type, Cooldown cooldown) {
-        this.cooldowns.removeIf(triple -> triple.getA().equals(uuid) && triple.getB().equals(type));
-        this.cooldowns.add(new MutableTriple<>(uuid, type, cooldown));
-    }
+    /**
+     * Retrieves an active cooldown for a player.
+     *
+     * @param uuid The UUID of the player.
+     * @param type The type of cooldown to retrieve.
+     * @return The Cooldown object if one is active, otherwise null.
+     */
+    Cooldown getCooldown(UUID uuid, CooldownType type);
 
-    @Override
-    public Cooldown getCooldown(UUID uuid, EnumCooldownType type) {
-        return this.cooldowns.stream()
-                .filter(triple -> triple.getA().equals(uuid) && triple.getB().equals(type))
-                .map(MutableTriple::getC)
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public void removeCooldown(UUID uuid, EnumCooldownType type) {
-        this.cooldowns.removeIf(triple -> triple.getA().equals(uuid) && triple.getB().equals(type));
-    }
+    /**
+     * Removes an active cooldown for a player.
+     *
+     * @param uuid The UUID of the player.
+     * @param type The type of cooldown to remove.
+     */
+    void removeCooldown(UUID uuid, CooldownType type);
 }

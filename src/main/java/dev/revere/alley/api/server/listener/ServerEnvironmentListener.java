@@ -1,7 +1,7 @@
 package dev.revere.alley.api.server.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
@@ -82,7 +82,7 @@ public class ServerEnvironmentListener implements Listener {
     public void onWorldTeleport(PlayerTeleportEvent event) {
         if (event.getFrom().getWorld() != event.getTo().getWorld()) {
             Player player = event.getPlayer();
-            Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+            Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
             profile.getProfileData().getSettingData().setTimeBasedOnProfileSetting(player);
         }
     }

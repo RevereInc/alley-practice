@@ -1,10 +1,8 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.level.ILevelService;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.util.chat.CC;
@@ -28,7 +26,7 @@ public class LevelAdminDeleteCommand extends BaseCommand {
         }
 
         String levelName = args[0];
-        ILevelService levelService = this.plugin.getService(ILevelService.class);
+        LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
             sender.sendMessage(CC.translate("&cA level with that name does not exist!"));

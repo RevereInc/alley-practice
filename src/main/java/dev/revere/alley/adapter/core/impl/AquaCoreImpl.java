@@ -1,9 +1,9 @@
 package dev.revere.alley.adapter.core.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.adapter.core.ICore;
-import dev.revere.alley.adapter.core.enums.EnumCoreType;
+import dev.revere.alley.profile.ProfileService;
+import dev.revere.alley.adapter.core.Core;
+import dev.revere.alley.adapter.core.enums.CoreType;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import me.activated.core.plugin.AquaCoreAPI;
@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 26/04/2025
  */
-public class AquaCoreImpl implements ICore {
+public class AquaCoreImpl implements Core {
     protected final Alley plugin;
     protected final AquaCoreAPI aquaCoreAPI;
 
@@ -31,8 +31,8 @@ public class AquaCoreImpl implements ICore {
     }
 
     @Override
-    public EnumCoreType getType() {
-        return EnumCoreType.AQUA;
+    public CoreType getType() {
+        return CoreType.AQUA;
     }
 
     @Override
@@ -72,13 +72,13 @@ public class AquaCoreImpl implements ICore {
 
     @Override
     public String getChatFormat(Player player, String eventMessage, String separator) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         String prefix = CC.translate(this.getRankPrefix(player));
         String suffix = CC.translate(this.getRankSuffix(player));
         ChatColor nameColor = profile.getNameColor() != null ? profile.getNameColor() : this.getPlayerColor(player);
 
-        String selectedTitle = CC.translate(Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getProfileData().getSelectedTitle());
+        String selectedTitle = CC.translate(Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getProfileData().getSelectedTitle());
 
         if (player.hasPermission("alley.chat.color")) {
             eventMessage = CC.translate(eventMessage);

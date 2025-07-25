@@ -2,130 +2,78 @@ package dev.revere.alley.profile;
 
 import com.mongodb.client.MongoCollection;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.database.IMongoService;
-import dev.revere.alley.database.profile.IProfile;
-import dev.revere.alley.database.profile.impl.MongoProfileImpl;
-import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.profile.data.ProfileData;
-import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.util.chat.CC;
-import lombok.Getter;
+import dev.revere.alley.plugin.lifecycle.Service;
+import dev.revere.alley.database.profile.DatabaseProfile;
 import org.bson.Document;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * @author Remi
- * @project Alley
- * @date 5/20/2024
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = IProfileService.class, priority = 180)
-public class ProfileService implements IProfileService {
-    private final IMongoService mongoService;
-
-    private final Map<UUID, Profile> profiles = new HashMap<>();
-    private MongoCollection<Document> collection;
-    private IProfile iProfile;
+public interface ProfileService extends Service {
+    /**
+     * Gets a player's profile by their UUID.
+     * <p>
+     * This method features lazy-loading: if the profile is not found in the cache,
+     * it will be loaded from the database on-demand.
+     *
+     * @param uuid The UUID of the player.
+     * @return The player's Profile object.
+     */
+    Profile getProfile(UUID uuid);
 
     /**
-     * Constructor for DI.
+     * Gets the Data Access Object (DAO) responsible for database operations for profiles.
+     * This is used internally to load and save individual profiles.
+     *
+     * @return The DatabaseProfile DAO instance.
      */
-    public ProfileService(IMongoService mongoService) {
-        this.mongoService = mongoService;
-    }
+    DatabaseProfile getDatabaseProfile();
 
-    @Override
-    public void initialize(AlleyContext context) {
-        this.collection = mongoService.getMongoDatabase().getCollection("profiles");
-        this.iProfile = new MongoProfileImpl();
-    }
+    /**
+     * Gets the raw MongoDB collection for profiles.
+     * <p>
+     * Warning: Use with caution. Interacting with this collection directly bypasses
+     * the caching and management logic of this service. It is intended for services
+     * that need to perform complex, custom queries.
+     *
+     * @return The MongoCollection for profiles.
+     */
+    MongoCollection<Document> getCollection();
 
-    @Override
-    public void shutdown(AlleyContext context) {
-        Logger.info("Saving all loaded player profiles...");
-        this.profiles.values().forEach(Profile::save);
-        Logger.info("Profile saving complete.");
-    }
+    /**
+     * Gets the map of all currently cached profiles.
+     *
+     * @return A map of UUIDs to Profile objects.
+     */
+    Map<UUID, Profile> getProfiles();
 
-    @Override
-    public Profile getProfile(UUID uuid) {
-        return this.profiles.computeIfAbsent(uuid, k -> {
-            Profile profile = new Profile(k);
-            profile.load();
-            return profile;
-        });
-    }
+    void loadProfiles();
 
-    @Override
-    public IProfile getIProfile() {
-        return iProfile;
-    }
+    /**
+     * Manually adds a profile to the in-memory cache.
+     *
+     * @param profile The profile to add.
+     */
+    void addProfile(Profile profile);
 
-    @Override
-    public MongoCollection<Document> getCollection() {
-        return collection;
-    }
+    /**
+     * Resets the statistics for a target player and archives their old profile.
+     *
+     * @param player The staff member issuing the command.
+     * @param target The UUID of the player whose stats are being reset.
+     */
+    void resetStats(Player player, UUID target);
 
-    @Override
-    public Map<UUID, Profile> getProfiles() {
-        return this.profiles;
-    }
-
-    @Override
-    public void loadProfiles() {
-        for (Document document : this.collection.find()) {
-            UUID uuid = UUID.fromString(document.getString("uuid"));
-            this.profiles.computeIfAbsent(uuid, k -> {
-                Profile profile = new Profile(k);
-                profile.load();
-                return profile;
-            });
-        }
-    }
-
-    @Override
-    public void addProfile(Profile profile) {
-        this.profiles.put(profile.getUuid(), profile);
-    }
-
-    @Override
-    public void resetStats(Player player, UUID target) {
-        Profile profile = this.getProfile(target);
-        OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(target);
-
-        this.iProfile.archiveProfile(profile);
-
-        profile.setProfileData(new ProfileData());
-        profile.save();
-
-        Arrays.asList(
-                "", "&c&lSTAT RESET ISSUED", "&cSuccessfully reset stats of " + targetPlayer.getName() + ".",
-                "&7Be aware that if this is being abused, you will be punished.", ""
-        ).forEach(line -> player.sendMessage(CC.translate(line)));
-
-        if (targetPlayer.isOnline() && targetPlayer.getPlayer() != null) {
-            Arrays.asList(
-                    "", "&c&lSTAT RESET ACTION", "&cYour stats have been wiped due to suspicious activity.",
-                    "&7If you believe this was unjust, create a support ticket.", ""
-            ).forEach(line -> targetPlayer.getPlayer().sendMessage(CC.translate(line)));
-        }
-    }
-
-    @Override
-    public void resetLayoutForKit(Kit kit) {
-        this.profiles.values().forEach(profile -> {
-            List<LayoutData> layouts = profile.getProfileData().getLayoutData().getLayouts().get(kit.getName());
-            if (layouts != null) {
-                layouts.forEach(layout -> layout.setItems(kit.getItems()));
-                profile.getProfileData().getLayoutData().getLayouts().put(kit.getName(), layouts);
-            }
-        });
-        Bukkit.broadcastMessage(CC.translate("&c&lLAYOUT RESET: &cThe layout for kit " + kit.getName() + " has been reset for all players."));
-    }
+    /**
+     * Resets the inventory layout for a specific kit across all player profiles.
+     *
+     * @param kit The kit to reset the layout for.
+     */
+    void resetLayoutForKit(Kit kit);
 }

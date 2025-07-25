@@ -3,7 +3,7 @@ package dev.revere.alley.game.match.snapshot.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.config.IConfigService;
+import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.game.match.snapshot.Snapshot;
 import dev.revere.alley.game.match.snapshot.menu.button.SnapshotDataButton;
 import dev.revere.alley.game.match.snapshot.menu.button.SnapshotOpponentButton;
@@ -33,7 +33,7 @@ public class SnapshotMenu extends Menu {
 
     @Override
     public String getTitle(Player player) {
-        String title = Alley.getInstance().getService(IConfigService.class).getMenusConfig().getString("menus.snapshot-menu.title", "&6&l{name}'s Inventory");
+        String title = Alley.getInstance().getService(ConfigService.class).getMenusConfig().getString("menus.snapshot-menu.title", "&6&l{name}'s Inventory");
         return title.replace("{name}", this.snapshot.getUsername());
     }
 
@@ -43,7 +43,7 @@ public class SnapshotMenu extends Menu {
 
         buttons.put(53, new SnapshotOpponentButton(this.snapshot));
 
-        FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMenusConfig();
+        FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMenusConfig();
         String path = "menus.snapshot-menu.buttons";
 
         this.getInventoryContents(buttons);

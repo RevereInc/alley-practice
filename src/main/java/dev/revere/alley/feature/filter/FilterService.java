@@ -1,139 +1,35 @@
 package dev.revere.alley.feature.filter;
 
-import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.util.chat.CC;
-import lombok.Getter;
-import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
+import dev.revere.alley.plugin.lifecycle.Service;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 /**
- * @author Emmy
- * @project Alley
- * @since 27/04/2025
+ * @author Remi
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = IFilterService.class, priority = 340)
-public class FilterService implements IFilterService {
-    private final Alley plugin;
-    private final IConfigService configService;
-    private final IPluginConstant pluginConstant;
-
-    private final Set<String> filteredWords = new HashSet<>();
-    private String notificationMessage;
-
+public interface FilterService extends Service {
     /**
-     * Constructor for DI.
-     */
-    public FilterService(Alley plugin, IConfigService configService, IPluginConstant pluginConstant) {
-        this.plugin = plugin;
-        this.configService = configService;
-        this.pluginConstant = pluginConstant;
-    }
-
-    @Override
-    public void initialize(AlleyContext context) {
-        this.notificationMessage = this.configService.getSettingsConfig().getString("profanity-filter.staff-notification-format");
-        this.loadFilteredWords();
-    }
-
-    private void loadFilteredWords() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        ConfigurationSection section = config.getConfigurationSection("profanity-filter");
-
-        if (section != null) {
-            this.filteredWords.addAll(section.getStringList("filtered-words"));
-        }
-
-        if (config.getBoolean("profanity-filter.add-default-words")) {
-            this.filteredWords.addAll(this.getDefaultFilteredWords());
-        }
-    }
-
-    /**
-     * Censors words in the message based on the filtered words list.
+     * Replaces any profane words in a message with asterisks.
      *
      * @param message The message to censor.
      * @return The censored message.
      */
-    public String censorWords(String message) {
-        String censoredMessage = message;
-        String[] words = message.split(" ");
-
-        for (String word : words) {
-            String normalizedWord = this.normalize(word);
-            if (this.filteredWords.contains(normalizedWord)) {
-                censoredMessage = censoredMessage.replaceAll("(?i)\\b" + word + "\\b", "****");
-            }
-        }
-
-        return censoredMessage;
-    }
-
-    @Override
-    public boolean isProfanity(String message) {
-        for (String word : message.split(" ")) {
-            if (this.filteredWords.contains(this.normalize(word))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public void notifyStaff(String message, Player offender) {
-        String permission = this.pluginConstant.getAdminPermissionPrefix();
-        String replacedMessage = this.notificationMessage
-                .replace("{player}", offender.getName())
-                .replace("{message}", message);
-
-        this.plugin.getServer().getOnlinePlayers().stream()
-                .filter(player -> player.hasPermission(permission))
-                .forEach(player -> player.sendMessage(CC.translate(replacedMessage)));
-
-        Bukkit.getConsoleSender().sendMessage(CC.translate(replacedMessage));
-    }
+    String censorWords(String message);
 
     /**
-     * Normalizes words or messages by replacing certain characters with their corresponding letters.
-     * This ensures that words like "b1tch" or "sh!t" are properly normalized.
+     * Checks if a message contains any profane words from the filtered list.
      *
-     * @param word The word or message to normalize.
-     * @return The normalized version of the input.
+     * @param message The message to check.
+     * @return True if profanity is detected, false otherwise.
      */
-    private String normalize(String word) {
-        return word.toLowerCase()
-                .replace("@", "a").replace("4", "a")
-                .replace("0", "o")
-                .replace("1", "i").replace("!", "i")
-                .replace("3", "e")
-                .replace("5", "s")
-                .replace("7", "t")
-                .replace("8", "b")
-                .replace("!", "i")
-                .replaceAll("\\p{Punct}", "")
-                .trim();
-    }
+    boolean isProfanity(String message);
 
-    private List<String> getDefaultFilteredWords() {
-        return Arrays.asList(
-                "fuck", "shit", "bitch", "asshole", "bastard", "dick", "pussy", "cunt",
-                "fag", "faggot", "slut", "whore", "retard", "nigger", "nigga", "chink",
-                "spic", "kike", "twat", "cock", "motherfucker", "douche", "dumbass", "dipshit",
-                "jackass", "prick", "cocksucker", "fucker", "shithead", "anus", "arse", "bollocks",
-                "bugger", "wanker", "tosser"
-
-                // ^ all copilot completion by the way, not me.
-        );
-    }
+    /**
+     * Sends a notification to all online staff members about a profane message.
+     *
+     * @param message  The original message that was sent.
+     * @param offender The player who sent the message.
+     */
+    void notifyStaff(String message, Player offender);
 }

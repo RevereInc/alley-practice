@@ -3,8 +3,8 @@ package dev.revere.alley.game.ffa.command.impl.admin.data;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.ffa.AbstractFFAMatch;
-import dev.revere.alley.game.ffa.IFFAService;
+import dev.revere.alley.game.ffa.FFAMatch;
+import dev.revere.alley.game.ffa.FFAService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -28,7 +28,7 @@ public class FFAMaxPlayersCommand extends BaseCommand {
         String kitName = args[0];
         int maxPlayers = Integer.parseInt(args[1]);
 
-        AbstractFFAMatch match = this.plugin.getService(IFFAService.class).getFFAMatch(kitName);
+        FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
             player.sendMessage(CC.translate("&cThere is no FFA match with the name " + kitName + "."));
             return;

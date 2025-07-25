@@ -3,7 +3,7 @@ package dev.revere.alley.profile.command.admin.ranked.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
@@ -35,7 +35,7 @@ public class RankedBanCommand extends BaseCommand {
             return;
         }
 
-        Profile profile = this.plugin.getService(IProfileService.class).getProfile(target.getUniqueId());
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile == null) {
             player.sendMessage(CC.translate("&cProfile not found."));
             return;

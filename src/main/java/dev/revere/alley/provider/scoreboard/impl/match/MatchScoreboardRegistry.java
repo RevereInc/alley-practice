@@ -1,8 +1,7 @@
 package dev.revere.alley.provider.scoreboard.impl.match;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.base.kit.setting.KitSetting;
-import dev.revere.alley.game.match.AbstractMatch;
+import dev.revere.alley.game.match.Match;
 import dev.revere.alley.provider.scoreboard.impl.match.annotation.ScoreboardData;
 import dev.revere.alley.tool.logger.Logger;
 import io.github.classgraph.ClassGraph;
@@ -19,9 +18,9 @@ import java.util.Map;
  * @since 26/06/2025
  */
 public class MatchScoreboardRegistry {
-    private final Map<Class<? extends KitSetting>, IMatchScoreboard> kitSettingScoreboards = new HashMap<>();
-    private final Map<Class<? extends AbstractMatch>, IMatchScoreboard> matchTypeScoreboards = new HashMap<>();
-    private IMatchScoreboard defaultScoreboard;
+    private final Map<Class<? extends KitSetting>, MatchScoreboard> kitSettingScoreboards = new HashMap<>();
+    private final Map<Class<? extends Match>, MatchScoreboard> matchTypeScoreboards = new HashMap<>();
+    private MatchScoreboard defaultScoreboard;
 
     /**
      * Scans the classpath to discover and register all annotated scoreboard providers.
@@ -38,13 +37,13 @@ public class MatchScoreboardRegistry {
 
                 try {
                     Class<?> clazz = classInfo.loadClass();
-                    if (!IMatchScoreboard.class.isAssignableFrom(clazz)) {
+                    if (!MatchScoreboard.class.isAssignableFrom(clazz)) {
                         continue;
                     }
 
                     Constructor<?> constructor = clazz.getConstructor();
 
-                    IMatchScoreboard scoreboard = (IMatchScoreboard) constructor.newInstance();
+                    MatchScoreboard scoreboard = (MatchScoreboard) constructor.newInstance();
                     ScoreboardData annotation = clazz.getAnnotation(ScoreboardData.class);
 
                     assert annotation != null;
@@ -52,7 +51,7 @@ public class MatchScoreboardRegistry {
                         this.defaultScoreboard = scoreboard;
                     } else if (annotation.kit() != KitSetting.class) {
                         kitSettingScoreboards.put(annotation.kit(), scoreboard);
-                    } else if (annotation.match() != AbstractMatch.class) {
+                    } else if (annotation.match() != Match.class) {
                         matchTypeScoreboards.put(annotation.match(), scoreboard);
                     }
                 } catch (Exception e) {
@@ -68,14 +67,14 @@ public class MatchScoreboardRegistry {
      * @param match The match to resolve.
      * @return The resolved IMatchScoreboard.
      */
-    public IMatchScoreboard getScoreboard(AbstractMatch match) {
+    public MatchScoreboard getScoreboard(Match match) {
         for (Class<? extends KitSetting> settingClass : kitSettingScoreboards.keySet()) {
             if (match.getKit().isSettingEnabled(settingClass)) {
                 return kitSettingScoreboards.get(settingClass);
             }
         }
 
-        IMatchScoreboard scoreboard = matchTypeScoreboards.get(match.getClass());
+        MatchScoreboard scoreboard = matchTypeScoreboards.get(match.getClass());
         if (scoreboard != null) {
             return scoreboard;
         }

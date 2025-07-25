@@ -2,9 +2,9 @@ package dev.revere.alley.feature.leaderboard.menu.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.feature.leaderboard.enums.EnumLeaderboardType;
+import dev.revere.alley.feature.leaderboard.enums.LeaderboardType;
 import dev.revere.alley.feature.leaderboard.menu.LeaderboardMenu;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.item.ItemBuilder;
 import org.bukkit.Material;
@@ -31,12 +31,12 @@ public class DisplayTypeButton extends Button {
      */
     @Override
     public ItemStack getButtonItem(Player player) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        EnumLeaderboardType currentType = profile.getLeaderboardType();
+        LeaderboardType currentType = profile.getLeaderboardType();
 
         List<String> lore = new ArrayList<>();
-        for (EnumLeaderboardType type : EnumLeaderboardType.values()) {
+        for (LeaderboardType type : LeaderboardType.values()) {
             lore.add((currentType == type ? "&f● &6" : "&f● &7") + type.getName());
         }
         lore.add("");
@@ -56,11 +56,11 @@ public class DisplayTypeButton extends Button {
      */
     @Override
     public void clicked(Player player, ClickType clickType) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        EnumLeaderboardType currentType = profile.getLeaderboardType();
-        EnumLeaderboardType[] types = EnumLeaderboardType.values();
+        LeaderboardType currentType = profile.getLeaderboardType();
+        LeaderboardType[] types = LeaderboardType.values();
         int currentIndex = currentType.ordinal();
 
         switch (clickType) {
@@ -72,7 +72,7 @@ public class DisplayTypeButton extends Button {
                 break;
         }
 
-        EnumLeaderboardType newType = types[currentIndex];
+        LeaderboardType newType = types[currentIndex];
         profile.setLeaderboardType(newType);
         new LeaderboardMenu().openMenu(player);
         this.playNeutral(player);

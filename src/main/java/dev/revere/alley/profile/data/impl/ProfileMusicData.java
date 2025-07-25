@@ -1,10 +1,7 @@
 package dev.revere.alley.profile.data.impl;
 
-import dev.revere.alley.Alley;
-import dev.revere.alley.feature.music.IMusicService;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
 import java.util.Set;

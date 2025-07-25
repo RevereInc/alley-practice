@@ -2,12 +2,11 @@ package dev.revere.alley.base.hotbar;
 
 import dev.revere.alley.base.hotbar.data.HotbarActionData;
 import dev.revere.alley.base.hotbar.data.HotbarTypeData;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarAction;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarType;
+import dev.revere.alley.base.hotbar.enums.HotbarAction;
+import dev.revere.alley.base.hotbar.enums.HotbarType;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -47,7 +46,7 @@ public class HotbarItem {
         this.durability = 0;
 
         this.typeData = this.feedTypeData();
-        this.actionData = new HotbarActionData(EnumHotbarAction.RUN_COMMAND);
+        this.actionData = new HotbarActionData(HotbarAction.RUN_COMMAND);
     }
 
     /**
@@ -56,6 +55,6 @@ public class HotbarItem {
      * @return A list of HotbarTypeData objects representing the default hotbar types.
      */
     private List<HotbarTypeData> feedTypeData() {
-        return Arrays.stream(EnumHotbarType.values()).map(type -> new HotbarTypeData(type, -1)).collect(Collectors.toList());
+        return Arrays.stream(HotbarType.values()).map(type -> new HotbarTypeData(type, -1)).collect(Collectors.toList());
     }
 }

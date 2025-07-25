@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.emoji.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.emoji.EmojiRepository;
-import dev.revere.alley.feature.emoji.IEmojiRepository;
+import dev.revere.alley.feature.emoji.EmojiService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,7 @@ public class EmojiListener implements Listener {
             return;
         }
 
-        for (Map.Entry<String, String> entry : Alley.getInstance().getService(IEmojiRepository.class).getEmojis().entrySet()) {
+        for (Map.Entry<String, String> entry : Alley.getInstance().getService(EmojiService.class).getEmojis().entrySet()) {
             if (message.contains(entry.getKey())) {
                 message = message.replace(entry.getKey(), entry.getValue());
             }

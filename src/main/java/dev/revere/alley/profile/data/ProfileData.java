@@ -2,14 +2,13 @@ package dev.revere.alley.profile.data;
 
 import com.google.common.collect.Maps;
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRankedImpl;
-import dev.revere.alley.feature.level.ILevelService;
-import dev.revere.alley.feature.music.IMusicService;
-import dev.revere.alley.feature.title.ITitleService;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRanked;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.title.TitleService;
 import dev.revere.alley.feature.title.record.TitleRecord;
-import dev.revere.alley.game.match.data.AbstractMatchData;
+import dev.revere.alley.game.match.data.MatchData;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.*;
 import dev.revere.alley.util.chat.CC;
@@ -41,7 +40,7 @@ public class ProfileData {
     private ProfilePlayTimeData playTimeData;
     private ProfileMusicData musicData;
 
-    private List<AbstractMatchData> previousMatches;
+    private List<MatchData> previousMatches;
 
     private List<String> unlockedTitles;
 
@@ -74,7 +73,7 @@ public class ProfileData {
     }
 
     private void feedDataClasses() {
-        IKitService kitService = Alley.getInstance().getService(IKitService.class);
+        KitService kitService = Alley.getInstance().getService(KitService.class);
         for (Kit kit : kitService.getKits()) {
             this.rankedKitData.put(kit.getName(), new ProfileRankedKitData());
             this.unrankedKitData.put(kit.getName(), new ProfileUnrankedKitData());
@@ -95,9 +94,9 @@ public class ProfileData {
      * @return the global elo of the player
      */
     private int calculateGlobalElo(Profile profile) {
-        IKitService kitService = Alley.getInstance().getService(IKitService.class);
+        KitService kitService = Alley.getInstance().getService(KitService.class);
         List<Kit> rankedKits = kitService.getKits().stream()
-                .filter(kit -> kit.isSettingEnabled(KitSettingRankedImpl.class))
+                .filter(kit -> kit.isSettingEnabled(KitSettingRanked.class))
                 .collect(Collectors.toList());
 
         if (rankedKits.isEmpty()) {
@@ -115,7 +114,7 @@ public class ProfileData {
     }
 
     public void determineTitles() {
-        ITitleService titleService = Alley.getInstance().getService(ITitleService.class);
+        TitleService titleService = Alley.getInstance().getService(TitleService.class);
 
         for (TitleRecord title : titleService.getTitles().values()) {
             if (this.unrankedKitData.get(title.getKit().getName()).getDivision() == title.getRequiredDivision()) {
@@ -127,7 +126,7 @@ public class ProfileData {
     }
 
     public void determineLevel() {
-        ILevelService levelService = Alley.getInstance().getService(ILevelService.class);
+        LevelService levelService = Alley.getInstance().getService(LevelService.class);
         this.globalLevel = levelService.getLevel(this.elo).getName();
     }
 
@@ -138,7 +137,7 @@ public class ProfileData {
      */
     public void updateElo(Profile profile) {
         int previousElo = this.elo;
-        ILevelService levelService = Alley.getInstance().getService(ILevelService.class);
+        LevelService levelService = Alley.getInstance().getService(LevelService.class);
         String previousLevel = levelService.getLevel(previousElo).getName();
 
         this.elo = this.calculateGlobalElo(profile);

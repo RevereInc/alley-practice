@@ -2,9 +2,9 @@ package dev.revere.alley.api.menu;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.impl.PageGlassButton;
-import dev.revere.alley.base.hotbar.IHotbarService;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.base.hotbar.HotbarService;
+import dev.revere.alley.profile.ProfileService;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 import lombok.Setter;
@@ -188,15 +188,15 @@ public abstract class Menu {
     }
 
     public void onClose(Player player) {
-        EnumProfileState profileState = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getState();
-        if (profileState == EnumProfileState.PLAYING
-                || profileState == EnumProfileState.PLAYING_EVENT
-                || profileState == EnumProfileState.PLAYING_TOURNAMENT
-                || profileState == EnumProfileState.FIGHTING_BOT
-                || profileState == EnumProfileState.FFA) {
+        ProfileState profileState = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getState();
+        if (profileState == ProfileState.PLAYING
+                || profileState == ProfileState.PLAYING_EVENT
+                || profileState == ProfileState.PLAYING_TOURNAMENT
+                || profileState == ProfileState.FIGHTING_BOT
+                || profileState == ProfileState.FFA) {
             return;
         }
 
-        Alley.getInstance().getService(IHotbarService.class).applyHotbarItems(player);
+        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
     }
 }

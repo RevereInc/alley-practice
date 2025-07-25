@@ -3,8 +3,8 @@ package dev.revere.alley.game.match.command.admin.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -20,9 +20,9 @@ public class MatchResetBlocksCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
-        IProfileService profileService = this.plugin.getService(IProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        AbstractMatch match = profile.getMatch();
+        Match match = profile.getMatch();
         if (match == null) {
             player.sendMessage(CC.translate("&cYou are not in a match!"));
             return;

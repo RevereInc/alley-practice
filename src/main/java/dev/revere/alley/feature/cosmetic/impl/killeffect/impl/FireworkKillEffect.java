@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.killeffect.impl;
 
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -14,8 +14,8 @@ import java.util.stream.IntStream;
  * @project Alley
  * @since 02/04/2025
  */
-@CosmeticData(type = EnumCosmeticType.KILL_EFFECT, name = "Firework", description = "Spawn a firework at the opponent", permission = "firework", icon = Material.FIREWORK, slot = 14)
-public class FireworkKillEffect extends AbstractCosmetic {
+@CosmeticData(type = CosmeticType.KILL_EFFECT, name = "Firework", description = "Spawn a firework at the opponent", permission = "firework", icon = Material.FIREWORK, slot = 14)
+public class FireworkKillEffect extends BaseCosmetic {
 
     @Override
     public void execute(Player player) {

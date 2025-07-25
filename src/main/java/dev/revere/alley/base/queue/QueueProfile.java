@@ -1,8 +1,8 @@
 package dev.revere.alley.base.queue;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.ActionBarReflectionService;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.TimeUtil;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.Symbol;
@@ -52,8 +52,8 @@ public class QueueProfile {
 
         if (player != null) {
             String message = "&6" + this.queue.getQueueType() + " " + this.queue.getKit().getDisplayName() + " &7│ &f" + TimeUtil.getFormattedElapsedTime(getElapsedTime());
-            IReflectionRepository reflectionRepository = Alley.getInstance().getService(IReflectionRepository.class);
-            reflectionRepository.getReflectionService(ActionBarReflectionService.class).sendMessage(player, message);
+            ReflectionRepository reflectionRepository = Alley.getInstance().getService(ReflectionRepository.class);
+            reflectionRepository.getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, message);
         }
 
         if (this.ticks % this.TICK_THRESHOLD != 0) {

@@ -1,9 +1,9 @@
 package dev.revere.alley.adapter.core.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.api.constant.IPluginConstant;
-import dev.revere.alley.adapter.core.ICore;
-import dev.revere.alley.adapter.core.enums.EnumCoreType;
+import dev.revere.alley.api.constant.PluginConstant;
+import dev.revere.alley.adapter.core.Core;
+import dev.revere.alley.adapter.core.enums.CoreType;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 26/04/2025
  */
-public class DefaultCoreImpl implements ICore {
+public class DefaultCoreImpl implements Core {
     protected final Alley plugin;
     protected final String adminPermission;
 
@@ -24,12 +24,12 @@ public class DefaultCoreImpl implements ICore {
      */
     public DefaultCoreImpl(Alley plugin) {
         this.plugin = plugin;
-        this.adminPermission = Alley.getInstance().getService(IPluginConstant.class).getAdminPermissionPrefix();
+        this.adminPermission = Alley.getInstance().getService(PluginConstant.class).getAdminPermissionPrefix();
     }
 
     @Override
-    public EnumCoreType getType() {
-        return EnumCoreType.DEFAULT;
+    public CoreType getType() {
+        return CoreType.DEFAULT;
     }
 
     @Override

@@ -3,11 +3,10 @@ package dev.revere.alley.task;
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
 import dev.revere.alley.base.cooldown.CooldownRepository;
-import dev.revere.alley.base.cooldown.ICooldownRepository;
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -23,11 +22,11 @@ public class MatchPearlCooldownTask extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+            Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
-            if (profile.getState() == EnumProfileState.PLAYING || profile.getState() == EnumProfileState.FFA) {
-                ICooldownRepository cooldownRepository = Alley.getInstance().getService(ICooldownRepository.class);
-                Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), EnumCooldownType.ENDER_PEARL));
+            if (profile.getState() == ProfileState.PLAYING || profile.getState() == ProfileState.FFA) {
+                CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
+                Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL));
 
                 if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
 

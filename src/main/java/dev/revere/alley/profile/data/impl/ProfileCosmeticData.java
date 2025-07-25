@@ -1,8 +1,8 @@
 package dev.revere.alley.profile.data.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,7 +32,7 @@ public class ProfileCosmeticData {
      *
      * @param cosmetic The cosmetic object to select.
      */
-    public void setSelected(AbstractCosmetic cosmetic) {
+    public void setSelected(BaseCosmetic cosmetic) {
         if (cosmetic == null) return;
 
         switch (cosmetic.getType()) {
@@ -57,7 +57,7 @@ public class ProfileCosmeticData {
      * @param type The CosmeticType category to check.
      * @return The name of the selected cosmetic.
      */
-    public String getSelected(EnumCosmeticType type) {
+    public String getSelected(CosmeticType type) {
         switch (type) {
             case KILL_EFFECT:
                 return this.selectedKillEffect;
@@ -78,7 +78,7 @@ public class ProfileCosmeticData {
      * @param cosmetic The cosmetic to check.
      * @return true if it is the currently selected cosmetic for its type.
      */
-    public boolean isSelected(AbstractCosmetic cosmetic) {
+    public boolean isSelected(BaseCosmetic cosmetic) {
         if (cosmetic == null) return false;
         String selectedName = getSelected(cosmetic.getType());
         return cosmetic.getName().equals(selectedName);

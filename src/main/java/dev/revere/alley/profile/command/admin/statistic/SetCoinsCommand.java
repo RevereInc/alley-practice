@@ -3,7 +3,7 @@ package dev.revere.alley.profile.command.admin.statistic;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -31,7 +31,7 @@ public class SetCoinsCommand extends BaseCommand {
             return;
         }
 
-        Profile profile = this.plugin.getService(IProfileService.class).getProfile(target.getUniqueId());
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
 
         try {
             int amount = Integer.parseInt(args[1]);

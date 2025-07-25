@@ -3,15 +3,14 @@ package dev.revere.alley.game.match.listener.impl;
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
 import dev.revere.alley.base.cooldown.CooldownRepository;
-import dev.revere.alley.base.cooldown.ICooldownRepository;
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingLivesImpl;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRaidingImpl;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.enums.EnumMatchState;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingLives;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRaiding;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.enums.MatchState;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.util.InventoryUtil;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Location;
@@ -45,7 +44,7 @@ public class MatchPearlListener implements Listener {
         EnderPearl enderPearl = (EnderPearl) event.getEntity();
         Player player = (Player) enderPearl.getShooter();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (!isValidGameState(player, event)) {
@@ -56,7 +55,7 @@ public class MatchPearlListener implements Listener {
             return;
         }
 
-        if (!profile.getMatch().getKit().isSettingEnabled(KitSettingRaidingImpl.class)) {
+        if (!profile.getMatch().getKit().isSettingEnabled(KitSettingRaiding.class)) {
             applyCooldown(player);
             return;
         }
@@ -107,19 +106,19 @@ public class MatchPearlListener implements Listener {
     }
 
     private boolean isValidGameState(Player player, ProjectileLaunchEvent event) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() != EnumProfileState.PLAYING) {
+        if (profile.getState() != ProfileState.PLAYING) {
             return false;
         }
 
-        if (profile.getMatch().getState() != EnumMatchState.RUNNING) {
+        if (profile.getMatch().getState() != MatchState.RUNNING) {
             cancelPearlAndRefund(player, event, "&cYou cannot use ender pearls right now.");
             return false;
         }
 
-        if (profile.getMatch().getKit().isSettingEnabled(KitSettingLivesImpl.class)) {
+        if (profile.getMatch().getKit().isSettingEnabled(KitSettingLives.class)) {
             return false;
         }
 
@@ -127,9 +126,9 @@ public class MatchPearlListener implements Listener {
     }
 
     private boolean hasPearlCooldown(Player player, ProjectileLaunchEvent event) {
-        ICooldownRepository cooldownRepository = Alley.getInstance().getService(ICooldownRepository.class);
+        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(
-                cooldownRepository.getCooldown(player.getUniqueId(), EnumCooldownType.ENDER_PEARL)
+                cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
         );
 
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
@@ -689,15 +688,15 @@ public class MatchPearlListener implements Listener {
     }
 
     private void applyCooldown(Player player) {
-        ICooldownRepository cooldownRepository = Alley.getInstance().getService(ICooldownRepository.class);
+        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(
-                cooldownRepository.getCooldown(player.getUniqueId(), EnumCooldownType.ENDER_PEARL)
+                cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
         );
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(EnumCooldownType.ENDER_PEARL,
+            Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL,
                     () -> player.sendMessage(CC.translate("&aYou can now use pearls again!")));
-            cooldownRepository.addCooldown(player.getUniqueId(), EnumCooldownType.ENDER_PEARL, newCooldown);
+            cooldownRepository.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
             return newCooldown;
         });
 
@@ -705,6 +704,6 @@ public class MatchPearlListener implements Listener {
     }
 
     private ConfigurationSection getConfig() {
-        return Alley.getInstance().getService(IConfigService.class).getPearlConfig();
+        return Alley.getInstance().getService(ConfigService.class).getPearlConfig();
     }
 }

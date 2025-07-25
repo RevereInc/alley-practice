@@ -1,8 +1,7 @@
 package dev.revere.alley.plugin;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.plugin.lifecycle.IService;
+import dev.revere.alley.plugin.lifecycle.Service;
 import dev.revere.alley.tool.logger.Logger;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -24,12 +23,12 @@ public final class AlleyContext {
     private static final String SERVICE_IMPL_PACKAGE = "dev.revere.alley";
 
     private final Alley plugin;
-    private final Map<Class<? extends IService>, IService> serviceInstances = new ConcurrentHashMap<>();
-    private final Map<Class<? extends IService>, Class<? extends IService>> serviceRegistry = new HashMap<>();
-    private final Set<Class<? extends IService>> servicesBeingConstructed = new HashSet<>();
+    private final Map<Class<? extends Service>, Service> serviceInstances = new ConcurrentHashMap<>();
+    private final Map<Class<? extends Service>, Class<? extends Service>> serviceRegistry = new HashMap<>();
+    private final Set<Class<? extends Service>> servicesBeingConstructed = new HashSet<>();
 
     private ScanResult scanResult;
-    private List<IService> sortedServices = Collections.emptyList();
+    private List<Service> sortedServices = Collections.emptyList();
 
     public AlleyContext(Alley plugin) {
         this.plugin = Objects.requireNonNull(plugin, "Plugin instance cannot be null");
@@ -47,20 +46,20 @@ public final class AlleyContext {
             throw new IllegalStateException("Classpath scanning failed.", e);
         }
 
-        List<Class<? extends IService>> implementationClasses = discoverServices(this.scanResult);
+        List<Class<? extends Service>> implementationClasses = discoverServices(this.scanResult);
         if (implementationClasses.isEmpty()) {
             throw new IllegalStateException("No services found to load.");
         }
 
-        for (Class<? extends IService> implClass : implementationClasses) {
+        for (Class<? extends Service> implClass : implementationClasses) {
             serviceRegistry.put(getProvidedInterface(implClass), implClass);
         }
 
-        List<Class<? extends IService>> sortedImplClasses = sortServicesByPriority(implementationClasses);
+        List<Class<? extends Service>> sortedImplClasses = sortServicesByPriority(implementationClasses);
         Logger.info("Service Initialization Order: " +
                 sortedImplClasses.stream().map(Class::getSimpleName).collect(Collectors.joining(" -> ")));
 
-        for (Class<? extends IService> implClass : sortedImplClasses) {
+        for (Class<? extends Service> implClass : sortedImplClasses) {
             instantiateService(implClass);
         }
 
@@ -69,12 +68,12 @@ public final class AlleyContext {
                 .collect(Collectors.toList());
 
         Logger.logPhaseStart("Service Setup Phase");
-        for (IService service : sortedServices) {
+        for (Service service : sortedServices) {
             Logger.logTime(service.getClass().getSimpleName() + " Setup", () -> service.setup(this));
         }
 
         Logger.logPhaseStart("Service Initialization Phase");
-        for (IService service : sortedServices) {
+        for (Service service : sortedServices) {
             Logger.logTime(service.getClass().getSimpleName() + " Initialization", () -> service.initialize(this));
         }
 
@@ -88,10 +87,10 @@ public final class AlleyContext {
         Logger.info("--- Service Shutdown Start ---");
         if (sortedServices == null) return;
 
-        List<IService> reversedServices = new ArrayList<>(sortedServices);
+        List<Service> reversedServices = new ArrayList<>(sortedServices);
         Collections.reverse(reversedServices);
 
-        for (IService service : reversedServices) {
+        for (Service service : reversedServices) {
             try {
                 service.shutdown(this);
             } catch (Exception e) {
@@ -106,13 +105,13 @@ public final class AlleyContext {
      * @param serviceInterface The interface of the service to get.
      * @return An Optional containing the service instance if found.
      */
-    public <T extends IService> Optional<T> getService(Class<T> serviceInterface) {
+    public <T extends Service> Optional<T> getService(Class<T> serviceInterface) {
         return Optional.ofNullable(serviceInterface.cast(serviceInstances.get(serviceInterface)));
     }
 
     @SuppressWarnings("unchecked")
-    private void instantiateService(Class<? extends IService> implClass) throws Exception {
-        Class<? extends IService> providedInterface = getProvidedInterface(implClass);
+    private void instantiateService(Class<? extends Service> implClass) throws Exception {
+        Class<? extends Service> providedInterface = getProvidedInterface(implClass);
         if (serviceInstances.containsKey(providedInterface)) {
             return;
         }
@@ -132,9 +131,9 @@ public final class AlleyContext {
                 dependencies.add(this.plugin);
                 continue;
             }
-            if (IService.class.isAssignableFrom(paramType)) {
-                Class<? extends IService> dependencyInterface = (Class<? extends IService>) paramType;
-                Class<? extends IService> dependencyImpl = this.serviceRegistry.get(dependencyInterface);
+            if (Service.class.isAssignableFrom(paramType)) {
+                Class<? extends Service> dependencyInterface = (Class<? extends Service>) paramType;
+                Class<? extends Service> dependencyImpl = this.serviceRegistry.get(dependencyInterface);
                 if (dependencyImpl == null) {
                     throw new ClassNotFoundException("No implementation found for service interface: " + dependencyInterface.getName());
                 }
@@ -146,30 +145,30 @@ public final class AlleyContext {
             }
         }
 
-        IService serviceInstance = (IService) constructor.newInstance(dependencies.toArray());
+        Service serviceInstance = (Service) constructor.newInstance(dependencies.toArray());
         serviceInstances.put(providedInterface, serviceInstance);
 
         servicesBeingConstructed.remove(implClass);
     }
 
     @SuppressWarnings("unchecked")
-    private List<Class<? extends IService>> discoverServices(ScanResult scanResult) {
-        List<Class<? extends IService>> services = new ArrayList<>();
-        for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(Service.class.getName())) {
+    private List<Class<? extends Service>> discoverServices(ScanResult scanResult) {
+        List<Class<? extends Service>> services = new ArrayList<>();
+        for (ClassInfo classInfo : scanResult.getClassesWithAnnotation(dev.revere.alley.plugin.annotation.Service.class.getName())) {
             if (!classInfo.isAbstract() && !classInfo.isInterface()) {
-                services.add((Class<? extends IService>) classInfo.loadClass());
+                services.add((Class<? extends Service>) classInfo.loadClass());
             }
         }
         return services;
     }
 
-    private List<Class<? extends IService>> sortServicesByPriority(List<Class<? extends IService>> services) {
+    private List<Class<? extends Service>> sortServicesByPriority(List<Class<? extends Service>> services) {
         return services.stream()
-                .sorted(Comparator.comparingInt(c -> c.getAnnotation(Service.class).priority()))
+                .sorted(Comparator.comparingInt(c -> c.getAnnotation(dev.revere.alley.plugin.annotation.Service.class).priority()))
                 .collect(Collectors.toList());
     }
 
-    private Class<? extends IService> getProvidedInterface(Class<? extends IService> implClass) {
-        return implClass.getAnnotation(Service.class).provides();
+    private Class<? extends Service> getProvidedInterface(Class<? extends Service> implClass) {
+        return implClass.getAnnotation(dev.revere.alley.plugin.annotation.Service.class).provides();
     }
 }

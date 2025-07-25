@@ -4,10 +4,10 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
 import dev.revere.alley.api.menu.impl.BackButton;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.menu.button.CosmeticButton;
 import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
-import dev.revere.alley.feature.cosmetic.repository.ICosmeticRepository;
+import dev.revere.alley.feature.cosmetic.repository.CosmeticService;
 import dev.revere.alley.util.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CosmeticTypeMenu extends Menu {
 
-    private final EnumCosmeticType cosmeticType;
+    private final CosmeticType cosmeticType;
 
     @Override
     public String getTitle(Player player) {
@@ -36,7 +36,7 @@ public class CosmeticTypeMenu extends Menu {
         final Map<Integer, Button> buttons = new HashMap<>();
         buttons.put(0, new BackButton(new CosmeticsMenu()));
 
-        BaseCosmeticRepository<?> repository = Alley.getInstance().getService(ICosmeticRepository.class).getRepository(this.cosmeticType);
+        BaseCosmeticRepository<?> repository = Alley.getInstance().getService(CosmeticService.class).getRepository(this.cosmeticType);
         if (repository != null) {
             repository.getCosmetics().stream()
                     .filter(cosmetic -> cosmetic.getIcon() != null)

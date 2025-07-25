@@ -4,9 +4,9 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -26,7 +26,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         List<String> completion = new ArrayList<>();
 
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            this.plugin.getService(IArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
+            this.plugin.getService(ArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
         }
 
         return completion;
@@ -46,8 +46,8 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         String arenaName = args[0];
         String spawnType = args[1];
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
-        AbstractArena arena = arenaService.getArenaByName(arenaName);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
+        Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
             player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
             return;
@@ -60,7 +60,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
 
         switch (spawnType.toLowerCase()) {
             case "blue":
-                if (arena.getType() == EnumArenaType.FFA) {
+                if (arena.getType() == ArenaType.FFA) {
                     player.sendMessage(CC.translate("&cFFA Arenas do not need a spawn position!"));
                     return;
                 }
@@ -68,7 +68,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                 player.sendMessage(ArenaLocale.BLUE_SPAWN_SET.getMessage().replace("{arena-name}", arenaName));
                 break;
             case "ffa":
-                if (arena.getType() != EnumArenaType.FFA) {
+                if (arena.getType() != ArenaType.FFA) {
                     player.sendMessage(CC.translate("&cThis arena is not an FFA arena!"));
                     return;
                 }
@@ -76,7 +76,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                 player.sendMessage(ArenaLocale.FFA_SPAWN_SET.getMessage().replace("{arena-name}", arenaName));
                 break;
             default:
-                if (arena.getType() == EnumArenaType.FFA) {
+                if (arena.getType() == ArenaType.FFA) {
                     player.sendMessage(CC.translate("&cFFA Arenas do not need a spawn position!"));
                     return;
                 }

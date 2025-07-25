@@ -3,11 +3,11 @@ package dev.revere.alley.base.kit.command.impl.manage.raiding;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.base.kit.service.IBaseRaidingService;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRaidingImpl;
-import dev.revere.alley.game.match.player.enums.EnumBaseRaiderRole;
+import dev.revere.alley.base.kit.service.BaseRaidingService;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRaiding;
+import dev.revere.alley.game.match.player.enums.BaseRaiderRole;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.command.CommandSender;
 
@@ -29,22 +29,22 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         }
 
         String kitName = args[0];
-        IKitService kitService = this.plugin.getService(IKitService.class);
+        KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
             sender.sendMessage(CC.translate("&cThe &6" + kitName + " &ckit does not exist."));
             return;
         }
 
-        if (!kit.isSettingEnabled(KitSettingRaidingImpl.class)) {
+        if (!kit.isSettingEnabled(KitSettingRaiding.class)) {
             sender.sendMessage(CC.translate("&cThe &6" + kit.getName() + " &ckit does not have &6base raiding &csetting enabled."));
             return;
         }
 
         String roleName = args[1].toUpperCase();
-        EnumBaseRaiderRole role;
+        BaseRaiderRole role;
         try {
-            role = EnumBaseRaiderRole.valueOf(roleName);
+            role = BaseRaiderRole.valueOf(roleName);
         } catch (IllegalArgumentException e) {
             sender.sendMessage(CC.translate("&cInvalid raiding role: " + roleName + ". Valid roles are: RAIDER, TRAPPER"));
             return;
@@ -62,7 +62,7 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
             return;
         }
 
-        IBaseRaidingService raidingService = this.plugin.getService(IBaseRaidingService.class);
+        BaseRaidingService raidingService = this.plugin.getService(BaseRaidingService.class);
 
         if (raidingService.getRaidingKitByRole(kit, role) == null) {
             sender.sendMessage(CC.translate("&cThe &6" + kit.getName() + " &ckit does not have a raiding kit mapped for the &6" + role.name() + " &crole."));

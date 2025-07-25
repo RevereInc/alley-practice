@@ -1,148 +1,78 @@
 package dev.revere.alley.feature.music;
 
-import dev.revere.alley.Alley;
-import dev.revere.alley.base.spawn.ISpawnService;
-import dev.revere.alley.feature.music.enums.EnumMusicDisc;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.music.enums.MusicDisc;
+import dev.revere.alley.plugin.lifecycle.Service;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.util.TimeUtil;
-import dev.revere.alley.util.chat.CC;
-import net.minecraft.server.v1_8_R3.BlockPosition;
-import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
-import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 /**
- * @author Emmy & Remi
+ * @author Emmy
  * @project alley-practice
  * @since 19/07/2025
  */
-@Service(provides = IMusicService.class, priority = 175)
-public class MusicService implements IMusicService {
-    private static final int RECORD_PLAY_EFFECT_ID = 1005;
-
-    private final IProfileService profileService;
-    private final ISpawnService spawnService;
-    private final Map<UUID, MusicSession> activeSessions = new ConcurrentHashMap<>();
-    private final ThreadLocalRandom random = ThreadLocalRandom.current();
-
-    private EnumMusicDisc[] allDiscs;
+public interface MusicService extends Service {
+    /**
+     * Starts a music session for a player.
+     * This will first stop any currently playing music for the player. A random song
+     * from the player's selected preferences will then be played if their lobby music setting is enabled.
+     * The audio is played client-side and appears to emanate from the spawn location.
+     *
+     * @param player The player to start the music for.
+     */
+    void startMusic(Player player);
 
     /**
-     * DI Constructor for the MusicService class.
+     * Fully stops a player's music session.
+     * This is a "hard stop" that halts the audio, cancels any associated tracking tasks,
+     * and completely removes the player's session from memory.
      *
-     * @param profileService The profile service to be used by this music service.
-     * @param spawnService   The spawn service to be used by this music service.
+     * @param player The player whose music session should be stopped.
      */
-    public MusicService(IProfileService profileService, ISpawnService spawnService) {
-        this.profileService = profileService;
-        this.spawnService = spawnService;
-    }
+    void stopMusic(Player player);
 
-    @Override
-    public void initialize(AlleyContext context) {
-        this.allDiscs = EnumMusicDisc.values();
-    }
+    /**
+     * Retrieves a list of all available music discs defined in the system.
+     *
+     * @return An immutable list of {@link MusicDisc} representing all available music discs.
+     */
+    List<MusicDisc> getMusicDiscs();
 
-    @Override
-    public void startMusic(Player player) {
-        stopMusic(player);
+    /**
+     * Selects a random music disc from the entire pool of available discs.
+     *
+     * @return A random {@link MusicDisc} value.
+     */
+    MusicDisc getRandomMusicDisc();
 
-        Profile profile = this.profileService.getProfile(player.getUniqueId());
-        if (profile == null || !profile.getProfileData().getSettingData().isLobbyMusicEnabled()) {
-            return;
-        }
+    /**
+     * Retrieves the set of music discs a player has selected in their profile.
+     * This method safely converts disc names stored in the profile to {@link MusicDisc} objects.
+     *
+     * @param profile The player's profile containing their music preferences.
+     * @return A non-null set of {@link MusicDisc} values representing the selected discs.
+     */
+    Set<MusicDisc> getSelectedMusicDiscs(Profile profile);
 
-        EnumMusicDisc disc = getRandomSelectedMusicDisc(profile);
-        Location jukeboxLocation = spawnService.getLocation();
-        sendPlaySoundPacket(player, disc, jukeboxLocation);
+    /**
+     * Selects a random music disc from a player's personal list of selected discs.
+     * If the player has not selected any discs, this will fall back to selecting a
+     * random disc from the global pool.
+     *
+     * @param profile The player's profile.
+     * @return A random {@link MusicDisc} from the player's selection.
+     */
+    MusicDisc getRandomSelectedMusicDisc(Profile profile);
 
-        String formattedDuration = TimeUtil.formatTimeFromSeconds(disc.getDuration());
-        String message = CC.translate("&7[&6♬&7] &fNow playing: &6" + disc.getTitle() + " &7(" + formattedDuration + ")");
-        player.sendMessage(message);
-
-        MusicSession session = new MusicSession(disc, jukeboxLocation);
-        MusicTask task = new MusicTask(player, this, profileService);
-        session.setTask(task.runTaskTimer(Alley.getInstance(), 20L, 20L));
-
-        activeSessions.put(player.getUniqueId(), session);
-    }
-
-    @Override
-    public void stopMusic(Player player) {
-        MusicSession session = activeSessions.remove(player.getUniqueId());
-        if (session != null) {
-            sendStopSoundPacket(player, session.getJukeboxLocation());
-            session.getTask().cancel();
-        }
-    }
-
-    @Override
-    public EnumMusicDisc getRandomMusicDisc() {
-        if (allDiscs == null || allDiscs.length == 0) {
-            return null;
-        }
-        return allDiscs[random.nextInt(allDiscs.length)];
-    }
-
-    @Override
-    public Set<EnumMusicDisc> getSelectedMusicDiscs(Profile profile) {
-        return profile.getProfileData().getMusicData().getSelectedDiscs().stream()
-                .map(name -> {
-                    try {
-                        return EnumMusicDisc.valueOf(name);
-                    } catch (IllegalArgumentException e) {
-                        Logger.logException("Invalid music disc: " + name + " for " + profile.getUuid(), e);
-                        return null;
-                    }
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public EnumMusicDisc getRandomSelectedMusicDisc(Profile profile) {
-        Set<EnumMusicDisc> selectedDiscsSet = this.getSelectedMusicDiscs(profile);
-        if (selectedDiscsSet.isEmpty()) {
-            return this.getRandomMusicDisc();
-        }
-
-        List<EnumMusicDisc> selectedDiscs = new ArrayList<>(selectedDiscsSet);
-        return selectedDiscs.get(this.random.nextInt(selectedDiscs.size()));
-    }
-
-    @Override
-    public Optional<MusicSession> getMusicState(UUID playerUuid) {
-        return Optional.ofNullable(activeSessions.get(playerUuid));
-    }
-
-    @Override
-    public List<EnumMusicDisc> getMusicDiscs() {
-        return Arrays.asList(this.allDiscs);
-    }
-
-    MusicSession getSession(UUID playerUuid) {
-        return activeSessions.get(playerUuid);
-    }
-
-    public void sendPlaySoundPacket(Player player, EnumMusicDisc disc, Location location) {
-        BlockPosition pos = new BlockPosition(location.getX(), location.getY(), location.getZ());
-        PacketPlayOutWorldEvent packet = new PacketPlayOutWorldEvent(RECORD_PLAY_EFFECT_ID, pos, disc.getMaterial().getId(), false);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-    }
-
-    public void sendStopSoundPacket(Player player, Location location) {
-        BlockPosition pos = new BlockPosition(location.getX(), location.getY(), location.getZ());
-        PacketPlayOutWorldEvent packet = new PacketPlayOutWorldEvent(RECORD_PLAY_EFFECT_ID, pos, 0, false);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
-    }
+    /**
+     * Retrieves the current music session state for a specific player.
+     *
+     * @param playerUuid The UUID of the player.
+     * @return An {@link Optional} containing the {@link MusicSession} if one is active for the player, otherwise empty.
+     */
+    Optional<MusicSession> getMusicState(UUID playerUuid);
 }

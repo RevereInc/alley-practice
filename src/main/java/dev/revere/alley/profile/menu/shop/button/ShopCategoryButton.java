@@ -2,12 +2,11 @@ package dev.revere.alley.profile.menu.shop.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
-import dev.revere.alley.feature.cosmetic.repository.ICosmeticRepository;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.cosmetic.repository.CosmeticService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.menu.shop.ShopCategoryMenu;
-import dev.revere.alley.profile.progress.IProgressService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.StringUtil;
 import dev.revere.alley.util.chat.CC;
@@ -27,7 +26,7 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 public class ShopCategoryButton extends Button {
-    private final EnumCosmeticType cosmeticType;
+    private final CosmeticType cosmeticType;
     private final Material icon;
 
     @Override
@@ -36,9 +35,9 @@ public class ShopCategoryButton extends Button {
 
         int totalCount = 0;
         int ownedCount = 0;
-        int balance = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getProfileData().getCoins();
+        int balance = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getProfileData().getCoins();
 
-        BaseCosmeticRepository<?> repository = Alley.getInstance().getService(ICosmeticRepository.class).getRepository(cosmeticType);
+        BaseCosmeticRepository<?> repository = Alley.getInstance().getService(CosmeticService.class).getRepository(cosmeticType);
         if (repository != null) {
             totalCount = repository.getCosmetics().size();
             ownedCount = (int) repository.getCosmetics().stream()

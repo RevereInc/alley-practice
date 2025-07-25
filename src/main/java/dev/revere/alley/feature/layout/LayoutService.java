@@ -1,82 +1,37 @@
 package dev.revere.alley.feature.layout;
 
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
+import dev.revere.alley.plugin.lifecycle.Service;
 import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.feature.layout.menu.LayoutMenu;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.profile.Profile;
-import dev.revere.alley.tool.item.ItemBuilder;
-import dev.revere.alley.tool.logger.Logger;
-import lombok.Getter;
-import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
 /**
- * @author Emmy
- * @project Alley
- * @since 03/05/2025
+ * @author Remi
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = ILayoutService.class, priority = 350)
-public class LayoutService implements ILayoutService {
-    private final IConfigService configService;
-    private final IProfileService profileService;
-
-    private Menu layoutMenu;
+public interface LayoutService extends Service {
+    /**
+     * Gets the menu instance used for the kit layout editor.
+     *
+     * @return The layout editor Menu.
+     */
+    Menu getLayoutMenu();
 
     /**
-     * Constructor for DI.
+     * Creates the specific ItemStack (a book) that represents a single kit layout.
+     *
+     * @param layout The layout data to represent.
+     * @return The ItemStack representing the layout book.
      */
-    public LayoutService(IConfigService configService, IProfileService profileService) {
-        this.configService = configService;
-        this.profileService = profileService;
-    }
+    ItemStack getLayoutBook(LayoutData layout);
 
-    @Override
-    public void initialize(AlleyContext context) {
-        this.layoutMenu = this.determineMenu();
-    }
-
-    private Menu determineMenu() {
-        FileConfiguration config = this.configService.getMenusConfig();
-        String menuType = config.getString("layout-menu.type", "DEFAULT");
-
-        switch (menuType) {
-            case "MODERN":
-                Logger.error("Modern layout menu is not implemented yet. Defaulting to classic layout menu.");
-                return new LayoutMenu(EnumKitCategory.NORMAL);
-            case "DEFAULT":
-                return new LayoutMenu(EnumKitCategory.NORMAL);
-        }
-
-        Logger.error("Invalid layout menu type specified in config.yml. Defaulting to modern layout menu.");
-        return new LayoutMenu(EnumKitCategory.NORMAL);
-    }
-
-    @Override
-    public ItemStack getLayoutBook(LayoutData layout) {
-        return new ItemBuilder(Material.BOOK)
-                .name(layout.getDisplayName())
-                .lore("&7Click to select this layout.")
-                .hideMeta().build();
-    }
-
-    @Override
-    public void giveBooks(Player player, String kitName) {
-        Profile profile = this.profileService.getProfile(player.getUniqueId());
-        if (profile == null) return;
-
-        List<LayoutData> layouts = profile.getProfileData().getLayoutData().getLayouts().get(kitName);
-        if (layouts == null) return;
-
-        layouts.forEach(layout -> player.getInventory().addItem(this.getLayoutBook(layout)));
-    }
+    /**
+     * Gives a player all the layout selection books for a specific kit.
+     *
+     * @param player  The player to give the books to.
+     * @param kitName The name of the kit.
+     */
+    void giveBooks(Player player, String kitName);
 }

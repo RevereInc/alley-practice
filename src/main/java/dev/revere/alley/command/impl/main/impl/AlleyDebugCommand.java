@@ -3,18 +3,18 @@ package dev.revere.alley.command.impl.main.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.combat.ICombatService;
-import dev.revere.alley.base.cooldown.ICooldownRepository;
-import dev.revere.alley.base.kit.IKitService;
-import dev.revere.alley.base.kit.setting.IKitSettingService;
-import dev.revere.alley.base.queue.IQueueService;
-import dev.revere.alley.feature.emoji.IEmojiRepository;
-import dev.revere.alley.game.duel.IDuelRequestService;
-import dev.revere.alley.game.match.IMatchService;
-import dev.revere.alley.game.match.snapshot.ISnapshotRepository;
-import dev.revere.alley.game.party.IPartyService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.combat.CombatService;
+import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.kit.KitService;
+import dev.revere.alley.base.kit.setting.KitSettingService;
+import dev.revere.alley.base.queue.QueueService;
+import dev.revere.alley.feature.emoji.EmojiService;
+import dev.revere.alley.game.duel.DuelRequestService;
+import dev.revere.alley.game.match.MatchService;
+import dev.revere.alley.game.match.snapshot.SnapshotService;
+import dev.revere.alley.game.party.PartyService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -35,7 +35,7 @@ public class AlleyDebugCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
-        IProfileService profileService = this.plugin.getService(IProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (args.length < 1) {
@@ -94,20 +94,20 @@ public class AlleyDebugCommand extends BaseCommand {
         Arrays.asList(
                 "",
                 "     &6&lAlley &7│ &fInstance Information",
-                "      &f│ Profiles: &6" + this.formatNumber(this.plugin.getService(IProfileService.class).getProfiles().size()),
-                "      &f│ Matches: &6" + this.formatNumber(this.plugin.getService(IMatchService.class).getMatches().size()),
-                "      &f│ Queues: &6" + this.formatNumber(this.plugin.getService(IQueueService.class).getQueues().size()),
-                "      &f│ Queue profiles: &6" + this.formatNumber(Arrays.stream(this.plugin.getService(IQueueService.class).getQueues().stream().mapToInt(queue -> queue.getProfiles().size()).toArray()).sum()),
-                "      &f│ Cooldowns: &6" + this.formatNumber(this.plugin.getService(ICooldownRepository.class).getCooldowns().size()),
-                "      &f│ Active Cooldowns: &6" + this.formatNumber((int) this.plugin.getService(ICooldownRepository.class).getCooldowns().stream().filter(cooldown -> cooldown.getC().isActive()).count()),
-                "      &f│ Combats: &6" + this.formatNumber(this.plugin.getService(ICombatService.class).getCombatMap().size()),
-                "      &f│ Kits: &6" + this.formatNumber(this.plugin.getService(IKitService.class).getKits().size()),
-                "      &f│ Kit Settings: &6" + this.formatNumber(this.plugin.getService(IKitSettingService.class).getSettings().size()),
-                "      &f│ Parties: &6" + this.formatNumber(this.plugin.getService(IPartyService.class).getParties().size()),
-                "      &f│ Arenas: &6" + this.formatNumber(this.plugin.getService(IArenaService.class).getArenas().size()),
-                "      &f│ Snapshots: &6" + this.formatNumber(this.plugin.getService(ISnapshotRepository.class).getSnapshots().size()),
-                "      &f│ Duel Requests: &6" + this.formatNumber(this.plugin.getService(IDuelRequestService.class).getDuelRequests().size()),
-                "      &f│ Emojis: &6" + this.formatNumber(this.plugin.getService(IEmojiRepository.class).getEmojis().size()),
+                "      &f│ Profiles: &6" + this.formatNumber(this.plugin.getService(ProfileService.class).getProfiles().size()),
+                "      &f│ Matches: &6" + this.formatNumber(this.plugin.getService(MatchService.class).getMatches().size()),
+                "      &f│ Queues: &6" + this.formatNumber(this.plugin.getService(QueueService.class).getQueues().size()),
+                "      &f│ Queue profiles: &6" + this.formatNumber(Arrays.stream(this.plugin.getService(QueueService.class).getQueues().stream().mapToInt(queue -> queue.getProfiles().size()).toArray()).sum()),
+                "      &f│ Cooldowns: &6" + this.formatNumber(this.plugin.getService(CooldownRepository.class).getCooldowns().size()),
+                "      &f│ Active Cooldowns: &6" + this.formatNumber((int) this.plugin.getService(CooldownRepository.class).getCooldowns().stream().filter(cooldown -> cooldown.getC().isActive()).count()),
+                "      &f│ Combats: &6" + this.formatNumber(this.plugin.getService(CombatService.class).getCombatMap().size()),
+                "      &f│ Kits: &6" + this.formatNumber(this.plugin.getService(KitService.class).getKits().size()),
+                "      &f│ Kit Settings: &6" + this.formatNumber(this.plugin.getService(KitSettingService.class).getSettings().size()),
+                "      &f│ Parties: &6" + this.formatNumber(this.plugin.getService(PartyService.class).getParties().size()),
+                "      &f│ Arenas: &6" + this.formatNumber(this.plugin.getService(ArenaService.class).getArenas().size()),
+                "      &f│ Snapshots: &6" + this.formatNumber(this.plugin.getService(SnapshotService.class).getSnapshots().size()),
+                "      &f│ Duel Requests: &6" + this.formatNumber(this.plugin.getService(DuelRequestService.class).getDuelRequests().size()),
+                "      &f│ Emojis: &6" + this.formatNumber(this.plugin.getService(EmojiService.class).getEmojis().size()),
                 ""
         ).forEach(line -> player.sendMessage(CC.translate(line)));
     }

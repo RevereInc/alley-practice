@@ -4,10 +4,10 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.config.locale.impl.PartyLocale;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.Party;
 import dev.revere.alley.game.party.PartyRequest;
-import dev.revere.alley.game.party.enums.EnumPartyState;
+import dev.revere.alley.game.party.enums.PartyState;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class PartyAcceptCommand extends BaseCommand {
             return;
         }
 
-        IPartyService partyService = this.plugin.getService(IPartyService.class);
+        PartyService partyService = this.plugin.getService(PartyService.class);
 
         Party party = partyService.getPartyByLeader(target);
         if (party == null) {
@@ -44,7 +44,7 @@ public class PartyAcceptCommand extends BaseCommand {
             return;
         }
 
-        if (party.getState() == EnumPartyState.PUBLIC) {
+        if (party.getState() == PartyState.PUBLIC) {
             partyService.joinParty(player, target);
             return;
         }

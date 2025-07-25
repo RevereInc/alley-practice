@@ -3,10 +3,10 @@ package dev.revere.alley.game.duel.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
-import dev.revere.alley.base.server.IServerService;
+import dev.revere.alley.base.server.ServerService;
 import dev.revere.alley.game.duel.DuelRequest;
-import dev.revere.alley.game.duel.IDuelRequestService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.duel.DuelRequestService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -46,7 +46,7 @@ public class DuelRequestsMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Alley.getInstance().getService(IDuelRequestService.class).getDuelRequests()
+        Alley.getInstance().getService(DuelRequestService.class).getDuelRequests()
                 .stream()
                 .filter(duelRequest -> !duelRequest.getSender().equals(player))
                 .forEach(duelRequest -> buttons.put(buttons.size(), new DuelRequestsButton(duelRequest)));
@@ -90,19 +90,19 @@ public class DuelRequestsMenu extends PaginatedMenu {
                 return;
             }
 
-            if (Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
+            if (Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
                 player.sendMessage(CC.translate("&cYou are already in a match."));
                 return;
             }
 
-            IServerService serverService = Alley.getInstance().getService(IServerService.class);
+            ServerService serverService = Alley.getInstance().getService(ServerService.class);
             if (!serverService.isQueueingAllowed()) {
                 player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
                 player.closeInventory();
                 return;
             }
 
-            Alley.getInstance().getService(IDuelRequestService.class).acceptPendingRequest(this.duelRequest);
+            Alley.getInstance().getService(DuelRequestService.class).acceptPendingRequest(this.duelRequest);
             player.closeInventory();
         }
     }

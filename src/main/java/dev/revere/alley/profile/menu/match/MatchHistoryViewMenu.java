@@ -5,8 +5,8 @@ import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.impl.BackButton;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.match.data.AbstractMatchData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.data.MatchData;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.menu.match.button.MatchHistoryViewButton;
 import lombok.AllArgsConstructor;
@@ -45,13 +45,13 @@ public class MatchHistoryViewMenu extends PaginatedMenu {
     public Map<Integer, Button> getAllPagesButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
-        List<AbstractMatchData> matchDataList = profile.getProfileData().getPreviousMatches().stream()
+        List<MatchData> matchDataList = profile.getProfileData().getPreviousMatches().stream()
                 .sorted((m1, m2) -> Long.compare(m2.getCreationTime(), m1.getCreationTime()))
                 .collect(Collectors.toList());
 
-        List<AbstractMatchData> filteredMatches = matchDataList.stream()
+        List<MatchData> filteredMatches = matchDataList.stream()
                 .filter(matchData -> matchData.getKit().equals(this.kit.getName()))
                 .collect(Collectors.toList());
 

@@ -3,7 +3,7 @@ package dev.revere.alley.base.kit.command.impl.data;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.config.locale.impl.KitLocale;
 import dev.revere.alley.util.chat.CC;
@@ -28,7 +28,7 @@ public class KitSetDescriptionCommand extends BaseCommand {
             return;
         }
 
-        IKitService kitService = this.plugin.getService(IKitService.class);
+        KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
             sender.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
@@ -37,14 +37,14 @@ public class KitSetDescriptionCommand extends BaseCommand {
 
         if (args[1].equalsIgnoreCase("clear")) {
             kit.setDescription("");
-            this.plugin.getService(IKitService.class).saveKit(kit);
+            this.plugin.getService(KitService.class).saveKit(kit);
             sender.sendMessage(CC.translate(KitLocale.KIT_DESCRIPTION_CLEARED.getMessage().replace("{kit-name}", kit.getName())));
             return;
         }
 
         String description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         kit.setDescription(description);
-        this.plugin.getService(IKitService.class).saveKit(kit);
+        this.plugin.getService(KitService.class).saveKit(kit);
         sender.sendMessage(CC.translate(KitLocale.KIT_DESCRIPTION_SET.getMessage().replace("{kit-name}", kit.getName()).replace("{description}", description)));
     }
 }

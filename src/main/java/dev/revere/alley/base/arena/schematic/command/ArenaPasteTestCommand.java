@@ -5,7 +5,6 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.base.arena.schematic.ArenaSchematicService;
-import dev.revere.alley.base.arena.schematic.IArenaSchematicService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -29,7 +28,7 @@ public class ArenaPasteTestCommand extends BaseCommand {
         }
 
         String schematicName = args[0];
-        IArenaSchematicService schematicService = Alley.getInstance().getService(IArenaSchematicService.class);
+        ArenaSchematicService schematicService = Alley.getInstance().getService(ArenaSchematicService.class);
         File schematicFile = schematicService.getSchematicFile(schematicName);
 
         if (!schematicFile.exists()) {

@@ -3,9 +3,9 @@ package dev.revere.alley.game.party.command.impl.member;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.Party;
-import dev.revere.alley.game.party.enums.EnumPartyState;
+import dev.revere.alley.game.party.enums.PartyState;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -32,17 +32,17 @@ public class PartyJoinCommand extends BaseCommand {
             return;
         }
 
-        Party party = this.plugin.getService(IPartyService.class).getPartyByLeader(target);
+        Party party = this.plugin.getService(PartyService.class).getPartyByLeader(target);
         if (party == null) {
             player.sendMessage(CC.translate("&cThat player is not in a party."));
             return;
         }
 
-        if (party.getState() != EnumPartyState.PUBLIC) {
+        if (party.getState() != PartyState.PUBLIC) {
             player.sendMessage(CC.translate("&cThat party is not open to the public."));
             return;
         }
 
-        this.plugin.getService(IPartyService.class).joinParty(player, target);
+        this.plugin.getService(PartyService.class).joinParty(player, target);
     }
 }

@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.music;
 
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -15,8 +15,8 @@ import org.bukkit.scheduler.BukkitRunnable;
 @RequiredArgsConstructor
 public class MusicTask extends BukkitRunnable {
     private final Player player;
-    private final MusicService musicService;
-    private final IProfileService profileService;
+    private final MusicServiceImpl musicServiceImpl;
+    private final ProfileService profileService;
 
     @Override
     public void run() {
@@ -25,7 +25,7 @@ public class MusicTask extends BukkitRunnable {
             return;
         }
 
-        MusicSession session = musicService.getSession(player.getUniqueId());
+        MusicSession session = musicServiceImpl.getSession(player.getUniqueId());
         if (session == null || session.getTask().getTaskId() != getTaskId()) {
             cancel();
             return;
@@ -33,20 +33,20 @@ public class MusicTask extends BukkitRunnable {
 
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile == null) {
-            musicService.stopMusic(player);
+            musicServiceImpl.stopMusic(player);
             return;
         }
 
         boolean shouldPlay = shouldPlayMusic(profile);
 
         if (!shouldPlay && !session.isPaused()) {
-            musicService.sendStopSoundPacket(player, session.getJukeboxLocation());
+            musicServiceImpl.sendStopSoundPacket(player, session.getJukeboxLocation());
             session.setPaused(true);
             return;
         }
 
         if (shouldPlay && session.isPaused()) {
-            musicService.sendPlaySoundPacket(player, session.getDisc(), session.getJukeboxLocation());
+            musicServiceImpl.sendPlaySoundPacket(player, session.getDisc(), session.getJukeboxLocation());
             session.setPaused(false);
             session.setElapsedSeconds(0);
         }
@@ -54,7 +54,7 @@ public class MusicTask extends BukkitRunnable {
         if (shouldPlay && !session.isPaused()) {
             if (session.isFinished()) {
                 cancel();
-                musicService.startMusic(player);
+                musicServiceImpl.startMusic(player);
             }
 
             session.setElapsedSeconds(session.getElapsedSeconds() + 1);
@@ -62,7 +62,7 @@ public class MusicTask extends BukkitRunnable {
     }
 
     private boolean shouldPlayMusic(Profile profile) {
-        boolean inLobby = profile.getState() == EnumProfileState.LOBBY || profile.getState() == EnumProfileState.WAITING;
+        boolean inLobby = profile.getState() == ProfileState.LOBBY || profile.getState() == ProfileState.WAITING;
         return inLobby && profile.getProfileData().getSettingData().isLobbyMusicEnabled();
     }
 }

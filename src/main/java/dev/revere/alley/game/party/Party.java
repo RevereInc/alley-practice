@@ -1,8 +1,8 @@
 package dev.revere.alley.game.party;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.emoji.IEmojiRepository;
-import dev.revere.alley.game.party.enums.EnumPartyState;
+import dev.revere.alley.feature.emoji.EmojiService;
+import dev.revere.alley.game.party.enums.PartyState;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Setter
 public class Party {
     private Player leader;
-    private EnumPartyState state;
+    private PartyState state;
     private List<UUID> members;
     private List<UUID> bannedPlayers;
 
@@ -36,7 +36,7 @@ public class Party {
         this.members = new ArrayList<>();
         this.members.add(leader.getUniqueId());
         this.bannedPlayers = new ArrayList<>();
-        this.state = EnumPartyState.PRIVATE;
+        this.state = PartyState.PRIVATE;
     }
 
     /**
@@ -45,7 +45,7 @@ public class Party {
      * @param message The message to notify the party members of.
      */
     public void notifyParty(String message) {
-        for (Map.Entry<String, String> entry : Alley.getInstance().getService(IEmojiRepository.class).getEmojis().entrySet()) {
+        for (Map.Entry<String, String> entry : Alley.getInstance().getService(EmojiService.class).getEmojis().entrySet()) {
             if (message.contains(entry.getKey())) {
                 message = message.replace(entry.getKey(), entry.getValue());
             }
@@ -75,6 +75,6 @@ public class Party {
      * @return True if the party is private, false otherwise.
      */
     public boolean isPrivate() {
-        return this.state == EnumPartyState.PRIVATE;
+        return this.state == PartyState.PRIVATE;
     }
 }

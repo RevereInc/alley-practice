@@ -3,8 +3,8 @@ package dev.revere.alley.game.ffa.command.impl.admin.data;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -28,14 +28,14 @@ public class FFASafeZoneCommand extends BaseCommand {
         String arenaName = args[0];
         String spawnType = args[1];
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         if (arenaService.getArenaByName(arenaName) == null) {
             player.sendMessage(CC.translate("&cAn arena with that name does not exist!"));
             return;
         }
 
-        if (arenaService.getArenaByName(arenaName).getType() != EnumArenaType.FFA) {
+        if (arenaService.getArenaByName(arenaName).getType() != ArenaType.FFA) {
             player.sendMessage(CC.translate("&cYou can only set the safezone for Free-For-All arenas!"));
             return;
         }

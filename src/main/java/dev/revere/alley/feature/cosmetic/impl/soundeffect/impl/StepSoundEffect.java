@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.soundeffect.impl;
 
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import org.bukkit.Effect;
 import org.bukkit.Material;
@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @date 01/06/2024
  */
-@CosmeticData(type = EnumCosmeticType.SOUND_EFFECT, name = "Step", description = "Play step sound upon kill", permission = "step", icon = Material.REDSTONE, slot = 11)
-public class StepSoundEffect extends AbstractCosmetic {
+@CosmeticData(type = CosmeticType.SOUND_EFFECT, name = "Step", description = "Play step sound upon kill", permission = "step", icon = Material.REDSTONE, slot = 11)
+public class StepSoundEffect extends BaseCosmetic {
 
     @Override
     public void execute(Player player) {

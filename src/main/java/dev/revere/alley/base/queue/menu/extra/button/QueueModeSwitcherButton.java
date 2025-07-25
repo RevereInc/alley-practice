@@ -2,9 +2,9 @@ package dev.revere.alley.base.queue.menu.extra.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
-import dev.revere.alley.base.queue.IQueueService;
-import dev.revere.alley.base.queue.enums.EnumQueueType;
+import dev.revere.alley.base.kit.enums.KitCategory;
+import dev.revere.alley.base.queue.QueueService;
+import dev.revere.alley.base.queue.enums.QueueType;
 import dev.revere.alley.base.queue.menu.extra.ExtraModesMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -21,8 +21,8 @@ import org.bukkit.inventory.ItemStack;
  */
 @AllArgsConstructor
 public class QueueModeSwitcherButton extends Button {
-    private final EnumQueueType queueType;
-    private final EnumKitCategory kitCategory;
+    private final QueueType queueType;
+    private final KitCategory kitCategory;
 
     @Override
     public ItemStack getButtonItem(Player player) {
@@ -43,11 +43,11 @@ public class QueueModeSwitcherButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        if (this.kitCategory == EnumKitCategory.EXTRA) {
+        if (this.kitCategory == KitCategory.EXTRA) {
             new ExtraModesMenu(this.queueType).openMenu(player);
             return;
         }
 
-        Alley.getInstance().getService(IQueueService.class).getQueueMenu().openMenu(player);
+        Alley.getInstance().getService(QueueService.class).getQueueMenu().openMenu(player);
     }
 }

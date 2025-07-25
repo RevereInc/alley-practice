@@ -1,7 +1,7 @@
 package dev.revere.alley.profile.data.impl;
 
-import dev.revere.alley.profile.enums.EnumChatChannel;
-import dev.revere.alley.profile.enums.EnumWorldTime;
+import dev.revere.alley.profile.enums.ChatChannel;
+import dev.revere.alley.profile.enums.WorldTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
@@ -37,8 +37,8 @@ public class ProfileSettingData {
         this.isProfanityFilterEnabled = false;
         this.receiveDuelRequestsEnabled = true;
         this.lobbyMusicEnabled = true;
-        this.chatChannel = EnumChatChannel.GLOBAL.toString();
-        this.time = EnumWorldTime.DEFAULT.getName();
+        this.chatChannel = ChatChannel.GLOBAL.toString();
+        this.time = WorldTime.DEFAULT.getName();
     }
 
     /**
@@ -47,7 +47,7 @@ public class ProfileSettingData {
      * @param player The player to set the world time for.
      */
     public void setTimeDefault(Player player) {
-        this.time = EnumWorldTime.DEFAULT.getName();
+        this.time = WorldTime.DEFAULT.getName();
         player.resetPlayerTime();
     }
 
@@ -57,7 +57,7 @@ public class ProfileSettingData {
      * @param player The player to set the world time for.
      */
     public void setTimeDay(Player player) {
-        this.time = EnumWorldTime.DAY.getName();
+        this.time = WorldTime.DAY.getName();
         player.setPlayerTime(6000L, false);
     }
 
@@ -67,7 +67,7 @@ public class ProfileSettingData {
      * @param player The player to set the world time for.
      */
     public void setTimeSunset(Player player) {
-        this.time = EnumWorldTime.SUNSET.getName();
+        this.time = WorldTime.SUNSET.getName();
         player.setPlayerTime(12000, false);
     }
 
@@ -77,7 +77,7 @@ public class ProfileSettingData {
      * @param player The player to set the world time for.
      */
     public void setTimeNight(Player player) {
-        this.time = EnumWorldTime.NIGHT.getName();
+        this.time = WorldTime.NIGHT.getName();
         player.setPlayerTime(18000L, false);
     }
 
@@ -86,8 +86,8 @@ public class ProfileSettingData {
      *
      * @return The world time based on the profile setting.
      */
-    public EnumWorldTime getWorldTime() {
-        return EnumWorldTime.getByName(this.time);
+    public WorldTime getWorldTime() {
+        return WorldTime.getByName(this.time);
     }
 
     /**
@@ -118,7 +118,7 @@ public class ProfileSettingData {
      * @return True if the player is in day time.
      */
     public boolean isDayTime() {
-        return this.time.equals(EnumWorldTime.DAY.getName());
+        return this.time.equals(WorldTime.DAY.getName());
     }
 
     /**
@@ -127,7 +127,7 @@ public class ProfileSettingData {
      * @return True if the player is in sunset time.
      */
     public boolean isSunsetTime() {
-        return this.time.equals(EnumWorldTime.SUNSET.getName());
+        return this.time.equals(WorldTime.SUNSET.getName());
     }
 
     /**
@@ -136,7 +136,7 @@ public class ProfileSettingData {
      * @return True if the player is in night time.
      */
     public boolean isNightTime() {
-        return this.time.equals(EnumWorldTime.NIGHT.getName());
+        return this.time.equals(WorldTime.NIGHT.getName());
     }
 
     /**
@@ -145,6 +145,6 @@ public class ProfileSettingData {
      * @return True if the player is in default time.
      */
     public boolean isDefaultTime() {
-        return this.time.equals(EnumWorldTime.DEFAULT.getName());
+        return this.time.equals(WorldTime.DEFAULT.getName());
     }
 }

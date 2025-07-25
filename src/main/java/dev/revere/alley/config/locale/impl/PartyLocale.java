@@ -1,8 +1,8 @@
 package dev.revere.alley.config.locale.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.config.locale.ILocale;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.config.locale.Locale;
 import dev.revere.alley.util.chat.CC;
 
 /**
@@ -10,7 +10,7 @@ import dev.revere.alley.util.chat.CC;
  * @project Alley
  * @since 03/03/2025
  */
-public enum PartyLocale implements ILocale {
+public enum PartyLocale implements Locale {
     PARTY_CREATED("messages.yml", "party.created"),
     PARTY_DISBANDED("messages.yml", "party.disbanded"),
     NOT_IN_PARTY("messages.yml", "party.not-in-party"),
@@ -44,6 +44,6 @@ public enum PartyLocale implements ILocale {
      */
     @Override
     public String getMessage() {
-        return CC.translate(Alley.getInstance().getService(IConfigService.class).getConfig(this.configName).getString(this.configString));
+        return CC.translate(Alley.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
     }
 }

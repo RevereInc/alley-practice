@@ -8,7 +8,7 @@ import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
  * @project Alley
  * @date 6/23/2025
  */
-public class ProjectileTrailRepository extends BaseCosmeticRepository<AbstractProjectileTrail> {
+public class ProjectileTrailRepository extends BaseCosmeticRepository<ProjectileTrail> {
     public ProjectileTrailRepository() {
         this.registerCosmetic(FlameTrail.class);
     }

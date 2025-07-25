@@ -3,10 +3,10 @@ package dev.revere.alley.game.match.command.admin.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.match.enums.EnumMatchState;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.enums.MatchState;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -33,15 +33,15 @@ public class MatchCancelCommand extends BaseCommand {
             return;
         }
 
-        Profile profile = this.plugin.getService(IProfileService.class).getProfile(target.getUniqueId());
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
 
-        if (profile.getState() != EnumProfileState.PLAYING || profile.getMatch() == null) {
+        if (profile.getState() != ProfileState.PLAYING || profile.getMatch() == null) {
             player.sendMessage(CC.translate("&cThat player is not in a match."));
             return;
         }
 
         profile.getMatch().handleRoundEnd();
-        profile.getMatch().setState(EnumMatchState.ENDING_MATCH);
+        profile.getMatch().setState(MatchState.ENDING_MATCH);
         profile.getMatch().getRunnable().setStage(4);
 
         player.sendMessage(CC.translate("&aYou have ended the match for &6" + target.getName() + "&a."));

@@ -1,21 +1,21 @@
 package dev.revere.alley.base.queue.runnable;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
-import dev.revere.alley.base.queue.IQueueService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
+import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.base.queue.Queue;
 import dev.revere.alley.base.queue.QueueProfile;
-import dev.revere.alley.game.match.IMatchService;
+import dev.revere.alley.game.match.MatchService;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.game.match.player.participant.TeamGameParticipant;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.Party;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.tool.logger.Logger;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
@@ -40,7 +40,7 @@ public class QueueRunnable implements Runnable {
      */
     @Override
     public void run() {
-        IQueueService queueService = Alley.getInstance().getService(IQueueService.class);
+        QueueService queueService = Alley.getInstance().getService(QueueService.class);
         queueService.getQueues().forEach(this::processQueue);
     }
 
@@ -94,10 +94,10 @@ public class QueueRunnable implements Runnable {
             return true;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
 
         Profile playerProfile = profileService.getProfile(profile.getUuid());
-        if (!playerProfile.getState().equals(EnumProfileState.WAITING)) {
+        if (!playerProfile.getState().equals(ProfileState.WAITING)) {
             return true;
         }
 
@@ -147,7 +147,7 @@ public class QueueRunnable implements Runnable {
      * @return List of available solo players
      */
     private List<QueueProfile> getAvailableSoloPlayers(Queue queue) {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
 
         return queue.getProfiles().stream()
                 .filter(queueProfile -> partyService.getParty(Bukkit.getPlayer(queueProfile.getUuid())) == null)
@@ -199,10 +199,10 @@ public class QueueRunnable implements Runnable {
             return true;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
 
         Profile playerProfile = profileService.getProfile(profile.getUuid());
-        if (!playerProfile.getState().equals(EnumProfileState.WAITING)) {
+        if (!playerProfile.getState().equals(ProfileState.WAITING)) {
             queue.removePlayer(profile);
             return true;
         }
@@ -225,12 +225,12 @@ public class QueueRunnable implements Runnable {
         GamePlayerList gamePlayerList = getGamePlayerList(firstPlayer, secondPlayer, firstProfile, secondProfile);
         GameParticipantList gameParticipantList = getSoloGameParticipantList(gamePlayerList);
 
-        AbstractArena arena = this.getArena(queue);
+        Arena arena = this.getArena(queue);
         if (!isArenaAvailable(arena, Arrays.asList(firstPlayer, secondPlayer), queue)) {
             return false;
         }
 
-        IMatchService matchService = Alley.getInstance().getService(IMatchService.class);
+        MatchService matchService = Alley.getInstance().getService(MatchService.class);
         matchService.createAndStartMatch(
                 queue.getKit(), arena, gameParticipantList.participantA, gameParticipantList.participantB,
                 false, true, queue.isRanked()
@@ -269,7 +269,7 @@ public class QueueRunnable implements Runnable {
      * @return List of profiles representing full parties
      */
     private List<QueueProfile> getFullParties(List<QueueProfile> availableProfiles) {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         return availableProfiles.stream()
                 .filter(qp -> {
                     Player leader = Bukkit.getPlayer(qp.getUuid());
@@ -287,7 +287,7 @@ public class QueueRunnable implements Runnable {
      * @return List of solo duos players
      */
     private List<QueueProfile> getSoloDuosPlayers(List<QueueProfile> availableProfiles) {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         return availableProfiles.stream()
                 .filter(qp -> {
                     Player player = Bukkit.getPlayer(qp.getUuid());
@@ -378,10 +378,10 @@ public class QueueRunnable implements Runnable {
      * @return true if all players are valid
      */
     private boolean validatePotentialPlayers(QueueProfile[] potentialPlayers, List<Player> onlinePlayers, List<QueueProfile> validQueueProfiles) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         for (QueueProfile qp : potentialPlayers) {
             Player p = Bukkit.getPlayer(qp.getUuid());
-            if (p == null || !p.isOnline() || !profileService.getProfile(p.getUniqueId()).getState().equals(EnumProfileState.WAITING)) {
+            if (p == null || !p.isOnline() || !profileService.getProfile(p.getUniqueId()).getState().equals(ProfileState.WAITING)) {
                 Logger.info("One of the potential players is not ready: " + qp.getUuid());
                 return false;
             }
@@ -429,7 +429,7 @@ public class QueueRunnable implements Runnable {
      * @param allMatchPlayers List to add party members to
      */
     private void addPartyMembersToMatch(Player leader, List<Player> allMatchPlayers) {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         Party party = partyService.getPartyByLeader(leader);
         if (party != null && party.getMembers().size() == 2) {
             party.getMembers().stream()
@@ -495,7 +495,7 @@ public class QueueRunnable implements Runnable {
             return false;
         }
 
-        AbstractArena arena = this.getArena(queue);
+        Arena arena = this.getArena(queue);
         if (!isArenaAvailable(arena, allMatchPlayers, queue)) {
             List<UUID> allUUIDsToRemove = allMatchPlayers.stream()
                     .map(Player::getUniqueId)
@@ -504,7 +504,7 @@ public class QueueRunnable implements Runnable {
             return false;
         }
 
-        IMatchService matchService = Alley.getInstance().getService(IMatchService.class);
+        MatchService matchService = Alley.getInstance().getService(MatchService.class);
         matchService.createAndStartMatch(
                 queue.getKit(), arena, participantA, participantB, true, false, queue.isRanked()
         );
@@ -543,7 +543,7 @@ public class QueueRunnable implements Runnable {
                                       Player team1Leader, Player team2Leader,
                                       GameParticipant<MatchGamePlayerImpl> participantA,
                                       GameParticipant<MatchGamePlayerImpl> participantB) {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         Party team1Party = partyService.getPartyByLeader(team1Leader);
         Party team2Party = partyService.getPartyByLeader(team2Leader);
 
@@ -609,8 +609,8 @@ public class QueueRunnable implements Runnable {
      * @param queue   The queue for removing players on failure
      * @return true if arena is available and suitable
      */
-    private boolean isArenaAvailable(AbstractArena arena, List<Player> players, Queue queue) {
-        if (arena == null || arena.getType().equals(EnumArenaType.FFA)) {
+    private boolean isArenaAvailable(Arena arena, List<Player> players, Queue queue) {
+        if (arena == null || arena.getType().equals(ArenaType.FFA)) {
             players.forEach(p -> p.sendMessage(CC.translate("&cThere are no available arenas for this kit")));
             return false;
         }
@@ -623,8 +623,8 @@ public class QueueRunnable implements Runnable {
      * @param queue The queue requesting an arena
      * @return An available arena or null if none found
      */
-    private AbstractArena getArena(Queue queue) {
-        IArenaService arenaService = Alley.getInstance().getService(IArenaService.class);
+    private Arena getArena(Queue queue) {
+        ArenaService arenaService = Alley.getInstance().getService(ArenaService.class);
         return arenaService.getRandomArena(queue.getKit());
     }
 
@@ -656,7 +656,7 @@ public class QueueRunnable implements Runnable {
      * @return Set of unique queue profiles
      */
     private Set<QueueProfile> getUniqueQueueProfiles(List<UUID> playerUUIDs) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Set<QueueProfile> uniqueProfiles = new HashSet<>();
         for (UUID uuid : playerUUIDs) {
             Profile profile = profileService.getProfile(uuid);
@@ -677,7 +677,7 @@ public class QueueRunnable implements Runnable {
         Player leader = Bukkit.getPlayer(queueProfile.getUuid());
         if (leader == null) return;
 
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         Party party = partyService.getParty(leader);
         List<UUID> membersToClean = getMembersToClean(queue, party, leader);
 
@@ -709,7 +709,7 @@ public class QueueRunnable implements Runnable {
      * @param memberUUIDs List of member UUIDs to clean up
      */
     private void cleanupPlayerProfiles(List<UUID> memberUUIDs) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         for (UUID memberId : memberUUIDs) {
             Profile memberProfile = profileService.getProfile(memberId);
             if (memberProfile != null) {

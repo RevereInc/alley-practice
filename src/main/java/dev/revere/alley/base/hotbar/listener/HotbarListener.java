@@ -2,10 +2,10 @@ package dev.revere.alley.base.hotbar.listener;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.hotbar.HotbarItem;
-import dev.revere.alley.base.hotbar.IHotbarService;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarAction;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarType;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.hotbar.HotbarService;
+import dev.revere.alley.base.hotbar.enums.HotbarAction;
+import dev.revere.alley.base.hotbar.enums.HotbarType;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.logger.Logger;
 import org.bukkit.entity.Player;
@@ -28,8 +28,8 @@ public class HotbarListener implements Listener {
             return;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        IHotbarService hotbarService = Alley.getInstance().getService(IHotbarService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        HotbarService hotbarService = Alley.getInstance().getService(HotbarService.class);
 
         Player player = event.getPlayer();
         ItemStack clickedItem = player.getItemInHand();
@@ -39,7 +39,7 @@ public class HotbarListener implements Listener {
         }
 
         Profile profile = profileService.getProfile(player.getUniqueId());
-        EnumHotbarType currentHotbarType = hotbarService.getCorrespondingType(profile);
+        HotbarType currentHotbarType = hotbarService.getCorrespondingType(profile);
         if (currentHotbarType == null) return;
 
         if (!hotbarService.isHotbarItem(clickedItem, currentHotbarType)) {
@@ -51,7 +51,7 @@ public class HotbarListener implements Listener {
             return;
         }
 
-        EnumHotbarAction actionType = hotbarItem.getActionData().getAction();
+        HotbarAction actionType = hotbarItem.getActionData().getAction();
         if (actionType == null) {
             Logger.error("Hotbar item action type is null for item: " + hotbarItem.getName());
             return;

@@ -1,15 +1,14 @@
 package dev.revere.alley.base.queue;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.hotbar.IHotbarService;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarType;
+import dev.revere.alley.base.hotbar.HotbarService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.match.IMatchService;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.match.MatchService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.Party;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +49,7 @@ public class Queue {
      * @return The amount of people playing that queue.
      */
     public int getQueueFightCount() {
-        IMatchService matchService = Alley.getInstance().getService(IMatchService.class);
+        MatchService matchService = Alley.getInstance().getService(MatchService.class);
         return (int) matchService.getMatches().stream()
                 .filter(match -> match.getQueue() != null && match.getQueue().equals(this))
                 .count();
@@ -71,9 +70,9 @@ public class Queue {
      * @param player The player to add.
      */
     public void addPlayer(Player player, int elo) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
-        IHotbarService hotbarService = Alley.getInstance().getService(IHotbarService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
+        HotbarService hotbarService = Alley.getInstance().getService(HotbarService.class);
 
         UUID uuid = player.getUniqueId();
 
@@ -118,13 +117,13 @@ public class Queue {
                     }
 
                     Profile memberProfile = profileService.getProfile(memberId);
-                    if (memberProfile.getState() != EnumProfileState.LOBBY) {
+                    if (memberProfile.getState() != ProfileState.LOBBY) {
                         player.sendMessage(CC.translate("&cAll party members must be in the lobby to queue."));
                         return;
                     }
                 }
             } else {
-                if (profile.getState() != EnumProfileState.LOBBY) {
+                if (profile.getState() != ProfileState.LOBBY) {
                     player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
                     return;
                 }
@@ -134,7 +133,7 @@ public class Queue {
                 }
             }
         } else {
-            if (profile.getState() != EnumProfileState.LOBBY) {
+            if (profile.getState() != ProfileState.LOBBY) {
                 player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
                 return;
             }
@@ -144,7 +143,7 @@ public class Queue {
         queueProfile.setElo(elo);
 
         profile.setQueueProfile(queueProfile);
-        profile.setState(EnumProfileState.WAITING);
+        profile.setState(ProfileState.WAITING);
 
         this.profiles.add(queueProfile);
 
@@ -155,7 +154,7 @@ public class Queue {
                         Profile memberProfile = profileService.getProfile(memberId);
                         if (memberProfile != null) {
                             memberProfile.setQueueProfile(queueProfile);
-                            memberProfile.setState(EnumProfileState.WAITING);
+                            memberProfile.setState(ProfileState.WAITING);
                             Player memberPlayer = Bukkit.getPlayer(memberId);
                             hotbarService.applyHotbarItems(memberPlayer);
                             if (memberPlayer != null) {
@@ -178,9 +177,9 @@ public class Queue {
      * @param queueProfile The queue profile to remove.
      */
     public void removePlayer(QueueProfile queueProfile) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
-        IHotbarService hotbarService = Alley.getInstance().getService(IHotbarService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
+        HotbarService hotbarService = Alley.getInstance().getService(HotbarService.class);
 
         UUID playerToRemoveUUID = queueProfile.getUuid();
         Profile playerToRemoveProfile = profileService.getProfile(playerToRemoveUUID);
@@ -192,7 +191,7 @@ public class Queue {
                 Profile memberProfile = profileService.getProfile(memberId);
                 if (memberProfile != null && memberProfile.getQueueProfile() != null) {
                     memberProfile.setQueueProfile(null);
-                    memberProfile.setState(EnumProfileState.LOBBY);
+                    memberProfile.setState(ProfileState.LOBBY);
                     Player memberPlayer = Bukkit.getPlayer(memberId);
                     if (memberPlayer != null) {
                         hotbarService.applyHotbarItems(memberPlayer);
@@ -206,7 +205,7 @@ public class Queue {
 
             if (playerToRemoveProfile != null) {
                 playerToRemoveProfile.setQueueProfile(null);
-                playerToRemoveProfile.setState(EnumProfileState.LOBBY);
+                playerToRemoveProfile.setState(ProfileState.LOBBY);
             }
 
             if (playerToRemove != null) {
@@ -223,12 +222,12 @@ public class Queue {
      * @return The profile object.
      */
     public Profile getProfile(UUID uuid) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         return profileService.getProfile(uuid);
     }
 
     public int getTotalPlayerCount() {
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
 
         int count = 0;
         for (QueueProfile queueProfile : this.profiles) {

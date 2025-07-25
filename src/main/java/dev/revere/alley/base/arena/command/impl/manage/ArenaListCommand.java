@@ -3,8 +3,8 @@ package dev.revere.alley.base.arena.command.impl.manage;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.tool.visual.LoreHelper;
 import dev.revere.alley.tool.visual.TextFormatter;
 import dev.revere.alley.util.chat.CC;
@@ -28,7 +28,7 @@ public class ArenaListCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         player.sendMessage("");
         player.sendMessage(CC.translate("     &6&lArena List &f(" + arenaService.getArenas().size() + "&f)"));
@@ -39,7 +39,7 @@ public class ArenaListCommand extends BaseCommand {
         }
 
         arenaService.getArenas().stream()
-                .sorted(Comparator.comparing(AbstractArena::getName))
+                .sorted(Comparator.comparing(Arena::getName))
                 .forEach(arena -> {
                     ComponentBuilder hover = new ComponentBuilder("")
                             .append(CC.translate("&6&lArena Info" + LoreHelper.displayEnabled(arena.isEnabled()) + "\n"))

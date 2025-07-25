@@ -2,15 +2,15 @@ package dev.revere.alley.database.util;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.IDivisionService;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.feature.division.tier.DivisionTier;
 import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.feature.music.IMusicService;
+import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.ProfileData;
 import dev.revere.alley.profile.data.impl.*;
-import dev.revere.alley.profile.enums.EnumChatChannel;
-import dev.revere.alley.profile.enums.EnumWorldTime;
+import dev.revere.alley.profile.enums.ChatChannel;
+import dev.revere.alley.profile.enums.WorldTime;
 import dev.revere.alley.tool.serializer.Serializer;
 import lombok.experimental.UtilityClass;
 import org.bson.Document;
@@ -276,7 +276,7 @@ public class MongoUtility {
             ProfileUnrankedKitData kit = new ProfileUnrankedKitData();
 
             String storedDivision = kitEntry.getString("division");
-            Division division = Alley.getInstance().getService(IDivisionService.class).getDivision(storedDivision);
+            Division division = Alley.getInstance().getService(DivisionService.class).getDivision(storedDivision);
             kit.setDivision(division.getName());
 
             String storedTier = kitEntry.getString("tier");
@@ -367,7 +367,7 @@ public class MongoUtility {
         ProfileMusicData musicData = new ProfileMusicData();
 
         if (musicDocument == null) {
-            IMusicService musicService = Alley.getInstance().getService(IMusicService.class);
+            MusicService musicService = Alley.getInstance().getService(MusicService.class);
             musicService.getMusicDiscs().forEach(disc -> musicData.addDisc(disc.name()));
             return musicData;
         }
@@ -394,8 +394,8 @@ public class MongoUtility {
         settingData.setProfanityFilterEnabled(settingDocument.getBoolean("profanityFilterEnabled", true));
         settingData.setReceiveDuelRequestsEnabled(settingDocument.getBoolean("receiveDuelRequestsEnabled", true));
         settingData.setLobbyMusicEnabled(settingDocument.getBoolean("lobbyMusicEnabled", true));
-        settingData.setChatChannel(settingDocument.get("chatChannel", EnumChatChannel.GLOBAL.toString()));
-        settingData.setTime(settingDocument.get("time", EnumWorldTime.DEFAULT.getName()));
+        settingData.setChatChannel(settingDocument.get("chatChannel", ChatChannel.GLOBAL.toString()));
+        settingData.setTime(settingDocument.get("time", WorldTime.DEFAULT.getName()));
         return settingData;
     }
 

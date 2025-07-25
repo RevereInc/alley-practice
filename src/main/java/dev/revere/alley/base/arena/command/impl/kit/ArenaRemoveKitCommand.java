@@ -4,9 +4,9 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.config.locale.impl.KitLocale;
 import dev.revere.alley.util.chat.CC;
@@ -27,7 +27,7 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         List<String> completion = new ArrayList<>();
 
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            this.plugin.getService(IArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
+            this.plugin.getService(ArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
         }
 
         return completion;
@@ -47,14 +47,14 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         String arenaName = args[0];
         String kitName = args[1];
 
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
-        AbstractArena arena = arenaService.getArenaByName(arenaName);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
+        Arena arena = arenaService.getArenaByName(arenaName);
         if (arena.getName() == null) {
             player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
             return;
         }
 
-        if (this.plugin.getService(IKitService.class).getKit(kitName).getName() == null) {
+        if (this.plugin.getService(KitService.class).getKit(kitName).getName() == null) {
             player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", kitName));
             return;
         }

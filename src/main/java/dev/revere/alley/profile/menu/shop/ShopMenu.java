@@ -2,8 +2,7 @@ package dev.revere.alley.profile.menu.shop;
 
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.feature.cosmetic.EnumCosmeticType;
-import dev.revere.alley.feature.cosmetic.menu.button.CosmeticCategoryButton;
+import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.profile.menu.shop.button.ShopCategoryButton;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -26,10 +25,10 @@ public class ShopMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         final Map<Integer, Button> buttons = new HashMap<>();
 
-        buttons.put(11, new ShopCategoryButton(EnumCosmeticType.KILL_EFFECT, Material.DIAMOND_SWORD));
-        buttons.put(12, new ShopCategoryButton(EnumCosmeticType.SOUND_EFFECT, Material.NOTE_BLOCK));
-        buttons.put(14, new ShopCategoryButton(EnumCosmeticType.PROJECTILE_TRAIL, Material.ARROW));
-        buttons.put(15, new ShopCategoryButton(EnumCosmeticType.KILL_MESSAGE, Material.BOOK_AND_QUILL));
+        buttons.put(11, new ShopCategoryButton(CosmeticType.KILL_EFFECT, Material.DIAMOND_SWORD));
+        buttons.put(12, new ShopCategoryButton(CosmeticType.SOUND_EFFECT, Material.NOTE_BLOCK));
+        buttons.put(14, new ShopCategoryButton(CosmeticType.PROJECTILE_TRAIL, Material.ARROW));
+        buttons.put(15, new ShopCategoryButton(CosmeticType.KILL_MESSAGE, Material.BOOK_AND_QUILL));
 
         this.addBorder(buttons, 15, 3);
 

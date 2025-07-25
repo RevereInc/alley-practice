@@ -3,9 +3,9 @@ package dev.revere.alley.game.ffa.command.impl.admin;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.ffa.AbstractFFAMatch;
-import dev.revere.alley.game.ffa.IFFAService;
-import dev.revere.alley.game.ffa.impl.DefaultFFAMatchImpl;
+import dev.revere.alley.game.ffa.FFAMatch;
+import dev.revere.alley.game.ffa.FFAService;
+import dev.revere.alley.game.ffa.impl.DefaultFFAMatch;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -27,8 +27,8 @@ public class FFAAddCommand extends BaseCommand {
         }
 
         String targetName = args[0];
-        IFFAService ffaService = this.plugin.getService(IFFAService.class);
-        AbstractFFAMatch match = ffaService.getMatches().stream()
+        FFAService ffaService = this.plugin.getService(FFAService.class);
+        FFAMatch match = ffaService.getMatches().stream()
                 .filter(m -> m.getKit().getName().equalsIgnoreCase(args[1]))
                 .findFirst()
                 .orElse(null);
@@ -49,7 +49,7 @@ public class FFAAddCommand extends BaseCommand {
             return;
         }
 
-        DefaultFFAMatchImpl defaultMatch = (DefaultFFAMatchImpl) match;
+        DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
         player.sendMessage(CC.translate("&aSuccessfully added " + targetName + " to the FFA match for kit: " + args[1]));
     }

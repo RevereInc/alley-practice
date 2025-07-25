@@ -1,6 +1,6 @@
 package dev.revere.alley.base.kit;
 
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
+import dev.revere.alley.base.kit.enums.KitCategory;
 import dev.revere.alley.base.kit.setting.KitSetting;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +42,7 @@ public class Kit {
     private int ffaSlot;
     private int maxFfaPlayers;
 
-    private EnumKitCategory category;
+    private KitCategory category;
 
     private String knockbackProfile;
     private List<PotionEffect> potionEffects;
@@ -63,7 +63,7 @@ public class Kit {
      * @param armor       The armor in the kit.
      * @param editorItems The items used in the editor for this kit.
      */
-    public Kit(String name, String displayName, String description, String disclaimer, String menuTitle, EnumKitCategory category, Material icon, int durability, ItemStack[] items, ItemStack[] armor, ItemStack[] editorItems) {
+    public Kit(String name, String displayName, String description, String disclaimer, String menuTitle, KitCategory category, Material icon, int durability, ItemStack[] items, ItemStack[] armor, ItemStack[] editorItems) {
         this.name = name;
 
         this.displayName = displayName;

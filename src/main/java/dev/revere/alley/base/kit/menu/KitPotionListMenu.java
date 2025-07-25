@@ -3,9 +3,8 @@ package dev.revere.alley.base.kit.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.game.ffa.IFFAService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -80,7 +79,7 @@ public class KitPotionListMenu extends PaginatedMenu {
             if (clickType != ClickType.LEFT) return;
 
             this.kit.getPotionEffects().remove(this.potionEffect);
-            Alley.getInstance().getService(IKitService.class).saveKit(this.kit);
+            Alley.getInstance().getService(KitService.class).saveKit(this.kit);
             player.sendMessage(CC.translate("&cYou have removed the potion effect: &6" + this.potionEffect.getType().getName() + "&c from the kit: &6" + this.kit.getDisplayName() + "&c."));
             new KitPotionListMenu(this.kit).openMenu(player);
         }

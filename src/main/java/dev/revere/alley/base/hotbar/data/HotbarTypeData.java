@@ -1,6 +1,6 @@
 package dev.revere.alley.base.hotbar.data;
 
-import dev.revere.alley.base.hotbar.enums.EnumHotbarType;
+import dev.revere.alley.base.hotbar.enums.HotbarType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HotbarTypeData {
-    private EnumHotbarType type;
+    private HotbarType type;
     private int slot;
 
     private boolean enabled = false;
@@ -23,7 +23,7 @@ public class HotbarTypeData {
      * @param type The name of the hotbar item type.
      * @param slot The hotbar slot of the type in the hotbar.
      */
-    public HotbarTypeData(EnumHotbarType type, int slot) {
+    public HotbarTypeData(HotbarType type, int slot) {
         this.type = type;
         this.slot = slot;
     }

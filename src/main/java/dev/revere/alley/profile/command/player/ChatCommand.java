@@ -3,9 +3,9 @@ package dev.revere.alley.profile.command.player;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumChatChannel;
+import dev.revere.alley.profile.enums.ChatChannel;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -23,13 +23,13 @@ public class ChatCommand extends BaseCommand {
 
         if (args.length < 1) {
             player.sendMessage(CC.translate("&6Usage: &e/chat &6<chat-channel>"));
-            player.sendMessage(CC.translate("&cAvailable chat channels: " + EnumChatChannel.getChatChannelsSorted()));
+            player.sendMessage(CC.translate("&cAvailable chat channels: " + ChatChannel.getChatChannelsSorted()));
             return;
         }
 
-        IProfileService profileService = this.plugin.getService(IProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (EnumChatChannel.getExactChatChannel(args[0], true) == null) {
+        if (ChatChannel.getExactChatChannel(args[0], true) == null) {
             player.sendMessage(CC.translate("&cThe chat channel &6" + args[0] + " &cdoes not exist."));
             return;
         }
@@ -39,7 +39,7 @@ public class ChatCommand extends BaseCommand {
             return;
         }
 
-        profile.getProfileData().getSettingData().setChatChannel(EnumChatChannel.getExactChatChannel(args[0], true));
+        profile.getProfileData().getSettingData().setChatChannel(ChatChannel.getExactChatChannel(args[0], true));
         player.sendMessage(CC.translate("&aSet your chat channel to &6" + args[0] + "&a."));
     }
 }

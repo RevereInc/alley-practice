@@ -4,8 +4,8 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.VirtualStackReflectionService;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.VirtualStackReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -55,7 +55,7 @@ public class VirtualStackCommand extends BaseCommand {
         }
 
         try {
-            this.plugin.getService(IReflectionRepository.class).getReflectionService(VirtualStackReflectionService.class).setVirtualStackAmount(player, amount);
+            this.plugin.getService(ReflectionRepository.class).getReflectionService(VirtualStackReflectionServiceImpl.class).setVirtualStackAmount(player, amount);
             player.sendMessage(CC.translate("&aSuccessfully set the virtual stack amount to &6" + amount + "&a."));
         } catch (Exception exception) {
             Logger.logException("Failed to set virtual stack amount", exception);

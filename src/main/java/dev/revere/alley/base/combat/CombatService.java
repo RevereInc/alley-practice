@@ -1,155 +1,89 @@
 package dev.revere.alley.base.combat;
 
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.profile.IProfileService;
-import dev.revere.alley.profile.enums.EnumProfileState;
-import dev.revere.alley.util.TimeUtil;
-import lombok.Getter;
-import org.bukkit.Bukkit;
+import dev.revere.alley.plugin.lifecycle.Service;
 import org.bukkit.entity.Player;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author Emmy
- * @project Alley
- * @since 07/03/2025
+ * @author Remi
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = ICombatService.class, priority = 270)
-public class CombatService implements ICombatService {
-    private final IProfileService profileService;
-
-    private final Map<UUID, Combat> combatMap = new ConcurrentHashMap<>();
-    private final long ffaExpirationTime;
-    private final long defaultExpirationTime;
+public interface CombatService extends Service {
+    /**
+     * Gets the raw map of all active combat tags.
+     * <p>
+     * Warning: This provides direct access to the underlying data.
+     * It's recommended to use other methods on this service for standard operations.
+     *
+     * @return An unmodifiable map of player UUIDs to their Combat data.
+     */
+    Map<UUID, Combat> getCombatMap();
 
     /**
-     * Constructor for DI.
+     * Records a combat event between two players. This will tag both the victim
+     * and the attacker.
+     *
+     * @param victim   The player who was damaged.
+     * @param attacker The player who dealt the damage.
      */
-    public CombatService(IProfileService profileService) {
-        this.profileService = profileService;
-        this.ffaExpirationTime = 15 * 1000L; // 15 seconds
-        this.defaultExpirationTime = 5 * 1000L; // 5 seconds
-    }
-
-    @Override
-    public Map<UUID, Combat> getCombatMap() {
-        return Collections.unmodifiableMap(this.combatMap);
-    }
-
-    @Override
-    public void setLastAttacker(Player victim, Player attacker) {
-        EnumProfileState victimState = this.profileService.getProfile(victim.getUniqueId()).getState();
-
-        long expirationTime = (victimState == EnumProfileState.FFA) ? this.ffaExpirationTime : this.defaultExpirationTime;
-        long currentTime = System.currentTimeMillis();
-
-        tagPlayer(victim, attacker, currentTime, expirationTime);
-        tagPlayer(attacker, victim, currentTime, expirationTime);
-    }
-
-    @Override
-    public Player getLastAttacker(Player victim) {
-        if (isTagExpired(victim)) {
-            return null;
-        }
-        Combat combat = this.combatMap.get(victim.getUniqueId());
-        return combat != null ? Bukkit.getPlayer(combat.getAttackerUUID()) : null;
-    }
-
-    @Override
-    public void removeLastAttacker(Player player, boolean removeBoth) {
-        Combat combat = this.combatMap.get(player.getUniqueId());
-        if (combat != null) {
-            this.combatMap.remove(player.getUniqueId());
-
-            if (removeBoth) {
-                UUID victimUUID = combat.getAttackerUUID();
-                Combat victimCombat = this.combatMap.get(victimUUID);
-                if (victimCombat != null) {
-                    this.combatMap.remove(victimUUID);
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean isPlayerInCombat(UUID uuid) {
-        Player player = Bukkit.getPlayer(uuid);
-        return player != null && !isTagExpired(player);
-    }
-
-    @Override
-    public boolean isExpired(Player player) {
-        Combat combat = this.combatMap.get(player.getUniqueId());
-        if (combat == null) return true;
-
-        long attackTime = combat.getAttackTimestamp();
-        long expirationTime = combat.getExpirationTime();
-
-        if (System.currentTimeMillis() - attackTime > expirationTime) {
-            this.removeLastAttacker(player, false);
-            return true;
-        }
-
-        return false;
-    }
-
-    @Override
-    public long getRemainingTime(Player victim) {
-        Combat combat = this.combatMap.get(victim.getUniqueId());
-        if (combat == null || isTagExpired(victim)) {
-            return 0;
-        }
-        long attackTime = combat.getAttackTimestamp();
-        long expirationTime = combat.getExpirationTime();
-        return (attackTime + expirationTime) - System.currentTimeMillis();
-    }
-
-    @Override
-    public String getRemainingTimeFormatted(Player victim) {
-        long remaining = getRemainingTime(victim);
-        return (remaining > 0) ? TimeUtil.millisToSecondsTimer(remaining) + "s" : "0.0s";
-    }
-
-    @Override
-    public void resetCombatLog(Player player) {
-        removeCombatTag(player);
-    }
+    void setLastAttacker(Player victim, Player attacker);
 
     /**
-     * A clear helper method to tag one player with another.
+     * Gets the last player who attacked the given victim, if the tag is still active.
+     *
+     * @param victim The player whose last attacker is being requested.
+     * @return The attacking Player, or null if the tag has expired or doesn't exist.
      */
-    private void tagPlayer(Player playerToTag, Player newAttacker, long currentTime, long expirationTime) {
-        Combat combat = this.combatMap.get(playerToTag.getUniqueId());
-        if (combat == null) {
-            this.combatMap.put(playerToTag.getUniqueId(), new Combat(newAttacker.getUniqueId(), currentTime, expirationTime));
-        } else {
-            combat.setAttackerUUID(newAttacker.getUniqueId());
-            combat.setAttackTimestamp(currentTime);
-            combat.setExpirationTime(expirationTime);
-        }
-    }
+    Player getLastAttacker(Player victim);
 
-    private boolean isTagExpired(Player player) {
-        if (player == null) return true;
+    /**
+     * Removes the combat tag for a specific player.
+     *
+     * @param player     The player whose tag to remove.
+     * @param removeBoth If true, also removes the combat tag from the other player involved in the combat.
+     */
+    void removeLastAttacker(Player player, boolean removeBoth);
 
-        Combat combat = this.combatMap.get(player.getUniqueId());
-        if (combat == null) return true;
+    /**
+     * Checks if a player is currently considered in combat.
+     *
+     * @param uuid The UUID of the player to check.
+     * @return True if the player has an active combat tag, false otherwise.
+     */
+    boolean isPlayerInCombat(UUID uuid);
 
-        long elapsedTime = System.currentTimeMillis() - combat.getAttackTimestamp();
-        if (elapsedTime > combat.getExpirationTime()) {
-            this.combatMap.remove(player.getUniqueId());
-            return true;
-        }
-        return false;
-    }
+    /**
+     * Checks if a player's combat tag has expired.
+     * Note: This method will also remove the tag if it is found to be expired.
+     *
+     * @param player The player to check.
+     * @return true if the player has no active combat tag.
+     */
+    boolean isExpired(Player player);
 
-    private void removeCombatTag(Player player) {
-        this.combatMap.remove(player.getUniqueId());
-    }
+    /**
+     * Gets the remaining time on a player's combat tag.
+     *
+     * @param victim The player to check.
+     * @return The remaining time in milliseconds, or 0 if not in combat.
+     */
+    long getRemainingTime(Player victim);
+
+    /**
+     * Gets the remaining time on a player's combat tag, formatted as a string (e.g., "4.2s").
+     *
+     * @param victim The player to check.
+     * @return A formatted string representing the remaining time.
+     */
+    String getRemainingTimeFormatted(Player victim);
+
+    /**
+     * Forcibly removes a player's combat tag.
+     *
+     * @param player The player whose combat tag should be reset.
+     */
+    void resetCombatLog(Player player);
 }

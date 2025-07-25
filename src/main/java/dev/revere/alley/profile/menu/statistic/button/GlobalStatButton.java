@@ -1,10 +1,10 @@
 package dev.revere.alley.profile.menu.statistic.button;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.adapter.core.ICoreAdapter;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.feature.level.ILevelService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfileFFAData;
 import dev.revere.alley.tool.item.ItemBuilder;
@@ -32,10 +32,10 @@ public class GlobalStatButton extends Button {
      */
     @Override
     public ItemStack getButtonItem(Player player) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(target.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(target.getUniqueId());
 
-        ICoreAdapter coreAdapter = Alley.getInstance().getService(ICoreAdapter.class);
-        ILevelService levelService = Alley.getInstance().getService(ILevelService.class);
+        CoreAdapter coreAdapter = Alley.getInstance().getService(CoreAdapter.class);
+        LevelService levelService = Alley.getInstance().getService(LevelService.class);
 
         int ffaKills = profile.getProfileData().getFfaData().values().stream()
                 .mapToInt(ProfileFFAData::getKills)

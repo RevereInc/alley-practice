@@ -3,7 +3,7 @@ package dev.revere.alley.feature.emoji.command.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.emoji.enums.EnumEmojiType;
+import dev.revere.alley.feature.emoji.enums.EmojiType;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.Symbol;
 import net.md_5.bungee.api.chat.*;
@@ -22,7 +22,7 @@ public class EmojiListCommand extends BaseCommand {
 
         player.sendMessage("");
         player.sendMessage(CC.translate("&6&lEmojis: &7(Alias: &f/el&7)"));
-        for (EnumEmojiType emoji : EnumEmojiType.values()) {
+        for (EmojiType emoji : EmojiType.values()) {
             TextComponent emojiComponent = new TextComponent(CC.translate(" " + emoji.getIdentifier() + " &7" + Symbol.ARROW_R + " &f" + emoji.getFormat()));
             emojiComponent.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, emoji.getIdentifier()));
 

@@ -4,13 +4,13 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import dev.revere.alley.Alley;
-import dev.revere.alley.database.IMongoService;
-import dev.revere.alley.database.profile.IProfile;
+import dev.revere.alley.database.MongoService;
+import dev.revere.alley.database.profile.DatabaseProfile;
 import dev.revere.alley.database.util.MongoUtility;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.date.DateFormatter;
-import dev.revere.alley.tool.date.enums.EnumDateFormat;
+import dev.revere.alley.tool.date.enums.DateFormat;
 import org.bson.Document;
 
 import java.util.UUID;
@@ -20,7 +20,7 @@ import java.util.UUID;
  * @project Alley
  * @date 5/22/2024
  */
-public class MongoProfileImpl implements IProfile {
+public class MongoProfileImpl implements DatabaseProfile {
     /**
      * Saves a profile to the database.
      *
@@ -29,7 +29,7 @@ public class MongoProfileImpl implements IProfile {
     @Override
     public void saveProfile(Profile profile) {
         Document document = MongoUtility.toDocument(profile);
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         profileService.getCollection()
                 .replaceOne(Filters.eq("uuid", profile.getUuid().toString()), document, new ReplaceOptions().upsert(true));
     }
@@ -42,7 +42,7 @@ public class MongoProfileImpl implements IProfile {
     @Override
     public void loadProfile(Profile profile) {
         if (profile.getUuid() == null) return;
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
 
         if (profileService.getCollection() == null) return;
 
@@ -64,14 +64,14 @@ public class MongoProfileImpl implements IProfile {
     public void archiveProfile(Profile profile) {
         Document archiveDocument = new Document();
 
-        DateFormatter dateFormatter = new DateFormatter(EnumDateFormat.DATE_PLUS_TIME, System.currentTimeMillis());
+        DateFormatter dateFormatter = new DateFormatter(DateFormat.DATE_PLUS_TIME, System.currentTimeMillis());
         String archiveId = UUID.randomUUID().toString();
 
         archiveDocument.put("archive_id", archiveId);
         archiveDocument.put("archived_at", dateFormatter.getDateFormat().format(dateFormatter.getDate()));
         archiveDocument.put("data", MongoUtility.toDocument(profile));
 
-        IMongoService mongoService = Alley.getInstance().getService(IMongoService.class);
+        MongoService mongoService = Alley.getInstance().getService(MongoService.class);
         mongoService.getMongoDatabase().getCollection("profile_archives").updateOne(
                 new Document("uuid", profile.getUuid().toString()),
                 new Document("$push", new Document("archives", archiveDocument)),

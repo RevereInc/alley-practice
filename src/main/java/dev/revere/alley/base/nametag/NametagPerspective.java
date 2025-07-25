@@ -1,9 +1,9 @@
 package dev.revere.alley.base.nametag;
 
 import dev.revere.alley.base.nametag.strategy.NametagStrategy;
-import dev.revere.alley.base.nametag.strategy.impl.DefaultStrategy;
-import dev.revere.alley.base.nametag.strategy.impl.MatchStrategy;
-import dev.revere.alley.base.nametag.strategy.impl.SpectatorStrategy;
+import dev.revere.alley.base.nametag.strategy.impl.DefaultStrategyImpl;
+import dev.revere.alley.base.nametag.strategy.impl.MatchStrategyImpl;
+import dev.revere.alley.base.nametag.strategy.impl.SpectatorStrategyImpl;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
@@ -23,10 +23,10 @@ public class NametagPerspective {
     private final Set<String> knownAdapters;
 
     private final List<NametagStrategy> strategies;
-    private final NametagService service;
+    private final NametagServiceImpl service;
     private final Player viewer;
 
-    public NametagPerspective(NametagService service, Player viewer, NametagRegistry registry) {
+    public NametagPerspective(NametagServiceImpl service, Player viewer, NametagRegistry registry) {
         this.service = service;
         this.viewer = viewer;
 
@@ -35,9 +35,9 @@ public class NametagPerspective {
                 .collect(Collectors.toSet());
 
         this.strategies = new CopyOnWriteArrayList<>();
-        this.strategies.add(new SpectatorStrategy());
-        this.strategies.add(new MatchStrategy());
-        this.strategies.add(new DefaultStrategy());
+        this.strategies.add(new SpectatorStrategyImpl());
+        this.strategies.add(new MatchStrategyImpl());
+        this.strategies.add(new DefaultStrategyImpl());
     }
 
     /**

@@ -3,7 +3,7 @@ package dev.revere.alley.feature.leaderboard.menu.button;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
-import dev.revere.alley.feature.leaderboard.enums.EnumLeaderboardType;
+import dev.revere.alley.feature.leaderboard.enums.LeaderboardType;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.Material;
@@ -23,9 +23,9 @@ import java.util.stream.Collectors;
 public class LeaderboardKitButton extends Button {
     private final Kit kit;
     private final List<LeaderboardPlayerData> leaderboard;
-    private final EnumLeaderboardType type;
+    private final LeaderboardType type;
 
-    public LeaderboardKitButton(Kit kit, List<LeaderboardPlayerData> leaderboard, EnumLeaderboardType type) {
+    public LeaderboardKitButton(Kit kit, List<LeaderboardPlayerData> leaderboard, LeaderboardType type) {
         this.kit = kit;
         this.leaderboard = leaderboard;
         this.type = type;

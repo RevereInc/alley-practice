@@ -1,12 +1,12 @@
 package dev.revere.alley.provider.scoreboard.impl.match.impl.state;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.AbstractMatch;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.Match;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.provider.scoreboard.impl.match.IMatchScoreboard;
+import dev.revere.alley.provider.scoreboard.impl.match.MatchScoreboard;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -18,13 +18,13 @@ import java.util.List;
  * @project Alley
  * @since 30/04/2025
  */
-public class MatchScoreboardEndingImpl implements IMatchScoreboard {
+public class MatchScoreboardEndingImpl implements MatchScoreboard {
     @Override
     public List<String> getLines(Profile profile, Player player, GameParticipant<MatchGamePlayerImpl> you, GameParticipant<MatchGamePlayerImpl> opponent) {
-        IConfigService configService = Alley.getInstance().getService(IConfigService.class);
+        ConfigService configService = Alley.getInstance().getService(ConfigService.class);
 
         List<String> scoreboardLines = new ArrayList<>();
-        AbstractMatch match = profile.getMatch();
+        Match match = profile.getMatch();
         if (match == null) return scoreboardLines;
 
         for (String line : configService.getScoreboardConfig().getStringList("scoreboard.lines.ending")) {

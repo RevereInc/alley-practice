@@ -3,9 +3,9 @@ package dev.revere.alley.base.kit.command.impl.data;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
+import dev.revere.alley.base.kit.enums.KitCategory;
 import dev.revere.alley.config.locale.impl.KitLocale;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.command.CommandSender;
@@ -29,19 +29,19 @@ public class KitSetCategoryCommand extends BaseCommand {
             return;
         }
 
-        IKitService kitService = this.plugin.getService(IKitService.class);
+        KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
             sender.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
             return;
         }
 
-        EnumKitCategory category;
+        KitCategory category;
 
         try {
-            category = EnumKitCategory.valueOf(args[1].toUpperCase());
+            category = KitCategory.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(CC.translate("&cInvalid category. Available categories: " + Arrays.toString(EnumKitCategory.values())));
+            sender.sendMessage(CC.translate("&cInvalid category. Available categories: " + Arrays.toString(KitCategory.values())));
             return;
         }
 

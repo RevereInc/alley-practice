@@ -4,8 +4,8 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.feature.abilities.IAbilityService;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.feature.abilities.AbilityService;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 import lombok.Setter;
@@ -60,22 +60,22 @@ public class AbilityCommand extends BaseCommand {
                 }
 
                 Integer finalAmount = amount;
-                plugin.getService(IAbilityService.class).getAbilityKeys().forEach(ability -> {
-                    String displayName = Alley.getInstance().getService(IConfigService.class).getAbilityConfig().getString(ability + ".ICON.DISPLAYNAME");
+                plugin.getService(AbilityService.class).getAbilityKeys().forEach(ability -> {
+                    String displayName = Alley.getInstance().getService(ConfigService.class).getAbilityConfig().getString(ability + ".ICON.DISPLAYNAME");
                     if (args[2].equalsIgnoreCase(ability)) {
-                        plugin.getService(IAbilityService.class).giveAbility(player, target, ability, displayName, finalAmount);
+                        plugin.getService(AbilityService.class).giveAbility(player, target, ability, displayName, finalAmount);
                         return;
                     }
                     if (args[2].equals("all")) {
-                        plugin.getService(IAbilityService.class).giveAbility(player, target, ability, displayName, finalAmount);
+                        plugin.getService(AbilityService.class).giveAbility(player, target, ability, displayName, finalAmount);
                     }
                 });
                 break;
             case "list":
                 CC.sender(player, "&7&m-----------------------------");
-                CC.sender(player, "&c&lAbilities List &7(" + this.plugin.getService(IAbilityService.class).getAbilityKeys().size() + ")");
+                CC.sender(player, "&c&lAbilities List &7(" + this.plugin.getService(AbilityService.class).getAbilityKeys().size() + ")");
                 CC.sender(player, "");
-                plugin.getService(IAbilityService.class).getAbilityKeys().forEach(
+                plugin.getService(AbilityService.class).getAbilityKeys().forEach(
                         ability -> CC.sender(player, " &7- &4" + ability));
                 CC.sender(player, "&7&m-----------------------------");
                 break;

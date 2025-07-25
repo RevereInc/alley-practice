@@ -1,7 +1,7 @@
 package dev.revere.alley.profile.data.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.feature.layout.data.LayoutData;
 import lombok.Getter;
@@ -24,7 +24,7 @@ public class ProfileLayoutData {
     private Map<String, List<LayoutData>> layouts;
 
     public ProfileLayoutData() {
-        this.layouts = Alley.getInstance().getService(IKitService.class).getKits().stream()
+        this.layouts = Alley.getInstance().getService(KitService.class).getKits().stream()
                 .collect(Collectors.toMap(Kit::getName, kit -> {
                     List<LayoutData> defaultLayoutList = new ArrayList<>();
                     defaultLayoutList.add(new LayoutData("Layout1", "Layout 1", kit.getItems()));

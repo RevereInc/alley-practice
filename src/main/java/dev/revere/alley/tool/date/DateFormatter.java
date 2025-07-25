@@ -1,6 +1,6 @@
 package dev.revere.alley.tool.date;
 
-import dev.revere.alley.tool.date.enums.EnumDateFormat;
+import dev.revere.alley.tool.date.enums.DateFormat;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 
@@ -20,7 +20,7 @@ public class DateFormatter {
     /**
      * Constructor for the DateFormatter class.
      * <p> </p>
-     * Constructs a new {@link DateFormatter} using the specified {@link EnumDateFormat}
+     * Constructs a new {@link DateFormatter} using the specified {@link DateFormat}
      * and a provided time in milliseconds.
      * <p>
      * This class is useful for formatting timestamps into readable or styled formats,
@@ -36,11 +36,11 @@ public class DateFormatter {
      * String formattedTime = currentTime.getDateFormat().format(currentTime.getDate());
      * }</pre>
      *
-     * @param dateFormat The date format pattern to use, defined by {@link EnumDateFormat}.
+     * @param dateFormat The date format pattern to use, defined by {@link DateFormat}.
      * @param time       The timestamp in milliseconds since epoch.
      */
 
-    public DateFormatter(EnumDateFormat dateFormat, long time) {
+    public DateFormatter(DateFormat dateFormat, long time) {
         this.date = new Date(time);
         this.dateFormat = new SimpleDateFormat(dateFormat.getFormat());
         this.dateFormat.format(this.date);

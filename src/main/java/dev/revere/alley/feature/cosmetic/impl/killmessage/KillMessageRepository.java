@@ -8,7 +8,7 @@ import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
  * @project alley-practice
  * @date 27/06/2025
  */
-public class KillMessageRepository extends BaseCosmeticRepository<AbstractKillMessagePack> {
+public class KillMessageRepository extends BaseCosmeticRepository<KillMessagePack> {
     public KillMessageRepository() {
         this.registerCosmetic(NoneKillMessages.class);
         this.registerCosmetic(SaltyKillMessages.class);

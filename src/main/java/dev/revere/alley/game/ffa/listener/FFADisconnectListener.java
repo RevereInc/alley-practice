@@ -1,10 +1,10 @@
 package dev.revere.alley.game.ffa.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.combat.ICombatService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.combat.CombatService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,11 +20,11 @@ public class FFADisconnectListener implements Listener {
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (profile.getState() != EnumProfileState.FFA) return;
+        if (profile.getState() != ProfileState.FFA) return;
 
-        ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+        CombatService combatService = Alley.getInstance().getService(CombatService.class);
         if (combatService.isPlayerInCombat(player.getUniqueId())) {
             profile.getFfaMatch().handleCombatLog(player, combatService.getLastAttacker(player));
         }
@@ -35,11 +35,11 @@ public class FFADisconnectListener implements Listener {
     @EventHandler
     private void onKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (profile.getState() != EnumProfileState.FFA) return;
+        if (profile.getState() != ProfileState.FFA) return;
 
-        ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+        CombatService combatService = Alley.getInstance().getService(CombatService.class);
         if (combatService.isPlayerInCombat(player.getUniqueId())) {
             profile.getFfaMatch().handleCombatLog(player, combatService.getLastAttacker(player));
         }

@@ -1,15 +1,15 @@
 package dev.revere.alley.game.match.listener.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingCheckpointImpl;
-import dev.revere.alley.game.match.impl.MatchCheckpointImpl;
+import dev.revere.alley.base.kit.setting.impl.mode.KitSettingCheckpoint;
+import dev.revere.alley.game.match.impl.CheckpointMatch;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.TitleReflectionService;
+import dev.revere.alley.profile.enums.ProfileState;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.ListenerUtil;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -29,11 +29,11 @@ public class MatchInteractListener implements Listener {
     @EventHandler
     private void handleParkourInteraction(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() != EnumProfileState.PLAYING) return;
-        if (!profile.getMatch().getKit().isSettingEnabled(KitSettingCheckpointImpl.class)) return;
+        if (profile.getState() != ProfileState.PLAYING) return;
+        if (!profile.getMatch().getKit().isSettingEnabled(KitSettingCheckpoint.class)) return;
 
         if (event.getAction() != Action.PHYSICAL) {
             return;
@@ -43,7 +43,7 @@ public class MatchInteractListener implements Listener {
 
         if (ListenerUtil.notSteppingOnPlate(block)) return;
 
-        MatchCheckpointImpl matchCheckpoint = (MatchCheckpointImpl) profile.getMatch();
+        CheckpointMatch matchCheckpoint = (CheckpointMatch) profile.getMatch();
         MatchGamePlayerImpl matchGamePlayer = matchCheckpoint.getGamePlayer(player);
         if (matchGamePlayer == null) return;
         if (ListenerUtil.checkSteppingOnIronPressurePlate(block)) {
@@ -60,7 +60,7 @@ public class MatchInteractListener implements Listener {
                 matchGamePlayer.getCheckpoints().add(checkpointLocation);
                 matchGamePlayer.setCheckpointCount(matchGamePlayer.getCheckpointCount() + 1);
 
-                Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(TitleReflectionService.class).sendTitle(
+                Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                         player,
                         "&aCHECKPOINT!",
                         "&7(" + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ() + ")"

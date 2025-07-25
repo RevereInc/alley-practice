@@ -1,10 +1,10 @@
 package dev.revere.alley.base.arena.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
-import dev.revere.alley.config.IConfigService;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
+import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.tool.serializer.Serializer;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -14,7 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  * @project Alley
  * @date 20/05/2024 - 19:15
  */
-public class FreeForAllArena extends AbstractArena {
+public class FreeForAllArena extends Arena {
     protected final Alley plugin = Alley.getInstance();
 
     /**
@@ -29,13 +29,13 @@ public class FreeForAllArena extends AbstractArena {
     }
 
     @Override
-    public EnumArenaType getType() {
-        return EnumArenaType.FFA;
+    public ArenaType getType() {
+        return ArenaType.FFA;
     }
 
     @Override
     public void createArena() {
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
         arenaService.registerNewArena(this);
         this.saveArena();
     }
@@ -43,7 +43,7 @@ public class FreeForAllArena extends AbstractArena {
     @Override
     public void saveArena() {
         String name = "arenas." + this.getName();
-        FileConfiguration config = this.plugin.getService(IConfigService.class).getArenasConfig();
+        FileConfiguration config = this.plugin.getService(ConfigService.class).getArenasConfig();
 
         config.set(name, null);
         config.set(name + ".type", this.getType().name());
@@ -54,14 +54,14 @@ public class FreeForAllArena extends AbstractArena {
         config.set(name + ".enabled", this.isEnabled());
         config.set(name + ".display-name", this.getDisplayName());
 
-        this.plugin.getService(IConfigService.class).saveConfig(this.plugin.getService(IConfigService.class).getConfigFile("storage/arenas.yml"), config);
+        this.plugin.getService(ConfigService.class).saveConfig(this.plugin.getService(ConfigService.class).getConfigFile("storage/arenas.yml"), config);
     }
 
     @Override
     public void deleteArena() {
-        FileConfiguration config = this.plugin.getService(IConfigService.class).getArenasConfig();
+        FileConfiguration config = this.plugin.getService(ConfigService.class).getArenasConfig();
         config.set("arenas." + this.getName(), null);
 
-        this.plugin.getService(IConfigService.class).saveConfig(this.plugin.getService(IConfigService.class).getConfigFile("storage/arenas.yml"), config);
+        this.plugin.getService(ConfigService.class).saveConfig(this.plugin.getService(ConfigService.class).getConfigFile("storage/arenas.yml"), config);
     }
 }

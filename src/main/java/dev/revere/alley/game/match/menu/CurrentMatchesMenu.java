@@ -3,10 +3,9 @@ package dev.revere.alley.game.match.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.pagination.PaginatedMenu;
-import dev.revere.alley.base.queue.IQueueService;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.IMatchService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.MatchService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -34,7 +33,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
      */
     @Override
     public String getPrePaginatedTitle(Player player) {
-        return "&6&lCurrent Matches (" + Alley.getInstance().getService(IMatchService.class).getMatches().size() + ")";
+        return "&6&lCurrent Matches (" + Alley.getInstance().getService(MatchService.class).getMatches().size() + ")";
     }
 
     /**
@@ -48,7 +47,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
         final Map<Integer, Button> buttons = new ConcurrentHashMap<>();
         int slot = 0;
 
-        for (AbstractMatch match : Alley.getInstance().getService(IMatchService.class).getMatches()) {
+        for (Match match : Alley.getInstance().getService(MatchService.class).getMatches()) {
             buttons.put(slot++, new CurrentMatchButton(match));
         }
 
@@ -73,7 +72,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
 
     @RequiredArgsConstructor
     public static class CurrentMatchButton extends Button {
-        private final AbstractMatch match;
+        private final Match match;
 
         /**
          * Gets the item stack for the button.
@@ -108,7 +107,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
         public void clicked(Player player, int slot, ClickType clickType, int hotbarButton) {
             if (clickType != ClickType.LEFT) return;
 
-            if (Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
+            if (Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
                 player.sendMessage(CC.translate("&cYou can't spectate a match in your current state."));
                 return;
             }

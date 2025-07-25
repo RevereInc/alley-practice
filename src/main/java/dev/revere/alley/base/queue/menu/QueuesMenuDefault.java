@@ -3,7 +3,6 @@ package dev.revere.alley.base.queue.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.queue.IQueueService;
 import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.base.queue.menu.sub.UnrankedMenu;
 import dev.revere.alley.game.ffa.menu.FFAMenu;
@@ -54,7 +53,7 @@ public class QueuesMenuDefault extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        IQueueService queueService = Alley.getInstance().getService(IQueueService.class);
+        QueueService queueService = Alley.getInstance().getService(QueueService.class);
 
         buttons.put(11, new QueuesButtonDefault("&6&lSolos", Material.DIAMOND_SWORD, 0, Arrays.asList(
                 "&7Casual 1v1s with",

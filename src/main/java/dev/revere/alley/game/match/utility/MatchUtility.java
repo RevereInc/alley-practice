@@ -1,11 +1,11 @@
 package dev.revere.alley.game.match.utility;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.arena.AbstractArena;
+import dev.revere.alley.base.arena.Arena;
 import dev.revere.alley.base.kit.setting.impl.mode.*;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.profile.Profile;
@@ -35,7 +35,7 @@ public class MatchUtility {
      * @return if the location is beyond the bounds
      */
     public boolean isBeyondBounds(Location location, Profile profile) {
-        AbstractArena arena = profile.getMatch().getArena();
+        Arena arena = profile.getMatch().getArena();
         Location corner1 = arena.getMinimum();
         Location corner2 = arena.getMaximum();
 
@@ -53,12 +53,12 @@ public class MatchUtility {
          * because there is a death y level coordinate that eliminates players when they fall below it.
          * This is to prevent players from being stuck in the air because by default, moving out of bounds is cancelled.
          */
-        if (profile.getMatch().getState() == EnumMatchState.ENDING_MATCH
-                || profile.getMatch().getKit().isSettingEnabled(KitSettingBedImpl.class)
-                || profile.getMatch().getKit().isSettingEnabled(KitSettingLivesImpl.class)
-                || profile.getMatch().getKit().isSettingEnabled(KitSettingRoundsImpl.class)
-                || profile.getMatch().getKit().isSettingEnabled(KitSettingStickFightImpl.class)
-                || profile.getMatch().getKit().isSettingEnabled(KitSettingCheckpointImpl.class)) {
+        if (profile.getMatch().getState() == MatchState.ENDING_MATCH
+                || profile.getMatch().getKit().isSettingEnabled(KitSettingBed.class)
+                || profile.getMatch().getKit().isSettingEnabled(KitSettingLives.class)
+                || profile.getMatch().getKit().isSettingEnabled(KitSettingRounds.class)
+                || profile.getMatch().getKit().isSettingEnabled(KitSettingStickFight.class)
+                || profile.getMatch().getKit().isSettingEnabled(KitSettingCheckpoint.class)) {
             withinBounds = location.getX() >= minX && location.getX() <= maxX && location.getZ() >= minZ && location.getZ() <= maxZ;
         } else {
             withinBounds = location.getX() >= minX && location.getX() <= maxX && location.getY() >= minY && location.getY() <= maxY && location.getZ() >= minZ && location.getZ() <= maxZ;
@@ -76,8 +76,8 @@ public class MatchUtility {
      * @param winnerUuid    The UUID of the winning team.
      * @param loserUuid     The UUID of the losing team.
      */
-    public void sendMatchResult(AbstractMatch match, String winnerName, String loserName, UUID winnerUuid, UUID loserUuid) {
-        FileConfiguration config = Alley.getInstance().getService(IConfigService.class).getMessagesConfig();
+    public void sendMatchResult(Match match, String winnerName, String loserName, UUID winnerUuid, UUID loserUuid) {
+        FileConfiguration config = Alley.getInstance().getService(ConfigService.class).getMessagesConfig();
 
         String path = "match.ended.match-result.regular.";
 
@@ -86,7 +86,7 @@ public class MatchUtility {
         String loserCommand = config.getString(path + "loser.command").replace("{loser}", String.valueOf(loserUuid));
         String loserHover = config.getString(path + "loser.hover").replace("{loser}", loserName);
 
-        for (String line : Alley.getInstance().getService(IConfigService.class).getMessagesConfig().getStringList(path + "format")) {
+        for (String line : Alley.getInstance().getService(ConfigService.class).getMessagesConfig().getStringList(path + "format")) {
             if (line.contains("{winner}") && line.contains("{loser}")) {
                 String[] parts = line.split("\\{winner}", 2);
 
@@ -146,7 +146,7 @@ public class MatchUtility {
      * @param winnerParticipant The winner participant.
      * @param loserParticipant  The loser participant.
      */
-    public void sendConjoinedMatchResult(AbstractMatch match, GameParticipant<MatchGamePlayerImpl> winnerParticipant, GameParticipant<MatchGamePlayerImpl> loserParticipant) {
+    public void sendConjoinedMatchResult(Match match, GameParticipant<MatchGamePlayerImpl> winnerParticipant, GameParticipant<MatchGamePlayerImpl> loserParticipant) {
         String winnerTeamName = winnerParticipant.getLeader().getUsername();
         String loserTeamName = loserParticipant.getLeader().getUsername();
 
@@ -186,7 +186,7 @@ public class MatchUtility {
      *
      * @param message The message to send.
      */
-    public void sendCombinedSpigotMessage(AbstractMatch match, BaseComponent... message) {
+    public void sendCombinedSpigotMessage(Match match, BaseComponent... message) {
         match.getParticipants().forEach(gameParticipant -> {
             gameParticipant.getPlayers().forEach(uuid -> {
                 Player player = plugin.getServer().getPlayer(uuid.getUuid());

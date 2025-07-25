@@ -1,8 +1,8 @@
 package dev.revere.alley;
 
-import dev.revere.alley.config.IConfigService;
+import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.lifecycle.IService;
+import dev.revere.alley.plugin.lifecycle.Service;
 import dev.revere.alley.provider.tablist.task.TablistUpdateTask;
 import dev.revere.alley.task.ArrowRemovalTask;
 import dev.revere.alley.task.MatchPearlCooldownTask;
@@ -87,7 +87,7 @@ public class Alley extends JavaPlugin {
      * @return The service instance.
      * @throws IllegalStateException if the service is not found.
      */
-    public <T extends IService> T getService(Class<T> serviceInterface) {
+    public <T extends Service> T getService(Class<T> serviceInterface) {
         if (this.context == null) {
             throw new IllegalStateException("AlleyContext is not available. The plugin may be disabling or failed to load.");
         }
@@ -110,7 +110,7 @@ public class Alley extends JavaPlugin {
         tasks.put(MatchPearlCooldownTask.class.getSimpleName(), () -> new MatchPearlCooldownTask().runTaskTimer(this, 2L, 2L));
         tasks.put(ArrowRemovalTask.class.getSimpleName(), () -> new ArrowRemovalTask().runTaskTimer(this, 20L, 20L));
 
-        if (this.getService(IConfigService.class).getTabListConfig().getBoolean("tablist.enabled")) {
+        if (this.getService(ConfigService.class).getTabListConfig().getBoolean("tablist.enabled")) {
             tasks.put(TablistUpdateTask.class.getSimpleName(), () -> new TablistUpdateTask().runTaskTimer(this, 0L, 20L));
         }
 

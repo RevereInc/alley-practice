@@ -1,12 +1,12 @@
 package dev.revere.alley.game.match.snapshot.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;
@@ -29,15 +29,15 @@ public class SnapshotListener implements Listener {
         }
 
         Player shooter = (Player) event.getPotion().getShooter();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(shooter.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(shooter.getUniqueId());
 
-        EnumProfileState profileState = profile.getState();
-        if (profileState != EnumProfileState.PLAYING) {
+        ProfileState profileState = profile.getState();
+        if (profileState != ProfileState.PLAYING) {
             return;
         }
 
-        AbstractMatch match = profile.getMatch();
-        if (match == null || match.getState() != EnumMatchState.RUNNING) {
+        Match match = profile.getMatch();
+        if (match == null || match.getState() != MatchState.RUNNING) {
             return;
         }
 
@@ -55,14 +55,14 @@ public class SnapshotListener implements Listener {
         }
 
         Player shooter = (Player) event.getEntity().getShooter();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(shooter.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(shooter.getUniqueId());
 
-        if (profile.getState() != EnumProfileState.PLAYING) {
+        if (profile.getState() != ProfileState.PLAYING) {
             return;
         }
 
-        AbstractMatch match = profile.getMatch();
-        if (match == null || match.getState() != EnumMatchState.RUNNING) {
+        Match match = profile.getMatch();
+        if (match == null || match.getState() != MatchState.RUNNING) {
             return;
         }
 
@@ -79,16 +79,16 @@ public class SnapshotListener implements Listener {
         Player attacker = (Player) event.getDamager();
         Player defender = (Player) event.getEntity();
 
-        Profile attackerProfile = Alley.getInstance().getService(IProfileService.class).getProfile(attacker.getUniqueId());
-        Profile defenderProfile = Alley.getInstance().getService(IProfileService.class).getProfile(defender.getUniqueId());
+        Profile attackerProfile = Alley.getInstance().getService(ProfileService.class).getProfile(attacker.getUniqueId());
+        Profile defenderProfile = Alley.getInstance().getService(ProfileService.class).getProfile(defender.getUniqueId());
 
-        if (attackerProfile.getState() != EnumProfileState.PLAYING ||
-                defenderProfile.getState() != EnumProfileState.PLAYING) {
+        if (attackerProfile.getState() != ProfileState.PLAYING ||
+                defenderProfile.getState() != ProfileState.PLAYING) {
             return;
         }
 
-        AbstractMatch match = attackerProfile.getMatch();
-        if (match == null || match != defenderProfile.getMatch() || match.getState() != EnumMatchState.RUNNING) {
+        Match match = attackerProfile.getMatch();
+        if (match == null || match != defenderProfile.getMatch() || match.getState() != MatchState.RUNNING) {
             return;
         }
 

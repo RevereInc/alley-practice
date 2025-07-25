@@ -4,7 +4,7 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.feature.title.record.TitleRecord;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.progress.IProgressService;
+import dev.revere.alley.profile.progress.ProgressService;
 import dev.revere.alley.profile.progress.PlayerProgress;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -79,7 +79,7 @@ public class TitleButton extends Button {
      * @return A list of strings representing the progress.
      */
     private List<String> progress() {
-        PlayerProgress progress = Alley.getInstance().getService(IProgressService.class).calculateProgress(this.profile, this.title.getKit().getName());
+        PlayerProgress progress = Alley.getInstance().getService(ProgressService.class).calculateProgress(this.profile, this.title.getKit().getName());
 
         return Arrays.asList(
                 CC.MENU_BAR,

@@ -6,9 +6,9 @@ import dev.revere.alley.api.menu.Menu;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.feature.layout.data.LayoutData;
 import dev.revere.alley.feature.layout.menu.button.editor.*;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 
@@ -28,13 +28,13 @@ public class LayoutEditorMenu extends Menu {
 
     @Override
     public void onOpen(Player player) {
-        Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).setState(EnumProfileState.EDITING);
+        Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).setState(ProfileState.EDITING);
         player.getInventory().setContents(this.layout.getItems());
     }
 
     @Override
     public void onClose(Player player) {
-        Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).setState(EnumProfileState.LOBBY);
+        Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).setState(ProfileState.LOBBY);
         super.onClose(player);
     }
 
@@ -47,7 +47,7 @@ public class LayoutEditorMenu extends Menu {
     public Map<Integer, Button> getButtons(Player player) {
         Map<Integer, Button> buttons = new HashMap<>();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         buttons.put(11, new LayoutSaveButton(this.kit, this.layout));

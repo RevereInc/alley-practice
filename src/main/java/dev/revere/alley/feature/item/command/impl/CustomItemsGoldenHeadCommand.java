@@ -3,7 +3,7 @@ package dev.revere.alley.feature.item.command.impl;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.feature.item.IItemService;
+import dev.revere.alley.feature.item.ItemService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -44,7 +44,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
             return;
         }
 
-        IItemService itemService = this.plugin.getService(IItemService.class);
+        ItemService itemService = this.plugin.getService(ItemService.class);
         ItemStack goldenHead = itemService.getGoldenHead();
         if (goldenHead == null) {
             player.sendMessage(CC.translate("&cCustom golden head item is not configured."));

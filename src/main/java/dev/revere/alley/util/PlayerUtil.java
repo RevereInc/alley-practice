@@ -1,9 +1,9 @@
 package dev.revere.alley.util;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -70,8 +70,8 @@ public class PlayerUtil {
      * @param player the player to start flying.
      */
     public boolean canFly(Player player) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
-        return (profile.getState() == EnumProfileState.LOBBY || profile.getState() == EnumProfileState.WAITING) && player.hasPermission("alley.donator.fly");
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        return (profile.getState() == ProfileState.LOBBY || profile.getState() == ProfileState.WAITING) && player.hasPermission("alley.donator.fly");
     }
 
     public static void decrement(Player player) {

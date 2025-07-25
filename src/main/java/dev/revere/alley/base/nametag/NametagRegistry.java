@@ -16,10 +16,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Getter
 public class NametagRegistry {
     private final Cache<String, NametagAdapter> adapterCache;
-    private final NametagService service;
+    private final NametagServiceImpl service;
     private final AtomicInteger teamIdCounter = new AtomicInteger(0);
 
-    public NametagRegistry(NametagService service) {
+    public NametagRegistry(NametagServiceImpl service) {
         this.service = service;
         this.adapterCache = CacheBuilder.newBuilder()
                 .expireAfterAccess(10, TimeUnit.MINUTES)

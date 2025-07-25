@@ -2,14 +2,13 @@ package dev.revere.alley.feature.cosmetic.menu.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.feature.cosmetic.AbstractCosmetic;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.feature.cosmetic.BaseCosmetic;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfileCosmeticData;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -25,11 +24,11 @@ import java.util.List;
 @AllArgsConstructor
 public class CosmeticButton extends Button {
     protected final Alley plugin = Alley.getInstance();
-    private final AbstractCosmetic cosmetic;
+    private final BaseCosmetic cosmetic;
 
     @Override
     public ItemStack getButtonItem(Player player) {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         boolean isSelected = profile.getProfileData().getCosmeticData().isSelected(cosmetic);
         boolean hasPermission = player.hasPermission(cosmetic.getPermission());
@@ -59,7 +58,7 @@ public class CosmeticButton extends Button {
             return;
         }
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         ProfileCosmeticData cosmeticData = profile.getProfileData().getCosmeticData();
 

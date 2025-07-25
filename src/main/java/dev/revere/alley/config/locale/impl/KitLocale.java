@@ -1,8 +1,8 @@
 package dev.revere.alley.config.locale.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.config.locale.ILocale;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.config.locale.Locale;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import lombok.Getter;
  * @since 03/03/2025
  */
 @Getter
-public enum KitLocale implements ILocale {
+public enum KitLocale implements Locale {
     KIT_NOT_FOUND("messages.yml", "kit.error.not-found"),
     KIT_ALREADY_EXISTS("messages.yml", "kit.error.already-exists"),
     KIT_CANNOT_SET_IN_CREATIVE("messages.yml", "kit.error.cannot-set-in-creative"),
@@ -68,6 +68,6 @@ public enum KitLocale implements ILocale {
      */
     @Override
     public String getMessage() {
-        return CC.translate(Alley.getInstance().getService(IConfigService.class).getConfig(this.configName).getString(this.configString));
+        return CC.translate(Alley.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
     }
 }

@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.leaderboard.record;
 
 import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
-import dev.revere.alley.feature.leaderboard.enums.EnumLeaderboardType;
+import dev.revere.alley.feature.leaderboard.enums.LeaderboardType;
 import lombok.Getter;
 
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Getter
 public class LeaderboardRecord {
-    private final EnumLeaderboardType type;
+    private final LeaderboardType type;
     private final List<LeaderboardPlayerData> participants;
 
     /**
@@ -22,7 +22,7 @@ public class LeaderboardRecord {
      * @param type         The type of the leaderboard.
      * @param participants The participants of the leaderboard.
      */
-    public LeaderboardRecord(EnumLeaderboardType type, List<LeaderboardPlayerData> participants) {
+    public LeaderboardRecord(LeaderboardType type, List<LeaderboardPlayerData> participants) {
         this.type = type;
         this.participants = participants;
     }

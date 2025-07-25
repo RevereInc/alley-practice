@@ -2,7 +2,7 @@ package dev.revere.alley.profile.menu.music.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.tool.visual.LoreHelper;
@@ -20,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 public class ToggleLobbyMusicButton extends Button {
     @Override
     public ItemStack getButtonItem(Player player) {
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         return new ItemBuilder(Material.EMERALD)
                 .name("&6&lLobby Music")
                 .lore(

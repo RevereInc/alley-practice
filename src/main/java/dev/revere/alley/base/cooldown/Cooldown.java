@@ -1,6 +1,6 @@
 package dev.revere.alley.base.cooldown;
 
-import dev.revere.alley.base.cooldown.enums.EnumCooldownType;
+import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.util.TaskUtil;
 import lombok.Getter;
 import org.bukkit.scheduler.BukkitTask;
@@ -12,7 +12,7 @@ import org.bukkit.scheduler.BukkitTask;
  */
 @Getter
 public class Cooldown {
-    private final EnumCooldownType type;
+    private final CooldownType type;
     private final Runnable actionToRun;
     private long startTime;
     private BukkitTask cooldownTask;
@@ -23,7 +23,7 @@ public class Cooldown {
      * @param type        the type of cooldown
      * @param actionToRun the action to run
      */
-    public Cooldown(EnumCooldownType type, Runnable actionToRun) {
+    public Cooldown(CooldownType type, Runnable actionToRun) {
         this.type = type;
         this.actionToRun = actionToRun;
         this.startTime = 0L;

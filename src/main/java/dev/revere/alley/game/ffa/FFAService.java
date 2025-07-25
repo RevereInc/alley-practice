@@ -1,121 +1,71 @@
 package dev.revere.alley.game.ffa;
 
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.arena.Arena;
 import dev.revere.alley.base.kit.Kit;
-import dev.revere.alley.base.kit.setting.impl.mechanic.KitSettingBuildImpl;
-import dev.revere.alley.base.kit.setting.impl.mode.KitSettingBoxingImpl;
-import dev.revere.alley.plugin.AlleyContext;
-import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.game.ffa.impl.DefaultFFAMatchImpl;
-import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.util.chat.CC;
-import lombok.Getter;
+import dev.revere.alley.plugin.lifecycle.Service;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
- * @author Emmy
- * @project Alley
- * @since 11/04/2025
+ * @author Remi
+ * @project alley-practice
+ * @date 2/07/2025
  */
-@Getter
-@Service(provides = IFFAService.class, priority = 130)
-public class FFAService implements IFFAService {
-    private final IKitService kitService;
-    private final IArenaService arenaService;
-
-    private final List<AbstractFFAMatch> matches = new ArrayList<>();
-    private final List<Kit> ffaKits = new ArrayList<>();
-    private final int defaultPlayerSize = 20;
+public interface FFAService extends Service {
+    /**
+     * Gets a list of all active, persistent FFA matches.
+     * @return An unmodifiable list of FFA matches.
+     */
+    List<FFAMatch> getMatches();
 
     /**
-     * Constructor for DI.
+     * Gets a list of all kits that are enabled for FFA mode.
+     * @return An unmodifiable list of FFA-enabled kits.
      */
-    public FFAService(IKitService kitService, IArenaService arenaService) {
-        this.kitService = kitService;
-        this.arenaService = arenaService;
-    }
-
-    @Override
-    public void initialize(AlleyContext context) {
-        this.ffaKits.addAll(this.kitService.getKits().stream().filter(Kit::isFfaEnabled).collect(Collectors.toList()));
-        this.initializeMatches();
-    }
-
-    @Override
-    public void shutdown(AlleyContext context) {
-        this.matches.forEach(match -> match.getPlayers().forEach(ffaPlayer -> {
-            Player player = ffaPlayer.getPlayer();
-            if (player != null) {
-                match.leave(player);
-                player.sendMessage(CC.translate("&cThe FFA arena is closing due to a server shutdown."));
-            }
-        }));
-        this.matches.clear();
-        Logger.info("Cleaned up all FFA matches.");
-    }
+    List<Kit> getFfaKits();
 
     /**
-     * Load all FFA matches
+     * Creates a new FFA match with the given parameters.
+     *
+     * @param arena      The arena the match is being played in
+     * @param kit        The kit the players are using
+     * @param maxPlayers The maximum amount of players allowed in the match
      */
-    public void initializeMatches() {
-        for (Kit kit : this.ffaKits) {
-            AbstractArena arena = this.arenaService.getArenaByName(kit.getFfaArenaName());
-            if (arena == null) {
-                Logger.error("Kit " + kit.getName() + " has no FFA arena set. Please set the FFA arena in the kit settings.");
-                continue;
-            }
+    void createFFAMatch(Arena arena, Kit kit, int maxPlayers);
 
-            if (kit.getMaxFfaPlayers() <= 0) {
-                kit.setMaxFfaPlayers(this.defaultPlayerSize);
-                Logger.error("FFA match for kit " + kit.getName() + " has a max player size of 0. Setting to default of " + this.defaultPlayerSize + " players.");
-            }
+    /**
+     * Finds the FFA match that a specific player is currently in.
+     * @param player The player to search for.
+     * @return An Optional containing the AbstractFFAMatch if the player is in one.
+     */
+    Optional<FFAMatch> getMatchByPlayer(Player player);
 
-            this.createFFAMatch(arena, kit, kit.getMaxFfaPlayers());
-        }
-    }
+    /**
+     * Gets a persistent FFA match by its associated kit name.
+     * @param kitName The name of the kit.
+     * @return The AbstractFFAMatch for that kit, or null if none exists.
+     */
+    FFAMatch getFFAMatch(String kitName);
 
-    @Override
-    public void createFFAMatch(AbstractArena arena, Kit kit, int maxPlayers) {
-        DefaultFFAMatchImpl match = new DefaultFFAMatchImpl(kit.getName(), arena, kit, maxPlayers);
-        this.matches.add(match);
-    }
+    /**
+     * An overloaded method to find the FFA match a player is in.
+     * @param player The player to search for.
+     * @return The AbstractFFAMatch, or null if the player is not in one.
+     */
+    FFAMatch getFFAMatch(Player player);
 
-    @Override
-    public Optional<AbstractFFAMatch> getMatchByPlayer(Player player) {
-        return this.matches.stream().filter(match -> match.getPlayers().contains(match.getGameFFAPlayer(player))).findFirst();
-    }
+    /**
+     * Forcefully reloads all FFA matches. This will kick all current players
+     * and re-initialize the matches based on the current kit configurations.
+     */
+    void reloadFFAKits();
 
-    @Override
-    public AbstractFFAMatch getFFAMatch(String kitName) {
-        return this.matches.stream()
-                .filter(match -> match.getKit().getName().equalsIgnoreCase(kitName))
-                .findFirst()
-                .orElse(null);
-    }
-
-    @Override
-    public AbstractFFAMatch getFFAMatch(Player player) {
-        return this.getMatchByPlayer(player).orElse(null);
-    }
-
-    @Override
-    public void reloadFFAKits() {
-        this.shutdown(null);
-
-        this.ffaKits.clear();
-        this.ffaKits.addAll(this.kitService.getKits().stream().filter(Kit::isFfaEnabled).collect(Collectors.toList()));
-        this.initializeMatches();
-    }
-
-    @Override
-    public boolean isNotEligibleForFFA(Kit kit) {
-        return kit.isSettingEnabled(KitSettingBuildImpl.class) || kit.isSettingEnabled(KitSettingBoxingImpl.class);
-    }
+    /**
+     * Checks if a specific kit is eligible for FFA mode.
+     * @param kit The kit to check.
+     * @return true if the kit is eligible for FFA, false otherwise.
+     */
+    boolean isNotEligibleForFFA(Kit kit);
 }

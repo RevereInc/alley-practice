@@ -1,11 +1,11 @@
 package dev.revere.alley.game.match.listener.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.game.match.AbstractMatch;
-import dev.revere.alley.game.match.enums.EnumMatchState;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.match.Match;
+import dev.revere.alley.game.match.enums.MatchState;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.ProfileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -21,12 +21,12 @@ public class MatchDisconnectListener implements Listener {
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == EnumProfileState.PLAYING || profile.getState() == EnumProfileState.SPECTATING) {
-            profile.setState(EnumProfileState.LOBBY);
-            AbstractMatch match = profile.getMatch();
+        if (profile.getState() == ProfileState.PLAYING || profile.getState() == ProfileState.SPECTATING) {
+            profile.setState(ProfileState.LOBBY);
+            Match match = profile.getMatch();
             if (match.getSpectators().contains(player.getUniqueId())) {
                 match.removeSpectator(player, true);
             }
@@ -35,7 +35,7 @@ public class MatchDisconnectListener implements Listener {
                 return;
             }
 
-            if (match.getState() == EnumMatchState.STARTING || match.getState() == EnumMatchState.RUNNING) {
+            if (match.getState() == MatchState.STARTING || match.getState() == MatchState.RUNNING) {
                 match.handleDisconnect(player);
             }
         }
@@ -44,13 +44,13 @@ public class MatchDisconnectListener implements Listener {
     @EventHandler
     private void onPlayerKick(PlayerKickEvent event) {
         Player player = event.getPlayer();
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == EnumProfileState.PLAYING) {
-            AbstractMatch match = profile.getMatch();
+        if (profile.getState() == ProfileState.PLAYING) {
+            Match match = profile.getMatch();
 
-            if (match.getState() == EnumMatchState.STARTING || match.getState() == EnumMatchState.RUNNING) {
+            if (match.getState() == MatchState.STARTING || match.getState() == MatchState.RUNNING) {
                 match.handleDisconnect(player);
             }
         }

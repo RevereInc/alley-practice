@@ -4,9 +4,9 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
-import dev.revere.alley.base.arena.AbstractArena;
-import dev.revere.alley.base.arena.IArenaService;
-import dev.revere.alley.base.arena.enums.EnumArenaType;
+import dev.revere.alley.base.arena.Arena;
+import dev.revere.alley.base.arena.ArenaService;
+import dev.revere.alley.base.arena.enums.ArenaType;
 import dev.revere.alley.base.arena.selection.ArenaSelection;
 import dev.revere.alley.config.locale.impl.ArenaLocale;
 import dev.revere.alley.util.chat.CC;
@@ -27,7 +27,7 @@ public class ArenaSetCuboidCommand extends BaseCommand {
         List<String> completion = new ArrayList<>();
 
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            this.plugin.getService(IArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
+            this.plugin.getService(ArenaService.class).getArenas().forEach(arena -> completion.add(arena.getName()));
         }
 
         return completion;
@@ -51,14 +51,14 @@ public class ArenaSetCuboidCommand extends BaseCommand {
         }
 
         String arenaName = args[0];
-        IArenaService arenaService = this.plugin.getService(IArenaService.class);
-        AbstractArena arena = arenaService.getArenaByName(arenaName);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
+        Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
             player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
             return;
         }
 
-        if (arena.getType() == EnumArenaType.FFA) {
+        if (arena.getType() == ArenaType.FFA) {
             player.sendMessage(CC.translate("&cYou cannot set cuboids for Free-For-All arenas! You must use: &4/arena setsafezone pos1/pos2&c."));
             return;
         }

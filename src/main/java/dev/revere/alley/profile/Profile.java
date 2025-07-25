@@ -1,26 +1,26 @@
 package dev.revere.alley.profile;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.kit.IKitService;
+import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.base.queue.QueueProfile;
-import dev.revere.alley.base.queue.enums.EnumQueueType;
-import dev.revere.alley.feature.abilities.AbstractAbility;
+import dev.revere.alley.base.queue.enums.QueueType;
+import dev.revere.alley.feature.abilities.Ability;
 import dev.revere.alley.feature.abilities.cooldown.AbilityCooldown;
 import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.IDivisionService;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.feature.division.tier.DivisionTier;
-import dev.revere.alley.feature.leaderboard.enums.EnumLeaderboardType;
-import dev.revere.alley.game.ffa.AbstractFFAMatch;
-import dev.revere.alley.game.match.AbstractMatch;
+import dev.revere.alley.feature.leaderboard.enums.LeaderboardType;
+import dev.revere.alley.game.ffa.FFAMatch;
+import dev.revere.alley.game.match.Match;
 import dev.revere.alley.game.party.Party;
 import dev.revere.alley.profile.data.ProfileData;
 import dev.revere.alley.profile.data.impl.ProfileFFAData;
 import dev.revere.alley.profile.data.impl.ProfilePlayTimeData;
 import dev.revere.alley.profile.data.impl.ProfileRankedKitData;
 import dev.revere.alley.profile.data.impl.ProfileUnrankedKitData;
-import dev.revere.alley.profile.enums.EnumGlobalCooldown;
-import dev.revere.alley.profile.enums.EnumProfileState;
+import dev.revere.alley.profile.enums.GlobalCooldown;
+import dev.revere.alley.profile.enums.ProfileState;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -44,16 +44,16 @@ public class Profile {
 
     private ProfileData profileData;
     private QueueProfile queueProfile;
-    private EnumProfileState state;
+    private ProfileState state;
 
-    private EnumLeaderboardType leaderboardType;
-    private EnumQueueType queueType;
+    private LeaderboardType leaderboardType;
+    private QueueType queueType;
 
-    private final Map<Class<? extends AbstractAbility>, AbilityCooldown> abilityCooldowns;
-    private final Map<EnumGlobalCooldown, AbilityCooldown> globalCooldowns;
+    private final Map<Class<? extends Ability>, AbilityCooldown> abilityCooldowns;
+    private final Map<GlobalCooldown, AbilityCooldown> globalCooldowns;
 
-    private AbstractFFAMatch ffaMatch;
-    private AbstractMatch match;
+    private FFAMatch ffaMatch;
+    private Match match;
     private Party party;
 
     private ChatColor nameColor;
@@ -66,15 +66,15 @@ public class Profile {
     public Profile(UUID uuid) {
         this.uuid = uuid;
         this.firstJoin = System.currentTimeMillis();
-        this.state = EnumProfileState.LOBBY;
+        this.state = ProfileState.LOBBY;
         this.profileData = new ProfileData();
         this.name = Bukkit.getOfflinePlayer(this.uuid).getName();
-        this.leaderboardType = EnumLeaderboardType.RANKED;
-        this.queueType = EnumQueueType.UNRANKED;
+        this.leaderboardType = LeaderboardType.RANKED;
+        this.queueType = QueueType.UNRANKED;
         this.nameColor = ChatColor.WHITE;
 
         this.abilityCooldowns = new HashMap<>();
-        this.globalCooldowns = new EnumMap<>(EnumGlobalCooldown.class);
+        this.globalCooldowns = new EnumMap<>(GlobalCooldown.class);
     }
 
     /**
@@ -92,23 +92,23 @@ public class Profile {
      * @return True if the profile is busy, otherwise false.
      */
     public boolean isBusy() {
-        return this.state != EnumProfileState.LOBBY;
+        return this.state != ProfileState.LOBBY;
     }
 
     /**
      * Loads the profile from the database.
      */
     public void load() {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        profileService.getIProfile().loadProfile(this);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        profileService.getDatabaseProfile().loadProfile(this);
     }
 
     /**
      * Saves the profile to the database.
      */
     public void save() {
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-        profileService.getIProfile().saveProfile(this);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+        profileService.getDatabaseProfile().saveProfile(this);
     }
 
     /**
@@ -118,7 +118,7 @@ public class Profile {
      * @param abilityClass The class of the ability (e.g., GuardianAngel.class).
      * @return The AbilityCooldown object for that ability.
      */
-    public AbilityCooldown getCooldown(Class<? extends AbstractAbility> abilityClass) {
+    public AbilityCooldown getCooldown(Class<? extends Ability> abilityClass) {
         return this.abilityCooldowns.computeIfAbsent(abilityClass, key -> new AbilityCooldown());
     }
 
@@ -127,7 +127,7 @@ public class Profile {
      * @param type The global cooldown type from the enum.
      * @return The AbilityCooldown object.
      */
-    public AbilityCooldown getGlobalCooldown(EnumGlobalCooldown type) {
+    public AbilityCooldown getGlobalCooldown(GlobalCooldown type) {
         return this.globalCooldowns.computeIfAbsent(type, key -> new AbilityCooldown());
     }
 
@@ -138,7 +138,7 @@ public class Profile {
      * @return A sorted list of kits that the profile has participated in.
      */
     public List<Kit> getSortedKits() {
-        IKitService kitService = Alley.getInstance().getService(IKitService.class);
+        KitService kitService = Alley.getInstance().getService(KitService.class);
         return kitService.getKits()
                 .stream()
                 .filter(kit -> {
@@ -211,7 +211,7 @@ public class Profile {
             return division.getName() + " " + nextTier.getName();
         }
 
-        IDivisionService divisionService = Alley.getInstance().getService(IDivisionService.class);
+        DivisionService divisionService = Alley.getInstance().getService(DivisionService.class);
         List<Division> divisions = divisionService.getDivisions();
         int divisionIndex = divisions.indexOf(division);
 
@@ -233,7 +233,7 @@ public class Profile {
         ProfileUnrankedKitData profileUnrankedKitData = this.profileData.getUnrankedKitData().get(kitName);
         Division division = profileUnrankedKitData.getDivision();
 
-        IDivisionService divisionService = Alley.getInstance().getService(IDivisionService.class);
+        DivisionService divisionService = Alley.getInstance().getService(DivisionService.class);
 
         List<Division> divisions = divisionService.getDivisions();
         int divisionIndex = divisions.indexOf(division);

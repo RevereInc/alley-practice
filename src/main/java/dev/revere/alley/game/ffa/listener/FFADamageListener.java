@@ -1,15 +1,15 @@
 package dev.revere.alley.game.ffa.listener;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.base.combat.ICombatService;
-import dev.revere.alley.base.kit.setting.impl.visual.KitSettingBowShotIndicatorImpl;
-import dev.revere.alley.base.kit.setting.impl.visual.KitSettingHealthBarImpl;
-import dev.revere.alley.game.ffa.cuboid.IFFASpawnService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.base.combat.CombatService;
+import dev.revere.alley.base.kit.setting.impl.visual.KitSettingBowShotIndicator;
+import dev.revere.alley.base.kit.setting.impl.visual.KitSettingHealthBar;
+import dev.revere.alley.game.ffa.cuboid.FFASpawnService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumProfileState;
-import dev.revere.alley.tool.reflection.IReflectionRepository;
-import dev.revere.alley.tool.reflection.impl.ActionBarReflectionService;
+import dev.revere.alley.profile.enums.ProfileState;
+import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.Symbol;
 import org.bukkit.entity.Arrow;
@@ -39,15 +39,15 @@ public class FFADamageListener implements Listener {
         Player player = (Player) event.getEntity();
         Player attacker = (Player) event.getDamager();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (profile.getState() != EnumProfileState.FFA) return;
+        if (profile.getState() != ProfileState.FFA) return;
 
-        ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+        CombatService combatService = Alley.getInstance().getService(CombatService.class);
         combatService.setLastAttacker(player, attacker);
 
-        if (profile.getFfaMatch().getKit().isSettingEnabled(KitSettingHealthBarImpl.class)) {
-            Alley.getInstance().getService(IReflectionRepository.class).getReflectionService(ActionBarReflectionService.class).visualizeTargetHealth(attacker, player);
+        if (profile.getFfaMatch().getKit().isSettingEnabled(KitSettingHealthBar.class)) {
+            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).visualizeTargetHealth(attacker, player);
         }
     }
 
@@ -70,14 +70,14 @@ public class FFADamageListener implements Listener {
         if (!(event.getEntity() instanceof Player)) return;
         Player victim = (Player) event.getEntity();
 
-        IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
+        ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(victim.getUniqueId());
-        if (profile.getState() != EnumProfileState.FFA) {
+        if (profile.getState() != ProfileState.FFA) {
             return;
         }
 
         if (victim != attacker) {
-            if (profile.getFfaMatch().getKit().isSettingEnabled(KitSettingBowShotIndicatorImpl.class) && event.getDamager() instanceof Arrow) {
+            if (profile.getFfaMatch().getKit().isSettingEnabled(KitSettingBowShotIndicator.class) && event.getDamager() instanceof Arrow) {
                 double finalHealth = victim.getHealth() - event.getFinalDamage();
                 finalHealth = Math.max(0, finalHealth);
 
@@ -87,9 +87,9 @@ public class FFADamageListener implements Listener {
             }
         }
 
-        IFFASpawnService ffaSpawnService = Alley.getInstance().getService(IFFASpawnService.class);
+        FFASpawnService ffaSpawnService = Alley.getInstance().getService(FFASpawnService.class);
         if ((ffaSpawnService.getCuboid().isIn(victim) && ffaSpawnService.getCuboid().isIn(attacker)) || (!ffaSpawnService.getCuboid().isIn(victim) && ffaSpawnService.getCuboid().isIn(attacker)) || (ffaSpawnService.getCuboid().isIn(victim) && !ffaSpawnService.getCuboid().isIn(attacker))) {
-            ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+            CombatService combatService = Alley.getInstance().getService(CombatService.class);
             if (combatService.isPlayerInCombat(victim.getUniqueId()) && combatService.isPlayerInCombat(attacker.getUniqueId())) {
                 return;
             }
@@ -99,7 +99,7 @@ public class FFADamageListener implements Listener {
         }
 
         if (victim != attacker) {
-            ICombatService combatService = Alley.getInstance().getService(ICombatService.class);
+            CombatService combatService = Alley.getInstance().getService(CombatService.class);
             combatService.setLastAttacker(victim, attacker);
         }
     }

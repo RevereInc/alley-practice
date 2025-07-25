@@ -1,7 +1,5 @@
 package dev.revere.alley.plugin.annotation;
 
-import dev.revere.alley.plugin.lifecycle.IService;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -18,7 +16,7 @@ public @interface Service {
     /**
      * The interface that this service provides. This is crucial for dependency injection.
      */
-    Class<? extends IService> provides();
+    Class<? extends dev.revere.alley.plugin.lifecycle.Service> provides();
 
     /**
      * The priority for initialization (lower values run first).

@@ -3,8 +3,8 @@ package dev.revere.alley.feature.layout.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.kit.enums.EnumKitCategory;
-import dev.revere.alley.base.queue.IQueueService;
+import dev.revere.alley.base.kit.enums.KitCategory;
+import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.base.queue.Queue;
 import dev.revere.alley.feature.layout.menu.button.LayoutButton;
 import dev.revere.alley.feature.layout.menu.button.LayoutModeSwitcherButton;
@@ -21,7 +21,7 @@ import java.util.Map;
  */
 @AllArgsConstructor
 public class LayoutMenu extends Menu {
-    private EnumKitCategory kitCategory;
+    private KitCategory kitCategory;
 
     @Override
     public String getTitle(Player player) {
@@ -34,17 +34,17 @@ public class LayoutMenu extends Menu {
 
         int slot = 10;
 
-        for (Queue queue : Alley.getInstance().getService(IQueueService.class).getQueues()) {
+        for (Queue queue : Alley.getInstance().getService(QueueService.class).getQueues()) {
             if (!queue.isRanked() && !queue.isDuos() && queue.getKit().getCategory() == this.kitCategory && queue.getKit().isEditable()) {
                 slot = this.skipIfSlotCrossingBorder(slot);
                 buttons.put(slot++, new LayoutButton(queue.getKit()));
             }
         }
 
-        if (this.kitCategory == EnumKitCategory.NORMAL) {
-            buttons.put(40, new LayoutModeSwitcherButton(EnumKitCategory.EXTRA));
+        if (this.kitCategory == KitCategory.NORMAL) {
+            buttons.put(40, new LayoutModeSwitcherButton(KitCategory.EXTRA));
         } else {
-            buttons.put(4, new LayoutModeSwitcherButton(EnumKitCategory.NORMAL));
+            buttons.put(4, new LayoutModeSwitcherButton(KitCategory.NORMAL));
         }
 
         this.addGlass(buttons, 15);
@@ -54,7 +54,7 @@ public class LayoutMenu extends Menu {
 
     @Override
     public int getSize() {
-        if (this.kitCategory == EnumKitCategory.EXTRA) {
+        if (this.kitCategory == KitCategory.EXTRA) {
             return 9 * 4;
         }
 

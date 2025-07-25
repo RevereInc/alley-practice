@@ -1,6 +1,6 @@
 package dev.revere.alley.game.match.data.impl;
 
-import dev.revere.alley.game.match.data.AbstractMatchData;
+import dev.revere.alley.game.match.data.MatchData;
 import lombok.Getter;
 
 import java.util.UUID;
@@ -11,7 +11,7 @@ import java.util.UUID;
  * @since 29/05/2025
  */
 @Getter
-public class MatchDataSoloImpl extends AbstractMatchData {
+public class MatchDataSoloImpl extends MatchData {
     private final UUID winner;
     private final UUID loser;
 

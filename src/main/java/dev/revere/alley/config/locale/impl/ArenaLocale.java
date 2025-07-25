@@ -1,8 +1,8 @@
 package dev.revere.alley.config.locale.impl;
 
 import dev.revere.alley.Alley;
-import dev.revere.alley.config.IConfigService;
-import dev.revere.alley.config.locale.ILocale;
+import dev.revere.alley.config.ConfigService;
+import dev.revere.alley.config.locale.Locale;
 import dev.revere.alley.util.chat.CC;
 
 /**
@@ -10,7 +10,7 @@ import dev.revere.alley.util.chat.CC;
  * @project Alley
  * @since 26/06/2025
  */
-public enum ArenaLocale implements ILocale {
+public enum ArenaLocale implements Locale {
 
     ALREADY_EXISTS("messages.yml", "arena.error.already-exists"),
     NOT_FOUND("messages.yml", "arena.error.not-found"),
@@ -62,6 +62,6 @@ public enum ArenaLocale implements ILocale {
      */
     @Override
     public String getMessage() {
-        return CC.translate(Alley.getInstance().getService(IConfigService.class).getConfig(this.configName).getString(this.configString));
+        return CC.translate(Alley.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
     }
 }

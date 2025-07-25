@@ -1,8 +1,8 @@
 package dev.revere.alley.command.impl.main.impl;
 
-import dev.revere.alley.adapter.core.ICore;
-import dev.revere.alley.adapter.core.ICoreAdapter;
-import dev.revere.alley.adapter.core.enums.EnumCoreType;
+import dev.revere.alley.adapter.core.Core;
+import dev.revere.alley.adapter.core.CoreAdapter;
+import dev.revere.alley.adapter.core.enums.CoreType;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
@@ -21,7 +21,7 @@ public class AlleyCoreCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
-        ICore core = this.plugin.getService(ICoreAdapter.class).getCore();
+        Core core = this.plugin.getService(CoreAdapter.class).getCore();
 
         Arrays.asList(
                 "",
@@ -30,7 +30,7 @@ public class AlleyCoreCommand extends BaseCommand {
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
 
-        if (core.getType() == EnumCoreType.DEFAULT) {
+        if (core.getType() == CoreType.DEFAULT) {
             sender.sendMessage(CC.translate("&7Note: This is the default server implementation, as there was no server found to hook into."));
         }
     }

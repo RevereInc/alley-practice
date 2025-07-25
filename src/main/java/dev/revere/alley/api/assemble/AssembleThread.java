@@ -10,15 +10,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class AssembleThread extends Thread {
-    private final Assemble assemble;
+    private final AssembleServiceImpl assembleServiceImpl;
 
     /**
      * Assemble Thread.
      *
-     * @param assemble instance.
+     * @param assembleServiceImpl instance.
      */
-    AssembleThread(Assemble assemble) {
-        this.assemble = assemble;
+    AssembleThread(AssembleServiceImpl assembleServiceImpl) {
+        this.assembleServiceImpl = assembleServiceImpl;
         this.start();
     }
 
@@ -28,7 +28,7 @@ public class AssembleThread extends Thread {
         while (!this.isInterrupted()) {
             try {
                 tick();
-                sleep(this.assemble.getTicks() * 50);
+                sleep(this.assembleServiceImpl.getTicks() * 50);
             } catch (Exception exception) {
                 Logger.error("There was an error in the Assemble Thread.");
                 exception.printStackTrace();
@@ -37,22 +37,22 @@ public class AssembleThread extends Thread {
     }
 
     private void tick() {
-        for (Player player : this.assemble.getPlugin().getServer().getOnlinePlayers()) {
+        for (Player player : this.assembleServiceImpl.getPlugin().getServer().getOnlinePlayers()) {
             try {
-                AssembleBoard board = this.assemble.getBoards().get(player.getUniqueId());
+                AssembleBoard board = this.assembleServiceImpl.getBoards().get(player.getUniqueId());
                 if (board == null) continue;
 
                 Scoreboard scoreboard = board.getScoreboard();
                 Objective objective = board.getObjective();
                 if (scoreboard == null || objective == null) continue;
 
-                String title = ChatColor.translateAlternateColorCodes('&', this.assemble.getAdapter().getTitle(player));
+                String title = ChatColor.translateAlternateColorCodes('&', this.assembleServiceImpl.getAdapter().getTitle(player));
 
                 if (!objective.getDisplayName().equals(title)) {
                     objective.setDisplayName(title);
                 }
 
-                List<String> newLines = this.assemble.getAdapter().getLines(player);
+                List<String> newLines = this.assembleServiceImpl.getAdapter().getLines(player);
                 if (newLines == null || newLines.isEmpty()) {
                     board.getEntries().forEach(AssembleBoardEntry::remove);
                     board.getEntries().clear();
@@ -61,7 +61,7 @@ public class AssembleThread extends Thread {
                         newLines = newLines.subList(0, 15);
                     }
 
-                    if (!this.assemble.getAssembleStyle().isDescending()) {
+                    if (!this.assembleServiceImpl.getAssembleStyle().isDescending()) {
                         Collections.reverse(newLines);
                     }
 
@@ -75,7 +75,7 @@ public class AssembleThread extends Thread {
                         }
                     }
 
-                    int cache = this.assemble.getAssembleStyle().getStartNumber();
+                    int cache = this.assembleServiceImpl.getAssembleStyle().getStartNumber();
                     for (int i = 0; i < newLines.size(); i++) {
                         AssembleBoardEntry entry = board.getEntryAtPosition(i);
 
@@ -87,12 +87,12 @@ public class AssembleThread extends Thread {
                         entry.setText(line);
                         entry.setup();
                         entry.send(
-                                this.assemble.getAssembleStyle().isDescending() ? cache-- : cache++
+                                this.assembleServiceImpl.getAssembleStyle().isDescending() ? cache-- : cache++
                         );
                     }
                 }
 
-                if (player.getScoreboard() != scoreboard && !assemble.isHook()) {
+                if (player.getScoreboard() != scoreboard && !assembleServiceImpl.isHook()) {
                     player.setScoreboard(scoreboard);
                 }
             } catch (Exception exception) {

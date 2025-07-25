@@ -2,7 +2,7 @@ package dev.revere.alley.game.match.snapshot.menu.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.game.match.snapshot.ISnapshotRepository;
+import dev.revere.alley.game.match.snapshot.SnapshotService;
 import dev.revere.alley.game.match.snapshot.Snapshot;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
@@ -23,7 +23,7 @@ public class SnapshotOpponentButton extends Button {
 
     @Override
     public ItemStack getButtonItem(Player player) {
-        Snapshot opponentSnapshot = Alley.getInstance().getService(ISnapshotRepository.class).getSnapshot(this.snapshot.getOpponent());
+        Snapshot opponentSnapshot = Alley.getInstance().getService(SnapshotService.class).getSnapshot(this.snapshot.getOpponent());
         if (opponentSnapshot == null) {
             return new ItemBuilder(Material.BARRIER)
                     .name(CC.translate("&cOpponent Not Found"))

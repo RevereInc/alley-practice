@@ -3,7 +3,7 @@ package dev.revere.alley.game.party.command.impl.external;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
-import dev.revere.alley.game.party.IPartyService;
+import dev.revere.alley.game.party.PartyService;
 import dev.revere.alley.game.party.Party;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class PartyLookupCommand extends BaseCommand {
             return;
         }
 
-        Party party = this.plugin.getService(IPartyService.class).getParty(target);
+        Party party = this.plugin.getService(PartyService.class).getParty(target);
         if (party == null) {
             player.sendMessage(CC.translate("&cThis player is not in a party."));
             return;

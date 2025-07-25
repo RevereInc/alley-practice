@@ -1,13 +1,11 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
-import dev.revere.alley.Alley;
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.api.command.annotation.CompleterData;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.feature.division.IDivisionService;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -25,9 +23,9 @@ public class DivisionSetWinsCommand extends BaseCommand {
     public List<String> DivisionSetWinsCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            this.plugin.getService(IDivisionService.class).getDivisions().forEach(division -> completion.add(division.getName()));
+            this.plugin.getService(DivisionService.class).getDivisions().forEach(division -> completion.add(division.getName()));
         } else if (command.getArgs().length == 2 && command.getPlayer().hasPermission(this.getAdminPermission())) {
-            Division division = this.plugin.getService(IDivisionService.class).getDivision(command.getArgs()[0]);
+            Division division = this.plugin.getService(DivisionService.class).getDivision(command.getArgs()[0]);
             if (division != null) {
                 division.getTiers().forEach(tier -> completion.add(tier.getName()));
             }
@@ -47,7 +45,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
             return;
         }
 
-        IDivisionService divisionService = this.plugin.getService(IDivisionService.class);
+        DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
             player.sendMessage(CC.translate("&cA division with that name does not exist."));

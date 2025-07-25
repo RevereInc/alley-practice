@@ -1,7 +1,7 @@
 package dev.revere.alley.base.hotbar.data;
 
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.hotbar.enums.EnumHotbarAction;
+import dev.revere.alley.base.hotbar.enums.HotbarAction;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +13,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class HotbarActionData {
-    private EnumHotbarAction action;
+    private HotbarAction action;
     private String command;
     private Menu menu;
 
@@ -22,7 +22,7 @@ public class HotbarActionData {
      *
      * @param action The action to be performed by the hotbar item.
      */
-    public HotbarActionData(EnumHotbarAction action) {
+    public HotbarActionData(HotbarAction action) {
         this.action = action;
         this.command = null;
         this.menu = null;

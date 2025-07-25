@@ -2,13 +2,12 @@ package dev.revere.alley.game.party.menu.event.impl.button;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
-import dev.revere.alley.base.arena.AbstractArena;
+import dev.revere.alley.base.arena.Arena;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.config.locale.impl.PartyLocale;
-import dev.revere.alley.game.party.IPartyService;
-import dev.revere.alley.game.party.Party;
 import dev.revere.alley.game.party.PartyService;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.game.party.Party;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.tool.item.ItemBuilder;
 import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
@@ -26,7 +25,7 @@ import org.bukkit.inventory.ItemStack;
 public class PartyEventSplitArenaSelectorButton extends Button {
     protected final Alley plugin = Alley.getInstance();
     private final Kit kit;
-    private final AbstractArena arena;
+    private final Arena arena;
 
     @Override
     public ItemStack getButtonItem(Player player) {
@@ -46,14 +45,14 @@ public class PartyEventSplitArenaSelectorButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        Party party = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId()).getParty();
+        Party party = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
         if (party == null) {
             player.closeInventory();
             player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
             return;
         }
 
-        IPartyService partyService = Alley.getInstance().getService(IPartyService.class);
+        PartyService partyService = Alley.getInstance().getService(PartyService.class);
         partyService.startMatch(this.kit, this.arena, party);
     }
 }

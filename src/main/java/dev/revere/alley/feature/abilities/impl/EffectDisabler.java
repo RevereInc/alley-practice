@@ -2,12 +2,12 @@ package dev.revere.alley.feature.abilities.impl;
 
 import com.google.common.collect.Maps;
 import dev.revere.alley.Alley;
-import dev.revere.alley.feature.abilities.AbstractAbility;
-import dev.revere.alley.feature.abilities.IAbilityService;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.AbilityService;
 import dev.revere.alley.feature.abilities.utils.DurationFormatter;
-import dev.revere.alley.profile.IProfileService;
+import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.profile.enums.EnumGlobalCooldown;
+import dev.revere.alley.profile.enums.GlobalCooldown;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-public class EffectDisabler extends AbstractAbility {
+public class EffectDisabler extends Ability {
     private final Alley plugin = Alley.getInstance();
 
     private final Map<UUID, Integer> HITS = Maps.newHashMap();
@@ -39,8 +39,8 @@ public class EffectDisabler extends AbstractAbility {
             Player damager = (Player) event.getDamager();
             Player victim = (Player) event.getEntity();
 
-            IProfileService profileService = Alley.getInstance().getService(IProfileService.class);
-            IAbilityService abilityService = Alley.getInstance().getService(IAbilityService.class);
+            ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
+            AbilityService abilityService = Alley.getInstance().getService(AbilityService.class);
 
             Profile profile = profileService.getProfile(damager.getUniqueId());
 
@@ -54,8 +54,8 @@ public class EffectDisabler extends AbstractAbility {
                 return;
             }
 
-            if(profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).onCooldown(damager)){
-                damager.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).getRemainingMillis(damager), true, true)));
+            if(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(damager)){
+                damager.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(damager), true, true)));
                 damager.updateInventory();
                 return;
             }
@@ -71,7 +71,7 @@ public class EffectDisabler extends AbstractAbility {
             PlayerUtil.decrement(damager);
 
             profile.getCooldown(EffectDisabler.class).applyCooldown(damager, 60 * 1000);
-            profile.getGlobalCooldown(EnumGlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
+            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
 
             HITS.remove(victim.getUniqueId());
 
@@ -94,7 +94,7 @@ public class EffectDisabler extends AbstractAbility {
 
             if (this.hasCooldown(player)) {
                 event.setCancelled(true);
-                Alley.getInstance().getService(IAbilityService.class).sendCooldownMessage(player, this.getName(), this.getCooldown(player));
+                Alley.getInstance().getService(AbilityService.class).sendCooldownMessage(player, this.getName(), this.getCooldown(player));
                 player.updateInventory();
             }
         }
@@ -104,7 +104,7 @@ public class EffectDisabler extends AbstractAbility {
     public void checkCooldown(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Action action = event.getAction();
-        Profile profile = Alley.getInstance().getService(IProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         if (action.equals(Action.LEFT_CLICK_AIR) || action.equals(Action.LEFT_CLICK_BLOCK)) {
             if (!isAbility(player.getItemInHand())) {
                 return;
