@@ -2,7 +2,7 @@ package dev.revere.alley.game.match.listener.impl;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.base.kit.setting.impl.mode.KitSettingLives;
 import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRaiding;
@@ -126,9 +126,9 @@ public class MatchPearlListener implements Listener {
     }
 
     private boolean hasPearlCooldown(Player player, ProjectileLaunchEvent event) {
-        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
+        CooldownService cooldownService = Alley.getInstance().getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(
-                cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
+                cooldownService.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
         );
 
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
@@ -688,15 +688,15 @@ public class MatchPearlListener implements Listener {
     }
 
     private void applyCooldown(Player player) {
-        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
+        CooldownService cooldownService = Alley.getInstance().getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(
-                cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
+                cooldownService.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL)
         );
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
             Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL,
                     () -> player.sendMessage(CC.translate("&aYou can now use pearls again!")));
-            cooldownRepository.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
+            cooldownService.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
             return newCooldown;
         });
 

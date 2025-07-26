@@ -9,7 +9,7 @@ import dev.revere.alley.provider.scoreboard.impl.LobbyScoreboardImpl;
 import dev.revere.alley.provider.scoreboard.impl.QueueScoreboardImpl;
 import dev.revere.alley.provider.scoreboard.impl.SpectatorScoreboardImpl;
 import dev.revere.alley.provider.scoreboard.impl.match.MatchScoreboardImpl;
-import dev.revere.alley.tool.animation.AnimationRepository;
+import dev.revere.alley.tool.animation.AnimationService;
 import dev.revere.alley.tool.animation.enums.AnimationType;
 import dev.revere.alley.tool.animation.type.config.impl.ScoreboardTitleAnimation;
 import dev.revere.alley.util.chat.CC;
@@ -25,7 +25,7 @@ import java.util.List;
  * @date 27/03/2024 - 14:27
  */
 public class AssembleAdapterImpl implements AssembleAdapter {
-    private final AnimationRepository animationRepository;
+    private final AnimationService animationService;
     private final ProfileService profileService;
     private final ConfigService configService;
 
@@ -35,15 +35,15 @@ public class AssembleAdapterImpl implements AssembleAdapter {
     private final SpectatorScoreboardImpl spectatorScoreboardImpl = new SpectatorScoreboardImpl();
     private final FFAScoreboardImpl ffaScoreboardImpl = new FFAScoreboardImpl();
 
-    public AssembleAdapterImpl(AnimationRepository animationRepository, ProfileService profileService, ConfigService configService) {
-        this.animationRepository = animationRepository;
+    public AssembleAdapterImpl(AnimationService animationService, ProfileService profileService, ConfigService configService) {
+        this.animationService = animationService;
         this.profileService = profileService;
         this.configService = configService;
     }
 
     @Override
     public String getTitle(Player player) {
-        return this.animationRepository.getAnimation(ScoreboardTitleAnimation.class, AnimationType.CONFIG).getText();
+        return this.animationService.getAnimation(ScoreboardTitleAnimation.class, AnimationType.CONFIG).getText();
     }
 
     /**

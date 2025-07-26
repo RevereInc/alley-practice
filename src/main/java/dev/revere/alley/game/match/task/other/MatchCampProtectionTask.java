@@ -7,7 +7,7 @@ import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class MatchCampProtectionTask extends BukkitRunnable {
-    private final TitleReflectionServiceImpl titleReflectionServiceImpl = Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class);
+    private final TitleReflectionServiceImpl titleReflectionServiceImpl = Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
 
     private final Player player;
     private int ticks;

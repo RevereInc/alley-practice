@@ -25,7 +25,7 @@ import dev.revere.alley.tool.elo.EloCalculator;
 import dev.revere.alley.tool.elo.result.EloResult;
 import dev.revere.alley.tool.elo.result.OldEloResult;
 import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.InventoryUtil;
 import dev.revere.alley.util.ListenerUtil;
@@ -249,7 +249,7 @@ public class DefaultMatch extends Match {
      * @param player The player to send the title to.
      */
     private void sendVictory(Player player) {
-        Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+        Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
                 "&a&lVICTORY!",
                 "&fYou have won the match!"
@@ -262,7 +262,7 @@ public class DefaultMatch extends Match {
      * @param player The player to send the title to.
      */
     private void sendDefeat(Player player) {
-        Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+        Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
                 "&c&lDEFEAT!",
                 "&fYou have lost the match!"

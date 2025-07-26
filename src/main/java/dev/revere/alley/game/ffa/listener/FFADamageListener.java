@@ -8,7 +8,7 @@ import dev.revere.alley.game.ffa.cuboid.FFASpawnService;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.Symbol;
@@ -47,7 +47,7 @@ public class FFADamageListener implements Listener {
         combatService.setLastAttacker(player, attacker);
 
         if (profile.getFfaMatch().getKit().isSettingEnabled(KitSettingHealthBar.class)) {
-            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).visualizeTargetHealth(attacker, player);
+            Alley.getInstance().getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).visualizeTargetHealth(attacker, player);
         }
     }
 

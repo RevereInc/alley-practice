@@ -3,7 +3,7 @@ package dev.revere.alley.game.party;
 import dev.revere.alley.base.arena.Arena;
 import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.base.hotbar.HotbarService;
 import dev.revere.alley.base.hotbar.enums.HotbarType;
@@ -22,7 +22,7 @@ import dev.revere.alley.plugin.annotation.Service;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.SoundUtil;
 import dev.revere.alley.util.chat.CC;
@@ -48,8 +48,8 @@ public class PartyServiceImpl implements PartyService {
     private final ConfigService configService;
     private final ProfileService profileService;
     private final HotbarService hotbarService;
-    private final ReflectionRepository reflectionRepository;
-    private final CooldownRepository cooldownRepository;
+    private final ReflectionService reflectionService;
+    private final CooldownService cooldownService;
     private final VisibilityService visibilityService;
     private final MatchService matchService;
     private final ArenaService arenaService;
@@ -58,12 +58,12 @@ public class PartyServiceImpl implements PartyService {
     private final List<PartyRequest> partyRequests = new ArrayList<>();
     private String chatFormat;
 
-    public PartyServiceImpl(ConfigService configService, ProfileService profileService, HotbarService hotbarService, ReflectionRepository reflectionRepository, CooldownRepository cooldownRepository, VisibilityService visibilityService, MatchService matchService, ArenaService arenaService) {
+    public PartyServiceImpl(ConfigService configService, ProfileService profileService, HotbarService hotbarService, ReflectionService reflectionService, CooldownService cooldownService, VisibilityService visibilityService, MatchService matchService, ArenaService arenaService) {
         this.configService = configService;
         this.profileService = profileService;
         this.hotbarService = hotbarService;
-        this.reflectionRepository = reflectionRepository;
-        this.cooldownRepository = cooldownRepository;
+        this.reflectionService = reflectionService;
+        this.cooldownService = cooldownService;
         this.visibilityService = visibilityService;
         this.matchService = matchService;
         this.arenaService = arenaService;
@@ -133,7 +133,7 @@ public class PartyServiceImpl implements PartyService {
 
         this.hotbarService.applyHotbarItems(player);
 
-        this.reflectionRepository.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+        this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
                 "&a&l" + Symbol.CROSSED_SWORDS + " Party Created",
                 "&7Type /p for help."
@@ -177,12 +177,12 @@ public class PartyServiceImpl implements PartyService {
 
         this.parties.remove(party);
 
-        Cooldown cooldown = this.cooldownRepository.getCooldown(leader.getUniqueId(), CooldownType.PARTY_ANNOUNCE_COOLDOWN);
+        Cooldown cooldown = this.cooldownService.getCooldown(leader.getUniqueId(), CooldownType.PARTY_ANNOUNCE_COOLDOWN);
         if (cooldown != null && cooldown.isActive()) {
             cooldown.resetCooldown();
         }
 
-        this.reflectionRepository.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+        this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 leader,
                 "&c&l✖ Party Disbanded",
                 "&7You've removed your party."

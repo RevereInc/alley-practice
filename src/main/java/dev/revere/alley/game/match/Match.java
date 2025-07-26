@@ -40,7 +40,7 @@ import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.tool.logger.Logger;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.ListenerUtil;
@@ -510,11 +510,11 @@ public abstract class Match {
 
 
         ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
-        ReflectionRepository reflectionRepository = Alley.getInstance().getService(ReflectionRepository.class);
+        ReflectionService reflectionService = Alley.getInstance().getService(ReflectionService.class);
 
         Profile killerProfile = profileService.getProfile(killer.getUniqueId());
 
-        reflectionRepository.getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, victim);
+        reflectionService.getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, victim);
 
         this.notifyAll("&c&lDEATH! &r&c" + victimProfile.getNameColor() + victim.getName() + " &fwas slain by &c" + killerProfile.getNameColor() + killer.getName() + "&f.");
     }
@@ -959,11 +959,11 @@ public abstract class Match {
      * @param subtitle The subtitle to send.
      */
     public void sendTitle(String title, String subtitle) {
-        ReflectionRepository reflectionRepository = Alley.getInstance().getService(ReflectionRepository.class);
+        ReflectionService reflectionService = Alley.getInstance().getService(ReflectionService.class);
         this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
             if (player != null) {
-                reflectionRepository.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                         player,
                         title,
                         subtitle
@@ -974,7 +974,7 @@ public abstract class Match {
         this.getSpectators().forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid);
             if (player != null) {
-                reflectionRepository.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                         player,
                         title,
                         subtitle

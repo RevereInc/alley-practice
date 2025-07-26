@@ -4,7 +4,7 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.feature.cosmetic.BaseCosmetic;
 import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.DeathReflectionServiceImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,6 +19,6 @@ public class BodyFallKillEffect extends BaseCosmetic {
 
     @Override
     public void execute(Player player) {
-        Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(DeathReflectionServiceImpl.class).animateDeath(player);
+        Alley.getInstance().getService(ReflectionService.class).getReflectionService(DeathReflectionServiceImpl.class).animateDeath(player);
     }
 }

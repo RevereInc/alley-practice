@@ -2,7 +2,7 @@ package dev.revere.alley.feature.explosives.listener;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.base.kit.setting.impl.mechanic.KitSettingExplosiveImpl;
 import dev.revere.alley.feature.explosives.ExplosiveService;
@@ -73,8 +73,8 @@ public class ExplosiveListener implements Listener {
         event.setCancelled(true);
 
         CooldownType cooldownType = CooldownType.FIREBALL;
-        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
-        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), cooldownType));
+        CooldownService cooldownService = Alley.getInstance().getService(CooldownService.class);
+        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
             player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTimeInMinutes() + " &cbefore using another fireball."));
             return;
@@ -82,7 +82,7 @@ public class ExplosiveListener implements Listener {
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
             Cooldown newCooldown = new Cooldown(cooldownType, () -> player.sendMessage(CC.translate("&cYou can now use fireballs again.")));
-            cooldownRepository.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
+            cooldownService.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
             return newCooldown;
         });
 

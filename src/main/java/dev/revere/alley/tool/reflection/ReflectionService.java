@@ -9,7 +9,7 @@ import java.util.List;
  * @project alley-practice
  * @date 2/07/2025
  */
-public interface ReflectionRepository extends Service {
+public interface ReflectionService extends Service {
     /**
      * Gets a list of all discovered reflection service instances.
      * @return An unmodifiable list of reflection services.

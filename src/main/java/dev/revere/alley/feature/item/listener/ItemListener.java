@@ -2,7 +2,7 @@ package dev.revere.alley.feature.item.listener;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.feature.item.ItemService;
 import dev.revere.alley.profile.ProfileService;
@@ -61,8 +61,8 @@ public class ItemListener implements Listener {
      */
     private boolean isOnHeadCooldown(Player player) {
         CooldownType cooldownType = CooldownType.GOLDEN_HEAD_CONSUME;
-        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
-        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), cooldownType));
+        CooldownService cooldownService = Alley.getInstance().getService(CooldownService.class);
+        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
             player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTimeInMinutes() + " &cbefore consuming another &6&lGolden Head&c."));
             return true;
@@ -70,7 +70,7 @@ public class ItemListener implements Listener {
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
             Cooldown newCooldown = new Cooldown(cooldownType, () -> player.sendMessage(CC.translate("&aYou can now use &6&lGolden Head&a's again.")));
-            cooldownRepository.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
+            cooldownService.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
             return newCooldown;
         });
 

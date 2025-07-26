@@ -15,8 +15,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @date 5/27/2024
  */
 @Getter
-@Service(provides = CooldownRepository.class, priority = 200)
-public class CooldownRepositoryImpl implements CooldownRepository {
+@Service(provides = CooldownService.class, priority = 200)
+public class CooldownServiceImpl implements CooldownService {
     private final List<MutableTriple<UUID, CooldownType, Cooldown>> cooldowns = new CopyOnWriteArrayList<>();
 
     @Override

@@ -20,7 +20,7 @@ import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
 import dev.revere.alley.adapter.core.CoreAdapter;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.Symbol;
@@ -208,7 +208,7 @@ public class MatchDamageListener implements Listener {
                 Alley.getInstance().getService(CombatService.class).setLastAttacker(player, attacker);
 
                 if (profile.getMatch().getKit().isSettingEnabled(KitSettingHealthBar.class)) {
-                    Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).visualizeTargetHealth(attacker, player);
+                    Alley.getInstance().getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).visualizeTargetHealth(attacker, player);
                 }
             }
         }

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * @date 5/21/2024
  */
 @RequiredArgsConstructor
-public class QueueRunnable implements Runnable {
+public class QueueTask implements Runnable {
     /**
      * Main execution method that processes all active queues.
      * Called periodically by the scheduler.

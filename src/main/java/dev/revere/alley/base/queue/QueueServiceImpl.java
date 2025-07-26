@@ -6,7 +6,7 @@ import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRanked;
 import dev.revere.alley.base.queue.menu.QueuesMenuDefault;
 import dev.revere.alley.base.queue.menu.QueuesMenuModern;
-import dev.revere.alley.base.queue.runnable.QueueRunnable;
+import dev.revere.alley.base.queue.runnable.QueueTask;
 import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.plugin.AlleyContext;
 import dev.revere.alley.plugin.annotation.Service;
@@ -34,7 +34,7 @@ public class QueueServiceImpl implements QueueService {
 
     private final List<Queue> queues = new ArrayList<>();
     private Menu queueMenu;
-    private QueueRunnable queueRunnable;
+    private QueueTask queueTask;
 
     public QueueServiceImpl(ConfigService configService, KitService kitService, ProfileService profileService) {
         this.configService = configService;
@@ -47,8 +47,8 @@ public class QueueServiceImpl implements QueueService {
         this.queueMenu = determineMenu();
         this.reloadQueues();
 
-        this.queueRunnable = new QueueRunnable();
-        context.getPlugin().getServer().getScheduler().runTaskTimer(Alley.getInstance(), this.queueRunnable, 20L, 20L);
+        this.queueTask = new QueueTask();
+        context.getPlugin().getServer().getScheduler().runTaskTimer(Alley.getInstance(), this.queueTask, 20L, 20L);
     }
 
     @Override

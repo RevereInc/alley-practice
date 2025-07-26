@@ -3,7 +3,7 @@ package dev.revere.alley.game.ffa.listener;
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.combat.CombatService;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.base.kit.setting.impl.mechanic.KitSettingNoHungerImpl;
 import dev.revere.alley.game.ffa.cuboid.FFASpawnService;
@@ -103,8 +103,8 @@ public class FFAListener implements Listener {
             return;
         }
 
-        CooldownRepository cooldownRepository = Alley.getInstance().getService(CooldownRepository.class);
-        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownRepository.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL));
+        CooldownService cooldownService = Alley.getInstance().getService(CooldownService.class);
+        Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL));
 
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
             event.setCancelled(true);
@@ -116,7 +116,7 @@ public class FFAListener implements Listener {
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
             Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL, () -> player.sendMessage(CC.translate("&aYou can now use pearls again!")));
-            cooldownRepository.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
+            cooldownService.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
             return newCooldown;
         });
 

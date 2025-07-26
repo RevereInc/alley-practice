@@ -7,7 +7,7 @@ import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.Kit;
 import dev.revere.alley.config.locale.impl.KitLocale;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
@@ -39,7 +39,7 @@ public class KitDeleteCommand extends BaseCommand {
 
         kitService.deleteKit(kit);
         player.sendMessage(CC.translate(KitLocale.KIT_DELETED.getMessage().replace("{kit-name}", kitName)));
-        this.plugin.getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, KitLocale.KIT_DELETED.getMessage().replace("{kit-name}", kitName), 5);
+        this.plugin.getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, KitLocale.KIT_DELETED.getMessage().replace("{kit-name}", kitName), 5);
 
         this.plugin.getService(ArenaService.class).getArenas().forEach(arena -> {
             if (arena.getKits().contains(kitName)) {

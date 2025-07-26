@@ -8,7 +8,7 @@ import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.ListenerUtil;
 import org.bukkit.Location;
@@ -60,7 +60,7 @@ public class MatchInteractListener implements Listener {
                 matchGamePlayer.getCheckpoints().add(checkpointLocation);
                 matchGamePlayer.setCheckpointCount(matchGamePlayer.getCheckpointCount() + 1);
 
-                Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                         player,
                         "&aCHECKPOINT!",
                         "&7(" + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ() + ")"

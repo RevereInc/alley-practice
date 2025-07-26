@@ -5,7 +5,7 @@ import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.base.arena.ArenaService;
 import dev.revere.alley.base.combat.CombatService;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.base.kit.setting.KitSettingService;
 import dev.revere.alley.base.queue.QueueService;
@@ -98,8 +98,8 @@ public class AlleyDebugCommand extends BaseCommand {
                 "      &f│ Matches: &6" + this.formatNumber(this.plugin.getService(MatchService.class).getMatches().size()),
                 "      &f│ Queues: &6" + this.formatNumber(this.plugin.getService(QueueService.class).getQueues().size()),
                 "      &f│ Queue profiles: &6" + this.formatNumber(Arrays.stream(this.plugin.getService(QueueService.class).getQueues().stream().mapToInt(queue -> queue.getProfiles().size()).toArray()).sum()),
-                "      &f│ Cooldowns: &6" + this.formatNumber(this.plugin.getService(CooldownRepository.class).getCooldowns().size()),
-                "      &f│ Active Cooldowns: &6" + this.formatNumber((int) this.plugin.getService(CooldownRepository.class).getCooldowns().stream().filter(cooldown -> cooldown.getC().isActive()).count()),
+                "      &f│ Cooldowns: &6" + this.formatNumber(this.plugin.getService(CooldownService.class).getCooldowns().size()),
+                "      &f│ Active Cooldowns: &6" + this.formatNumber((int) this.plugin.getService(CooldownService.class).getCooldowns().stream().filter(cooldown -> cooldown.getC().isActive()).count()),
                 "      &f│ Combats: &6" + this.formatNumber(this.plugin.getService(CombatService.class).getCombatMap().size()),
                 "      &f│ Kits: &6" + this.formatNumber(this.plugin.getService(KitService.class).getKits().size()),
                 "      &f│ Kit Settings: &6" + this.formatNumber(this.plugin.getService(KitSettingService.class).getSettings().size()),

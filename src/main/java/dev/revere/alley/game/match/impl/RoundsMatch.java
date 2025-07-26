@@ -12,7 +12,7 @@ import dev.revere.alley.game.match.enums.MatchState;
 import dev.revere.alley.game.match.player.impl.MatchGamePlayerImpl;
 import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.game.match.player.participant.TeamGameParticipant;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.ListenerUtil;
 import dev.revere.alley.util.PlayerUtil;
@@ -238,7 +238,7 @@ public class RoundsMatch extends DefaultMatch {
 
         this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
-            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+            Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                     player,
                     teamWinnerColor.toString() + scorer + " &fhas scored!",
                     "&f" + winner.getLeader().getData().getScore() + " &7/&f " + this.rounds

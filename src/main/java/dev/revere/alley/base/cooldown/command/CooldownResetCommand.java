@@ -4,7 +4,7 @@ import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.base.cooldown.Cooldown;
-import dev.revere.alley.base.cooldown.CooldownRepository;
+import dev.revere.alley.base.cooldown.CooldownService;
 import dev.revere.alley.base.cooldown.enums.CooldownType;
 import dev.revere.alley.util.StringUtil;
 import dev.revere.alley.util.chat.CC;
@@ -44,7 +44,7 @@ public class CooldownResetCommand extends BaseCommand {
             return;
         }
 
-        CooldownRepository repository = this.plugin.getService(CooldownRepository.class);
+        CooldownService repository = this.plugin.getService(CooldownService.class);
         Cooldown cooldown = repository.getCooldown(target.getUniqueId(), type);
         if (cooldown == null) {
             player.sendMessage(CC.translate("&cNo cooldown found for " + target.getName() + " of type " + StringUtil.formatEnumName(type) + "."));

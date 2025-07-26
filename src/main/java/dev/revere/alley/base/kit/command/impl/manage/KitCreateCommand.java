@@ -6,7 +6,7 @@ import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.base.kit.KitService;
 import dev.revere.alley.config.locale.impl.KitLocale;
 import dev.revere.alley.profile.ProfileService;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.InventoryUtil;
 import dev.revere.alley.util.chat.CC;
@@ -48,7 +48,7 @@ public class KitCreateCommand extends BaseCommand {
 
         kitService.createKit(kitName, inventory, armor, icon);
         this.plugin.getService(ProfileService.class).loadProfiles(); // to update the kits in the database
-        this.plugin.getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, KitLocale.KIT_CREATED.getMessage().replace("{kit-name}", kitName), 5);
+        this.plugin.getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, KitLocale.KIT_CREATED.getMessage().replace("{kit-name}", kitName), 5);
 
         player.sendMessage(CC.translate(KitLocale.KIT_CREATED.getMessage().replace("{kit-name}", kitName)));
         player.sendMessage("");

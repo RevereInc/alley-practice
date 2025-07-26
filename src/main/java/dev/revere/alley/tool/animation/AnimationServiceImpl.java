@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
  * @since 03/04/2025
  */
 @Getter
-@Service(provides = AnimationRepository.class, priority = 310)
-public class AnimationRepositoryImpl implements AnimationRepository {
+@Service(provides = AnimationService.class, priority = 310)
+public class AnimationServiceImpl implements AnimationService {
     private final PluginConstant pluginConstant;
 
     private final Set<Animation> internalAnimations = new HashSet<>();
@@ -35,7 +35,7 @@ public class AnimationRepositoryImpl implements AnimationRepository {
     /**
      * Constructor for DI.
      */
-    public AnimationRepositoryImpl(PluginConstant pluginConstant) {
+    public AnimationServiceImpl(PluginConstant pluginConstant) {
         this.pluginConstant = pluginConstant;
     }
 
@@ -43,7 +43,7 @@ public class AnimationRepositoryImpl implements AnimationRepository {
     public void initialize(AlleyContext context) {
         Reflections reflections = this.pluginConstant.getReflections();
         if (reflections == null) {
-            Logger.error("AnimationRepository cannot initialize: Reflections object is null.");
+            Logger.error("AnimationServiceImpl cannot initialize: Reflections object is null.");
             return;
         }
 

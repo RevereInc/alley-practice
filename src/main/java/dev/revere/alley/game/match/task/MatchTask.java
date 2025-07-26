@@ -5,7 +5,7 @@ import dev.revere.alley.base.kit.setting.impl.mode.KitSettingRounds;
 import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.game.match.Match;
 import dev.revere.alley.game.match.enums.MatchState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.chat.CC;
 import lombok.Getter;
@@ -119,7 +119,7 @@ public class MatchTask extends BukkitRunnable {
 
     private void sendTitleStarted() {
         this.match.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(matchGamePlayer -> {
-            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+            Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                     matchGamePlayer.getTeamPlayer(),
                     "&6&lMatch started",
                     "&fGood Luck!"
@@ -129,7 +129,7 @@ public class MatchTask extends BukkitRunnable {
 
     private void sendTitleStarting() {
         this.match.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(matchGamePlayer -> {
-            Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+            Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                     matchGamePlayer.getTeamPlayer(),
                     "&6&lMatch",
                     "&fStarts in &6" + this.stage + "s",

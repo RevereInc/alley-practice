@@ -2,7 +2,7 @@ package dev.revere.alley.provider.scoreboard;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.profile.Profile;
-import dev.revere.alley.tool.animation.AnimationRepository;
+import dev.revere.alley.tool.animation.AnimationService;
 import dev.revere.alley.tool.animation.enums.AnimationType;
 import dev.revere.alley.tool.animation.type.internal.impl.DotAnimation;
 import dev.revere.alley.tool.reflection.utility.ReflectionUtility;
@@ -39,7 +39,7 @@ public interface Scoreboard {
      * @return The dot animation.
      */
     default DotAnimation getDotAnimation() {
-        return Alley.getInstance().getService(AnimationRepository.class).getAnimation(DotAnimation.class, AnimationType.INTERNAL);
+        return Alley.getInstance().getService(AnimationService.class).getAnimation(DotAnimation.class, AnimationType.INTERNAL);
     }
 
     /**

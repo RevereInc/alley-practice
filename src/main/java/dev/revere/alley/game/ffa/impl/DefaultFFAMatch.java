@@ -15,7 +15,7 @@ import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.data.impl.ProfileFFAData;
 import dev.revere.alley.profile.enums.ProfileState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.ActionBarReflectionServiceImpl;
 import dev.revere.alley.util.PlayerUtil;
 import dev.revere.alley.util.chat.CC;
@@ -192,7 +192,7 @@ public class DefaultFFAMatch extends FFAMatch {
         ffaData.incrementDeaths();
         ffaData.resetKillstreak();
 
-        this.plugin.getService(ReflectionRepository.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, player);
+        this.plugin.getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, player);
         this.plugin.getService(CombatService.class).resetCombatLog(player);
 
         this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate(

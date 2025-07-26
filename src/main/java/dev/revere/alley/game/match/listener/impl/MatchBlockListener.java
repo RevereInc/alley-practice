@@ -15,7 +15,7 @@ import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.enums.ProfileState;
-import dev.revere.alley.tool.reflection.ReflectionRepository;
+import dev.revere.alley.tool.reflection.ReflectionService;
 import dev.revere.alley.tool.reflection.impl.BlockAnimationReflectionServiceImpl;
 import dev.revere.alley.util.ListenerUtil;
 import dev.revere.alley.util.chat.CC;
@@ -537,7 +537,7 @@ public class MatchBlockListener implements Listener {
         final Player player = event.getPlayer();
         final int DURATION_TICKS = 100;
 
-        BlockAnimationReflectionServiceImpl animationService = Alley.getInstance().getService(ReflectionRepository.class).getReflectionService(BlockAnimationReflectionServiceImpl.class);
+        BlockAnimationReflectionServiceImpl animationService = Alley.getInstance().getService(ReflectionService.class).getReflectionService(BlockAnimationReflectionServiceImpl.class);
         int animationId = placedBlock.getLocation().hashCode();
 
         List<Player> playersInMatch = match.getParticipants().stream()

@@ -12,7 +12,7 @@ import java.util.Set;
  * @project alley-practice
  * @date 2/07/2025
  */
-public interface AnimationRepository extends Service {
+public interface AnimationService extends Service {
     /**
      * Gets the set of all discovered internal animations.
      *

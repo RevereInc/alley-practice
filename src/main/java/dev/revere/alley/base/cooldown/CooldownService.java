@@ -12,7 +12,7 @@ import java.util.UUID;
  * @project alley-practice
  * @date 2/07/2025
  */
-public interface CooldownRepository extends Service {
+public interface CooldownService extends Service {
     List<MutableTriple<UUID, CooldownType, Cooldown>> getCooldowns();
 
     /**

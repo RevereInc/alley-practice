@@ -9,7 +9,7 @@ import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.plugin.AlleyContext;
 import dev.revere.alley.plugin.annotation.Service;
 import dev.revere.alley.profile.ProfileService;
-import dev.revere.alley.tool.animation.AnimationRepository;
+import dev.revere.alley.tool.animation.AnimationService;
 import dev.revere.alley.tool.logger.Logger;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service(provides = AssembleService.class, priority = 320)
 public class AssembleServiceImpl implements AssembleService {
     private final Alley plugin;
-    private final AnimationRepository animationRepository;
+    private final AnimationService animationService;
     private final ProfileService profileService;
     private final ConfigService configService;
 
@@ -45,16 +45,16 @@ public class AssembleServiceImpl implements AssembleService {
     private boolean callEvents = true;
     private long ticks = 2;
 
-    public AssembleServiceImpl(Alley plugin, AnimationRepository animationRepository, ProfileService profileService, ConfigService configService) {
+    public AssembleServiceImpl(Alley plugin, AnimationService animationService, ProfileService profileService, ConfigService configService) {
         this.plugin = plugin;
-        this.animationRepository = animationRepository;
+        this.animationService = animationService;
         this.profileService = profileService;
         this.configService = configService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        this.adapter = new AssembleAdapterImpl(animationRepository, profileService, configService);
+        this.adapter = new AssembleAdapterImpl(animationService, profileService, configService);
 
         this.listeners = new AssembleListener(this);
         this.plugin.getServer().getPluginManager().registerEvents(this.listeners, this.plugin);

@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @project Alley
  * @since 04/03/2025
  */
-public class LeaderboardUpdateRunnable extends BukkitRunnable {
+public class LeaderboardUpdateTask extends BukkitRunnable {
     @Override
     public void run() {
 

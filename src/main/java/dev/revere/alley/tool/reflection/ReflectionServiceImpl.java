@@ -19,8 +19,8 @@ import java.util.List;
  * @since 03/04/2025
  */
 @Getter
-@Service(provides = ReflectionRepository.class, priority = 330)
-public class ReflectionRepositoryImpl implements ReflectionRepository {
+@Service(provides = ReflectionService.class, priority = 330)
+public class ReflectionServiceImpl implements ReflectionService {
     private final PluginConstant pluginConstant;
 
     private final List<Reflection> reflectionServices = new ArrayList<>();
@@ -28,7 +28,7 @@ public class ReflectionRepositoryImpl implements ReflectionRepository {
     /**
      * Constructor for DI.
      */
-    public ReflectionRepositoryImpl(PluginConstant pluginConstant) {
+    public ReflectionServiceImpl(PluginConstant pluginConstant) {
         this.pluginConstant = pluginConstant;
     }
 
@@ -40,7 +40,7 @@ public class ReflectionRepositoryImpl implements ReflectionRepository {
     private void registerReflectionServices() {
         Reflections reflections = this.pluginConstant.getReflections();
         if (reflections == null) {
-            Logger.error("ReflectionRepository cannot initialize: Reflections object is null.");
+            Logger.error("ReflectionServiceImpl cannot initialize: Reflections object is null.");
             return;
         }
 

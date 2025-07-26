@@ -1,7 +1,7 @@
 package dev.revere.alley.base.queue;
 
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.base.queue.runnable.QueueRunnable;
+import dev.revere.alley.base.queue.runnable.QueueTask;
 import dev.revere.alley.plugin.lifecycle.Service;
 
 import java.util.List;
@@ -39,5 +39,5 @@ public interface QueueService extends Service {
      */
     int getPlayerCountOfGameType(String queueName);
 
-    QueueRunnable getQueueRunnable();
+    QueueTask getQueueTask();
 }
