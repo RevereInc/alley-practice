@@ -57,7 +57,7 @@ public class PluginConstantImpl implements PluginConstant {
         this.packageDirectory = "dev.revere.alley";
 
         this.adminPermissionPrefix = this.name + ".admin";
-        this.permissionLackMessage = ChatColor.RED + "No permission.";
+        this.permissionLackMessage = ChatColor.RED + "Missing permission.";
 
         this.reflections = new Reflections(this.packageDirectory);
     }
