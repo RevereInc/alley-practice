@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.killmessage;
 
 import dev.revere.alley.feature.cosmetic.impl.killmessage.impl.*;
-import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.BaseCosmeticRepository;
 
 /**
  * @author Remi

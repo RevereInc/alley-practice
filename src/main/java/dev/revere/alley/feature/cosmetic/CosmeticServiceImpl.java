@@ -1,8 +1,7 @@
-package dev.revere.alley.feature.cosmetic.repository;
+package dev.revere.alley.feature.cosmetic;
 
 import dev.revere.alley.plugin.AlleyContext;
 import dev.revere.alley.plugin.annotation.Service;
-import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.impl.killeffect.KillEffectRepository;
 import dev.revere.alley.feature.cosmetic.impl.killmessage.KillMessageRepository;
 import dev.revere.alley.feature.cosmetic.impl.projectiletrail.ProjectileTrailRepository;

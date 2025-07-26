@@ -9,8 +9,8 @@ import dev.revere.alley.tool.animation.type.config.TextAnimation;
  * @project Alley
  * @since 27/03/2025
  */
-public class ScoreboardTitleAnimationImpl extends TextAnimation {
-    public ScoreboardTitleAnimationImpl() {
+public class ScoreboardTitleAnimation extends TextAnimation {
+    public ScoreboardTitleAnimation() {
         super(Alley.getInstance().getService(ConfigService.class).getScoreboardConfig(), "scoreboard.title");
     }
 }

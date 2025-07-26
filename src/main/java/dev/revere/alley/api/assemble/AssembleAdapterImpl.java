@@ -1,6 +1,5 @@
-package dev.revere.alley.provider.scoreboard;
+package dev.revere.alley.api.assemble;
 
-import dev.revere.alley.api.assemble.interfaces.AssembleAdapter;
 import dev.revere.alley.config.ConfigService;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
@@ -12,7 +11,7 @@ import dev.revere.alley.provider.scoreboard.impl.SpectatorScoreboardImpl;
 import dev.revere.alley.provider.scoreboard.impl.match.MatchScoreboardImpl;
 import dev.revere.alley.tool.animation.AnimationRepository;
 import dev.revere.alley.tool.animation.enums.AnimationType;
-import dev.revere.alley.tool.animation.type.config.impl.ScoreboardTitleAnimationImpl;
+import dev.revere.alley.tool.animation.type.config.impl.ScoreboardTitleAnimation;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -44,7 +43,7 @@ public class AssembleAdapterImpl implements AssembleAdapter {
 
     @Override
     public String getTitle(Player player) {
-        return this.animationRepository.getAnimation(ScoreboardTitleAnimationImpl.class, AnimationType.CONFIG).getText();
+        return this.animationRepository.getAnimation(ScoreboardTitleAnimation.class, AnimationType.CONFIG).getText();
     }
 
     /**

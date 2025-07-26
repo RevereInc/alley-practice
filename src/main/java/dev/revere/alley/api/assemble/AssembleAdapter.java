@@ -1,4 +1,4 @@
-package dev.revere.alley.api.assemble.interfaces;
+package dev.revere.alley.api.assemble;
 
 import org.bukkit.entity.Player;
 

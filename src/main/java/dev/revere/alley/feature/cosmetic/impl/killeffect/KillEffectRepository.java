@@ -2,7 +2,7 @@ package dev.revere.alley.feature.cosmetic.impl.killeffect;
 
 import dev.revere.alley.feature.cosmetic.BaseCosmetic;
 import dev.revere.alley.feature.cosmetic.impl.killeffect.impl.*;
-import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.BaseCosmeticRepository;
 import lombok.Getter;
 
 /**

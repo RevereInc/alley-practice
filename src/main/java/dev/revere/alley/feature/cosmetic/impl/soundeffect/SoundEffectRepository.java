@@ -4,7 +4,7 @@ import dev.revere.alley.feature.cosmetic.BaseCosmetic;
 import dev.revere.alley.feature.cosmetic.impl.soundeffect.impl.ExplosionSoundEffect;
 import dev.revere.alley.feature.cosmetic.impl.soundeffect.impl.NoneSoundEffect;
 import dev.revere.alley.feature.cosmetic.impl.soundeffect.impl.StepSoundEffect;
-import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.BaseCosmeticRepository;
 import lombok.Getter;
 
 /**

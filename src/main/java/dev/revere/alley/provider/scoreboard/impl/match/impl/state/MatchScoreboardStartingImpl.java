@@ -7,7 +7,7 @@ import dev.revere.alley.game.match.player.participant.GameParticipant;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.provider.scoreboard.impl.match.MatchScoreboard;
-import dev.revere.alley.tool.animation.type.internal.impl.DotAnimationImpl;
+import dev.revere.alley.tool.animation.type.internal.impl.DotAnimation;
 import dev.revere.alley.util.chat.CC;
 import org.bukkit.entity.Player;
 
@@ -20,13 +20,13 @@ import java.util.List;
  * @since 30/04/2025
  */
 public class MatchScoreboardStartingImpl implements MatchScoreboard {
-    private final DotAnimationImpl dotAnimation;
+    private final DotAnimation dotAnimation;
 
     /**
      * Constructor for the MatchScoreboardStartingImpl class.
      */
     public MatchScoreboardStartingImpl() {
-        this.dotAnimation = new DotAnimationImpl();
+        this.dotAnimation = new DotAnimation();
     }
 
     @Override

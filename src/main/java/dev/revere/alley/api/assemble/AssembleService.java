@@ -1,6 +1,5 @@
 package dev.revere.alley.api.assemble;
 
-import dev.revere.alley.api.assemble.interfaces.AssembleAdapter;
 import dev.revere.alley.plugin.lifecycle.Service;
 import org.bukkit.entity.Player;
 

@@ -19,14 +19,14 @@ import org.bukkit.entity.Player;
  */
 @Getter
 @Service(provides = SpawnService.class, priority = 240)
-public class SpawnServiceSpawn implements SpawnService {
+public class SpawnServiceImpl implements SpawnService {
     private final ConfigService configService;
     private Location location;
 
     /**
      * Constructor for DI.
      */
-    public SpawnServiceSpawn(ConfigService configService) {
+    public SpawnServiceImpl(ConfigService configService) {
         this.configService = configService;
     }
 

@@ -1,7 +1,5 @@
-package dev.revere.alley.feature.cosmetic.repository;
+package dev.revere.alley.feature.cosmetic;
 
-import dev.revere.alley.feature.cosmetic.BaseCosmetic;
-import dev.revere.alley.feature.cosmetic.CosmeticType;
 import dev.revere.alley.feature.cosmetic.interfaces.CosmeticRepository;
 import dev.revere.alley.tool.logger.Logger;
 import lombok.Getter;

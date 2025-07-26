@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.impl.projectiletrail;
 
 import dev.revere.alley.feature.cosmetic.impl.projectiletrail.impl.FlameTrail;
-import dev.revere.alley.feature.cosmetic.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.BaseCosmeticRepository;
 
 /**
  * @author Remi

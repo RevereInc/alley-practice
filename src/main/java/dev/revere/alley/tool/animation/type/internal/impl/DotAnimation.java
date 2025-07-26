@@ -9,9 +9,9 @@ import java.util.Arrays;
  * @project Alley
  * @since 03/04/2025
  */
-public class DotAnimationImpl extends Animation {
+public class DotAnimation extends Animation {
 
-    public DotAnimationImpl() {
+    public DotAnimation() {
         super(Arrays.asList(".", "..", "..."), 500);
     }
 }

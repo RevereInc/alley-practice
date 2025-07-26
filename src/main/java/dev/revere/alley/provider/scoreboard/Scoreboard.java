@@ -4,7 +4,7 @@ import dev.revere.alley.Alley;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.tool.animation.AnimationRepository;
 import dev.revere.alley.tool.animation.enums.AnimationType;
-import dev.revere.alley.tool.animation.type.internal.impl.DotAnimationImpl;
+import dev.revere.alley.tool.animation.type.internal.impl.DotAnimation;
 import dev.revere.alley.tool.reflection.utility.ReflectionUtility;
 import org.bukkit.entity.Player;
 
@@ -38,8 +38,8 @@ public interface Scoreboard {
      *
      * @return The dot animation.
      */
-    default DotAnimationImpl getDotAnimation() {
-        return Alley.getInstance().getService(AnimationRepository.class).getAnimation(DotAnimationImpl.class, AnimationType.INTERNAL);
+    default DotAnimation getDotAnimation() {
+        return Alley.getInstance().getService(AnimationRepository.class).getAnimation(DotAnimation.class, AnimationType.INTERNAL);
     }
 
     /**

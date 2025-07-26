@@ -1,7 +1,6 @@
-package dev.revere.alley.feature.cosmetic.repository;
+package dev.revere.alley.feature.cosmetic;
 
 import dev.revere.alley.plugin.lifecycle.Service;
-import dev.revere.alley.feature.cosmetic.CosmeticType;
 
 import java.util.Map;
 

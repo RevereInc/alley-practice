@@ -32,13 +32,13 @@ import java.util.List;
  * @since 02/07/2025
  */
 @Service(provides = ArenaSchematicService.class, priority = 120)
-public class ArenaSchematicServiceMpl implements ArenaSchematicService {
+public class ArenaSchematicServiceImpl implements ArenaSchematicService {
     private final Alley plugin;
 
     /**
      * Constructor for DI.
      */
-    public ArenaSchematicServiceMpl(Alley plugin) {
+    public ArenaSchematicServiceImpl(Alley plugin) {
         this.plugin = plugin;
     }
 
