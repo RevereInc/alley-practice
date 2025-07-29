@@ -5,6 +5,8 @@ import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project Alley
@@ -89,5 +91,29 @@ public class ClickableUtil {
                 player.spigot().sendMessage(component);
             }
         }
+    }
+
+    /**
+     * Sends a list of translated messages to a player.
+     *
+     * @param player   the player
+     * @param messages the list of messages to send
+     */
+    private void sendMessages(Player player, List<String> messages) {
+        messages.forEach(message -> player.sendMessage(CC.translate(message)));
+    }
+
+    /**
+     * Sends a list of translated messages with a clickable component to a player.
+     *
+     * @param player        the player
+     * @param messages      the list of messages to send
+     * @param textComponent the clickable text component to send
+     */
+    public void broadcastWithClickable(List<String> messages, TextComponent textComponent, Player player) {
+        player.sendMessage("");
+        sendMessages(player, messages);
+        player.spigot().sendMessage(textComponent);
+        player.sendMessage("");
     }
 }

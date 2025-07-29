@@ -12,6 +12,7 @@ import dev.revere.alley.base.spawn.listener.SpawnListener;
 import dev.revere.alley.feature.emoji.listener.EmojiListener;
 import dev.revere.alley.feature.item.listener.ItemListener;
 import dev.revere.alley.feature.layout.listener.LayoutListener;
+import dev.revere.alley.game.event.listener.EventListener;
 import dev.revere.alley.game.ffa.listener.FFAListener;
 import dev.revere.alley.game.ffa.listener.FFABlockListener;
 import dev.revere.alley.game.ffa.listener.FFACuboidListener;
@@ -62,6 +63,8 @@ public class ListenerServiceImpl implements ListenerService {
 
                 new FFAListener(), new FFACuboidListener(),
                 new FFABlockListener(), new FFADamageListener(), new FFADisconnectListener(),
+
+                new EventListener(),
 
                 new MatchListener(), new MatchInteractListener(),
                 new MatchPearlListener(), new MatchDisconnectListener(),

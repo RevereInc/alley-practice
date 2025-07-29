@@ -52,6 +52,8 @@ public interface ConfigService extends Service {
 
     FileConfiguration getArenasConfig();
 
+    FileConfiguration getEventMapsConfig();
+
     FileConfiguration getScoreboardConfig();
 
     FileConfiguration getTabListConfig();

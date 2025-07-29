@@ -11,6 +11,7 @@ import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.feature.division.tier.DivisionTier;
 import dev.revere.alley.feature.leaderboard.enums.LeaderboardType;
+import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.ffa.FFAMatch;
 import dev.revere.alley.game.match.Match;
 import dev.revere.alley.game.party.Party;
@@ -55,6 +56,7 @@ public class Profile {
     private FFAMatch ffaMatch;
     private Match match;
     private Party party;
+    private Event event;
 
     private ChatColor nameColor;
 
