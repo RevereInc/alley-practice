@@ -110,9 +110,12 @@ public class ProfileListener implements Listener {
         ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == ProfileState.LOBBY
-                || profile.getState() == ProfileState.EDITING
-                || profile.getState() == ProfileState.SPECTATING) {
+        ProfileState state = profile.getState();
+
+        if (state == ProfileState.LOBBY
+                || state == ProfileState.WAITING
+                || state == ProfileState.EDITING
+                || state == ProfileState.SPECTATING) {
             if (player.getGameMode() == GameMode.CREATIVE) return;
             event.setCancelled(true);
 
