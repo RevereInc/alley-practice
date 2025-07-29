@@ -2,10 +2,12 @@ package dev.revere.alley.base.hotbar;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Menu;
+import dev.revere.alley.api.menu.fallback.enums.FallbackType;
 import dev.revere.alley.base.hotbar.data.HotbarActionData;
 import dev.revere.alley.base.hotbar.data.HotbarTypeData;
 import dev.revere.alley.base.hotbar.enums.HotbarAction;
 import dev.revere.alley.base.hotbar.enums.HotbarType;
+import dev.revere.alley.api.menu.fallback.FallbackMenu;
 import dev.revere.alley.base.queue.QueueService;
 import dev.revere.alley.base.queue.enums.QueueType;
 import dev.revere.alley.base.queue.menu.sub.RankedMenu;
@@ -339,7 +341,8 @@ public class HotbarServiceImpl implements HotbarService {
                 profile.setQueueType(QueueType.DUOS);
                 return this.queueService.getQueueMenu();
             default:
-                throw new IllegalArgumentException("Unknown menu type: " + name);
+                Logger.error("Invalid menu name: " + name);
+                return new FallbackMenu(FallbackType.HOTBAR_CONFIG_MENU_STRING);
         }
     }
 }
