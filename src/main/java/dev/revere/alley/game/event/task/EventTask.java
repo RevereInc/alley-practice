@@ -48,7 +48,7 @@ public abstract class EventTask extends BukkitRunnable {
 
     /**
      * Abstract method to be implemented by subclasses.
-     * Logic specific to the event's task will be defined here.
+     * Logic specific to each event type will be defined here.
      */
     public abstract void handleTaskImpl();
 }

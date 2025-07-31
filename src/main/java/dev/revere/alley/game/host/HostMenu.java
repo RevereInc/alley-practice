@@ -2,7 +2,9 @@ package dev.revere.alley.game.host;
 
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
+import dev.revere.alley.game.event.menu.EventMenu;
 import dev.revere.alley.tool.item.ItemBuilder;
+import dev.revere.alley.util.chat.CC;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,21 +32,25 @@ public class HostMenu extends Menu {
         Map<Integer, Button> buttons = new HashMap<>();
 
         buttons.put(11, new HostButton("&6&lEvent", new ItemStack(Material.EMPTY_MAP), Arrays.asList(
+                CC.MENU_BAR,
                 "&fHost an event with different",
                 "&funique implementations.",
                 "",
                 " &f● &6Types: &7Sumo",
                 " &f● &cMore soon...",
                 "",
-                "&aClick to host!"
+                "&aClick to view!",
+                CC.MENU_BAR
         )));
 
         buttons.put(15, new HostButton("&6&lTournament", new ItemStack(Material.BOW), Arrays.asList(
+                CC.MENU_BAR,
                 "&fHost a tournament to",
                 "&fcompete in a number",
                 "&fof duels to win.",
                 "",
-                "&aClick to host!"
+                "&aClick to host!",
+                CC.MENU_BAR
         )));
 
         this.addGlass(buttons, 15);
@@ -77,7 +83,7 @@ public class HostMenu extends Menu {
                     // Open the tournament menu
                     break;
                 case EMPTY_MAP:
-                    //new EventMenu().openMenu(player);
+                    new EventMenu().openMenu(player);
                     break;
             }
 

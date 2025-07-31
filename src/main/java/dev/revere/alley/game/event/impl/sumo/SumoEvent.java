@@ -7,6 +7,7 @@ import dev.revere.alley.base.spawn.SpawnService;
 import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.EventService;
 import dev.revere.alley.game.event.enums.EventState;
+import dev.revere.alley.game.event.enums.EventTeamSize;
 import dev.revere.alley.game.event.enums.EventType;
 import dev.revere.alley.game.event.impl.sumo.task.SumoGameTask;
 import dev.revere.alley.game.event.impl.sumo.task.SumoRoundEndTask;
@@ -17,10 +18,14 @@ import dev.revere.alley.game.event.task.EventTask;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.enums.ProfileState;
+import dev.revere.alley.tool.reflection.ReflectionService;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.PlayerUtil;
+import dev.revere.alley.util.SoundUtil;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -38,15 +43,25 @@ public class SumoEvent extends Event {
     private EventParticipant participantA;
     private EventParticipant participantB;
 
+    private final EventTeamSize teamSize;
+
+    //TODO: methods for this event weren't made for duos and trios, so they need to be adjusted accordingly.
+
     /**
-     * Constructor for the EventSumoImpl class.
+     * Constructor for the SumoEvent class.
      *
-     * @param map the map of the event.
+     * @param map       the event map.
+     * @param host      the UUID of the host player.
+     * @param teamSize  the size of the teams in the event.
      */
-    public SumoEvent(EventMap map, UUID host) {
+    public SumoEvent(EventMap map, UUID host, EventTeamSize teamSize) {
         super(EventType.SUMO, map, 100, host);
         this.participantA = null;
         this.participantB = null;
+        this.teamSize = teamSize;
+
+        //TODO: handle team size logic, e.g. if team size is SOLO, only allow 2 players, if DUO, allow 4 players, etc.
+        // also if a player joins the event with an existing party, split the party into teams based on the team size.
     }
 
     /**
@@ -56,11 +71,34 @@ public class SumoEvent extends Event {
     public void startEvent() {
         SumoGameTask task = new SumoGameTask(this);
         this.setTask(task);
+
+        Player player = Bukkit.getPlayer(this.getHost());
+        if (player == null) {
+            //should technically never happen, but just in case yk
+            return;
+        }
+
+        Alley.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                player,
+                "&a&lSUCCESS!",
+                "&fYou've hosted a &6" + this.getEventType().getName() + " Event&f!",
+                10, 30, 10
+        );
+
+        SoundUtil.playCustomSound(player, Sound.FIREWORK_TWINKLE, 1.0F, 1.0F);
     }
 
     @Override
     public void stopEvent() {
-        this.setTask(null);
+        this.getPlayers().forEach(this::finalizePlayer);
+
+        this.getSpectators().forEach(spectator -> {
+            Player player = Bukkit.getPlayer(spectator);
+            if (player == null) return;
+            super.removeSpectator(player);
+        });
+
+        this.getTask().cancel();
         Alley.getInstance().getService(EventService.class).terminateEvent();
     }
 
@@ -84,7 +122,6 @@ public class SumoEvent extends Event {
         profile.setState(ProfileState.PLAYING_EVENT);
         profile.setEvent(this);
 
-        //TODO: implementation of an proper event map.
         player.teleport(this.getMap().getSpawn());
     }
 
@@ -108,8 +145,8 @@ public class SumoEvent extends Event {
         profile.setState(ProfileState.LOBBY);
         profile.setEvent(null);
 
-        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player, HotbarType.LOBBY);
         Alley.getInstance().getService(SpawnService.class).teleportToSpawn(player);
+        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
     }
 
     /**
@@ -125,8 +162,12 @@ public class SumoEvent extends Event {
         EventParticipant winningParticipant = participantA.getUuid().equals(player.getUniqueId()) ? participantB : participantA;
         winningParticipant.setAlive(true);
 
-        //TODO: tp to arena spawn
+        //TODO: tp to arena spawn / start spectating
+
+        //TODO: get cosmetic death message
         this.notifyParticipants("&c" + winningParticipant.getUsername() + " &fkilled &c" + losingParticipant.getUsername() + "&c!");
+
+
         this.setState(EventState.ENDING_ROUND);
 
         EventTask task = new SumoRoundEndTask(this);
@@ -157,6 +198,11 @@ public class SumoEvent extends Event {
         this.setTask(task);
     }
 
+    @Override
+    public boolean canEventEnd() {
+        return (this.participantA.isEliminated()) || (this.participantB.isEliminated());
+    }
+
     /**
      * Get a random participant besides participant A or B, based on who got eliminated.
      *
@@ -165,7 +211,7 @@ public class SumoEvent extends Event {
     private EventParticipant getRandomParticipant() {
         List<EventParticipant> eligibleParticipants = this.getParticipants().values().stream()
                 .filter(EventParticipant::isAlive)
-                .filter(participant -> !participant.equals(participantA) && !participant.equals(participantB))
+                .filter(participant -> !participant.equals(this.participantA) && !participant.equals(this.participantB))
                 .collect(Collectors.toList());
 
         if (eligibleParticipants.isEmpty()) {
@@ -193,6 +239,12 @@ public class SumoEvent extends Event {
         }
     }
 
+    /**
+     * Deny player movement by teleporting them to their respective positions.
+     *
+     * @param player   the player to deny movement.
+     * @param profile  the profile of the player.
+     */
     private void denyPlayerMovement(Player player, Profile profile) {
         Event event = profile.getEvent();
 

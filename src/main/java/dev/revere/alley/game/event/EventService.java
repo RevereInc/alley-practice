@@ -9,7 +9,8 @@ import dev.revere.alley.plugin.lifecycle.Service;
  */
 public interface EventService extends Service {
     /**
-     * Starts the event if it can be started.
+     * Terminates the current event and resets the last event time.
+     * This method should be called when an event ends or is cancelled.
      */
     void terminateEvent();
 
@@ -26,6 +27,13 @@ public interface EventService extends Service {
      * @return the timestamp of the last event in milliseconds.
      */
     long getLastEvent();
+
+    /**
+     * Retrieves the current active event.
+     *
+     * @return the active event, or null if no event is running.
+     */
+    Event getActiveEvent();
 
     /**
      * Checks if there is an event ongoing.

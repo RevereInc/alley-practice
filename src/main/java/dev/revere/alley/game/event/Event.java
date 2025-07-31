@@ -5,8 +5,10 @@ import dev.revere.alley.base.hotbar.HotbarService;
 import dev.revere.alley.base.spawn.SpawnService;
 import dev.revere.alley.game.event.enums.EventState;
 import dev.revere.alley.game.event.enums.EventType;
+import dev.revere.alley.game.event.impl.sumo.SumoEvent;
 import dev.revere.alley.game.event.map.EventMap;
 import dev.revere.alley.game.event.participant.EventParticipant;
+import dev.revere.alley.game.event.participant.TeamMember;
 import dev.revere.alley.game.event.task.EventTask;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.ProfileService;
@@ -37,23 +39,28 @@ public abstract class Event {
     private final Alley plugin = Alley.getInstance();
 
     private final ConcurrentHashMap<UUID, EventParticipant> participants = new ConcurrentHashMap<>();
-    private EventState state = EventState.PREPARING;
     private final List<UUID> spectators = new ArrayList<>();
+
+    private EventState state = EventState.PREPARING;
     private EventCountdown countdown;
     private EventType eventType;
     private EventTask task;
-    private long roundStart;
-    private final UUID host;
+
     private EventMap map;
-    private int totalPlayers;
+    private final UUID host;
+
+    private long roundStart;
+
     private int maxPlayers;
+    private int totalPlayers;
 
     /**
      * Constructor for the Event class.
      *
      * @param eventType  the type of the event.
-     * @param map        the map of the event.
-     * @param maxPlayers the maximum amount of players allowed in the event.
+     * @param map        the map for the event.
+     * @param maxPlayers the maximum number of players allowed in the event.
+     * @param hostUUID   the UUID of the host player.
      */
     public Event(EventType eventType, EventMap map, int maxPlayers, UUID hostUUID) {
         this.eventType = eventType;
@@ -74,20 +81,7 @@ public abstract class Event {
 
     public abstract void handleNewRound();
 
-    /**
-     * Check if an event can end based on the players who are alive.
-     *
-     * @return false if players are alive, else true.
-     */
-    public boolean canEventEnd() {
-        for (EventParticipant participant : this.participants.values()) {
-            if (participant.isAlive()) {
-                return false;
-            }
-        }
-
-        return true;
-    }
+    public abstract boolean canEventEnd();
 
     /**
      * Gets the list of remaining players who are still alive in the event.
@@ -176,17 +170,20 @@ public abstract class Event {
      * @param type the type of the event.
      */
     public void broadcastEvent(EventType type) {
-        String hostName = this.plugin.getServer().getOfflinePlayer(this.host).getName();
+        Profile hostProfile = this.plugin.getService(ProfileService.class).getProfile(this.host);
+        String hostName = hostProfile.getFancyName();
+
         int maxPlayers = this.getMaxPlayers();
-        String eventName = type.getName();
+
+        String eventName = this.buildEventName(type);
+
         int remainingPlayers = this.getRemainingPlayers().size();
 
         List<String> messages = Arrays.asList(
-                "&6&l" + eventName,
-                " &f• &6Host: &f" + hostName,
-                " &f• &6Players: &f" + remainingPlayers + "&7/&f" + maxPlayers,
-                " &f• &6Map: &f" + this.map.getName()
-                //" &f• &6Required Players: &f" + this.minPlayers
+                "&6&l" + eventName + " Event",
+                " &6│ &fHost: &6" + hostName,
+                " &6│ &fPlayers: &6" + remainingPlayers + "&7/&6" + maxPlayers,
+                " &6│ &fMap: &6" + this.map.getName()
         );
 
         this.plugin.getServer().getOnlinePlayers().forEach(player -> {
@@ -200,13 +197,30 @@ public abstract class Event {
                             "&aClick to view the details of the &6" + eventName + " &aevent.")
                     :
                     ClickableUtil.createComponent(
-                            " &a(Click to join)",
+                            " &a&l(CLICK TO JOIN)",
                             "/event join",
                             "&aClick to join the &6" + eventName + " &aevent."
                     );
 
             ClickableUtil.broadcastWithClickable(messages, textComponent, player);
         });
+    }
+
+    /**
+     * Builds the event name based on the type and team size if applicable.
+     *
+     * @param type the type of the event.
+     * @return the formatted event name.
+     */
+    private String buildEventName(EventType type) {
+        String eventName;
+        if (this instanceof SumoEvent) {
+            SumoEvent sumoEvent = (SumoEvent) this;
+            eventName = type.getName() + " " + sumoEvent.getTeamSize().getDisplayName();
+        } else {
+            eventName = type.getName();
+        }
+        return eventName;
     }
 
     /**
@@ -238,6 +252,20 @@ public abstract class Event {
     }
 
     /**
+     * Reset the player and send them back to the lobby.
+     *
+     * @param player the player to reset.
+     */
+    public void finalizePlayer(Player player) {
+        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        profile.setState(ProfileState.LOBBY);
+        profile.setEvent(null);
+
+        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
+        Alley.getInstance().getService(SpawnService.class).teleportToSpawn(player);
+    }
+
+    /**
      * Adds a spectator to the event.
      *
      * @param player the player to be added.
@@ -264,7 +292,6 @@ public abstract class Event {
         profile.setEvent(null);
 
         this.spectators.remove(player.getUniqueId());
-        PlayerUtil.reset(player, true, true);
 
         this.plugin.getService(SpawnService.class).teleportToSpawn(player);
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);

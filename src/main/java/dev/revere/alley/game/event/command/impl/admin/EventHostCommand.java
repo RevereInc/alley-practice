@@ -1,10 +1,11 @@
-package dev.revere.alley.game.event.command.impl;
+package dev.revere.alley.game.event.command.impl.admin;
 
 import dev.revere.alley.api.command.BaseCommand;
 import dev.revere.alley.api.command.CommandArgs;
 import dev.revere.alley.api.command.annotation.CommandData;
 import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.EventService;
+import dev.revere.alley.game.event.enums.EventTeamSize;
 import dev.revere.alley.game.event.enums.EventType;
 import dev.revere.alley.game.event.impl.sumo.SumoEvent;
 import dev.revere.alley.game.event.map.EventMapService;
@@ -58,7 +59,7 @@ public class EventHostCommand extends BaseCommand {
         }
 
         if (eventType == EventType.SUMO) {
-            Event event = new SumoEvent(eventMapService.getRandomEventMap(EventMapType.SUMO), player.getUniqueId());
+            Event event = new SumoEvent(eventMapService.getRandomEventMap(EventMapType.SUMO), player.getUniqueId(), EventTeamSize.SOLO);
             event.startEvent();
             eventService.setEvent(event);
             event.handleJoin(player, false);
