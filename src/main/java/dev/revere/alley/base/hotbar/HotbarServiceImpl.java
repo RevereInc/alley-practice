@@ -285,6 +285,9 @@ public class HotbarServiceImpl implements HotbarService {
             case PLAYING_TOURNAMENT:
                 type = HotbarType.TOURNAMENT;
                 break;
+            case PLAYING_EVENT:
+                type = HotbarType.EVENT;
+                break;
             default:
                 type = HotbarType.LOBBY;
                 break;

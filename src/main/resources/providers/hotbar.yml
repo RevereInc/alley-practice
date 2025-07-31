@@ -40,6 +40,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   RANKED_QUEUES:
     display-name: "&6Ranked Queues &7(Right Click)"
@@ -63,6 +66,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -90,6 +96,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   CURRENT_MATCHES:
     display-name: "&6Current Matches &7(Right Click)"
@@ -113,6 +122,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -140,6 +152,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   LEADERBOARD:
     display-name: "&6Leaderboards &7(Right Click)"
@@ -163,6 +178,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -190,6 +208,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   SETTINGS:
     display-name: "&6Settings &7(Right Click)"
@@ -213,6 +234,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -240,6 +264,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   START_PARTY_EVENT:
     display-name: "&6Start Party Event &7(Right Click)"
@@ -263,6 +290,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -290,6 +320,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   PARTY_INFO:
     display-name: "&6Party Info &7(Right Click)"
@@ -313,6 +346,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -340,6 +376,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   TIPS:
     display-name: "&6Tip Of The Day &7(Right Click)"
@@ -363,6 +402,9 @@ hotbar-items:
         enabled: false
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -390,6 +432,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   SPECTATOR_TELEPORTER:
     display-name: "&6Teleporter &7(Right Click)"
@@ -413,6 +458,9 @@ hotbar-items:
         enabled: true
         slot: 0
       TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
         enabled: false
         slot: 0
 
@@ -440,6 +488,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: false
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
 
   TOURNAMENT_LEAVE:
     display-name: "&cLeave Tournament &7(Right Click)"
@@ -465,6 +516,9 @@ hotbar-items:
       TOURNAMENT:
         enabled: true
         slot: 8
+      EVENT:
+        enabled: false
+        slot: 0
 
   TOURNAMENT_INFO:
     display-name: "&6Tournament Info &7(Right Click)"
@@ -490,3 +544,34 @@ hotbar-items:
       TOURNAMENT:
         enabled: true
         slot: 0
+      EVENT:
+        enabled: false
+        slot: 0
+
+  EVENT_LEAVE:
+    display-name: "&cLeave Event &7(Right Click)"
+    lore:
+      - "&7Exit the current event."
+    material: REDSTONE
+    durability: 0
+    command: "event leave"
+    menu: ""
+    types:
+      LOBBY:
+        enabled: false
+        slot: 0
+      PARTY:
+        enabled: false
+        slot: 0
+      QUEUE:
+        enabled: false
+        slot: 0
+      SPECTATOR:
+        enabled: false
+        slot: 0
+      TOURNAMENT:
+        enabled: false
+        slot: 0
+      EVENT:
+        enabled: true
+        slot: 8

@@ -114,7 +114,7 @@ public class SumoEvent extends Event {
         this.getParticipants().put(player.getUniqueId(), participant);
 
         if (notify) {
-            this.notifyParticipants("&6" + player.getName() + " &ahas joined the &6event. &6(&a" + this.getRemainingPlayers().size() + "&6/&a" + this.getMaxPlayers() + "&6)");
+            this.notifyParticipants("&6" + player.getName() + " &ahas joined the event. &6(&a" + this.getRemainingPlayers().size() + "&6/&a" + this.getMaxPlayers() + "&6)");
         }
 
         PlayerUtil.reset(player, true, true);
@@ -122,6 +122,7 @@ public class SumoEvent extends Event {
         profile.setEvent(this);
 
         player.teleport(this.getMap().getSpawn());
+        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
     }
 
     /**
