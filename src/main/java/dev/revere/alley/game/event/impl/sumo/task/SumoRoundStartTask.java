@@ -31,16 +31,24 @@ public class SumoRoundStartTask extends EventTask {
             event.setRoundStart(System.currentTimeMillis());
             event.setState(EventState.RUNNING_ROUND);
 
-            Player playerA = event.getParticipantPlayer(sumoEvent.getParticipantB());
-            Player playerB = event.getParticipantPlayer(sumoEvent.getParticipantA());
-
-            sumoEvent.handleCooldown(playerA, playerB, false);
+            this.applyCooldownPhrase(sumoEvent, false);
         } else {
-            Player playerA = event.getParticipantPlayer(sumoEvent.getParticipantB());
-            Player playerB = event.getParticipantPlayer(sumoEvent.getParticipantA());
-
-            ((SumoEvent) event).handleCooldown(playerA, playerB, true);
+            this.applyCooldownPhrase(sumoEvent, true);
             event.notifyParticipants("&a" + (3 - this.getStage()) + "...");
         }
+    }
+
+    /**
+     * Applies the cooldown phrase to all team members of both participants.
+     *
+     * @param event         the SumoEvent instance.
+     * @param denyMovement  whether to deny movement during cooldown.
+     */
+    private void applyCooldownPhrase(SumoEvent event, boolean denyMovement) {
+        event.getTeamMembers(event.getParticipantA())
+                .forEach(teamMember -> event.handleCooldown(teamMember.getPlayer(), denyMovement));
+
+        event.getTeamMembers(event.getParticipantB())
+                .forEach(teamMember -> event.handleCooldown(teamMember.getPlayer(), denyMovement));
     }
 }

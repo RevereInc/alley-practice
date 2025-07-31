@@ -90,14 +90,18 @@ public abstract class Event {
      */
     public List<Player> getRemainingPlayers() {
         List<Player> remainingPlayers = new ArrayList<>();
-        this.participants.forEach((uuid, participant) -> {
-            if (participant.isAlive()) {
-                Player player = this.plugin.getServer().getPlayer(uuid);
-                if (player != null && player.isOnline()) {
-                    remainingPlayers.add(player);
+
+        this.participants.values().forEach(participant -> {
+            participant.getTeamMembers().forEach(teamMember -> {
+                if (!teamMember.isDead()) {
+                    Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
+                    if (player != null && player.isOnline()) {
+                        remainingPlayers.add(player);
+                    }
                 }
-            }
+            });
         });
+
         return remainingPlayers;
     }
 
@@ -109,22 +113,33 @@ public abstract class Event {
     public List<Player> getPlayers() {
         List<Player> players = new ArrayList<>();
 
-        for (EventParticipant eventParticipant : this.participants.values()) {
-            Player player = this.plugin.getServer().getPlayer(eventParticipant.getUuid());
-            if (player != null) players.add(player);
-        }
+        this.participants.values().forEach(participant -> participant.getTeamMembers().forEach(teamMember -> {
+            if (!teamMember.isDead()) {
+                Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
+                if (player != null && player.isOnline()) {
+                    players.add(player);
+                }
+            }
+        }));
 
         return players;
     }
 
     /**
-     * Gets a participant of the event by their unique ID.
+     * Gets the participant object by the member's UUID.
      *
-     * @param uuid the uuid of the player.
-     * @return the EventParticipant object.
+     * @param memberUuid the UUID of the team member.
+     * @return the EventParticipant object if found, otherwise null.
      */
-    public EventParticipant getParticipant(UUID uuid) {
-        return this.participants.get(uuid);
+    public EventParticipant getParticipant(UUID memberUuid) {
+        return participants.values().stream()
+                .filter(participant ->
+                        participant.getTeamMembers().stream()
+                                .map(TeamMember::getUuid)
+                                .anyMatch(uuid -> uuid.equals(memberUuid))
+                )
+                .findFirst()
+                .orElse(null);
     }
 
     /**
@@ -138,17 +153,36 @@ public abstract class Event {
     }
 
     /**
+     * Gets the team members of a specific participant in the event.
+     *
+     * @param participant the participant whose team members are to be retrieved.
+     * @return a list of players who are team members of the participant.
+     */
+    public List<Player> getTeamMembers(EventParticipant participant) {
+        List<Player> teamMembers = new ArrayList<>();
+        participant.getTeamMembers().forEach(teamMember -> {
+            Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
+            if (player != null && player.isOnline()) {
+                teamMembers.add(player);
+            }
+        });
+        return teamMembers;
+    }
+
+    /**
      * Sends a message to all participants in the event.
      *
      * @param message the message to send.
      */
     public void notifyParticipants(String message) {
-        this.participants.keySet().forEach(uuid -> {
-            Player player = this.plugin.getServer().getPlayer(uuid);
-            if (player != null && player.isOnline()) {
-                player.sendMessage(CC.translate(message));
-            }
-        });
+        this.participants.values().forEach(participant -> participant.getTeamMembers().forEach(
+                teamMember -> {
+                    Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
+                    if (player != null && player.isOnline()) {
+                        player.sendMessage(CC.translate(message));
+                    }
+                }
+        ));
     }
 
     /**
@@ -172,11 +206,8 @@ public abstract class Event {
     public void broadcastEvent(EventType type) {
         Profile hostProfile = this.plugin.getService(ProfileService.class).getProfile(this.host);
         String hostName = hostProfile.getFancyName();
-
         int maxPlayers = this.getMaxPlayers();
-
         String eventName = this.buildEventName(type);
-
         int remainingPlayers = this.getRemainingPlayers().size();
 
         List<String> messages = Arrays.asList(

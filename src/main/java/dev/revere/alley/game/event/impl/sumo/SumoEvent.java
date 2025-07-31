@@ -2,7 +2,6 @@ package dev.revere.alley.game.event.impl.sumo;
 
 import dev.revere.alley.Alley;
 import dev.revere.alley.base.hotbar.HotbarService;
-import dev.revere.alley.base.hotbar.enums.HotbarType;
 import dev.revere.alley.base.spawn.SpawnService;
 import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.EventService;
@@ -50,9 +49,9 @@ public class SumoEvent extends Event {
     /**
      * Constructor for the SumoEvent class.
      *
-     * @param map       the event map.
-     * @param host      the UUID of the host player.
-     * @param teamSize  the size of the teams in the event.
+     * @param map      the event map.
+     * @param host     the UUID of the host player.
+     * @param teamSize the size of the teams in the event.
      */
     public SumoEvent(EventMap map, UUID host, EventTeamSize teamSize) {
         super(EventType.SUMO, map, 100, host);
@@ -132,6 +131,9 @@ public class SumoEvent extends Event {
      */
     @Override
     public void handleLeave(Player player, boolean notify) {
+
+        //TODO: if a leader leaves, transfer leadership to another team member or remove the team if no members left.
+
         Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         this.getParticipants().remove(player.getUniqueId());
 
@@ -178,19 +180,24 @@ public class SumoEvent extends Event {
     public void handleNewRound() {
         this.setState(EventState.STARTING_ROUND);
 
-        if (this.participantA == null || !participantA.isAlive()) {
+        if (this.participantA == null || !this.participantA.isAlive()) {
             this.participantA = this.getRandomParticipant();
         } else {
-            Player player = Bukkit.getPlayer(participantA.getUuid());
-            PlayerUtil.reset(player, true, true);
+            this.getTeamMembers(this.participantA).forEach(teamMember -> {
+                Player player = teamMember.getPlayer();
+                PlayerUtil.reset(player, true, true);
+            });
+
             //TODO: teleport to event spawn
         }
 
-        if (this.participantB == null || !participantB.isAlive()) {
+        if (this.participantB == null || !this.participantB.isAlive()) {
             this.participantB = this.getRandomParticipant();
         } else {
-            Player player = Bukkit.getPlayer(participantB.getUuid());
-            PlayerUtil.reset(player, true, true);
+            this.getTeamMembers(this.participantB).forEach(teamMember -> {
+                Player player = teamMember.getPlayer();
+                PlayerUtil.reset(player, true, true);
+            });
             //TODO: teleport to event spawn
         }
 
@@ -224,26 +231,23 @@ public class SumoEvent extends Event {
     /**
      * Handle the cooldown period of the event.
      *
-     * @param playerA      the first player.
-     * @param playerB      the second player.
+     * @param player       the player to handle cooldown for.
      * @param denyMovement if movement should be denied.
      */
-    public void handleCooldown(Player playerA, Player playerB, boolean denyMovement) {
+    public void handleCooldown(Player player, boolean denyMovement) {
         ProfileService profileService = Alley.getInstance().getService(ProfileService.class);
-        Profile profileA = profileService.getProfile(playerA.getUniqueId());
-        Profile profileB = profileService.getProfile(playerB.getUniqueId());
+        Profile profileA = profileService.getProfile(player.getUniqueId());
 
         if (denyMovement) {
-            this.denyPlayerMovement(playerA, profileA);
-            this.denyPlayerMovement(playerB, profileB);
+            this.denyPlayerMovement(player, profileA);
         }
     }
 
     /**
      * Deny player movement by teleporting them to their respective positions.
      *
-     * @param player   the player to deny movement.
-     * @param profile  the profile of the player.
+     * @param player  the player to deny movement.
+     * @param profile the profile of the player.
      */
     private void denyPlayerMovement(Player player, Profile profile) {
         Event event = profile.getEvent();
