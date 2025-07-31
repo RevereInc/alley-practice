@@ -4,7 +4,6 @@ import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.enums.EventState;
 import dev.revere.alley.game.event.impl.sumo.SumoEvent;
 import dev.revere.alley.game.event.task.EventTask;
-import org.bukkit.entity.Player;
 
 /**
  * @author Emmy
@@ -41,8 +40,8 @@ public class SumoRoundStartTask extends EventTask {
     /**
      * Applies the cooldown phrase to all team members of both participants.
      *
-     * @param event         the SumoEvent instance.
-     * @param denyMovement  whether to deny movement during cooldown.
+     * @param event        the SumoEvent instance.
+     * @param denyMovement whether to deny movement during cooldown.
      */
     private void applyCooldownPhrase(SumoEvent event, boolean denyMovement) {
         event.getTeamMembers(event.getParticipantA())

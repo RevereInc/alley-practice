@@ -1,6 +1,9 @@
 package dev.revere.alley.game.event;
 
+import dev.revere.alley.game.event.enums.EventTeamSize;
+import dev.revere.alley.game.event.enums.EventType;
 import dev.revere.alley.plugin.lifecycle.Service;
+import org.bukkit.entity.Player;
 
 /**
  * @author Emmy
@@ -8,6 +11,14 @@ import dev.revere.alley.plugin.lifecycle.Service;
  * @since 29/07/2025
  */
 public interface EventService extends Service {
+    /**
+     * Starts a new event with the specified type and team size.
+     *
+     * @param eventType the type of the event to start.
+     * @param teamSize  the size of the teams in the event.
+     */
+    void startEvent(Player player, EventType eventType, EventTeamSize teamSize);
+
     /**
      * Terminates the current event and resets the last event time.
      * This method should be called when an event ends or is cancelled.

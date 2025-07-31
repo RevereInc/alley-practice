@@ -3,13 +3,9 @@ package dev.revere.alley.game.event.menu;
 import dev.revere.alley.Alley;
 import dev.revere.alley.api.menu.Button;
 import dev.revere.alley.api.menu.Menu;
-import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.EventService;
 import dev.revere.alley.game.event.enums.EventTeamSize;
 import dev.revere.alley.game.event.enums.EventType;
-import dev.revere.alley.game.event.impl.sumo.SumoEvent;
-import dev.revere.alley.game.event.map.EventMapService;
-import dev.revere.alley.game.event.map.enums.EventMapType;
 import dev.revere.alley.tool.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
@@ -73,20 +69,8 @@ public class EventTeamSizeSelectorMenu extends Menu {
         public void clicked(Player player, ClickType clickType) {
             if (clickType != ClickType.LEFT) return;
 
-            EventMapService eventMapService = Alley.getInstance().getService(EventMapService.class);
             EventService eventService = Alley.getInstance().getService(EventService.class);
-
-            switch (this.eventType) {
-                case SUMO:
-                    Event event = new SumoEvent(eventMapService.getRandomEventMap(EventMapType.SUMO), player.getUniqueId(), EventTeamSize.SOLO);
-                    event.startEvent();
-                    eventService.setEvent(event);
-                    event.handleJoin(player, false);
-                    break;
-                default:
-                    player.sendMessage("&cThis event type is not supported yet.");
-                    break;
-            }
+            eventService.startEvent(player, this.eventType, this.eventTeamSize);
 
             player.closeInventory();
         }
