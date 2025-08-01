@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -21,8 +19,6 @@ public class EventParticipant {
 
     private boolean alive;
 
-    private final List<TeamMember> teamMembers = new ArrayList<>();
-
     /**
      * Constructor for the EventParticipant class.
      *
@@ -33,17 +29,5 @@ public class EventParticipant {
         this.username = uuid.getName();
 
         this.alive = true;
-
-        TeamMember leader = new TeamMember(uuid);
-        this.teamMembers.add(leader);
-    }
-
-    /**
-     * Method to determine whether the participant is eliminated.
-     *
-     * @return true if all team members are dead, false otherwise.
-     */
-    public boolean isEliminated() {
-        return this.teamMembers.stream().allMatch(TeamMember::isDead);
     }
 }

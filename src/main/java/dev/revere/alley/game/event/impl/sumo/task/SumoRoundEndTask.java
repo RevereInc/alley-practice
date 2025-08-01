@@ -2,14 +2,14 @@ package dev.revere.alley.game.event.impl.sumo.task;
 
 import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.enums.EventState;
-import dev.revere.alley.game.event.task.EventTask;
+import dev.revere.alley.game.event.task.BaseEventTask;
 
 /**
  * @author Emmy
  * @project alley-practice
  * @since 29/07/2025
  */
-public class SumoRoundEndTask extends EventTask {
+public class SumoRoundEndTask extends BaseEventTask {
     /**
      * Constructor for the SumoRoundEndTask class.
      *
@@ -27,7 +27,7 @@ public class SumoRoundEndTask extends EventTask {
             event.stopEvent();
         } else {
             if (this.getStage() >= 3) {
-                event.handleNewRound();
+                event.handleRoundStart();
             }
         }
     }

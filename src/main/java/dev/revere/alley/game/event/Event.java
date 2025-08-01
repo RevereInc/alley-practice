@@ -8,24 +8,26 @@ import dev.revere.alley.game.event.enums.EventType;
 import dev.revere.alley.game.event.impl.sumo.SumoEvent;
 import dev.revere.alley.game.event.map.EventMap;
 import dev.revere.alley.game.event.participant.EventParticipant;
-import dev.revere.alley.game.event.participant.TeamMember;
-import dev.revere.alley.game.event.task.EventTask;
+import dev.revere.alley.game.event.task.BaseEventTask;
+import dev.revere.alley.game.event.task.impl.EventGameTask;
 import dev.revere.alley.profile.Profile;
 import dev.revere.alley.profile.ProfileService;
 import dev.revere.alley.profile.enums.ProfileState;
+import dev.revere.alley.tool.reflection.ReflectionService;
+import dev.revere.alley.tool.reflection.impl.TitleReflectionServiceImpl;
 import dev.revere.alley.util.PlayerUtil;
+import dev.revere.alley.util.SoundUtil;
 import dev.revere.alley.util.TimeUtil;
 import dev.revere.alley.util.chat.CC;
 import dev.revere.alley.util.chat.ClickableUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -38,21 +40,20 @@ import java.util.concurrent.ConcurrentHashMap;
 public abstract class Event {
     private final Alley plugin = Alley.getInstance();
 
-    private final ConcurrentHashMap<UUID, EventParticipant> participants = new ConcurrentHashMap<>();
+    private final Map<UUID, EventParticipant> participants = new ConcurrentHashMap<>();
     private final List<UUID> spectators = new ArrayList<>();
 
     private EventState state = EventState.PREPARING;
     private EventCountdown countdown;
     private EventType eventType;
-    private EventTask task;
-
+    private BaseEventTask task;
     private EventMap map;
+
     private final UUID host;
 
     private long roundStart;
 
     private int maxPlayers;
-    private int totalPlayers;
 
     /**
      * Constructor for the Event class.
@@ -69,19 +70,130 @@ public abstract class Event {
         this.maxPlayers = maxPlayers;
     }
 
-    public abstract void startEvent();
-
-    public abstract void stopEvent();
-
-    public abstract void handleJoin(Player player, boolean notify);
-
-    public abstract void handleLeave(Player player, boolean notify);
-
     public abstract void handleDeath(Player player);
 
-    public abstract void handleNewRound();
+    /**
+     * Starts the event by initializing the game task and notifying the host.
+     */
+    public void startEvent() {
+        EventGameTask task = new EventGameTask(this);
+        this.setEventTask(task);
 
-    public abstract boolean canEventEnd();
+        Player player = Bukkit.getPlayer(this.getHost());
+        if (player == null) return;
+
+        this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                player,
+                "&a&lSUCCESS!",
+                "&fYou've hosted a &6" + this.getEventType().getName() + " Event&f!",
+                10, 30, 10
+        );
+
+        SoundUtil.playCustomSound(player, Sound.FIREWORK_TWINKLE, 1.0F, 1.0F);
+    }
+
+    /**
+     * Stops the event and finalizes all players and spectators.
+     */
+    public void stopEvent() {
+        this.getPlayers().forEach(this::finalizePlayer);
+
+        this.getSpectators().forEach(spectator -> {
+            Player player = Bukkit.getPlayer(spectator);
+            if (player == null) return;
+            this.removeSpectator(player);
+        });
+
+        this.getTask().cancel();
+        this.plugin.getService(EventService.class).terminateEvent();
+    }
+
+    /**
+     * Handles a player joining the event.
+     *
+     * @param player the player who is joining.
+     * @param notify whether to notify other participants about the join.
+     */
+    public void handleJoin(Player player, boolean notify) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+
+        EventParticipant participant = new EventParticipant(player);
+        this.getParticipants().put(player.getUniqueId(), participant);
+
+        if (notify) {
+            this.notifyParticipants("&6" + player.getName() + " &ahas joined the event. &6(&a" + this.getRemainingPlayers().size() + "&6/&a" + this.getMaxPlayers() + "&6)");
+        }
+
+        profile.setState(ProfileState.PLAYING_EVENT);
+        profile.setEvent(this);
+
+        PlayerUtil.reset(player, true, true);
+        player.teleport(this.getMap().getSpawn());
+        this.plugin.getService(HotbarService.class).applyHotbarItems(player);
+    }
+
+    /**
+     * Handles a player leaving the event.
+     *
+     * @param player the player who is leaving.
+     * @param notify whether to notify other participants about the leave.
+     */
+    public void handleLeave(Player player, boolean notify) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+        this.getParticipants().remove(player.getUniqueId());
+
+        if (notify) {
+            if (this.getState().equals(EventState.PREPARING)) {
+                this.notifyParticipants("&c" + player.getName() + " has left the event. (&f" + this.getRemainingPlayers().size() + "&c/&f" + this.getMaxPlayers() + "&c)");
+            }
+        }
+
+        profile.setState(ProfileState.LOBBY);
+        profile.setEvent(null);
+
+        this.plugin.getService(SpawnService.class).teleportToSpawn(player);
+        this.plugin.getService(HotbarService.class).applyHotbarItems(player);
+    }
+
+    /**
+     * Handles the start of a round in the event.
+     * This method sets the state to STARTING_ROUND.
+     */
+    public void handleRoundStart() {
+        this.setState(EventState.STARTING_ROUND);
+    }
+
+    /**
+     * Checks if the event can end based on the number of remaining players.
+     *
+     * @return true if the event can end, false otherwise.
+     */
+    public boolean canEventEnd() {
+        return this.getRemainingPlayers().size() <= 1;
+    }
+
+    /**
+     * Method to be called upon round start.
+     *
+     * @param player the player to initialize.
+     */
+    public void initializePlayer(Player player) {
+        PlayerUtil.reset(player, true, true);
+    }
+
+    /**
+     * Reset the player and send them back to the lobby.
+     *
+     * @param player the player to reset.
+     */
+    public void finalizePlayer(Player player) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+        profile.setState(ProfileState.LOBBY);
+        profile.setEvent(null);
+
+        this.plugin.getService(HotbarService.class).applyHotbarItems(player);
+        this.plugin.getService(SpawnService.class).teleportToSpawn(player);
+    }
 
     /**
      * Gets the list of remaining players who are still alive in the event.
@@ -91,15 +203,13 @@ public abstract class Event {
     public List<Player> getRemainingPlayers() {
         List<Player> remainingPlayers = new ArrayList<>();
 
-        this.participants.values().forEach(participant -> {
-            participant.getTeamMembers().forEach(teamMember -> {
-                if (!teamMember.isDead()) {
-                    Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
-                    if (player != null && player.isOnline()) {
-                        remainingPlayers.add(player);
-                    }
+        this.participants.forEach((uuid, participant) -> {
+            if (participant.isAlive()) {
+                Player player = this.plugin.getServer().getPlayer(uuid);
+                if (player != null && player.isOnline()) {
+                    remainingPlayers.add(player);
                 }
-            });
+            }
         });
 
         return remainingPlayers;
@@ -113,33 +223,14 @@ public abstract class Event {
     public List<Player> getPlayers() {
         List<Player> players = new ArrayList<>();
 
-        this.participants.values().forEach(participant -> participant.getTeamMembers().forEach(teamMember -> {
-            if (!teamMember.isDead()) {
-                Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
-                if (player != null && player.isOnline()) {
-                    players.add(player);
-                }
+        this.participants.forEach((uuid, participant) -> {
+            Player player = this.plugin.getServer().getPlayer(uuid);
+            if (player != null && player.isOnline()) {
+                players.add(player);
             }
-        }));
+        });
 
         return players;
-    }
-
-    /**
-     * Gets the participant object by the member's UUID.
-     *
-     * @param memberUuid the UUID of the team member.
-     * @return the EventParticipant object if found, otherwise null.
-     */
-    public EventParticipant getParticipant(UUID memberUuid) {
-        return participants.values().stream()
-                .filter(participant ->
-                        participant.getTeamMembers().stream()
-                                .map(TeamMember::getUuid)
-                                .anyMatch(uuid -> uuid.equals(memberUuid))
-                )
-                .findFirst()
-                .orElse(null);
     }
 
     /**
@@ -148,25 +239,18 @@ public abstract class Event {
      * @param participant the participant of an event.
      * @return the player object of the participant.
      */
-    public Player getParticipantPlayer(EventParticipant participant) {
+    public Player getPlayer(EventParticipant participant) {
         return this.plugin.getServer().getPlayer(participant.getUuid());
     }
 
     /**
-     * Gets the team members of a specific participant in the event.
+     * Gets the EventParticipant object by the player's UUID.
      *
-     * @param participant the participant whose team members are to be retrieved.
-     * @return a list of players who are team members of the participant.
+     * @param uuid the UUID of the player.
+     * @return the EventParticipant object associated with the player, or null if not found.
      */
-    public List<Player> getTeamMembers(EventParticipant participant) {
-        List<Player> teamMembers = new ArrayList<>();
-        participant.getTeamMembers().forEach(teamMember -> {
-            Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
-            if (player != null && player.isOnline()) {
-                teamMembers.add(player);
-            }
-        });
-        return teamMembers;
+    public EventParticipant getParticipant(UUID uuid) {
+        return this.participants.get(uuid);
     }
 
     /**
@@ -175,27 +259,72 @@ public abstract class Event {
      * @param message the message to send.
      */
     public void notifyParticipants(String message) {
-        this.participants.values().forEach(participant -> participant.getTeamMembers().forEach(
-                teamMember -> {
-                    Player player = this.plugin.getServer().getPlayer(teamMember.getUuid());
-                    if (player != null && player.isOnline()) {
-                        player.sendMessage(CC.translate(message));
-                    }
-                }
-        ));
+        this.participants.values().forEach(participant -> {
+            Player player = this.getPlayer(participant);
+            if (player != null && player.isOnline()) {
+                player.sendMessage(CC.translate(message));
+            }
+        });
     }
 
     /**
-     * Notifies the participants that there aren't enough players to start the specific event.
+     * Adds a spectator to the event.
      *
-     * @param type the event type.
+     * @param player the player to be added.
      */
-    public void sendNotEnoughPlayersMessage(EventType type) {
-        Arrays.asList(
-                "",
-                "&6&l[&a" + type.getName() + "&6&l] &cNot enough players to start the event.",
-                ""
-        ).forEach(this::notifyParticipants);
+    public void addSpectator(Player player) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+        profile.setState(ProfileState.SPECTATING);
+        profile.setEvent(this);
+
+        this.spectators.add(player.getUniqueId());
+        PlayerUtil.reset(player, true, true);
+
+        player.teleport(this.getMap().getCenter());
+    }
+
+    /**
+     * Removes a spectator from the event.
+     *
+     * @param player the player to be removed.
+     */
+    public void removeSpectator(Player player) {
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
+        profile.setState(ProfileState.LOBBY);
+        profile.setEvent(null);
+
+        this.spectators.remove(player.getUniqueId());
+
+        this.plugin.getService(SpawnService.class).teleportToSpawn(player);
+        this.plugin.getService(HotbarService.class).applyHotbarItems(player);
+    }
+
+    /**
+     * Change the current event task.
+     *
+     * @param task the task to be set.
+     */
+    public void setEventTask(BaseEventTask task) {
+        this.task = task;
+        if (this.task != null) {
+            this.task.runTaskTimer(this.plugin, 0L, 20L);
+        }
+    }
+
+    /**
+     * Gets the duration of the round.
+     *
+     * @return the duration of the round.
+     */
+    public String getDuration() {
+        switch (this.state) {
+            case STARTING_ROUND:
+                return "00:00";
+            case RUNNING_ROUND:
+                return TimeUtil.millisToTimer(System.currentTimeMillis() - this.roundStart);
+            default:
+                return "Ending";
+        }
     }
 
     /**
@@ -255,76 +384,15 @@ public abstract class Event {
     }
 
     /**
-     * Change the current event task.
+     * Notifies the participants that there aren't enough players to start the specific event.
      *
-     * @param task the task to be set.
+     * @param type the event type.
      */
-    public void setTask(EventTask task) {
-        this.task = task;
-        if (this.task != null) {
-            this.task.runTaskTimer(this.plugin, 0L, 20L);
-        }
-    }
-
-    /**
-     * Gets the duration of the round.
-     *
-     * @return the duration of the round.
-     */
-    public String getDuration() {
-        switch (this.state) {
-            case STARTING_ROUND:
-                return "00:00";
-            case RUNNING_ROUND:
-                return TimeUtil.millisToTimer(System.currentTimeMillis() - this.roundStart);
-            default:
-                return "Ending";
-        }
-    }
-
-    /**
-     * Reset the player and send them back to the lobby.
-     *
-     * @param player the player to reset.
-     */
-    public void finalizePlayer(Player player) {
-        Profile profile = Alley.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
-        profile.setState(ProfileState.LOBBY);
-        profile.setEvent(null);
-
-        Alley.getInstance().getService(HotbarService.class).applyHotbarItems(player);
-        Alley.getInstance().getService(SpawnService.class).teleportToSpawn(player);
-    }
-
-    /**
-     * Adds a spectator to the event.
-     *
-     * @param player the player to be added.
-     */
-    public void addSpectator(Player player) {
-        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
-        profile.setState(ProfileState.SPECTATING);
-        profile.setEvent(this);
-
-        this.spectators.add(player.getUniqueId());
-        PlayerUtil.reset(player, true, true);
-
-        player.teleport(this.getMap().getCenter());
-    }
-
-    /**
-     * Removes a spectator from the event.
-     *
-     * @param player the player to be removed.
-     */
-    public void removeSpectator(Player player) {
-        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
-        profile.setState(ProfileState.LOBBY);
-        profile.setEvent(null);
-
-        this.spectators.remove(player.getUniqueId());
-
-        this.plugin.getService(SpawnService.class).teleportToSpawn(player);
-        this.plugin.getService(HotbarService.class).applyHotbarItems(player);
+    public void sendNotEnoughPlayersMessage(EventType type) {
+        Arrays.asList(
+                "",
+                "&7[&6" + type.getName() + "&7] &cNot enough players to start the event.",
+                ""
+        ).forEach(this::notifyParticipants);
     }
 }

@@ -14,7 +14,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @since 29/07/2025
  */
 @Getter
-public abstract class EventTask extends BukkitRunnable {
+public abstract class BaseEventTask extends BukkitRunnable {
     private final EventState state;
     private final Event event;
     private int stage;
@@ -25,7 +25,7 @@ public abstract class EventTask extends BukkitRunnable {
      * @param event the event .
      * @param state the state of the event.
      */
-    public EventTask(Event event, EventState state) {
+    public BaseEventTask(Event event, EventState state) {
         this.event = event;
         this.state = state;
     }

@@ -51,7 +51,7 @@ public class TNTTagEvent extends Event {
     }
 
     @Override
-    public void handleNewRound() {
+    public void handleRoundStart() {
 
     }
 

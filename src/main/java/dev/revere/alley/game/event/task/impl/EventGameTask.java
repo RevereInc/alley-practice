@@ -1,9 +1,9 @@
-package dev.revere.alley.game.event.impl.sumo.task;
+package dev.revere.alley.game.event.task.impl;
 
 import dev.revere.alley.game.event.Event;
 import dev.revere.alley.game.event.EventCountdown;
 import dev.revere.alley.game.event.enums.EventState;
-import dev.revere.alley.game.event.task.EventTask;
+import dev.revere.alley.game.event.task.BaseEventTask;
 import dev.revere.alley.tool.logger.Logger;
 import org.bukkit.Bukkit;
 
@@ -12,13 +12,13 @@ import org.bukkit.Bukkit;
  * @project alley-practice
  * @since 29/07/2025
  */
-public class SumoGameTask extends EventTask {
+public class EventGameTask extends BaseEventTask {
     /**
      * Constructor for the SumoGameTask class.
      *
      * @param event the event .
      */
-    public SumoGameTask(Event event) {
+    public EventGameTask(Event event) {
         super(event, EventState.PREPARING);
     }
 
@@ -55,10 +55,7 @@ public class SumoGameTask extends EventTask {
             } else {
                 if (event.getCountdown().isOver()) {
                     Logger.info("&cEvent has started.");
-                    event.setState(EventState.STARTING_ROUND);
-                    event.handleNewRound();
-                    event.setTotalPlayers(event.getPlayers().size());
-                    event.setTask(new SumoRoundStartTask(event));
+                    event.handleRoundStart();
                 }
             }
         }
