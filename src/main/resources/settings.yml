@@ -9,7 +9,7 @@ command:
 
 spawn:
   # The spawn location of the server
-  join-location: world:0.5:73.0:0.5:90.0:0.0
+  join-location: ""
 
 game:
   blocked-commands: # Commands that will be blocked in-game, players won't be able to execute them.
@@ -32,9 +32,6 @@ explosive:
     vertical: 0.8
     horizontal: 1.2
     tnt-fuse-ticks: 80
-
-parkour:
-  starter-location: world:-5.1145064347201865:69.0:40.13243289901497:-1.9397448:20.588186
 
 arena:
   # When creating an arena, the following display-name for each

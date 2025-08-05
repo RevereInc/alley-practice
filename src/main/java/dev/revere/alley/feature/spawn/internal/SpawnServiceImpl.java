@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.spawn.internal;
 
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
@@ -8,6 +9,7 @@ import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.spawn.SpawnService;
+import dev.revere.alley.feature.spawn.task.SpawnReminderTask;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -40,6 +42,7 @@ public class SpawnServiceImpl implements SpawnService {
         FileConfiguration config = this.configService.getSettingsConfig();
         Location location = Serializer.deserializeLocation(config.getString("spawn.join-location"));
         if (location == null) {
+            new SpawnReminderTask().runTaskTimer(AlleyPlugin.getInstance(), 0L, 50L);
             Logger.error("Spawn location is null.");
             return;
         }
