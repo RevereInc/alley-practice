@@ -28,6 +28,8 @@ import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.feature.queue.QueueType;
 import dev.revere.alley.feature.queue.menu.sub.RankedMenu;
 import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.library.menu.fallback.FallbackMenu;
+import dev.revere.alley.library.menu.fallback.enums.FallbackType;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -340,8 +342,9 @@ public class HotbarServiceImpl implements HotbarService {
             case "UNRANKED_DUO_MENU":
                 profile.setQueueType(QueueType.DUOS);
                 return this.queueService.getQueueMenu();
-            default:
-                throw new IllegalArgumentException("Unknown menu type: " + name);
         }
+
+        Logger.error("(HOTBAR) Menu with name '" + name + "' does not exist or is not properly configured.");
+        return new FallbackMenu(FallbackType.HOTBAR_CONFIG_MENU_STRING);
     }
 }
