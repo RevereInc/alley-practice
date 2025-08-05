@@ -9,6 +9,7 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
+import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -24,6 +25,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class FFASpawnServiceImpl implements FFASpawnService {
     private final ConfigService configService;
     private final ArenaService arenaService;
+    private final FFAService ffaService;
 
     private Location minimum;
     private Location maximum;
@@ -31,11 +33,16 @@ public class FFASpawnServiceImpl implements FFASpawnService {
     private Cuboid cuboid;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FFASpawnServiceImpl class.
+     *
+     * @param configService the config service instance.
+     * @param arenaService  the arena service instance.
+     * @param ffaService    the FFA service instance.
      */
-    public FFASpawnServiceImpl(ConfigService configService, ArenaService arenaService) {
+    public FFASpawnServiceImpl(ConfigService configService, ArenaService arenaService, FFAService ffaService) {
         this.configService = configService;
         this.arenaService = arenaService;
+        this.ffaService = ffaService;
     }
 
     @Override
@@ -47,6 +54,10 @@ public class FFASpawnServiceImpl implements FFASpawnService {
      * Load the FFA spawn location from the arenas.yml file
      */
     public void loadCuboid() {
+        if (this.ffaService.getFfaKits().isEmpty()) {
+            return;
+        }
+
         FileConfiguration config = this.configService.getArenasConfig();
         Arena arena = this.arenaService.getArenas().stream()
                 .filter(a -> a.getType() == ArenaType.FFA)
