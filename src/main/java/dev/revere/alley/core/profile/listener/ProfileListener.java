@@ -22,7 +22,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.InventoryHolder;
 
 /**
@@ -196,15 +199,21 @@ public class ProfileListener implements Listener {
     }
 
     @EventHandler
-    private void onPlayerMove(PlayerMoveEvent event) {
-        Player player = event.getPlayer();
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+    public void onPlayerDamage(EntityDamageEvent event) {
+        Player player = (Player) event.getEntity();
+        if (player == null) return;
 
-        if (profile.getState() == ProfileState.LOBBY || profile.getState() == ProfileState.WAITING) {
-            if (player.getLocation().getBlockY() < 0) {
-                SpawnService spawnService = AlleyPlugin.getInstance().getService(SpawnService.class);
-                spawnService.teleportToSpawn(player);
+        Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        ProfileState state = profile.getState();
+
+        if (state == ProfileState.LOBBY
+                || state == ProfileState.EDITING
+                || state == ProfileState.WAITING) {
+            if (player.getGameMode() == GameMode.CREATIVE) return;
+
+            if (player.getLocation().getY() < 0) {
+                AlleyPlugin.getInstance().getService(SpawnService.class).teleportToSpawn(player);
+                AlleyPlugin.getInstance().getService(HotbarService.class).applyHotbarItems(player);
             }
         }
     }
