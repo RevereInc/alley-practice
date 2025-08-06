@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.host.menu;
 
+import dev.revere.alley.feature.tournament.menu.TournamentHostTypeMenu;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.common.item.ItemBuilder;
@@ -33,8 +34,8 @@ public class HostMenu extends Menu {
                 "&fHost an event with different",
                 "&funique implementations.",
                 "",
-                " &f● &6Types: &7Sumo",
-                " &f● &cMore soon...",
+                " &6│ &6Types: &7Sumo",
+                " &6│ &cMore soon...",
                 "",
                 "&aClick to host!"
         )));
@@ -74,7 +75,7 @@ public class HostMenu extends Menu {
 
             switch (this.itemStack.getType()) {
                 case BOW:
-                    // Open the tournament menu
+                    new TournamentHostTypeMenu().openMenu(player);
                     break;
                 case EMPTY_MAP:
                     //new EventMenu().openMenu(player);

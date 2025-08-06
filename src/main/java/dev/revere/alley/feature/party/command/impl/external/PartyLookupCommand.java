@@ -41,10 +41,10 @@ public class PartyLookupCommand extends BaseCommand {
 
         Arrays.asList(
                 "&6&l" + party.getLeader().getName() + "'s Party",
-                " &f● &6Leader: &f" + party.getLeader().getName(),
-                " &f● &6Members: &f" + party.getMembers().size(),
-                " &f● &6Status: &f" + (party.getState().getName()),
-                " &f● &6Privacy: &f" + (party.getState().getDescription()
+                " &6│ &6Leader: &f" + party.getLeader().getName(),
+                " &6│ &6Members: &f" + party.getMembers().size(),
+                " &6│ &6Status: &f" + (party.getState().getName()),
+                " &6│ &6Privacy: &f" + (party.getState().getDescription()
                 )).forEach(msg -> player.sendMessage(CC.translate(msg)));
     }
 }

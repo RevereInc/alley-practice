@@ -83,7 +83,7 @@ public class PartyServiceImpl implements PartyService {
     }
 
     @Override
-    public void startMatch(Kit kit, Arena arena, Party party) {
+    public void startSplitMatch(Kit kit, Arena arena, Party party) {
         List<Player> allPartyPlayers = party.getMembers().stream()
                 .map(Bukkit::getPlayer)
                 .collect(Collectors.toList());
@@ -117,6 +117,29 @@ public class PartyServiceImpl implements PartyService {
 
         this.matchService.createAndStartMatch(
                 kit, this.arenaService.selectArenaWithPotentialTemporaryCopy(arena), participantA, participantB, true, false, false
+        );
+    }
+
+    @Override
+    public void startFFAMatch(Kit kit, Arena arena, Party party) {
+        List<Player> allPartyPlayers = party.getMembers().stream()
+                .map(Bukkit::getPlayer)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        if (allPartyPlayers.size() < 2) {
+            party.getLeader().sendMessage(CC.translate("&cYou need at least 2 players in your party to start a FFA match."));
+            return;
+        }
+
+        List<GameParticipant<MatchGamePlayer>> participants = new ArrayList<>();
+        for (Player player : allPartyPlayers) {
+            MatchGamePlayer gamePlayer = new MatchGamePlayer(player.getUniqueId(), player.getName());
+            participants.add(new TeamGameParticipant<>(gamePlayer));
+        }
+
+        this.matchService.createAndStartMatch(
+                kit, this.arenaService.selectArenaWithPotentialTemporaryCopy(arena), participants
         );
     }
 
@@ -396,8 +419,8 @@ public class PartyServiceImpl implements PartyService {
 
         target.sendMessage("");
         target.sendMessage(CC.translate("&6&lParty Invitation"));
-        target.sendMessage(CC.translate("&f&l ● &fFrom: &6" + sender.getName()));
-        target.sendMessage(CC.translate("&f&l ● &fPlayers: &6" + party.getMembers().size() + "&f/&630")); //TODO: Implement party size limit with permissions ect...
+        target.sendMessage(CC.translate("&6&l│ &fFrom: &6" + sender.getName()));
+        target.sendMessage(CC.translate("&6&l│ &fPlayers: &6" + party.getMembers().size() + "&f/&630")); //TODO: Implement party size limit with permissions ect...
         target.spigot().sendMessage(this.getClickable(sender));
         target.sendMessage("");
     }

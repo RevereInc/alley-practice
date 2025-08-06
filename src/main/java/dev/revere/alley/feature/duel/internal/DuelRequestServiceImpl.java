@@ -234,7 +234,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
             Party senderParty = this.profileService.getProfile(sender.getUniqueId()).getParty();
             int partySize = (senderParty != null) ? senderParty.getMembers().size() : 1;
 
-            fromComponent.setText(CC.translate(String.format("&f&l ● &fFrom: &6%s's Party (&a%d&6)", sender.getName(), partySize)));
+            fromComponent.setText(CC.translate(String.format("&6&l│ &fFrom: &6%s's Party (&a%d&6)", sender.getName(), partySize)));
 
             StringBuilder hoverText = new StringBuilder();
             hoverText.append(CC.translate("&6&lParticipants:\n"));
@@ -262,11 +262,11 @@ public class DuelRequestServiceImpl implements DuelRequestService {
             fromComponent.setHoverEvent(hoverEvent);
 
         } else {
-            fromComponent.setText(CC.translate("&f&l ● &fFrom: &6" + sender.getName()));
+            fromComponent.setText(CC.translate("&6&l│ &fFrom: &6" + sender.getName()));
         }
 
-        TextComponent arenaComponent = new TextComponent(CC.translate("&f&l ● &fArena: &6" + arena.getDisplayName()));
-        TextComponent kitComponent = new TextComponent(CC.translate("&f&l ● &fKit: &6" + kit.getName()));
+        TextComponent arenaComponent = new TextComponent(CC.translate("&6&l│ &fArena: &6" + arena.getDisplayName()));
+        TextComponent kitComponent = new TextComponent(CC.translate("&6&l│ &fKit: &6" + kit.getName()));
 
         TextComponent acceptComponent = getClickable(sender);
 

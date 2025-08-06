@@ -48,10 +48,13 @@ import dev.revere.alley.feature.match.task.other.MatchCampProtectionTask;
 import dev.revere.alley.feature.match.task.other.MatchRespawnTask;
 import dev.revere.alley.feature.queue.Queue;
 import dev.revere.alley.feature.spawn.SpawnService;
+import dev.revere.alley.feature.tournament.TournamentService;
+import dev.revere.alley.feature.tournament.model.Tournament;
 import dev.revere.alley.feature.visibility.VisibilityService;
 import dev.revere.alley.visual.nametag.NametagService;
 import lombok.Getter;
 import lombok.Setter;
+import net.md_5.bungee.api.chat.BaseComponent;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
@@ -82,6 +85,8 @@ public abstract class Match {
     private final Arena arena;
     private final boolean ranked;
 
+    protected Tournament tournament;
+
     private final Map<BlockState, Location> brokenBlocks = new ConcurrentHashMap<>();
     private final Map<BlockState, Location> placedBlocks = new ConcurrentHashMap<>();
     private final List<UUID> spectators = new CopyOnWriteArrayList<>();
@@ -104,7 +109,7 @@ public abstract class Match {
      * @param ranked Whether the match is ranked.
      */
     public Match(Queue queue, Kit kit, Arena arena, boolean ranked) {
-        this.queue = Objects.requireNonNull(queue, "Queue cannot be null");
+        this.queue = queue;
         this.kit = Objects.requireNonNull(kit, "Kit cannot be null");
         this.arena = Objects.requireNonNull(arena, "Arena cannot be null");
         this.ranked = ranked;
@@ -157,6 +162,10 @@ public abstract class Match {
         this.cleanupHealthDisplay();
 
         AlleyPlugin.getInstance().getService(MatchService.class).removeMatch(this);
+
+        if (this.tournament != null) {
+            AlleyPlugin.getInstance().getService(TournamentService.class).handleMatchEnd(this);
+        }
     }
 
     private void deleteArenaCopyIfStandalone() {
@@ -377,18 +386,7 @@ public abstract class Match {
 
         player.setVelocity(new Vector());
 
-        if (this.canEndRound()) {
-            this.state = MatchState.ENDING_ROUND;
-            this.handleRoundEnd();
-
-            if (this.canEndMatch()) {
-                if (killer != null) {
-                    this.handleDeathEffects(player, killer);
-                }
-
-                this.state = MatchState.ENDING_MATCH;
-            }
-            this.runnable.setStage(4);
+        if (checkForConclusion(player, killer)) {
             return;
         }
 
@@ -415,13 +413,44 @@ public abstract class Match {
     }
 
     /**
+     * Checks if the match has reached a conclusion (round end or match end) and handles it accordingly.
+     * This is the centralized method to determine if the match should end based on the current state and conditions.
+     *
+     * @param victim The player who may have triggered the conclusion (can be null).
+     * @param killer The killer involved in the conclusion (can be null).
+     * @return true if a conclusion is reached, false otherwise.
+     */
+    public boolean checkForConclusion(Player victim, Player killer) {
+        if (!this.canEndRound()) {
+            return false;
+        }
+
+        this.state = MatchState.ENDING_ROUND;
+        if (this.runnable != null) {
+            this.runnable.setStage(4);
+        }
+
+        this.handleRoundEnd();
+
+        if (this.canEndMatch()) {
+            if (victim != null && killer != null) {
+                this.handleDeathEffects(victim, killer);
+            }
+
+            this.state = MatchState.ENDING_MATCH;
+        }
+
+        return true;
+    }
+
+    /**
      * Handles the player becoming a spectator based on the match state and kit settings.
      *
      * @param player      The player to handle.
      * @param profile     The profile of the player.
      * @param participant The participant of the match.
      */
-    private boolean handleSpectator(Player player, Profile profile, GameParticipant<MatchGamePlayer> participant) {
+    protected boolean handleSpectator(Player player, Profile profile, GameParticipant<MatchGamePlayer> participant) {
         Kit matchKit = profile.getMatch().getKit();
 
         MatchGamePlayer gamePlayer = this.getFromAllGamePlayers(player);
@@ -1041,6 +1070,28 @@ public abstract class Match {
     }
 
     /**
+     * Notifies all participants and spectators with an advanced chat component.
+     * This is used for sending clickable or hoverable messages.
+     *
+     * @param component The component(s) to send.
+     */
+    public void sendComponentMessage(BaseComponent component) {
+        this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
+            Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
+            if (player != null) {
+                player.spigot().sendMessage(component);
+            }
+        }));
+
+        this.getSpectators().forEach(uuid -> {
+            Player player = this.plugin.getServer().getPlayer(uuid);
+            if (player != null) {
+                player.spigot().sendMessage(component);
+            }
+        });
+    }
+
+    /**
      * Checks if the attacker is in the same participant team as the supposed victim.
      *
      * @param attacker The attacker.
@@ -1153,7 +1204,6 @@ public abstract class Match {
         }
     }
 
-
     @SuppressWarnings("deprecation")
     public void resetBlockChanges() {
 
@@ -1204,8 +1254,7 @@ public abstract class Match {
         this.placedBlocks.clear();
     }
 
-
-    private void sendPlayerVersusPlayerMessage() {
+    public void sendPlayerVersusPlayerMessage() {
         String prefix = CC.translate("&7[&6Match&7] &r");
 
         if (this.isTeamMatch()) {

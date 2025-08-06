@@ -161,6 +161,22 @@ match:
         loser:
           command: "/inventory {loser}"
           hover: "&cClick to view {loser}'s inventory"
+      ffa:
+        format:
+          header:
+            - ""
+            - "&6&lMatch Results: &7(click to view)"
+          winner: " &a&lWinner: &f{player}"
+          second_place: " &e&l2nd Place: &f{player}"
+          third_place: " &6&l3rd Place: &f{player}"
+          other_losers: " &c&lLosers: &f{losers}"
+          other_losers_separator: "&7, &f"
+          footer:
+            - ""
+        player:
+          command: "/inventory {player}"
+          hover: "&aClick to view {player}'s inventory"
+
       #conjoined:
       #  format:
       #    - ""

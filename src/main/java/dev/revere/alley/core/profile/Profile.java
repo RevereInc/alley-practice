@@ -21,6 +21,7 @@ import dev.revere.alley.core.profile.data.types.ProfileRankedKitData;
 import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.tournament.model.Tournament;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -52,6 +53,7 @@ public class Profile {
     private final Map<Class<? extends Ability>, AbilityCooldown> abilityCooldowns;
     private final Map<GlobalCooldown, AbilityCooldown> globalCooldowns;
 
+    private Tournament tournament;
     private FFAMatch ffaMatch;
     private Match match;
     private Party party;

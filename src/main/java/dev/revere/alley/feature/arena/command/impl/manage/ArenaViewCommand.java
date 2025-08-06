@@ -37,9 +37,9 @@ public class ArenaViewCommand extends BaseCommand {
 
         sender.sendMessage("");
         sender.sendMessage(CC.translate("&6&lArena " + arena.getName() + " &f(" + (arena.isEnabled() ? "&aEnabled" : "&cDisabled") + "&f)"));
-        sender.sendMessage(CC.translate(" &f● &6Display Name: &f" + arena.getDisplayName()));
-        sender.sendMessage(CC.translate(" &f● &6Name: &f" + arena.getName()));
-        sender.sendMessage(CC.translate(" &f● &6Type: &f" + arena.getType()));
+        sender.sendMessage(CC.translate(" &6│ &6Display Name: &f" + arena.getDisplayName()));
+        sender.sendMessage(CC.translate(" &6│ &6Name: &f" + arena.getName()));
+        sender.sendMessage(CC.translate(" &6│ &6Type: &f" + arena.getType()));
         sender.sendMessage(CC.translate("    &6&lData: &f"));
         sender.sendMessage(CC.translate("    &f• &6Center: &f" + (arena.getCenter() != null ? arena.getCenter().getX() + ", " + arena.getCenter().getY() + ", " + arena.getCenter().getZ() + ", &7" + arena.getCenter().getPitch() + ", " + arena.getCenter().getYaw() + " &7[" + arena.getCenter().getWorld().getName() + "]" : "&cNull")));
         sender.sendMessage(CC.translate("    &f• &6Pos1: &f" + (arena.getPos1() != null ? arena.getPos1().getX() + ", " + arena.getPos1().getY() + ", " + arena.getPos1().getZ() + ", &7" + arena.getPos1().getPitch() + ", " + arena.getPos1().getYaw() + " &7[" + arena.getPos1().getWorld().getName() + "]" : "&cNull")));

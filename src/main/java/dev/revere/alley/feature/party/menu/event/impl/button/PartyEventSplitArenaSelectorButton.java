@@ -32,9 +32,11 @@ public class PartyEventSplitArenaSelectorButton extends Button {
         return new ItemBuilder(Material.PAPER)
                 .name("&6&l" + this.arena.getName())
                 .lore(
-                        " &f● &6Kit: &f" + this.kit.getDisplayName(),
+                        CC.MENU_BAR,
+                        " &6│ &6Kit: &f" + this.kit.getDisplayName(),
                         "",
-                        "&aClick to select!"
+                        "&aClick to select!",
+                        CC.MENU_BAR
                 )
                 .durability(0)
                 .hideMeta()
@@ -53,6 +55,6 @@ public class PartyEventSplitArenaSelectorButton extends Button {
         }
 
         PartyService partyService = AlleyPlugin.getInstance().getService(PartyService.class);
-        partyService.startMatch(this.kit, this.arena, party);
+        partyService.startSplitMatch(this.kit, this.arena, party);
     }
 }

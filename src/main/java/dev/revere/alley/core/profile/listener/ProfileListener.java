@@ -4,6 +4,8 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.spawn.SpawnService;
+import dev.revere.alley.feature.tournament.model.Tournament;
+import dev.revere.alley.feature.tournament.model.TournamentState;
 import dev.revere.alley.feature.visibility.VisibilityService;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.music.MusicService;
@@ -79,6 +81,7 @@ public class ProfileListener implements Listener {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() == ProfileState.LOBBY
+                || validateTournament(profile)
                 || profile.getState() == ProfileState.SPECTATING
                 || profile.getState() == ProfileState.EDITING
                 || profile.getState() == ProfileState.WAITING) {
@@ -86,7 +89,7 @@ public class ProfileListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     private void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
@@ -102,7 +105,7 @@ public class ProfileListener implements Listener {
         profile.setOnline(false);
         profile.save();
 
-        profileService.removeProfile(player.getUniqueId());
+        // profileService.removeProfile(player.getUniqueId());
     }
 
     @EventHandler
@@ -113,6 +116,7 @@ public class ProfileListener implements Listener {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() == ProfileState.LOBBY
+                || validateTournament(profile)
                 || profile.getState() == ProfileState.EDITING
                 || profile.getState() == ProfileState.SPECTATING) {
             if (player.getGameMode() == GameMode.CREATIVE) return;
@@ -149,6 +153,7 @@ public class ProfileListener implements Listener {
         profile.setMatch(null);
         profile.setParty(null);
         profile.setFfaMatch(null);
+        profile.setTournament(null);
 
         profile.setNameColor(coreAdapter.getCore().getPlayerColor(player));
         profile.getProfileData().getSettingData().setTimeBasedOnProfileSetting(player);
@@ -193,5 +198,13 @@ public class ProfileListener implements Listener {
                 );
             }
         }
+    }
+
+    private boolean validateTournament(Profile profile) {
+        Tournament tournament = profile.getTournament();
+
+        return tournament != null &&
+                profile.getState().equals(ProfileState.PLAYING_TOURNAMENT) &&
+                (tournament.getState() == TournamentState.STARTING || tournament.getState() == TournamentState.WAITING);
     }
 }
