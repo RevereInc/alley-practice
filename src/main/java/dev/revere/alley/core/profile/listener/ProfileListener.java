@@ -3,10 +3,8 @@ package dev.revere.alley.core.profile.listener;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.TaskUtil;
 import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.Symbol;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
@@ -24,13 +22,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.InventoryHolder;
-
-import java.util.Arrays;
 
 /**
  * @author Emmy
@@ -198,6 +191,20 @@ public class ProfileListener implements Listener {
                         .replace("{version}", version)
                         .replace("{author}", authors)
                 );
+            }
+        }
+    }
+
+    @EventHandler
+    private void onPlayerMove(PlayerMoveEvent event) {
+        Player player = event.getPlayer();
+        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        Profile profile = profileService.getProfile(player.getUniqueId());
+
+        if (profile.getState() == ProfileState.LOBBY || profile.getState() == ProfileState.WAITING) {
+            if (player.getLocation().getBlockY() < 0) {
+                SpawnService spawnService = AlleyPlugin.getInstance().getService(SpawnService.class);
+                spawnService.teleportToSpawn(player);
             }
         }
     }
