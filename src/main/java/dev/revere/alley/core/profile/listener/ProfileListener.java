@@ -1,18 +1,18 @@
 package dev.revere.alley.core.profile.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.music.MusicService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.feature.spawn.SpawnService;
+import dev.revere.alley.feature.visibility.VisibilityService;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -112,9 +112,12 @@ public class ProfileListener implements Listener {
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
-        if (profile.getState() == ProfileState.LOBBY
-                || profile.getState() == ProfileState.EDITING
-                || profile.getState() == ProfileState.SPECTATING) {
+        ProfileState state = profile.getState();
+
+        if (state == ProfileState.LOBBY
+                || state == ProfileState.WAITING
+                || state == ProfileState.EDITING
+                || state == ProfileState.SPECTATING) {
             if (player.getGameMode() == GameMode.CREATIVE) return;
             event.setCancelled(true);
 
@@ -191,6 +194,26 @@ public class ProfileListener implements Listener {
                         .replace("{version}", version)
                         .replace("{author}", authors)
                 );
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+        Player player = (Player) event.getEntity();
+        if (player == null) return;
+
+        Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        ProfileState state = profile.getState();
+
+        if (state == ProfileState.LOBBY
+                || state == ProfileState.EDITING
+                || state == ProfileState.WAITING) {
+            if (player.getGameMode() == GameMode.CREATIVE) return;
+
+            if (player.getLocation().getY() < 0) {
+                AlleyPlugin.getInstance().getService(SpawnService.class).teleportToSpawn(player);
+                AlleyPlugin.getInstance().getService(HotbarService.class).applyHotbarItems(player);
             }
         }
     }
