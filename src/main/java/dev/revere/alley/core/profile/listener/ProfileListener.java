@@ -5,7 +5,6 @@ import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.feature.tournament.model.Tournament;
-import dev.revere.alley.feature.tournament.model.TournamentState;
 import dev.revere.alley.feature.visibility.VisibilityService;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.music.MusicService;
@@ -49,6 +48,7 @@ public class ProfileListener implements Listener {
         }
 
         Profile profile = new Profile(event.getPlayer().getUniqueId());
+        profile.setName(event.getPlayer().getName());
         profile.load();
 
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
@@ -203,8 +203,6 @@ public class ProfileListener implements Listener {
     private boolean validateTournament(Profile profile) {
         Tournament tournament = profile.getTournament();
 
-        return tournament != null &&
-                profile.getState().equals(ProfileState.PLAYING_TOURNAMENT) &&
-                (tournament.getState() == TournamentState.STARTING || tournament.getState() == TournamentState.WAITING);
+        return tournament != null && profile.getState().equals(ProfileState.TOURNAMENT_LOBBY);
     }
 }

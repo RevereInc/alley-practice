@@ -70,11 +70,11 @@ public class Profile {
         this.firstJoin = System.currentTimeMillis();
         this.state = ProfileState.LOBBY;
         this.profileData = new ProfileData();
-        this.name = Bukkit.getOfflinePlayer(this.uuid).getName();
+        String offlineName = Bukkit.getOfflinePlayer(this.uuid).getName();
+        this.name = (offlineName != null) ? offlineName : "";
         this.leaderboardType = LeaderboardType.RANKED;
         this.queueType = QueueType.UNRANKED;
         this.nameColor = ChatColor.WHITE;
-
         this.abilityCooldowns = new HashMap<>();
         this.globalCooldowns = new EnumMap<>(GlobalCooldown.class);
     }
