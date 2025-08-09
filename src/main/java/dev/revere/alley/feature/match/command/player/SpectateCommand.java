@@ -33,24 +33,35 @@ public class SpectateCommand extends BaseCommand {
             return;
         }
 
+        if (player.equals(target)) {
+            player.sendMessage(CC.translate("&cYou cannot spectate yourself."));
+            return;
+        }
+
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou can only spectate players in the lobby."));
+        if (profile.getState() != ProfileState.LOBBY && profile.getState() != ProfileState.TOURNAMENT_LOBBY) {
+            player.sendMessage(CC.translate("&cYou can only spectate while in a lobby."));
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
+        if (targetProfile.getState() != ProfileState.PLAYING) {
+            player.sendMessage(CC.translate("&cThat player is not currently in a match."));
+            return;
+        }
+
+        if (targetProfile.getFfaMatch() != null && profile.getState() == ProfileState.TOURNAMENT_LOBBY) {
+            player.sendMessage(CC.translate("&cTournament players cannot spectate FFA matches."));
+            return;
+        }
+
         if (targetProfile.getFfaMatch() != null) {
             targetProfile.getFfaMatch().addSpectator(player);
-            return;
-        }
-
-        if (targetProfile.getState() != ProfileState.PLAYING) {
+        } else if (targetProfile.getMatch() != null) {
+            targetProfile.getMatch().addSpectator(player);
+        } else {
             player.sendMessage(CC.translate("&cYou are unable to spectate that player."));
-            return;
         }
-
-        targetProfile.getMatch().addSpectator(player);
     }
 }

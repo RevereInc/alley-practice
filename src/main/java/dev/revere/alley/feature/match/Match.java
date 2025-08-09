@@ -777,7 +777,8 @@ public abstract class Match {
     public void removeSpectator(Player player, boolean notify) {
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
-        profile.setState(ProfileState.LOBBY);
+
+        profile.setState(profile.inTournament() ? ProfileState.TOURNAMENT_LOBBY : ProfileState.LOBBY);
         profile.setMatch(null);
 
         NametagService nametagService = AlleyPlugin.getInstance().getService(NametagService.class);
