@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingLives;
+import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingPearlCooldownImpl;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.MatchState;
@@ -118,7 +118,7 @@ public class MatchPearlListener implements Listener {
             return false;
         }
 
-        if (profile.getMatch().getKit().isSettingEnabled(KitSettingLives.class)) {
+        if (profile.getMatch().getKit().isSettingEnabled(KitSettingPearlCooldownImpl.class)) {
             return false;
         }
 
