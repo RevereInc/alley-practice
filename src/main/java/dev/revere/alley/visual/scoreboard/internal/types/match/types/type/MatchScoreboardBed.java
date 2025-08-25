@@ -1,4 +1,4 @@
-package dev.revere.alley.visual.scoreboard.internal.match.types.type;
+package dev.revere.alley.visual.scoreboard.internal.types.match.types.type;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.config.ConfigService;
@@ -7,8 +7,8 @@ import dev.revere.alley.feature.match.internal.types.BedMatch;
 import dev.revere.alley.feature.match.internal.types.DefaultMatch;
 import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.visual.scoreboard.internal.match.BaseMatchScoreboard;
-import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
+import dev.revere.alley.visual.scoreboard.internal.types.match.BaseMatchScoreboard;
+import dev.revere.alley.visual.scoreboard.internal.types.match.annotation.ScoreboardData;
 import dev.revere.alley.visual.scoreboard.utility.ScoreboardUtil;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

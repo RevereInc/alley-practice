@@ -1,7 +1,7 @@
-package dev.revere.alley.visual.scoreboard.internal.match.types;
+package dev.revere.alley.visual.scoreboard.internal.types.match.types;
 
-import dev.revere.alley.visual.scoreboard.internal.match.BaseMatchScoreboard;
-import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
+import dev.revere.alley.visual.scoreboard.internal.types.match.BaseMatchScoreboard;
+import dev.revere.alley.visual.scoreboard.internal.types.match.annotation.ScoreboardData;
 
 /**
  * @author Emmy

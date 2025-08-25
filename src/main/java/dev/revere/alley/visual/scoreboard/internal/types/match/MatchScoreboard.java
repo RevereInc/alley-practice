@@ -1,4 +1,4 @@
-package dev.revere.alley.visual.scoreboard.internal.match;
+package dev.revere.alley.visual.scoreboard.internal.types.match;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.animation.AnimationService;

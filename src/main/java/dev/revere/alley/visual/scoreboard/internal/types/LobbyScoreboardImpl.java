@@ -1,4 +1,4 @@
-package dev.revere.alley.visual.scoreboard.internal;
+package dev.revere.alley.visual.scoreboard.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.adapter.core.CoreAdapter;

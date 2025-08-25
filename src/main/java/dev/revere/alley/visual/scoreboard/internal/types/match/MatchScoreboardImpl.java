@@ -1,4 +1,4 @@
-package dev.revere.alley.visual.scoreboard.internal.match;
+package dev.revere.alley.visual.scoreboard.internal.types.match;
 
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.feature.match.Match;
@@ -6,8 +6,8 @@ import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.visual.scoreboard.Scoreboard;
-import dev.revere.alley.visual.scoreboard.internal.match.types.state.MatchScoreboardEndingImpl;
-import dev.revere.alley.visual.scoreboard.internal.match.types.state.MatchScoreboardStartingImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.match.types.state.MatchScoreboardEndingImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.match.types.state.MatchScoreboardStartingImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Collections;

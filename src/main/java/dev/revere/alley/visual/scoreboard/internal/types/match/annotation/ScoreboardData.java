@@ -1,4 +1,4 @@
-package dev.revere.alley.visual.scoreboard.internal.match.annotation;
+package dev.revere.alley.visual.scoreboard.internal.types.match.annotation;
 
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import dev.revere.alley.feature.match.Match;

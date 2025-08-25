@@ -11,6 +11,8 @@ import dev.revere.alley.library.assemble.enums.AssembleStyle;
 import dev.revere.alley.library.assemble.events.AssembleBoardCreateEvent;
 import dev.revere.alley.library.assemble.events.AssembleBoardDestroyEvent;
 import dev.revere.alley.library.assemble.listener.AssembleListener;
+import dev.revere.alley.visual.scoreboard.ScoreboardAdapter;
+import dev.revere.alley.visual.scoreboard.internal.ScoreboardAdapterImpl;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -35,7 +37,7 @@ public class AssembleServiceImpl implements AssembleService {
     private final Map<UUID, AssembleBoard> boards = new ConcurrentHashMap<>();
     private final ChatColor[] chatColorCache = ChatColor.values();
 
-    private AssembleAdapter adapter;
+    private ScoreboardAdapter adapter;
     private AssembleThread thread;
     private AssembleListener listeners;
     private AssembleStyle assembleStyle = AssembleStyle.MODERN;
@@ -45,6 +47,14 @@ public class AssembleServiceImpl implements AssembleService {
     private boolean callEvents = true;
     private long ticks = 2;
 
+    /**
+     * DI Constructor for the AssembleServiceImpl class.
+     *
+     * @param plugin           The AlleyPlugin instance.
+     * @param animationService The AnimationService instance.
+     * @param profileService   The ProfileService instance.
+     * @param configService    The ConfigService instance.
+     */
     public AssembleServiceImpl(AlleyPlugin plugin, AnimationService animationService, ProfileService profileService, ConfigService configService) {
         this.plugin = plugin;
         this.animationService = animationService;
@@ -54,7 +64,7 @@ public class AssembleServiceImpl implements AssembleService {
 
     @Override
     public void initialize(AlleyContext context) {
-        this.adapter = new AssembleAdapterImpl(animationService, profileService, configService);
+        this.adapter = new ScoreboardAdapterImpl(animationService, profileService, configService);
 
         this.listeners = new AssembleListener(this);
         this.plugin.getServer().getPluginManager().registerEvents(this.listeners, this.plugin);

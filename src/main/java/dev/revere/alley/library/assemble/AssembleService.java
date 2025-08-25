@@ -1,6 +1,7 @@
 package dev.revere.alley.library.assemble;
 
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.visual.scoreboard.ScoreboardAdapter;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -24,7 +25,7 @@ public interface AssembleService extends Service {
      *
      * @return The active IAssembleAdapter instance.
      */
-    AssembleAdapter getAdapter();
+    ScoreboardAdapter getAdapter();
 
     boolean isCallEvents();
 

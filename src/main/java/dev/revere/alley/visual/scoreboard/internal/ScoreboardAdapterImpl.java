@@ -1,4 +1,4 @@
-package dev.revere.alley.library.assemble;
+package dev.revere.alley.visual.scoreboard.internal;
 
 import dev.revere.alley.common.animation.AnimationService;
 import dev.revere.alley.common.animation.AnimationType;
@@ -8,11 +8,12 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.visual.scoreboard.internal.FFAScoreboardImpl;
-import dev.revere.alley.visual.scoreboard.internal.LobbyScoreboardImpl;
-import dev.revere.alley.visual.scoreboard.internal.QueueScoreboardImpl;
-import dev.revere.alley.visual.scoreboard.internal.SpectatorScoreboardImpl;
-import dev.revere.alley.visual.scoreboard.internal.match.MatchScoreboardImpl;
+import dev.revere.alley.visual.scoreboard.ScoreboardAdapter;
+import dev.revere.alley.visual.scoreboard.internal.types.match.MatchScoreboardImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.FFAScoreboardImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.LobbyScoreboardImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.QueueScoreboardImpl;
+import dev.revere.alley.visual.scoreboard.internal.types.SpectatorScoreboardImpl;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ import java.util.List;
  * @project Alley
  * @date 27/03/2024 - 14:27
  */
-public class AssembleAdapterImpl implements AssembleAdapter {
+public class ScoreboardAdapterImpl implements ScoreboardAdapter {
     private final AnimationService animationService;
     private final ProfileService profileService;
     private final ConfigService configService;
@@ -35,7 +36,14 @@ public class AssembleAdapterImpl implements AssembleAdapter {
     private final SpectatorScoreboardImpl spectatorScoreboardImpl = new SpectatorScoreboardImpl();
     private final FFAScoreboardImpl ffaScoreboardImpl = new FFAScoreboardImpl();
 
-    public AssembleAdapterImpl(AnimationService animationService, ProfileService profileService, ConfigService configService) {
+    /**
+     * DI Constructor for the AssembleAdapterImpl class.
+     *
+     * @param animationService The AnimationService instance.
+     * @param profileService   The ProfileService instance.
+     * @param configService    The ConfigService instance.
+     */
+    public ScoreboardAdapterImpl(AnimationService animationService, ProfileService profileService, ConfigService configService) {
         this.animationService = animationService;
         this.profileService = profileService;
         this.configService = configService;
