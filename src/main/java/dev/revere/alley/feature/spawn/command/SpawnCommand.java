@@ -1,18 +1,18 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAState;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAState;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**

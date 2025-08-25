@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.cooldown.internal;
 
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.collection.internal.MutableTriple;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.collection.internal.MutableTriple;
 import lombok.Getter;
 
 import java.util.List;
@@ -20,11 +20,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @Service(provides = CooldownService.class, priority = 200)
 public class CooldownServiceImpl implements CooldownService {
     private final List<MutableTriple<UUID, CooldownType, Cooldown>> cooldowns = new CopyOnWriteArrayList<>();
-
-    @Override
-    public List<MutableTriple<UUID, CooldownType, Cooldown>> getCooldowns() {
-        return cooldowns;
-    }
 
     @Override
     public void addCooldown(UUID uuid, CooldownType type, Cooldown cooldown) {

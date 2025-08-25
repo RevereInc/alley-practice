@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.feature.level.data.LevelData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -36,7 +36,7 @@ public class LevelAdminCreateCommand extends BaseCommand {
         int minElo;
         try {
             minElo = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             sender.sendMessage(CC.translate("&cInvalid minimum Elo value!"));
             return;
         }
@@ -44,7 +44,7 @@ public class LevelAdminCreateCommand extends BaseCommand {
         int maxElo;
         try {
             maxElo = Integer.parseInt(args[2]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             sender.sendMessage(CC.translate("&cInvalid maximum Elo value!"));
             return;
         }

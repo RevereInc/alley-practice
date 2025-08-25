@@ -1,18 +1,18 @@
 package dev.revere.alley.library.assemble;
 
+import dev.revere.alley.common.animation.AnimationService;
+import dev.revere.alley.common.animation.AnimationType;
+import dev.revere.alley.common.animation.internal.config.ScoreboardTitleAnimation;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.visual.scoreboard.internal.FFAScoreboardImpl;
 import dev.revere.alley.visual.scoreboard.internal.LobbyScoreboardImpl;
 import dev.revere.alley.visual.scoreboard.internal.QueueScoreboardImpl;
 import dev.revere.alley.visual.scoreboard.internal.SpectatorScoreboardImpl;
 import dev.revere.alley.visual.scoreboard.internal.match.MatchScoreboardImpl;
-import dev.revere.alley.common.animation.AnimationService;
-import dev.revere.alley.common.animation.AnimationType;
-import dev.revere.alley.common.animation.internal.config.ScoreboardTitleAnimation;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

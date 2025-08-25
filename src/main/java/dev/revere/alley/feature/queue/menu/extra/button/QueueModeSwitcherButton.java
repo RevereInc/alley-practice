@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.queue.menu.extra.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.kit.KitCategory;
 import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.feature.queue.QueueType;
 import dev.revere.alley.feature.queue.menu.extra.ExtraModesMenu;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

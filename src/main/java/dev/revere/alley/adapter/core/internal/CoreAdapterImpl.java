@@ -19,12 +19,13 @@ import xyz.refinedev.phoenix.SharedAPI;
 @Getter
 @Service(provides = CoreAdapter.class, priority = 60)
 public class CoreAdapterImpl implements CoreAdapter {
-
     private final AlleyPlugin plugin;
     private Core core;
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance.
+     * DI Constructor for the CoreAdapterImpl class.
+     *
+     * @param plugin The Alley plugin instance.
      */
     public CoreAdapterImpl(AlleyPlugin plugin) {
         this.plugin = plugin;

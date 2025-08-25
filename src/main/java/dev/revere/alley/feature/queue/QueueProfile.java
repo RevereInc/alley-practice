@@ -3,9 +3,9 @@ package dev.revere.alley.feature.queue;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionServiceImpl;
-import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.common.time.TimeUtil;
 import lombok.Data;
 import org.bukkit.entity.Player;
 

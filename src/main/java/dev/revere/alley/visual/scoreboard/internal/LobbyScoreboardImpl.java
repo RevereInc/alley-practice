@@ -2,17 +2,17 @@ package dev.revere.alley.visual.scoreboard.internal;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.adapter.core.CoreAdapter;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.feature.music.MusicSession;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.visual.scoreboard.Scoreboard;
-import dev.revere.alley.common.time.TimeUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -27,7 +27,6 @@ import java.util.Optional;
  * @since 30/04/2025
  */
 public class LobbyScoreboardImpl implements Scoreboard {
-
     @Override
     public List<String> getLines(Profile profile) {
         ConfigService configService = AlleyPlugin.getInstance().getService(ConfigService.class);

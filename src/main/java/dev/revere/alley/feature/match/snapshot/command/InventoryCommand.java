@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.match.snapshot.command;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.match.snapshot.Snapshot;
+import dev.revere.alley.feature.match.snapshot.SnapshotService;
+import dev.revere.alley.feature.match.snapshot.menu.SnapshotMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.match.snapshot.SnapshotService;
-import dev.revere.alley.feature.match.snapshot.Snapshot;
-import dev.revere.alley.feature.match.snapshot.menu.SnapshotMenu;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;

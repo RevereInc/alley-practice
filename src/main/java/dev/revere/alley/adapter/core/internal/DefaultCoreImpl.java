@@ -1,9 +1,9 @@
 package dev.revere.alley.adapter.core.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.adapter.core.Core;
 import dev.revere.alley.adapter.core.CoreType;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class DefaultCoreImpl implements Core {
     /**
      * Constructor for the DefaultCoreImpl class.
      *
-     * @param plugin The Alley bootstrap instance.
+     * @param plugin The Alley plugin instance.
      */
     public DefaultCoreImpl(AlleyPlugin plugin) {
         this.plugin = plugin;

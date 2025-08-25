@@ -1,11 +1,11 @@
 package dev.revere.alley.library.command;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 

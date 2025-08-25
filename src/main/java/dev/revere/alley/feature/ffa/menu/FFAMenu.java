@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.ffa.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.queue.menu.QueuesMenuDefault;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.library.menu.impl.BackButton;
-import dev.revere.alley.feature.queue.menu.QueuesMenuDefault;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 

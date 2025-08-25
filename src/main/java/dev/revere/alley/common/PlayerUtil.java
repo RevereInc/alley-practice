@@ -1,11 +1,12 @@
 package dev.revere.alley.common;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.DefaultReflectionImpl;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.cosmetic.CosmeticService;
-import dev.revere.alley.feature.cosmetic.internal.repository.BaseCosmeticRepository;
 import dev.revere.alley.feature.cosmetic.internal.repository.SuitRepository;
 import dev.revere.alley.feature.cosmetic.internal.repository.impl.suit.BaseSuit;
 import dev.revere.alley.feature.cosmetic.model.CosmeticType;
@@ -14,7 +15,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -25,6 +25,8 @@ import org.bukkit.inventory.ItemStack;
  */
 @UtilityClass
 public class PlayerUtil {
+    private final AlleyPlugin plugin = AlleyPlugin.getInstance();
+
     /**
      * Reset a player's state to default values.
      *
@@ -36,6 +38,7 @@ public class PlayerUtil {
             player.setMaxHealth(20.0D);
             player.setHealth(player.getMaxHealth());
         }
+
         player.setSaturation(5.0F);
         player.setFallDistance(0.0F);
         player.setFoodLevel(20);
@@ -58,8 +61,7 @@ public class PlayerUtil {
         player.getInventory().setContents(new ItemStack[36]);
         player.getActivePotionEffects().forEach(effect -> player.removePotionEffect(effect.getType()));
 
-        // Clears visuals from the player's model
-        ((CraftPlayer) player).getHandle().getDataWatcher().watch(9, (byte) 0);
+        clearVisuals(player);
 
         if (inLobby(player)) {
             equipSelectedSuit(player);
@@ -70,6 +72,16 @@ public class PlayerUtil {
         if (closeInventory) {
             player.closeInventory();
         }
+    }
+
+    /**
+     * Clears any visual effects on the player's model.
+     *
+     * @param player the player to clear visuals for.
+     */
+    private void clearVisuals(Player player) {
+        DefaultReflectionImpl reflection = plugin.getService(ReflectionService.class).getReflectionService(DefaultReflectionImpl.class);
+        reflection.getCraftPlayer(player).getHandle().getDataWatcher().watch(9, (byte) 0);
     }
 
     /**
@@ -88,18 +100,23 @@ public class PlayerUtil {
      * @return true if the player is in the lobby or waiting state, false otherwise.
      */
     public boolean inLobby(Player player) {
-        Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        Profile profile = plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
         return profile != null && (profile.getState() == ProfileState.LOBBY || profile.getState() == ProfileState.WAITING);
     }
 
+    /**
+     * Equip the selected suit for the player if they have one selected.
+     *
+     * @param player the player to equip the suit for.
+     */
     private void equipSelectedSuit(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile == null) {
             return;
         }
 
-        CosmeticService cosmeticService = AlleyPlugin.getInstance().getService(CosmeticService.class);
+        CosmeticService cosmeticService = plugin.getService(CosmeticService.class);
         if (cosmeticService == null) {
             return;
         }

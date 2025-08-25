@@ -1,11 +1,11 @@
 package dev.revere.alley.adapter.core.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.adapter.core.Core;
 import dev.revere.alley.adapter.core.CoreType;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import me.activated.core.plugin.AquaCoreAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,7 +23,7 @@ public class AquaCoreImpl implements Core {
      * Constructor for the AquaCoreImpl class.
      *
      * @param aquaCoreAPI The AquaCoreAPI instance to use.
-     * @param plugin      The Alley bootstrap instance.
+     * @param plugin      The Alley plugin instance.
      */
     public AquaCoreImpl(AquaCoreAPI aquaCoreAPI, AlleyPlugin plugin) {
         this.aquaCoreAPI = aquaCoreAPI;

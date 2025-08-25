@@ -22,11 +22,12 @@ public class FileUtil {
      *
      * @param worldFolder the folder representing the world to delete
      */
+    @SuppressWarnings("all")
     public void deleteWorldFolder(File worldFolder) {
         try {
             deleteDirectory(worldFolder);
-        } catch (Exception e) {
-            Logger.logException("Failed to delete world folder", e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to delete world folder", exception);
 
             try {
                 Files.walk(worldFolder.toPath())
@@ -38,8 +39,8 @@ public class FileUtil {
                                 Logger.logException("Failed to delete: " + path, ex);
                             }
                         });
-            } catch (Exception ex) {
-                Logger.logException("Alternative deletion method also failed", ex);
+            } catch (Exception exception1) {
+                Logger.logException("Alternative deletion method also failed", exception1);
             }
         }
     }
@@ -72,5 +73,4 @@ public class FileUtil {
             Logger.error("Failed to delete directory: " + directory.getAbsolutePath());
         }
     }
-
 }

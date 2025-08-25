@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.emoji.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
+import dev.revere.alley.feature.emoji.EmojiType;
+import dev.revere.alley.feature.emoji.command.impl.EmojiListCommand;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.emoji.command.impl.EmojiListCommand;
-import dev.revere.alley.feature.emoji.EmojiType;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.ClickableUtil;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;

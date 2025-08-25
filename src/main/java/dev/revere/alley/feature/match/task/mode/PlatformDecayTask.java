@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.match.task.mode;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;

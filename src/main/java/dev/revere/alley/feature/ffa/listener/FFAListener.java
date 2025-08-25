@@ -1,18 +1,18 @@
 package dev.revere.alley.feature.ffa.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.InventoryUtil;
+import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingNoHungerImpl;
 import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.InventoryUtil;
-import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingNoHungerImpl;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EnderPearl;

@@ -1,12 +1,12 @@
 package dev.revere.alley.core.profile.menu.music.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.LoreHelper;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.library.menu.Button;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

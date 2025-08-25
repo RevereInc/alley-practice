@@ -1,7 +1,7 @@
 package dev.revere.alley.visual.nametag.internal.strategy;
 
-import dev.revere.alley.visual.nametag.model.NametagContext;
 import dev.revere.alley.visual.nametag.NametagView;
+import dev.revere.alley.visual.nametag.model.NametagContext;
 
 /**
  * @author Remi

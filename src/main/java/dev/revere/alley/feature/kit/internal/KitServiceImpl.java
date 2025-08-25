@@ -2,8 +2,8 @@ package dev.revere.alley.feature.kit.internal;
 
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.Serializer;
 import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitCategory;
@@ -35,7 +35,10 @@ public class KitServiceImpl implements KitService {
     private final List<Kit> kits = new ArrayList<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the KitServiceImpl class.
+     *
+     * @param configService     The configService instance.
+     * @param kitSettingService The kitSettingService instance.
      */
     public KitServiceImpl(ConfigService configService, KitSettingService kitSettingService) {
         this.configService = configService;

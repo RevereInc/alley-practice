@@ -1,12 +1,12 @@
 package dev.revere.alley.adapter.core.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.filter.FilterService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.adapter.core.Core;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.filter.FilterService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.match.utility;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.setting.types.mode.*;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Location;
@@ -70,11 +70,11 @@ public class MatchUtility {
     /**
      * Sends a match result message to all participants and spectators.
      *
-     * @param match         The match.
-     * @param winnerName    The name of the winning team.
-     * @param loserName     The name of the losing team.
-     * @param winnerUuid    The UUID of the winning team.
-     * @param loserUuid     The UUID of the losing team.
+     * @param match      The match.
+     * @param winnerName The name of the winning team.
+     * @param loserName  The name of the losing team.
+     * @param winnerUuid The UUID of the winning team.
+     * @param loserUuid  The UUID of the losing team.
      */
     public void sendMatchResult(Match match, String winnerName, String loserName, UUID winnerUuid, UUID loserUuid) {
         FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig();

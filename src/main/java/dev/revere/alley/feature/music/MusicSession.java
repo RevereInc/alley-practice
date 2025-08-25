@@ -17,9 +17,12 @@ public class MusicSession {
     private final long startTime;
     private final Location jukeboxLocation;
 
-    @Setter private BukkitTask task;
-    @Setter private int elapsedSeconds = 0;
-    @Setter private boolean paused = false;
+    @Setter
+    private BukkitTask task;
+    @Setter
+    private int elapsedSeconds = 0;
+    @Setter
+    private boolean paused = false;
 
     public MusicSession(MusicDisc disc, Location jukeboxLocation) {
         this.disc = disc;

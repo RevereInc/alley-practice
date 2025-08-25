@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.queue;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

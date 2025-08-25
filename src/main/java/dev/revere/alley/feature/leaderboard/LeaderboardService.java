@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.leaderboard;
 
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
 
 import java.util.List;

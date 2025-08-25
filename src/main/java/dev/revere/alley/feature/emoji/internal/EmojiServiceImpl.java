@@ -26,6 +26,11 @@ public class EmojiServiceImpl implements EmojiService {
     private final Map<String, String> emojis = new HashMap<>();
     private boolean enabled = false;
 
+    /**
+     * DI Constructor for the EmojiServiceImpl class.
+     *
+     * @param configService The configService instance.
+     */
     public EmojiServiceImpl(ConfigService configService) {
         this.configService = configService;
     }

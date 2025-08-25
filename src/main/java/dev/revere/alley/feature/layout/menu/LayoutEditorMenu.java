@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.layout.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.layout.data.LayoutData;
 import dev.revere.alley.feature.layout.menu.button.editor.*;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 

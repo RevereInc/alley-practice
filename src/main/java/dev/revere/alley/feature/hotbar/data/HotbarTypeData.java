@@ -18,7 +18,7 @@ public class HotbarTypeData {
     private boolean enabled = false;
 
     /**
-     * Constructor for the HotbarState class.
+     * Constructor for the HotbarTypeData class.
      *
      * @param type The name of the hotbar item type.
      * @param slot The hotbar slot of the type in the hotbar.

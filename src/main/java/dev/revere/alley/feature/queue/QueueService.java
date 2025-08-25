@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.queue;
 
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.queue.internal.QueueTask;
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.feature.queue.internal.QueueTask;
+import dev.revere.alley.library.menu.Menu;
 
 import java.util.List;
 

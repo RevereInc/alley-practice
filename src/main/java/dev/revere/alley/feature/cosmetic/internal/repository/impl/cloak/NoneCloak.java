@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
         icon = Material.BARRIER,
         slot = 10
 )
-public class NoneCloak extends BaseCloak{
+public class NoneCloak extends BaseCloak {
     @Override
     public void render(Player player) {
 

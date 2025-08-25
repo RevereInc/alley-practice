@@ -3,11 +3,11 @@ package dev.revere.alley.bootstrap.internal;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.bootstrap.UpdaterService;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.UpdaterService;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -27,9 +27,9 @@ public class UpdaterServiceImpl implements UpdaterService {
     private String latestVersion;
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance and config service.
+     * DI Constructor for the UpdaterServiceImpl class.
      *
-     * @param configService The configuration service to access settings.
+     * @param configService The configuration service instance.
      */
     public UpdaterServiceImpl(ConfigService configService) {
         this.configService = configService;
@@ -40,8 +40,8 @@ public class UpdaterServiceImpl implements UpdaterService {
     public void setup(AlleyContext context) {
         try {
             this.latestVersion = getLatestVersion();
-        } catch (IOException e) {
-            Logger.logException("Failed to fetch the latest version from GitHub", e);
+        } catch (IOException exception) {
+            Logger.logException("Failed to fetch the latest version from GitHub", exception);
         }
     }
 
@@ -61,8 +61,8 @@ public class UpdaterServiceImpl implements UpdaterService {
                         downloadAndUpdate(latestVersion);
                     }
                 }
-            } catch (Exception e) {
-                Logger.logException("Failed to check for updates", e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to check for updates", exception);
             }
         });
     }
@@ -105,8 +105,8 @@ public class UpdaterServiceImpl implements UpdaterService {
 
             Logger.info("Shutting down the server to apply the update. Please restart the server manually.");
             AlleyPlugin.getInstance().getServer().shutdown();
-        } catch (Exception e) {
-            Logger.logException("Failed to download and update to version " + version, e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to download and update to version " + version, exception);
         }
     }
 

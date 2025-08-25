@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.party.command.impl.leader;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.party.menu.event.PartyEventMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.party.menu.event.PartyEventMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**

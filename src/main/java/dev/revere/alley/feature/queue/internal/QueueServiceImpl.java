@@ -1,18 +1,18 @@
 package dev.revere.alley.feature.queue.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRanked;
-import dev.revere.alley.feature.queue.menu.QueuesMenuModern;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRanked;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
+import dev.revere.alley.feature.queue.menu.QueuesMenuModern;
+import dev.revere.alley.library.menu.Menu;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -34,6 +34,13 @@ public class QueueServiceImpl implements QueueService {
     private Menu queueMenu;
     private QueueTask queueTask;
 
+    /**
+     * DI Constructor for the QueueServiceImpl class.
+     *
+     * @param configService  The configuration service for accessing settings.
+     * @param kitService     The kit service for managing game kits.
+     * @param profileService The profile service for managing player profiles.
+     */
     public QueueServiceImpl(ConfigService configService, KitService kitService, ProfileService profileService) {
         this.configService = configService;
         this.kitService = kitService;

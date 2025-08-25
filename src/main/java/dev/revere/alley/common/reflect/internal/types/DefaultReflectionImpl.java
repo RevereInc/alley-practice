@@ -20,5 +20,6 @@ public class DefaultReflectionImpl implements Reflection {
      * create an instance using `getDeclaredConstructor().newInstance()`.
      * The `ReflectionRepository` will manage the lifecycle of this service.
      */
-    public DefaultReflectionImpl() {}
+    public DefaultReflectionImpl() {
+    }
 }

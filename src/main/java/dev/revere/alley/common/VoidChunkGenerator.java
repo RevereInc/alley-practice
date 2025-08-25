@@ -15,11 +15,11 @@ public class VoidChunkGenerator extends ChunkGenerator {
     /**
      * Creates the chunk data for the world generator.
      *
-     * @param world       the world to generate the chunk data for
-     * @param random      the random seed for chunk generation
-     * @param x           the chunk's x-coordinate
-     * @param z           the chunk's z-coordinate
-     * @param biomeGrid   the biome grid for the chunk
+     * @param world     the world to generate the chunk data for
+     * @param random    the random seed for chunk generation
+     * @param x         the chunk's x-coordinate
+     * @param z         the chunk's z-coordinate
+     * @param biomeGrid the biome grid for the chunk
      * @return the chunk data for the world (empty world in this case)
      */
     @Override

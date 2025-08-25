@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         int wins;
         try {
             wins = Integer.parseInt(args[2]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cInvalid number."));
             return;
         }

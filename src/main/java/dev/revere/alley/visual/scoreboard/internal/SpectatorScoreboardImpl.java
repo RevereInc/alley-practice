@@ -1,13 +1,13 @@
 package dev.revere.alley.visual.scoreboard.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.match.internal.types.DefaultMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.visual.scoreboard.Scoreboard;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.match.internal.types.DefaultMatch;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.visual.scoreboard.Scoreboard;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

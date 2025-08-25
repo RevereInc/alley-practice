@@ -1,9 +1,9 @@
 package dev.revere.alley.core.config.internal.locale.impl;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
-import dev.revere.alley.common.text.CC;
 import lombok.Getter;
 
 /**
@@ -61,11 +61,6 @@ public enum KitLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));

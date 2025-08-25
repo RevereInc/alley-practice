@@ -1,15 +1,15 @@
 package dev.revere.alley;
 
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.lifecycle.Service;
-import dev.revere.alley.feature.cosmetic.task.CosmeticTask;
-import dev.revere.alley.visual.tablist.task.TablistUpdateTask;
-import dev.revere.alley.feature.match.task.other.ArrowRemovalTask;
-import dev.revere.alley.feature.match.task.other.MatchPearlCooldownTask;
-import dev.revere.alley.core.database.task.RepositoryCleanupTask;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.logger.PluginLogger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.database.task.RepositoryCleanupTask;
+import dev.revere.alley.feature.cosmetic.task.CosmeticTask;
+import dev.revere.alley.feature.match.task.other.ArrowRemovalTask;
+import dev.revere.alley.feature.match.task.other.MatchPearlCooldownTask;
+import dev.revere.alley.visual.tab.task.TabUpdateTask;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Alley – A modern, modular Practice PvP knockback built from the ground up for Minecraft 1.8.
+ * <b>Alley</b> – A modern, modular Practice PvP core built from the ground up for Minecraft 1.8.
  * <p>
  * Developed by Revere Inc., Alley focuses on clean, professional, and readable code,
  * making it easy for developers to jump into practice PvP development with minimal friction.
@@ -38,16 +38,16 @@ public class AlleyPlugin extends JavaPlugin {
     @Getter
     private static AlleyPlugin instance;
 
-    private final Alley api;
+    private final AlleyAPI api;
     private AlleyContext context;
 
     public AlleyPlugin() {
-        this.api = new Alley();
+        this.api = new AlleyAPI();
     }
 
     @Override
     public void onEnable() {
-        final long startTime = System.currentTimeMillis();
+        final long startTime = System.nanoTime();
         instance = this;
 
         this.validatePluginMetadata();
@@ -113,7 +113,7 @@ public class AlleyPlugin extends JavaPlugin {
         tasks.put(CosmeticTask.class.getSimpleName(), () -> new CosmeticTask(this).runTaskTimerAsynchronously(this, 0L, 4L));
 
         if (this.getService(ConfigService.class).getTabListConfig().getBoolean("tablist.enabled")) {
-            tasks.put(TablistUpdateTask.class.getSimpleName(), () -> new TablistUpdateTask().runTaskTimer(this, 0L, 20L));
+            tasks.put(TabUpdateTask.class.getSimpleName(), () -> new TabUpdateTask(this).runTaskTimer(this, 0L, 20L));
         }
 
         tasks.forEach(Logger::logTimeTask);

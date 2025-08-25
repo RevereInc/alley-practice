@@ -1,9 +1,9 @@
 package dev.revere.alley.visual.scoreboard.internal.match;
 
+import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
-import dev.revere.alley.common.logger.Logger;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
@@ -54,8 +54,8 @@ public class MatchScoreboardRegistry {
                     } else if (annotation.match() != Match.class) {
                         matchTypeScoreboards.put(annotation.match(), scoreboard);
                     }
-                } catch (Exception e) {
-                    Logger.logException("Failed to instantiate scoreboard visual: " + classInfo.getName(), e);
+                } catch (Exception exception) {
+                    Logger.logException("Failed to instantiate scoreboard visual: " + classInfo.getName(), exception);
                 }
             }
         }

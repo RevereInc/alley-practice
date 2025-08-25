@@ -1,9 +1,9 @@
 package dev.revere.alley.core.profile.menu.statistic.button;
 
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.division.menu.DivisionsMenu;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.division.menu.DivisionsMenu;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

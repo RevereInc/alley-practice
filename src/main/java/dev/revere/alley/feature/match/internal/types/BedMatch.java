@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.match.internal.types;
 
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.model.TeamGameParticipant;
 import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.TeamGameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;

@@ -41,8 +41,8 @@ public class NametagRegistry {
                 String teamName = "nt" + teamIdCounter.getAndIncrement();
                 return new NametagAdapter(service, teamName, view.getPrefix(), view.getSuffix(), view.getVisibility());
             });
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to load nametag adapter from cache", e);
+        } catch (Exception exception) {
+            throw new RuntimeException("Failed to load nametag adapter from cache", exception);
         }
     }
 

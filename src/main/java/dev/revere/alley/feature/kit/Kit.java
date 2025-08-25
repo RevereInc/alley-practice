@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.kit;
 
-import dev.revere.alley.feature.kit.KitCategory;
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import lombok.Getter;
 import lombok.Setter;

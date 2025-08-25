@@ -1,13 +1,13 @@
 package dev.revere.alley.visual.scoreboard;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.common.animation.AnimationService;
 import dev.revere.alley.common.animation.AnimationType;
 import dev.revere.alley.common.animation.internal.types.DotAnimation;
 import dev.revere.alley.common.reflect.utility.ReflectionUtility;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -70,7 +70,7 @@ public interface Scoreboard {
             return (int) service.getProfiles().values().parallelStream()
                     .filter(p -> p.getState() == state)
                     .count();
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return 0;
         }
     }

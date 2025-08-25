@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.hotbar.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.hotbar.HotbarAction;
 import dev.revere.alley.feature.hotbar.HotbarItem;
 import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.hotbar.HotbarAction;
 import dev.revere.alley.feature.hotbar.HotbarType;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.library.menu.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

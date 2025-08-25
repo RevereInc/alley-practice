@@ -12,11 +12,7 @@ import org.jetbrains.annotations.NotNull;
  */
 @UtilityClass
 public class ClickableUtil {
-    private final String EMPTY_SPACE_BETWEEN_COMPONENTS;
-
-    static {
-        EMPTY_SPACE_BETWEEN_COMPONENTS = "    ";
-    }
+    private final String EMPTY_SPACE_BETWEEN_COMPONENTS = "    ";
 
     /**
      * Create a clickable component with a command and hover text.

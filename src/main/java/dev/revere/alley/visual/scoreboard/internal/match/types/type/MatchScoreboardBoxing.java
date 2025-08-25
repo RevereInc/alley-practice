@@ -1,14 +1,14 @@
 package dev.revere.alley.visual.scoreboard.internal.match.types.type;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingBoxing;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingBoxing;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.visual.scoreboard.internal.match.BaseMatchScoreboard;
 import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -50,6 +50,14 @@ public class MatchScoreboardBoxing extends BaseMatchScoreboard {
                 .replace("{combo}", combo);
     }
 
+    /**
+     * Formats the hit difference between the player and the opponent.
+     *
+     * @param playerHits   The number of hits by the player.
+     * @param opponentHits The number of hits by the opponent.
+     * @param config       The configuration file to get formatting options.
+     * @return The formatted hit difference string.
+     */
     private String formatHitDifference(int playerHits, int opponentHits, FileConfiguration config) {
         int difference = playerHits - opponentHits;
         String format;
@@ -63,6 +71,14 @@ public class MatchScoreboardBoxing extends BaseMatchScoreboard {
         return CC.translate(format);
     }
 
+    /**
+     * Formats the combo display based on the player's and opponent's combos.
+     *
+     * @param playerCombo   The player's current combo count.
+     * @param opponentCombo The opponent's current combo count.
+     * @param config        The configuration file to get formatting options.
+     * @return The formatted combo string.
+     */
     private String formatCombo(int playerCombo, int opponentCombo, FileConfiguration config) {
         String format;
         if (playerCombo > 1) {

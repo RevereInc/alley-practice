@@ -1,9 +1,9 @@
 package dev.revere.alley.core.profile.menu.shop;
 
+import dev.revere.alley.core.profile.menu.shop.button.ShopCategoryButton;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.core.profile.menu.shop.button.ShopCategoryButton;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 

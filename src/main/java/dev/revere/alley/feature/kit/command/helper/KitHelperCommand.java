@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.kit.command.helper;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 
 import java.util.Arrays;
 

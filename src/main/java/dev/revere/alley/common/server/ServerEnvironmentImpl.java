@@ -1,9 +1,9 @@
 package dev.revere.alley.common.server;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.server.listener.ServerEnvironmentListener;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.server.listener.ServerEnvironmentListener;
 import dev.revere.alley.common.text.CC;
 import lombok.Getter;
 import org.bukkit.Difficulty;
@@ -32,8 +32,9 @@ public class ServerEnvironmentImpl implements ServerEnvironment {
     private final boolean removeDroppedItemsOnEnable;
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance.
-     * Note for emmy: The boolean flags are hardcoded here to match the original instantiation logic.
+     * DI Constructor for the ServerEnvironmentImpl class.
+     *
+     * @param plugin The Alley plugin instance.
      */
     public ServerEnvironmentImpl(AlleyPlugin plugin) {
         this.plugin = plugin;
@@ -100,7 +101,10 @@ public class ServerEnvironmentImpl implements ServerEnvironment {
     }
 
     /**
-     * Private helper to clear entities from a single world.
+     * Clears all entities of a specific type from a given world.
+     *
+     * @param world      the world to clear entities from.
+     * @param entityType the type of entities to clear.
      */
     private void clearEntities(World world, EntityType entityType) {
         world.getEntitiesByClass(entityType.getEntityClass()).forEach(Entity::remove);

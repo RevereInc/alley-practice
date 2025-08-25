@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.match.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;

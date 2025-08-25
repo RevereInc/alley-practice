@@ -30,7 +30,10 @@ public class BaseRaidingServiceImpl implements BaseRaidingService {
     private final Map<String, Map<BaseRaiderRole, Kit>> raidingKitMappings = new HashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the BaseRaidingServiceImpl class.
+     *
+     * @param kitService    The KitService instance.
+     * @param configService The ConfigService instance.
      */
     public BaseRaidingServiceImpl(KitService kitService, ConfigService configService) {
         this.kitService = kitService;
@@ -79,7 +82,7 @@ public class BaseRaidingServiceImpl implements BaseRaidingService {
                 } else {
                     Logger.error("Raiding sub-kit for role " + role + " not found: " + roleKitName);
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException exception) {
                 Logger.error("Invalid raiding role: '" + roleName + "' in parent kit: " + parentKit.getName());
             }
         }

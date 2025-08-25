@@ -1,18 +1,18 @@
 package dev.revere.alley.feature.match.listener.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.InventoryUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingLives;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.InventoryUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -591,15 +591,24 @@ public class MatchPearlListener implements Listener {
     private String getPlayerDirection(Player player) {
         String shortDirection = getDirectionFromPlayer(player);
         switch (shortDirection) {
-            case "N": return "NORTH";
-            case "NW": return "NORTH_WEST";
-            case "W": return "WEST";
-            case "SW": return "SOUTH_WEST";
-            case "S": return "SOUTH";
-            case "SE": return "SOUTH_EAST";
-            case "E": return "EAST";
-            case "NE": return "NORTH_EAST";
-            default: return null;
+            case "N":
+                return "NORTH";
+            case "NW":
+                return "NORTH_WEST";
+            case "W":
+                return "WEST";
+            case "SW":
+                return "SOUTH_WEST";
+            case "S":
+                return "SOUTH";
+            case "SE":
+                return "SOUTH_EAST";
+            case "E":
+                return "EAST";
+            case "NE":
+                return "NORTH_EAST";
+            default:
+                return null;
         }
     }
 

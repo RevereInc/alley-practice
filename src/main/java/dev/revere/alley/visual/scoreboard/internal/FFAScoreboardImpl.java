@@ -1,13 +1,13 @@
 package dev.revere.alley.visual.scoreboard.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.combat.CombatService;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
+import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import dev.revere.alley.visual.scoreboard.Scoreboard;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -25,13 +25,6 @@ public class FFAScoreboardImpl implements Scoreboard {
         return Collections.emptyList();
     }
 
-    /**
-     * Get the title of the scoreboard.
-     *
-     * @param profile The profile to get the title for.
-     * @param player  The player to get the title for.
-     * @return The title of the scoreboard.
-     */
     @Override
     public List<String> getLines(Profile profile, Player player) {
         ProfileFFAData profileFFAData = profile.getProfileData().getFfaData().get(profile.getFfaMatch().getKit().getName());

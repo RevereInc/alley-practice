@@ -1,22 +1,22 @@
 package dev.revere.alley.feature.leaderboard.internal;
 
 import com.mongodb.client.MongoCollection;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.core.database.MongoService;
-import dev.revere.alley.feature.leaderboard.LeaderboardService;
-import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
-import dev.revere.alley.feature.leaderboard.LeaderboardType;
-import dev.revere.alley.feature.leaderboard.model.LeaderboardRecord;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.core.profile.data.types.ProfileRankedKitData;
 import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
-import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.leaderboard.LeaderboardService;
+import dev.revere.alley.feature.leaderboard.LeaderboardType;
+import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
+import dev.revere.alley.feature.leaderboard.model.LeaderboardRecord;
 import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -46,7 +46,11 @@ public class LeaderboardServiceImpl implements LeaderboardService {
     private final Map<String, Integer> onlinePlayerCache = new ConcurrentHashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the LeaderboardServiceImpl class.
+     *
+     * @param mongoService   The MongoService instance.
+     * @param kitService     The KitService instance.
+     * @param profileService The ProfileService instance.
      */
     public LeaderboardServiceImpl(MongoService mongoService, KitService kitService, ProfileService profileService) {
         this.mongoService = mongoService;

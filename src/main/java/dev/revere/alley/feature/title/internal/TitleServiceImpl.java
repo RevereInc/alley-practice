@@ -1,18 +1,18 @@
 package dev.revere.alley.feature.title.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.TextFormatter;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.title.TitleService;
 import dev.revere.alley.feature.title.model.TitleRecord;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.TextFormatter;
-import dev.revere.alley.common.text.CC;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -38,7 +38,11 @@ public class TitleServiceImpl implements TitleService {
     private final Map<Kit, TitleRecord> titles = new HashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the TitleServiceImpl class.
+     *
+     * @param configService   The configService instance.
+     * @param kitService      The kitService instance.
+     * @param divisionService The divisionService instance.
      */
     public TitleServiceImpl(ConfigService configService, KitService kitService, DivisionService divisionService) {
         this.configService = configService;

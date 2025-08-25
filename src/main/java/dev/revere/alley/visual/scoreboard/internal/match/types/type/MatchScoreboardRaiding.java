@@ -1,9 +1,9 @@
 package dev.revere.alley.visual.scoreboard.internal.match.types.type;
 
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.visual.scoreboard.internal.match.BaseMatchScoreboard;
 import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
 import org.bukkit.entity.Player;

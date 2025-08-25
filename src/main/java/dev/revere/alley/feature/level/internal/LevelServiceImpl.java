@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.level.internal;
 
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.text.ProgressBarUtil;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.level.data.LevelData;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -29,7 +29,9 @@ public class LevelServiceImpl implements LevelService {
     private final List<LevelData> levels = new ArrayList<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the LevelServiceImpl class.
+     *
+     * @param configService The configService instance.
      */
     public LevelServiceImpl(ConfigService configService) {
         this.configService = configService;

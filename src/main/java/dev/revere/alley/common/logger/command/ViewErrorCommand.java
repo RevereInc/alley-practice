@@ -1,10 +1,10 @@
 package dev.revere.alley.common.logger.command;
 
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -35,7 +35,7 @@ public class ViewErrorCommand extends BaseCommand {
         try {
             UUID errorId = UUID.fromString(args[0]);
             Logger.viewException(errorId);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             sender.sendMessage(CC.translate("&cInvalid error ID!"));
         }
     }

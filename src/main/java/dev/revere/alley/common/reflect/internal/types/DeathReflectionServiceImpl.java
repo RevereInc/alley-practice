@@ -1,8 +1,8 @@
 package dev.revere.alley.common.reflect.internal.types;
 
+import dev.revere.alley.common.TaskUtil;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.Reflection;
-import dev.revere.alley.common.TaskUtil;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

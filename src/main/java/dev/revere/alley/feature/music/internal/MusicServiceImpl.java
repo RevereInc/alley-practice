@@ -1,17 +1,17 @@
 package dev.revere.alley.feature.music.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.TimeUtil;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.music.MusicDisc;
 import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.feature.music.MusicSession;
 import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.time.TimeUtil;
-import dev.revere.alley.common.text.CC;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
 import org.bukkit.Location;
@@ -102,8 +102,8 @@ public class MusicServiceImpl implements MusicService {
                 .map(name -> {
                     try {
                         return MusicDisc.valueOf(name);
-                    } catch (IllegalArgumentException e) {
-                        Logger.logException("Invalid music disc: " + name + " for " + profile.getUuid(), e);
+                    } catch (IllegalArgumentException exception) {
+                        Logger.logException("Invalid music disc: " + name + " for " + profile.getUuid(), exception);
                         return null;
                     }
                 })

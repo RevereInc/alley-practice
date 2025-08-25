@@ -4,8 +4,8 @@ import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Table;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -56,11 +56,11 @@ public abstract class Ability implements Listener {
     public void setCooldown(Player player, long time) {
         if (time < 1L) {
             this.cooldown.remove(AlleyPlugin.getInstance().getService(AbilityService.class).getDisplayName(this.getAbility()), player.getUniqueId());
-        }
-        else {
+        } else {
             this.cooldown.put(AlleyPlugin.getInstance().getService(AbilityService.class).getDisplayName(this.getAbility()), player.getUniqueId(), System.currentTimeMillis() + time);
         }
     }
+
     public String getCooldown(Player player) {
         long cooldownLeft = this.cooldown.get(AlleyPlugin.getInstance().getService(AbilityService.class).getDisplayName(this.getAbility()), player.getUniqueId()) - System.currentTimeMillis();
         return TimeUtil.formatLongMin(cooldownLeft);

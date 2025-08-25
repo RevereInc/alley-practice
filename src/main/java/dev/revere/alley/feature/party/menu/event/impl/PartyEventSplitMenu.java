@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.party.menu.event.impl;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.feature.party.menu.event.impl.button.PartyEventSplitButton;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.party.menu.event.impl.button.PartyEventSplitButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

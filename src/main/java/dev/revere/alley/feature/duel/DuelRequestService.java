@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.duel;
 
+import dev.revere.alley.bootstrap.lifecycle.Service;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.bootstrap.lifecycle.Service;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 

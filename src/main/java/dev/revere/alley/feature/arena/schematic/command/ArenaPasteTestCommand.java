@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.arena.schematic.command;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.io.File;

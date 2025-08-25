@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.hotbar.HotbarType;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -33,7 +33,7 @@ public class HotbarCreateCommand extends BaseCommand {
         HotbarType type;
         try {
             type = HotbarType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             player.sendMessage(CC.translate("&cInvalid hotbar type! Valid types are: " + HotbarType.availableTypes()));
             return;
         }

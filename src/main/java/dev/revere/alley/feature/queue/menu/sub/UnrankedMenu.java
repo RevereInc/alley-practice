@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.queue.menu.sub;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.library.menu.impl.BackButton;
 import dev.revere.alley.feature.kit.KitCategory;
-import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.feature.queue.QueueType;
 import dev.revere.alley.feature.queue.menu.QueuesMenuDefault;
 import dev.revere.alley.feature.queue.menu.button.UnrankedButton;
 import dev.revere.alley.feature.queue.menu.extra.button.QueueModeSwitcherButton;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.library.menu.impl.BackButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -2,11 +2,11 @@ package dev.revere.alley.visual.scoreboard.internal.match.types.type;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.feature.match.internal.types.BedMatch;
 import dev.revere.alley.feature.match.internal.types.DefaultMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.visual.scoreboard.internal.match.BaseMatchScoreboard;
 import dev.revere.alley.visual.scoreboard.internal.match.annotation.ScoreboardData;
 import dev.revere.alley.visual.scoreboard.utility.ScoreboardUtil;
@@ -45,6 +45,12 @@ public class MatchScoreboardBed extends BaseMatchScoreboard {
                 .replace("{opponent-color-display}", opponentColorDisplay);
     }
 
+    /**
+     * Gets the team display name based on the team color.
+     *
+     * @param teamColor The team color.
+     * @return The team display name.
+     */
     private String getTeamDisplay(ChatColor teamColor) {
         if (teamColor == null) return "";
         String colorName = teamColor.name().toLowerCase();

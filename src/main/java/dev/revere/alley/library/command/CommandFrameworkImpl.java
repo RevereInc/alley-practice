@@ -1,14 +1,14 @@
 package dev.revere.alley.library.command;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.library.command.annotation.CompleterData;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
 import org.bukkit.Bukkit;
@@ -39,7 +39,11 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
     private final ConfigService configService;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the CommandFrameworkImpl class.
+     *
+     * @param plugin         the Alley plugin instance.
+     * @param pluginConstant the PluginConstant instance.
+     * @param configService  the ConfigService instance.
      */
     public CommandFrameworkImpl(AlleyPlugin plugin, PluginConstant pluginConstant, ConfigService configService) {
         this.plugin = plugin;
@@ -55,8 +59,8 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
                 Field field = SimplePluginManager.class.getDeclaredField("commandMap");
                 field.setAccessible(true);
                 this.map = (CommandMap) field.get(manager);
-            } catch (ReflectiveOperationException e) {
-                throw new RuntimeException("Failed to initialize CommandFramework: Could not get CommandMap.", e);
+            } catch (ReflectiveOperationException exception) {
+                throw new RuntimeException("Failed to initialize CommandFramework: Could not get CommandMap.", exception);
             }
         }
     }
@@ -77,8 +81,8 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
             try {
                 Object instance = classInfo.loadClass().getDeclaredConstructor().newInstance();
                 registerCommands(instance);
-            } catch (Exception e) {
-                Logger.logException("Failed to instantiate and register command container: " + classInfo.getName(), e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to instantiate and register command container: " + classInfo.getName(), exception);
             }
         }
 
@@ -146,9 +150,9 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
                 try {
                     method.invoke(methodObject,
                             new CommandArgs(sender, cmd, label, args, cmdLabel.split("\\.").length - 1));
-                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
-                    Bukkit.getConsoleSender().sendMessage("Failed to execute command: " + cmdLabel + " - " + e.getMessage());
-                    e.printStackTrace();
+                } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException exception) {
+                    Bukkit.getConsoleSender().sendMessage("Failed to execute command: " + cmdLabel + " - " + exception.getMessage());
+                    exception.printStackTrace();
                 }
                 return true;
             }

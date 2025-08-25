@@ -1,18 +1,18 @@
 package dev.revere.alley.core.profile.internal;
 
 import com.mongodb.client.MongoCollection;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.database.MongoService;
 import dev.revere.alley.core.database.model.DatabaseProfile;
 import dev.revere.alley.core.database.model.internal.MongoProfileImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.feature.layout.data.LayoutData;
 import dev.revere.alley.core.profile.data.ProfileData;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.layout.data.LayoutData;
 import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -36,7 +36,9 @@ public class ProfileServiceImpl implements ProfileService {
     private DatabaseProfile databaseProfile;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the ProfileServiceImpl class.
+     *
+     * @param mongoService The MongoService instance.
      */
     public ProfileServiceImpl(MongoService mongoService) {
         this.mongoService = mongoService;

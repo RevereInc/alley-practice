@@ -1,13 +1,13 @@
 package dev.revere.alley.core.database.task;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.duel.DuelRequest;
 import dev.revere.alley.feature.duel.DuelRequestService;
 import dev.revere.alley.feature.match.snapshot.SnapshotService;
-import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.PartyRequest;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,7 +25,7 @@ public class RepositoryCleanupTask extends BukkitRunnable {
     /**
      * Constructor for the RepositoryCleanupTask class.
      *
-     * @param plugin the Alley bootstrap instance
+     * @param plugin The Alley plugin instance.
      */
     public RepositoryCleanupTask(AlleyPlugin plugin) {
         this.plugin = plugin;
@@ -104,8 +104,8 @@ public class RepositoryCleanupTask extends BukkitRunnable {
                 return;
             }
 
-            partyRequest.getSender().sendMessage(CC.translate("&cYour party request to &6" + partyRequest.getSender().getName() + " &chas expired."));
-            partyRequest.getTarget().sendMessage(CC.translate("&cThe party request from &6" + partyRequest.getTarget().getName() + " &chas expired."));
+            partyRequest.getSender().sendMessage(CC.translate("&cYour party request to &6" + partyRequest.getTarget().getName() + " &chas expired."));
+            partyRequest.getTarget().sendMessage(CC.translate("&cThe party request from &6" + partyRequest.getSender().getName() + " &chas expired."));
         });
     }
 }

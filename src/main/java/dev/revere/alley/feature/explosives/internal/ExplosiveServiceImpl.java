@@ -33,7 +33,10 @@ public class ExplosiveServiceImpl implements ExplosiveService {
     private boolean enabled;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the ExplosiveServiceImpl class.
+     *
+     * @param plugin        The Alley plugin instance.
+     * @param configService The configuration service for accessing settings.
      */
     public ExplosiveServiceImpl(AlleyPlugin plugin, ConfigService configService) {
         this.plugin = plugin;

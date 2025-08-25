@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.cosmetic.menu;
 
-import dev.revere.alley.core.profile.menu.shop.button.ShopCategoryButton;
+import dev.revere.alley.core.profile.menu.setting.PracticeSettingsMenu;
+import dev.revere.alley.feature.cosmetic.menu.button.CosmeticCategoryButton;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.library.menu.impl.BackButton;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.feature.cosmetic.menu.button.CosmeticCategoryButton;
-import dev.revere.alley.core.profile.menu.setting.PracticeSettingsMenu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

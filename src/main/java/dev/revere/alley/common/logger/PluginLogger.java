@@ -1,18 +1,19 @@
 package dev.revere.alley.common.logger;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.adapter.knockback.KnockbackAdapter;
+import dev.revere.alley.common.constants.PluginConstant;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRanked;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.title.TitleService;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.adapter.core.CoreAdapter;
-import dev.revere.alley.common.text.CC;
 import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -64,6 +65,7 @@ public class PluginLogger {
                 "",
                 "    " + secondary + "Kits: " + color + kitService.getKits().size(),
                 "    " + secondary + "FFA Kits: " + color + ffaService.getFfaKits().size(),
+                "    " + secondary + "Ranked Kits: " + color + kitService.getKits().stream().filter(kit -> kit.isSettingEnabled(KitSettingRanked.class)).count(),
                 "    " + secondary + "Arenas: " + color + arenaService.getArenas().size(),
                 "    " + secondary + "Divisions: " + color + divisionService.getDivisions().size(),
                 "    " + secondary + "Titles: " + color + titleService.getTitles().size(),

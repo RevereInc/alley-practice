@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.server.menu.button;
 
-import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.library.menu.Button;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

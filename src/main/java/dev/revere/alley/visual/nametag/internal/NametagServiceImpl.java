@@ -3,8 +3,8 @@ package dev.revere.alley.visual.nametag.internal;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.visual.nametag.model.NametagPerspective;
 import dev.revere.alley.visual.nametag.NametagService;
+import dev.revere.alley.visual.nametag.model.NametagPerspective;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -32,7 +32,9 @@ public class NametagServiceImpl implements NametagService, Listener {
     private final NametagRegistry nametagRegistry;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the NametagServiceImpl class.
+     *
+     * @param plugin The Alley plugin instance.
      */
     public NametagServiceImpl(AlleyPlugin plugin) {
         this.plugin = plugin;

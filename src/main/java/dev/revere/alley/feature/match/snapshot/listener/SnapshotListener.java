@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.match.snapshot.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.ThrownPotion;
 import org.bukkit.event.EventHandler;

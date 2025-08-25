@@ -1,11 +1,11 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -37,7 +37,7 @@ public class SetCoinsCommand extends BaseCommand {
             int amount = Integer.parseInt(args[1]);
             profile.getProfileData().setCoins(amount);
             player.sendMessage(CC.translate("&aSuccessfully set " + target.getName() + "'s coins to " + amount + "."));
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cInvalid number."));
         }
     }

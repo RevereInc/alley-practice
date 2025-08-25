@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.combat.internal;
 
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.feature.combat.Combat;
 import dev.revere.alley.feature.combat.CombatService;
 import lombok.Getter;
@@ -26,16 +26,16 @@ public class CombatServiceImpl implements CombatService {
     private final ProfileService profileService;
 
     private final Map<UUID, Combat> combatMap = new ConcurrentHashMap<>();
-    private final long ffaExpirationTime;
-    private final long defaultExpirationTime;
+    private final long ffaExpirationTime = 15 * 1000L; // 15 seconds
+    private final long defaultExpirationTime = 5 * 1000L; // 5 seconds
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the CombatServiceImpl class.
+     *
+     * @param profileService The ProfileService instance.
      */
     public CombatServiceImpl(ProfileService profileService) {
         this.profileService = profileService;
-        this.ffaExpirationTime = 15 * 1000L; // 15 seconds
-        this.defaultExpirationTime = 5 * 1000L; // 5 seconds
     }
 
     @Override
@@ -50,8 +50,8 @@ public class CombatServiceImpl implements CombatService {
         long expirationTime = (victimState == ProfileState.FFA) ? this.ffaExpirationTime : this.defaultExpirationTime;
         long currentTime = System.currentTimeMillis();
 
-        tagPlayer(victim, attacker, currentTime, expirationTime);
-        tagPlayer(attacker, victim, currentTime, expirationTime);
+        this.tagPlayer(victim, attacker, currentTime, expirationTime);
+        this.tagPlayer(attacker, victim, currentTime, expirationTime);
     }
 
     @Override
@@ -137,6 +137,13 @@ public class CombatServiceImpl implements CombatService {
         }
     }
 
+    /**
+     * Helper method to determine if a player's combat tag has expired.
+     * If expired, the combat instance is removed from the map.
+     *
+     * @param player The player to check.
+     * @return true if the tag is expired or player is null, false otherwise.
+     */
     private boolean isTagExpired(Player player) {
         if (player == null) return true;
 
@@ -151,6 +158,11 @@ public class CombatServiceImpl implements CombatService {
         return false;
     }
 
+    /**
+     * Method to remove a combat instance from the map.
+     *
+     * @param player The player whose combat tag is to be removed.
+     */
     private void removeCombatTag(Player player) {
         this.combatMap.remove(player.getUniqueId());
     }

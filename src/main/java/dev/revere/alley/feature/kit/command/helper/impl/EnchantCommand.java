@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.common.item.EnchantUtil;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.item.EnchantUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -37,7 +37,7 @@ public class EnchantCommand extends BaseCommand {
         int level;
         try {
             level = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cEnchantment level must be a number!"));
             return;
         }

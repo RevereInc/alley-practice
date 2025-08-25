@@ -3,7 +3,6 @@ package dev.revere.alley.feature.cosmetic.model;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import lombok.Data;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.Collections;
 import java.util.List;

@@ -2,9 +2,9 @@ package dev.revere.alley.feature.ffa.spawn.internal;
 
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.geom.Cuboid;
+import dev.revere.alley.common.Cuboid;
+import dev.revere.alley.common.Serializer;
 import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
@@ -31,7 +31,10 @@ public class FFASpawnServiceImpl implements FFASpawnService {
     private Cuboid cuboid;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FFASpawnServiceImpl class.
+     *
+     * @param configService The configService instance.
+     * @param arenaService  The arenaService instance.
      */
     public FFASpawnServiceImpl(ConfigService configService, ArenaService arenaService) {
         this.configService = configService;

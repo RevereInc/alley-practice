@@ -1,10 +1,9 @@
 package dev.revere.alley.feature.cosmetic.internal;
 
-import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.feature.cosmetic.internal.repository.*;
 import dev.revere.alley.feature.cosmetic.CosmeticService;
+import dev.revere.alley.feature.cosmetic.internal.repository.*;
 import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import lombok.Getter;
 

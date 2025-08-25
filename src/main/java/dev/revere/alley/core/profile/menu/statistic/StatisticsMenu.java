@@ -1,19 +1,19 @@
 package dev.revere.alley.core.profile.menu.statistic;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.core.profile.data.types.ProfileRankedKitData;
 import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 import dev.revere.alley.core.profile.menu.statistic.button.GlobalStatButton;
 import dev.revere.alley.core.profile.menu.statistic.button.LeaderboardButton;
 import dev.revere.alley.core.profile.menu.statistic.button.StatisticsButton;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

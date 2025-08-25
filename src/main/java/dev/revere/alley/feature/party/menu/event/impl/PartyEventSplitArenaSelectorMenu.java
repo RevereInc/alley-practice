@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.party.menu.event.impl;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.party.menu.event.impl.button.PartyEventSplitArenaSelectorButton;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 

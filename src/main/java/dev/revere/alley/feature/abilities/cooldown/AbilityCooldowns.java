@@ -5,8 +5,7 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class AbilityCooldowns
-{
+public class AbilityCooldowns {
     private static HashMap<String, HashMap<UUID, Long>> cooldown;
 
     static {
@@ -40,7 +39,7 @@ public class AbilityCooldowns
     }
 
     public static int getCooldownForPlayerInt(final String k, final Player p) {
-        return (int)(AbilityCooldowns.cooldown.get(k).get(p.getUniqueId()) - System.currentTimeMillis()) / 1000;
+        return (int) (AbilityCooldowns.cooldown.get(k).get(p.getUniqueId()) - System.currentTimeMillis()) / 1000;
     }
 
     public static long getCooldownForPlayerLong(final String k, final Player p) {

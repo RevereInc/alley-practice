@@ -37,10 +37,10 @@ public interface KitService extends Service {
     /**
      * Creates and saves a new kit with default values.
      *
-     * @param kitName The unique name for the new kit.
+     * @param kitName   The unique name for the new kit.
      * @param inventory The default inventory contents.
-     * @param armor The default armor contents.
-     * @param icon The material for the kit's menu icon.
+     * @param armor     The default armor contents.
+     * @param icon      The material for the kit's menu icon.
      */
     void createKit(String kitName, ItemStack[] inventory, ItemStack[] armor, Material icon);
 

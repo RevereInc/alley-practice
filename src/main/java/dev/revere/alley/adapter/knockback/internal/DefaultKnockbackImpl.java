@@ -17,6 +17,6 @@ public class DefaultKnockbackImpl implements Knockback {
 
     @Override
     public void applyKnockback(Player player, String profile) {
-
+        // Default implementation: no-op
     }
 }

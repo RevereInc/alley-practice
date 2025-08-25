@@ -1,7 +1,7 @@
 package dev.revere.alley.library.menu.impl;
 
-import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

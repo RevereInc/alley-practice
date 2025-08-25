@@ -1,19 +1,19 @@
 package dev.revere.alley.feature.ffa;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfileFFAData;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.combat.CombatService;
+import dev.revere.alley.feature.ffa.model.GameFFAPlayer;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.ffa.model.GameFFAPlayer;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfileFFAData;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;

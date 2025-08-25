@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.queue.command.player;
 
+import dev.revere.alley.feature.queue.menu.QueuesMenuModern;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.queue.menu.QueuesMenuModern;
 import org.bukkit.entity.Player;
 
 /**

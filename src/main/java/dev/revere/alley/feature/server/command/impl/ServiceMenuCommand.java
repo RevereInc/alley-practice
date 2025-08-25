@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.server.command.impl;
 
+import dev.revere.alley.feature.server.menu.ServiceMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.server.menu.ServiceMenu;
 import org.bukkit.entity.Player;
 
 /**

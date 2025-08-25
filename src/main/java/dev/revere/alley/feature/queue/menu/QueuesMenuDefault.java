@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.queue.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.menu.sub.UnrankedMenu;
-import dev.revere.alley.feature.ffa.menu.FFAMenu;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.ffa.menu.FFAMenu;
+import dev.revere.alley.feature.queue.QueueService;
+import dev.revere.alley.feature.queue.menu.sub.UnrankedMenu;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

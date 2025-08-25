@@ -1,9 +1,8 @@
 package dev.revere.alley.feature.cosmetic.internal.repository.impl.soundeffect;
 
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
 import dev.revere.alley.common.SoundUtil;
+import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;

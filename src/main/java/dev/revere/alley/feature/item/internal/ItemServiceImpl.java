@@ -35,7 +35,7 @@ public class ItemServiceImpl implements ItemService {
     /**
      * DI Constructor for the ItemService class.
      *
-     * @param configService The configuration service to load item textures from.
+     * @param configService The configService instance.
      */
     public ItemServiceImpl(ConfigService configService) {
         this.configService = configService;

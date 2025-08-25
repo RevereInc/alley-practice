@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.ffa.menu;
 
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.SoundUtil;
+import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

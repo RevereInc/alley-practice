@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.command.impl.other;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.VirtualStackReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
@@ -42,7 +42,7 @@ public class VirtualStackCommand extends BaseCommand {
         int amount;
         try {
             amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cInvalid number provided."));
             return;
         }

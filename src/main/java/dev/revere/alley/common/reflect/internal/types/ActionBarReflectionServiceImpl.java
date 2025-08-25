@@ -1,13 +1,13 @@
 package dev.revere.alley.common.reflect.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.Reflection;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
 import org.bukkit.ChatColor;

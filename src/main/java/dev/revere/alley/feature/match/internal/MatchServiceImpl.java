@@ -1,22 +1,22 @@
 package dev.revere.alley.feature.match.internal;
 
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import dev.revere.alley.feature.kit.setting.types.mode.*;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.feature.match.internal.types.*;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -45,7 +45,11 @@ public class MatchServiceImpl implements MatchService {
     private final Map<Class<? extends KitSetting>, MatchFactory> matchFactoryRegistry = new LinkedHashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the MatchServiceImpl class.
+     *
+     * @param profileService The profile service for managing player profiles.
+     * @param queueService   The queue service for managing game queues.
+     * @param configService  The configuration service for accessing settings.
      */
     public MatchServiceImpl(ProfileService profileService, QueueService queueService, ConfigService configService) {
         this.profileService = profileService;

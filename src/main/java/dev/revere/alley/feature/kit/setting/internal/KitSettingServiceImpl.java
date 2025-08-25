@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.kit.setting.internal;
 
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.constants.PluginConstant;
+import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import dev.revere.alley.feature.kit.setting.KitSettingService;
 import dev.revere.alley.feature.kit.setting.annotation.KitSettingData;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.logger.Logger;
 import lombok.Getter;
 import org.reflections.Reflections;
 
@@ -30,7 +30,9 @@ public class KitSettingServiceImpl implements KitSettingService {
     private final Map<String, Class<? extends KitSetting>> settingClasses = new HashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the KitSettingServiceImpl class.
+     *
+     * @param pluginConstant The PluginConstant instance.
      */
     public KitSettingServiceImpl(PluginConstant pluginConstant) {
         this.pluginConstant = pluginConstant;
@@ -65,8 +67,8 @@ public class KitSettingServiceImpl implements KitSettingService {
         if (clazz != null) {
             try {
                 return clazz.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                Logger.logException("Failed to create setting instance for " + name + "!", e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to create setting instance for " + name + "!", exception);
             }
         }
         return null;

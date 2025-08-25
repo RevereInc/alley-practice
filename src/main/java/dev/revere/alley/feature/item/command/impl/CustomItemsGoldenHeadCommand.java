@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.item.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.item.ItemService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.item.ItemService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,7 +34,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         int amount;
         try {
             amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cInvalid amount specified. Please enter a valid number."));
             return;
         }

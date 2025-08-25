@@ -1,16 +1,16 @@
 package dev.revere.alley.core.profile.menu.music;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.library.menu.impl.BackButton;
-import dev.revere.alley.feature.music.MusicService;
-import dev.revere.alley.feature.music.MusicDisc;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.menu.music.button.MusicDiscSelectorButton;
 import dev.revere.alley.core.profile.menu.music.button.ToggleLobbyMusicButton;
 import dev.revere.alley.core.profile.menu.setting.PracticeSettingsMenu;
+import dev.revere.alley.feature.music.MusicDisc;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.library.menu.impl.BackButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

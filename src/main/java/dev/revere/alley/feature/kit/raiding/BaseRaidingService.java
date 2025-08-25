@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.kit.raiding;
 
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.model.BaseRaiderRole;
 
 /**

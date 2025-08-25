@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.emoji.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.feature.emoji.EmojiType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.emoji.EmojiType;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.Symbol;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;
 

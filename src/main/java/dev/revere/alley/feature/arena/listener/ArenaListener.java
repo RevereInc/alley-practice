@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.arena.listener;
 
-import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

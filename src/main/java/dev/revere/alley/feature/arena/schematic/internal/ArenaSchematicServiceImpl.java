@@ -14,13 +14,13 @@ import com.sk89q.worldedit.extent.clipboard.io.ClipboardWriter;
 import com.sk89q.worldedit.function.operation.ForwardExtentCopy;
 import com.sk89q.worldedit.function.operation.Operations;
 import com.sk89q.worldedit.regions.CuboidRegion;
-import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
+import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -33,28 +33,19 @@ import java.util.List;
  * @project alley-practice
  * @since 02/07/2025
  */
+@Getter
 @Service(provides = ArenaSchematicService.class, priority = 120)
 public class ArenaSchematicServiceImpl implements ArenaSchematicService {
-    private final AlleyPlugin plugin;
     private File schematicsDirectory;
-
-    /**
-     * Constructor for the ArenaSchematicServiceImpl class.
-     *
-     * @param plugin The main Alley bootstrap instance.
-     */
-    public ArenaSchematicServiceImpl(AlleyPlugin plugin) {
-        this.plugin = plugin;
-    }
 
     @Override
     public void setup(AlleyContext context) {
-        this.schematicsDirectory = this.getSchematicsDirectory();
+        this.schematicsDirectory = new File(context.getPlugin().getDataFolder(), "schematics");
         this.createSchematicsFolder();
     }
 
     private void createSchematicsFolder() {
-        File schematicsDir = this.getSchematicsDirectory();
+        File schematicsDir = this.schematicsDirectory;
         if (!schematicsDir.exists()) {
             if (schematicsDir.mkdirs()) {
                 Logger.info("Created schematics directory: " + schematicsDir.getPath());
@@ -67,7 +58,7 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
     @Override
     public void generateMissingSchematics(List<Arena> arenas) {
         for (Arena arena : arenas) {
-            File schematicFile = getSchematicFile(arena);
+            File schematicFile = this.getSchematicFile(arena);
             if (!schematicFile.exists()) {
                 Logger.info("Schematic for " + arena.getName() + " not found, creating...");
                 save(arena, schematicFile);
@@ -76,6 +67,7 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void save(Arena arena, File schematicFile) {
         try {
             Location min = arena.getMinimum();
@@ -99,8 +91,8 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
 
             try (ClipboardWriter writer = ClipboardFormat.SCHEMATIC.getWriter(Files.newOutputStream(schematicFile.toPath()))) {
                 writer.write(clipboard, session.getWorld().getWorldData());
-            } catch (Exception e) {
-                Logger.logException("Failed to write schematic to file: " + schematicFile.getPath(), e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to write schematic to file: " + schematicFile.getPath(), exception);
             }
 
             Logger.info("Saved schematic for arena: " + arena.getName());
@@ -121,6 +113,8 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
      * @param location      The location to paste the schematic.
      * @param schematicFile The file containing the schematic to paste.
      */
+    @Override
+    @SuppressWarnings("deprecation")
     public void paste(Location location, File schematicFile) {
         if (!schematicFile.exists()) {
             Logger.error("Cannot paste schematic, file does not exist: " + schematicFile.getPath());
@@ -143,6 +137,7 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void delete(StandAloneArena arena) {
         if (!arena.isTemporaryCopy()) {
             return;
@@ -175,15 +170,11 @@ public class ArenaSchematicServiceImpl implements ArenaSchematicService {
 
     @Override
     public File getSchematicFile(String name) {
-        return new File(getSchematicsDirectory() + File.separator + name.toLowerCase().replace(" ", "_") + ".schematic");
+        return new File(this.schematicsDirectory + File.separator + name.toLowerCase().replace(" ", "_") + ".schematic");
     }
 
     @Override
     public File getSchematicFile(Arena arena) {
         return this.getSchematicFile(arena.getName());
-    }
-
-    private File getSchematicsDirectory() {
-        return new File(this.plugin.getDataFolder(), "schematics");
     }
 }

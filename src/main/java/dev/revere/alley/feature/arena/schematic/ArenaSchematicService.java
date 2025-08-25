@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.arena.schematic;
 
+import dev.revere.alley.bootstrap.lifecycle.Service;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.bootstrap.lifecycle.Service;
 import org.bukkit.Location;
 
 import java.io.File;
@@ -17,6 +17,7 @@ public interface ArenaSchematicService extends Service {
     /**
      * Checks for missing schematic files for a given list of arenas and creates them.
      * This is intended to be called once on startup.
+     *
      * @param arenas The list of all loaded arenas to check.
      */
     void generateMissingSchematics(List<Arena> arenas);

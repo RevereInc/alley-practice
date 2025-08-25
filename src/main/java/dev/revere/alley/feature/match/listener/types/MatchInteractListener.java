@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.match.listener.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingCheckpoint;
-import dev.revere.alley.feature.match.internal.types.CheckpointMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingCheckpoint;
+import dev.revere.alley.feature.match.internal.types.CheckpointMatch;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;

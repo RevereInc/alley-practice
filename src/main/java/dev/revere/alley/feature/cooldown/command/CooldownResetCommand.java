@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.cooldown.command;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.StringUtil;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -39,7 +39,7 @@ public class CooldownResetCommand extends BaseCommand {
         CooldownType type;
         try {
             type = CooldownType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             player.sendMessage(CC.translate("&cInvalid cooldown type. Valid types: " + String.join(", ", Arrays.stream(CooldownType.values()).map(Enum::name).toArray(String[]::new))));
             return;
         }

@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.hotbar;
 
-import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.bootstrap.lifecycle.Service;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.library.menu.Menu;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 

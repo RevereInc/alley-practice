@@ -1,10 +1,10 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.level.menu.LevelMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.level.menu.LevelMenu;
-import dev.revere.alley.core.profile.ProfileService;
 import org.bukkit.entity.Player;
 
 /**

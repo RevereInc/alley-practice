@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.command.impl.main;
 
+import dev.revere.alley.common.constants.PluginConstant;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;

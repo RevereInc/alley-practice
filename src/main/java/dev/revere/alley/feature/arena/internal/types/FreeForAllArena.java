@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.arena.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.Serializer;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.common.serializer.Serializer;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 

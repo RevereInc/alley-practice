@@ -1,8 +1,8 @@
 package dev.revere.alley.core.profile.menu.setting.enums;
 
-import dev.revere.alley.core.profile.data.types.ProfileSettingData;
-import dev.revere.alley.common.text.LoreHelper;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.core.profile.data.types.ProfileSettingData;
 import org.bukkit.Material;
 
 import java.util.Arrays;

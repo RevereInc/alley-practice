@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.common.text.TextFormatter;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.common.text.LoreHelper;
-import dev.revere.alley.common.text.TextFormatter;
-import dev.revere.alley.common.text.CC;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

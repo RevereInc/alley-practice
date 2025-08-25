@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.queue.menu.sub;
 
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.menu.QueuesMenuDefault;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.library.menu.impl.BackButton;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.queue.menu.QueuesMenuDefault;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 

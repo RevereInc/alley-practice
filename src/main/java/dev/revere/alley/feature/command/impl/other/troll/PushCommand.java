@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -35,7 +35,7 @@ public class PushCommand extends BaseCommand {
 
         try {
             value = Double.parseDouble(args[1]);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             player.sendMessage(CC.translate("&cInvalid number."));
             return;
         }

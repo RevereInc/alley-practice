@@ -21,7 +21,10 @@ public class VisibilityServiceImpl implements VisibilityService {
     private final ProfileService profileService;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the VisibilityServiceImpl class.
+     *
+     * @param plugin         The Alley plugin instance.
+     * @param profileService The ProfileService instance.
      */
     public VisibilityServiceImpl(AlleyPlugin plugin, ProfileService profileService) {
         this.plugin = plugin;

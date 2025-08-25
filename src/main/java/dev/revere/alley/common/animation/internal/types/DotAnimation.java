@@ -8,7 +8,6 @@ import java.util.Arrays;
  * @since 03/04/2025
  */
 public class DotAnimation extends Animation {
-
     public DotAnimation() {
         super(Arrays.asList(".", "..", "..."), 500);
     }

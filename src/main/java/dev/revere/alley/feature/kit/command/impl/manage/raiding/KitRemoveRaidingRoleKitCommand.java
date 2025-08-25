@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.kit.command.impl.manage.raiding;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.raiding.BaseRaidingService;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
 import dev.revere.alley.feature.match.model.BaseRaiderRole;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -45,7 +45,7 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         BaseRaiderRole role;
         try {
             role = BaseRaiderRole.valueOf(roleName);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             sender.sendMessage(CC.translate("&cInvalid raiding role: " + roleName + ". Valid roles are: RAIDER, TRAPPER"));
             return;
         }

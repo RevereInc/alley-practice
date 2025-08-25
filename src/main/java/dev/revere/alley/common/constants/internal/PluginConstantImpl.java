@@ -36,9 +36,9 @@ public class PluginConstantImpl implements PluginConstant {
     private Reflections reflections;
 
     /**
-     * Constructor for the PluginConstant class.
+     * DI Constructor for the PluginConstant class.
      *
-     * @param plugin The Alley bootstrap instance.
+     * @param plugin The Alley plugin instance.
      */
     public PluginConstantImpl(AlleyPlugin plugin) {
         this.plugin = plugin;
@@ -65,6 +65,7 @@ public class PluginConstantImpl implements PluginConstant {
 
     /**
      * Gets the exact Bukkit version of the server (e.g., "1.8.8").
+     *
      * @return The exact Bukkit version string.
      */
     private String getBukkitVersionExact() {

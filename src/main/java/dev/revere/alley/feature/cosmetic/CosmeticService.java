@@ -25,7 +25,7 @@ public interface CosmeticService extends Service {
     /**
      * A type-safe helper to get a specific cosmetic repository.
      *
-     * @param type The CosmeticType of the repository.
+     * @param type            The CosmeticType of the repository.
      * @param repositoryClass The class of the repository for type casting.
      * @return The repository cast to its specific type, or null.
      */

@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.abilities.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.abilities.Ability;
-import dev.revere.alley.feature.abilities.AbilityService;
-import dev.revere.alley.common.time.DurationFormatter;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.DurationFormatter;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.GlobalCooldown;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.AbilityService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.Action;
@@ -50,7 +50,7 @@ public class LuckyIngot extends Ability {
                 return;
             }
 
-            if(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(player)){
+            if (profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(player)) {
                 player.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(player), true, true)));
                 player.updateInventory();
                 return;
@@ -59,7 +59,7 @@ public class LuckyIngot extends Ability {
             PlayerUtil.decrement(player);
 
             profile.getCooldown(LuckyIngot.class).applyCooldown(player, 60 * 1000);
-            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(player,  10 * 1000);
+            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(player, 10 * 1000);
 
             this.giveRandomEffect(player);
 

@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.server.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.server.ServerService;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

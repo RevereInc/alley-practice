@@ -1,18 +1,18 @@
 package dev.revere.alley.core.database.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.common.Serializer;
+import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.core.profile.data.types.*;
 import dev.revere.alley.core.profile.enums.ChatChannel;
 import dev.revere.alley.core.profile.enums.WorldTime;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.feature.layout.data.LayoutData;
+import dev.revere.alley.feature.music.MusicService;
 import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.bson.Document;
@@ -117,9 +117,9 @@ public class MongoUtility {
             }
 
             return document;
-        } catch (Exception e) {
-            Logger.logException(String.format("Failed to convert profile to document for UUID: %s", profile.getUuid()), e);
-            throw new RuntimeException("Profile to document conversion failed", e);
+        } catch (Exception exception) {
+            Logger.logException(String.format("Failed to convert profile to document for UUID: %s", profile.getUuid()), exception);
+            throw new RuntimeException("Profile to document conversion failed", exception);
         }
     }
 
@@ -152,9 +152,9 @@ public class MongoUtility {
                 Logger.warn(String.format("ProfileData document is null for profile: %s, creating new ProfileData", profile.getUuid()));
                 profile.setProfileData(new ProfileData());
             }
-        } catch (Exception e) {
-            Logger.logException(String.format("Error updating profile from document for UUID: %s", profile.getUuid()), e);
-            throw new RuntimeException("Failed to update profile from document", e);
+        } catch (Exception exception) {
+            Logger.logException(String.format("Error updating profile from document for UUID: %s", profile.getUuid()), exception);
+            throw new RuntimeException("Failed to update profile from document", exception);
         }
     }
 
@@ -466,8 +466,8 @@ public class MongoUtility {
                 kit.setWinstreak(kitEntry.getInteger("winstreak", DEFAULT_INT));
 
                 kitData.put(key, kit);
-            } catch (Exception e) {
-                Logger.logException(String.format("Failed to parse unranked kit data for key: %s", key), e);
+            } catch (Exception exception) {
+                Logger.logException(String.format("Failed to parse unranked kit data for key: %s", key), exception);
             }
         });
 
@@ -496,8 +496,8 @@ public class MongoUtility {
                 kit.setLosses(kitEntry.getInteger("losses", DEFAULT_INT));
 
                 kitData.put(key, kit);
-            } catch (Exception e) {
-                Logger.logException(String.format("Failed to parse ranked kit data for key: %s", key), e);
+            } catch (Exception exception) {
+                Logger.logException(String.format("Failed to parse ranked kit data for key: %s", key), exception);
             }
         });
 
@@ -526,8 +526,8 @@ public class MongoUtility {
                 ffa.setHighestKillstreak(ffaEntry.getInteger("highestKillstreak", DEFAULT_INT));
 
                 ffaData.put(key, ffa);
-            } catch (Exception e) {
-                Logger.logException(String.format("Failed to parse FFA data for key: %s", key), e);
+            } catch (Exception exception) {
+                Logger.logException(String.format("Failed to parse FFA data for key: %s", key), exception);
             }
         });
 
@@ -564,8 +564,8 @@ public class MongoUtility {
                                 if (itemsString != null && !itemsString.isEmpty()) {
                                     try {
                                         items = Serializer.deserializeItemStack(itemsString);
-                                    } catch (Exception e) {
-                                        Logger.logException(String.format("Failed to deserialize items for layout: %s", name), e);
+                                    } catch (Exception exception) {
+                                        Logger.logException(String.format("Failed to deserialize items for layout: %s", name), exception);
                                     }
                                 }
 
@@ -578,8 +578,8 @@ public class MongoUtility {
                             });
                 }
                 layoutData.getLayouts().put(key, layoutRecords);
-            } catch (Exception e) {
-                Logger.logException(String.format("Failed to parse layout data for key: %s", key), e);
+            } catch (Exception exception) {
+                Logger.logException(String.format("Failed to parse layout data for key: %s", key), exception);
             }
         });
 
@@ -607,8 +607,8 @@ public class MongoUtility {
                 musicData.getSelectedDiscs().addAll(selectedDiscs);
                 return musicData;
             }
-        } catch (Exception e) {
-            Logger.logException("Failed to parse music data, using defaults", e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to parse music data, using defaults", exception);
         }
 
         return createDefaultMusicData();
@@ -708,13 +708,20 @@ public class MongoUtility {
      */
     private static String getLegacyFieldName(CosmeticType type) {
         switch (type) {
-            case KILL_EFFECT: return "selectedKillEffect";
-            case KILL_MESSAGE: return "selectedKillMessage";
-            case SOUND_EFFECT: return "selectedSoundEffect";
-            case PROJECTILE_TRAIL: return "selectedProjectileTrail";
-            case SUIT: return "selectedSuit";
-            case CLOAK: return "selectedCloak";
-            default: return "selected" + type.name();
+            case KILL_EFFECT:
+                return "selectedKillEffect";
+            case KILL_MESSAGE:
+                return "selectedKillMessage";
+            case SOUND_EFFECT:
+                return "selectedSoundEffect";
+            case PROJECTILE_TRAIL:
+                return "selectedProjectileTrail";
+            case SUIT:
+                return "selectedSuit";
+            case CLOAK:
+                return "selectedCloak";
+            default:
+                return "selected" + type.name();
         }
     }
 
@@ -734,7 +741,7 @@ public class MongoUtility {
      * Creates a defensive copy of the input list to prevent external modifications.
      *
      * @param list The list to check and copy
-     * @param <T> The type of elements in the list
+     * @param <T>  The type of elements in the list
      * @return A new ArrayList containing the elements of the input list, or an empty list if input is null
      */
     private static <T> List<T> safeList(List<T> list) {
@@ -746,12 +753,12 @@ public class MongoUtility {
      * Provides a standardized way to handle map-based data fields with error recovery.
      * If parsing fails, the existing map is preserved to maintain data integrity.
      *
-     * @param document The Document to parse from
-     * @param key The key to look for in the Document
-     * @param parser The function to parse the sub-document into a map
+     * @param document    The Document to parse from
+     * @param key         The key to look for in the Document
+     * @param parser      The function to parse the sub-document into a map
      * @param existingMap The existing map to merge parsed data into
-     * @param setter The consumer to set the final merged map back to the parent object
-     * @param <T> The type of values in the map
+     * @param setter      The consumer to set the final merged map back to the parent object
+     * @param <T>         The type of values in the map
      */
     private static <T> void parseAndMerge(Document document, String key,
                                           Function<Document, Map<String, T>> parser,
@@ -767,8 +774,8 @@ public class MongoUtility {
                     return;
                 }
             }
-        } catch (Exception e) {
-            Logger.logException(String.format("Failed to parse and merge field: %s", key), e);
+        } catch (Exception exception) {
+            Logger.logException(String.format("Failed to parse and merge field: %s", key), exception);
         }
 
         setter.accept(existingMap);
@@ -779,12 +786,12 @@ public class MongoUtility {
      * Provides a standardized way to handle complex object fields with fallback to defaults.
      * Ensures robust error handling and prevents null values from being set.
      *
-     * @param document The Document to parse from
-     * @param key The key to look for in the Document
-     * @param parser The function to parse the sub-document into the target type
-     * @param setter The consumer to set the parsed value to the parent object
+     * @param document        The Document to parse from
+     * @param key             The key to look for in the Document
+     * @param parser          The function to parse the sub-document into the target type
+     * @param setter          The consumer to set the parsed value to the parent object
      * @param defaultSupplier A supplier to create a default value if parsing fails or document is null
-     * @param <T> The type of the parsed value
+     * @param <T>             The type of the parsed value
      */
     private static <T> void parseAndSet(Document document, String key,
                                         Function<Document, T> parser,
@@ -799,14 +806,14 @@ public class MongoUtility {
                     return;
                 }
             }
-        } catch (Exception e) {
-            Logger.logException(String.format("Failed to parse and set field: %s", key), e);
+        } catch (Exception exception) {
+            Logger.logException(String.format("Failed to parse and set field: %s", key), exception);
         }
 
         try {
             setter.accept(defaultSupplier.get());
-        } catch (Exception e) {
-            Logger.logException(String.format("Failed to create default value for field: %s", key), e);
+        } catch (Exception exception) {
+            Logger.logException(String.format("Failed to create default value for field: %s", key), exception);
         }
     }
 
@@ -829,8 +836,8 @@ public class MongoUtility {
                     }
                 });
             }
-        } catch (Exception e) {
-            Logger.logException("Failed to create default music data", e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to create default music data", exception);
         }
         return musicData;
     }
@@ -862,8 +869,8 @@ public class MongoUtility {
                         document.put(key, converted);
                     }
                 }
-            } catch (Exception e) {
-                Logger.logException(String.format("Failed to put safe value for key: %s", key), e);
+            } catch (Exception exception) {
+                Logger.logException(String.format("Failed to put safe value for key: %s", key), exception);
             }
             return this;
         }

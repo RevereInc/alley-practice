@@ -2,8 +2,6 @@ package dev.revere.alley.feature.hotbar;
 
 import dev.revere.alley.feature.hotbar.data.HotbarActionData;
 import dev.revere.alley.feature.hotbar.data.HotbarTypeData;
-import dev.revere.alley.feature.hotbar.HotbarAction;
-import dev.revere.alley.feature.hotbar.HotbarType;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;

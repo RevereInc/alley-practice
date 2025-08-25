@@ -13,12 +13,14 @@ import java.util.Optional;
 public interface EmojiService extends Service {
     /**
      * Gets the map containing all emoji identifiers and their corresponding formats.
+     *
      * @return An unmodifiable map of emojis.
      */
     Map<String, String> getEmojis();
 
     /**
      * Gets the format for a specific emoji by its identifier (e.g., ":)").
+     *
      * @param identifier The emoji identifier string.
      * @return An Optional containing the format if found.
      */

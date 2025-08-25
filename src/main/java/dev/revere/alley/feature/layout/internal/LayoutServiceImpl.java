@@ -1,17 +1,17 @@
 package dev.revere.alley.feature.layout.internal;
 
-import dev.revere.alley.feature.layout.LayoutService;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.KitCategory;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.feature.layout.menu.LayoutMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.kit.KitCategory;
+import dev.revere.alley.feature.layout.LayoutService;
+import dev.revere.alley.feature.layout.data.LayoutData;
+import dev.revere.alley.feature.layout.menu.LayoutMenu;
+import dev.revere.alley.library.menu.Menu;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -34,7 +34,10 @@ public class LayoutServiceImpl implements LayoutService {
     private Menu layoutMenu;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the LayoutServiceImpl class.
+     *
+     * @param configService  The ConfigService instance.
+     * @param profileService The ProfileService instance.
      */
     public LayoutServiceImpl(ConfigService configService, ProfileService profileService) {
         this.configService = configService;

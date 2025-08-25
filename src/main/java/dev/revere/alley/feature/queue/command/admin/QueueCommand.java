@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.queue.command.admin;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.queue.command.admin.impl.QueueForceCommand;
+import dev.revere.alley.feature.queue.command.admin.impl.QueueReloadCommand;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.queue.command.admin.impl.QueueForceCommand;
-import dev.revere.alley.feature.queue.command.admin.impl.QueueReloadCommand;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**

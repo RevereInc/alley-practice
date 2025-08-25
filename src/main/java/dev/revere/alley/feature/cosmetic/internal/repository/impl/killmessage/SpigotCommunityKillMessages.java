@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cosmetic.internal.repository.impl.killmessage;
 
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import dev.revere.alley.feature.cosmetic.annotation.CosmeticData;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import org.bukkit.Material;
 
 /**

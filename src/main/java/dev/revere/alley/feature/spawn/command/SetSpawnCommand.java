@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

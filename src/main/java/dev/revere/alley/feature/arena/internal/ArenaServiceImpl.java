@@ -1,6 +1,13 @@
 package dev.revere.alley.feature.arena.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.FileUtil;
+import dev.revere.alley.common.Serializer;
+import dev.revere.alley.common.VoidChunkGenerator;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -8,17 +15,13 @@ import dev.revere.alley.feature.arena.internal.types.FreeForAllArena;
 import dev.revere.alley.feature.arena.internal.types.SharedArena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
-import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
-import dev.revere.alley.common.FileUtil;
-import dev.revere.alley.common.VoidChunkGenerator;
+import dev.revere.alley.feature.kit.KitService;
 import lombok.Getter;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -55,6 +58,14 @@ public class ArenaServiceImpl implements ArenaService {
     private Location nextCopyLocation;
     private final int arenaSpacing = 1500;
 
+    /**
+     * DI Constructor for the ArenaServiceImpl class.
+     *
+     * @param plugin                The Alley plugin instance.
+     * @param configService         The configuration service instance.
+     * @param kitService            The kit service instance.
+     * @param arenaSchematicService The arena schematic service instance.
+     */
     public ArenaServiceImpl(AlleyPlugin plugin, ConfigService configService, KitService kitService, ArenaSchematicService arenaSchematicService) {
         this.plugin = plugin;
         this.configService = configService;
@@ -67,19 +78,18 @@ public class ArenaServiceImpl implements ArenaService {
     public void initialize(AlleyContext context) {
         this.loadArenas();
         this.initializeTemporaryWorld();
-        buildCaches();
-
+        this.buildCaches();
         this.arenaSchematicService.generateMissingSchematics(this.arenas);
     }
 
     @Override
     public void shutdown(AlleyContext context) {
-        cleanupTemporaryArenas();
+        this.cleanupTemporaryArenas();
 
-        if (temporaryWorld != null) {
-            String worldName = temporaryWorld.getName();
+        if (this.temporaryWorld != null) {
+            String worldName = this.temporaryWorld.getName();
 
-            temporaryWorld.getPlayers().forEach(player ->
+            this.temporaryWorld.getPlayers().forEach(player ->
                     player.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation())
             );
 
@@ -93,42 +103,42 @@ public class ArenaServiceImpl implements ArenaService {
             } else {
                 Logger.error("Failed to unload temporary world: " + worldName);
             }
-            temporaryWorld = null;
+            this.temporaryWorld = null;
         }
 
-        if (executorService != null && !executorService.isShutdown()) {
-            executorService.shutdown();
+        if (this.executorService != null && !this.executorService.isShutdown()) {
+            this.executorService.shutdown();
             try {
-                if (!executorService.awaitTermination(5, TimeUnit.SECONDS)) {
-                    executorService.shutdownNow();
+                if (!this.executorService.awaitTermination(5, TimeUnit.SECONDS)) {
+                    this.executorService.shutdownNow();
                 }
-            } catch (InterruptedException e) {
-                executorService.shutdownNow();
+            } catch (InterruptedException exception) {
+                this.executorService.shutdownNow();
                 Thread.currentThread().interrupt();
             }
         }
     }
 
     private void buildCaches() {
-        arenasByKit.clear();
-        arenasByName.clear();
+        this.arenasByKit.clear();
+        this.arenasByName.clear();
 
-        for (Kit kit : kitService.getKits()) {
-            List<Arena> kitArenas = arenas.stream()
+        for (Kit kit : this.kitService.getKits()) {
+            List<Arena> kitArenas = this.arenas.stream()
                     .filter(arena -> arena.getKits().contains(kit.getName()))
                     .filter(Arena::isEnabled)
                     .collect(Collectors.toList());
-            arenasByKit.put(kit.getName(), kitArenas);
+            this.arenasByKit.put(kit.getName(), kitArenas);
         }
 
-        for (Arena arena : arenas) {
-            arenasByName.put(arena.getName().toLowerCase(), arena);
+        for (Arena arena : this.arenas) {
+            this.arenasByName.put(arena.getName().toLowerCase(), arena);
         }
     }
 
     private void initializeTemporaryWorld() {
         String worldName = "temporary_arena_world";
-        cleanupExistingWorld(worldName);
+        this.cleanupExistingWorld(worldName);
 
         WorldCreator creator = new WorldCreator(worldName);
         creator.generateStructures(false).generator(new VoidChunkGenerator());
@@ -141,7 +151,7 @@ public class ArenaServiceImpl implements ArenaService {
      * Method to load all arenas from the arenas.yml file.
      */
     public void loadArenas() {
-        FileConfiguration config = configService.getArenasConfig();
+        FileConfiguration config = this.configService.getArenasConfig();
         ConfigurationSection arenasConfig = config.getConfigurationSection("arenas");
 
         if (arenasConfig == null) {
@@ -163,7 +173,7 @@ public class ArenaServiceImpl implements ArenaService {
         List<CompletableFuture<Arena>> futures = new ArrayList<>();
 
         for (String arenaName : arenaNames) {
-            CompletableFuture<Arena> future = CompletableFuture.supplyAsync(() -> loadSingleArena(config, arenaName), executorService);
+            CompletableFuture<Arena> future = CompletableFuture.supplyAsync(() -> loadSingleArena(config, arenaName), this.executorService);
             futures.add(future);
         }
 
@@ -173,15 +183,22 @@ public class ArenaServiceImpl implements ArenaService {
                 if (arena != null) {
                     this.arenas.add(arena);
                 }
-            } catch (TimeoutException e) {
+            } catch (TimeoutException exception) {
                 Logger.error("Arena loading timed out after 5 seconds");
                 future.cancel(true);
-            } catch (Exception e) {
-                Logger.error("Failed to load arena: " + e.getMessage());
+            } catch (Exception exception) {
+                Logger.error("Failed to load arena: " + exception.getMessage());
             }
         }
     }
 
+    /**
+     * Helper method to load a single arena from the configuration.
+     *
+     * @param config    the configuration file to load from.
+     * @param arenaName the name of the arena to load.
+     * @return the loaded Arena object, or null if loading failed.
+     */
     private Arena loadSingleArena(FileConfiguration config, String arenaName) {
         try {
             String name = "arenas." + arenaName;
@@ -190,19 +207,28 @@ public class ArenaServiceImpl implements ArenaService {
             Location minimum = Serializer.deserializeLocation(config.getString(name + ".minimum"));
             Location maximum = Serializer.deserializeLocation(config.getString(name + ".maximum"));
 
-            Arena arena = createArenaByType(arenaType, arenaName, minimum, maximum, config, name);
-            configureArena(arena, config, name);
+            Arena arena = this.createArenaByType(arenaType, arenaName, minimum, maximum, config, name);
+            this.configureArena(arena, config, name);
 
             return arena;
-        } catch (Exception e) {
-            Logger.error("Error loading arena " + arenaName + ": " + e.getMessage());
+        } catch (Exception exception) {
+            Logger.error("Error loading arena " + arenaName + ": " + exception.getMessage());
             return null;
         }
     }
 
-    private Arena createArenaByType(ArenaType arenaType, String arenaName,
-                                    Location minimum, Location maximum,
-                                    FileConfiguration config, String name) {
+    /**
+     * Factory method to create an Arena instance based on its type.
+     *
+     * @param arenaType The type of the arena (SHARED, STANDALONE, FFA).
+     * @param arenaName The name of the arena.
+     * @param minimum   The minimum corner location of the arena.
+     * @param maximum   The maximum corner location of the arena.
+     * @param config    The configuration file to load additional settings from.
+     * @param name      The base path in the configuration for this arena.
+     * @return A new instance of the appropriate Arena subclass.
+     */
+    private Arena createArenaByType(ArenaType arenaType, String arenaName, Location minimum, Location maximum, FileConfiguration config, String name) {
         switch (arenaType) {
             case SHARED:
                 return new SharedArena(arenaName, minimum, maximum);
@@ -229,6 +255,13 @@ public class ArenaServiceImpl implements ArenaService {
         }
     }
 
+    /**
+     * Configures common properties for an arena from the configuration.
+     *
+     * @param arena  The arena to configure.
+     * @param config The configuration file to load settings from.
+     * @param name   The base path in the configuration for this arena.
+     */
     private void configureArena(Arena arena, FileConfiguration config, String name) {
         if (config.contains(name + ".kits")) {
             Set<String> validKits = new HashSet<>();
@@ -296,17 +329,17 @@ public class ArenaServiceImpl implements ArenaService {
             location.setY(100 - pos1OffsetFromMin);
         }
 
-        nextCopyLocation.add(arenaSpacing, 0, 0);
-        if (nextCopyLocation.getX() > arenaSpacing * 10) {
-            nextCopyLocation.setX(0);
-            nextCopyLocation.add(0, 0, arenaSpacing);
+        this.nextCopyLocation.add(this.arenaSpacing, 0, 0);
+        if (this.nextCopyLocation.getX() > this.arenaSpacing * 10) {
+            this.nextCopyLocation.setX(0);
+            this.nextCopyLocation.add(0, 0, this.arenaSpacing);
         }
 
         return location;
     }
 
     public void cleanupTemporaryArenas() {
-        for (StandAloneArena arena : new ArrayList<>(temporaryArenas)) {
+        for (StandAloneArena arena : new ArrayList<>(this.temporaryArenas)) {
             arena.deleteCopiedArena();
         }
         this.temporaryArenas.clear();
@@ -323,7 +356,7 @@ public class ArenaServiceImpl implements ArenaService {
         World existingWorld = this.plugin.getServer().getWorld(worldName);
         if (existingWorld != null) {
             existingWorld.getPlayers().forEach(player ->
-                    player.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation())
+                    player.teleport(this.plugin.getServer().getWorlds().get(0).getSpawnLocation())
             );
 
             boolean unloaded = this.plugin.getServer().unloadWorld(existingWorld, false);
@@ -340,12 +373,12 @@ public class ArenaServiceImpl implements ArenaService {
 
     @Override
     public List<Arena> getArenas() {
-        return Collections.unmodifiableList(arenas);
+        return Collections.unmodifiableList(this.arenas);
     }
 
     @Override
     public List<StandAloneArena> getTemporaryArenas() {
-        return Collections.unmodifiableList(temporaryArenas);
+        return Collections.unmodifiableList(this.temporaryArenas);
     }
 
     @Override
@@ -355,7 +388,7 @@ public class ArenaServiceImpl implements ArenaService {
         }
 
         arena.saveArena();
-        buildCaches();
+        this.buildCaches();
     }
 
     @Override
@@ -365,13 +398,13 @@ public class ArenaServiceImpl implements ArenaService {
         }
 
         arena.deleteArena();
-        arenas.remove(arena);
-        buildCaches();
+        this.arenas.remove(arena);
+        this.buildCaches();
     }
 
     @Override
     public void deleteTemporaryArena(StandAloneArena arena) {
-        if (arena == null || !temporaryArenas.contains(arena)) {
+        if (arena == null || !this.temporaryArenas.contains(arena)) {
             return;
         }
         arena.deleteCopiedArena();
@@ -380,12 +413,12 @@ public class ArenaServiceImpl implements ArenaService {
 
     @Override
     public Arena getRandomArena(Kit kit) {
-        List<Arena> availableArenas = arenasByKit.get(kit.getName());
+        List<Arena> availableArenas = this.arenasByKit.get(kit.getName());
         if (availableArenas == null || availableArenas.isEmpty()) {
             return null;
         }
 
-        Arena selectedArena = availableArenas.get(random.nextInt(availableArenas.size()));
+        Arena selectedArena = availableArenas.get(this.random.nextInt(availableArenas.size()));
         if (selectedArena instanceof StandAloneArena) {
             return createTemporaryArenaCopy((StandAloneArena) selectedArena);
         }
@@ -394,20 +427,20 @@ public class ArenaServiceImpl implements ArenaService {
 
     @Override
     public Arena getArenaByName(String name) {
-        return arenasByName.get(name.toLowerCase());
+        return this.arenasByName.get(name.toLowerCase());
     }
 
     @Override
     public Arena selectArenaWithPotentialTemporaryCopy(Arena arena) {
         if (arena instanceof StandAloneArena) {
-            return createTemporaryArenaCopy((StandAloneArena) arena);
+            return this.createTemporaryArenaCopy((StandAloneArena) arena);
         }
         return arena;
     }
 
     @Override
     public void registerNewArena(Arena arena) {
-        if (arena != null && !arenasByName.containsKey(arena.getName().toLowerCase())) {
+        if (arena != null && !this.arenasByName.containsKey(arena.getName().toLowerCase())) {
             this.arenas.add(arena);
             this.buildCaches();
         }
@@ -417,6 +450,6 @@ public class ArenaServiceImpl implements ArenaService {
      * Refresh caches when kits or arenas are modified
      */
     public void refreshCaches() {
-        CompletableFuture.runAsync(this::buildCaches, executorService);
+        CompletableFuture.runAsync(this::buildCaches, this.executorService);
     }
 }

@@ -25,7 +25,7 @@ public class AssembleBoard {
     /**
      * Assemble Board.
      *
-     * @param player   that the board belongs to.
+     * @param player              that the board belongs to.
      * @param assembleServiceImpl instance.
      */
     public AssembleBoard(Player player, AssembleServiceImpl assembleServiceImpl) {

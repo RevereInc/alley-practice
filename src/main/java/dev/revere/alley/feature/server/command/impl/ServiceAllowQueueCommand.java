@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.server.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -27,7 +27,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         boolean allowQueue;
         try {
             allowQueue = Boolean.parseBoolean(args[0]);
-        } catch (Exception e) {
+        } catch (Exception exception) {
             player.sendMessage(CC.translate("&cInvalid parameter. Please use true or false."));
             return;
         }

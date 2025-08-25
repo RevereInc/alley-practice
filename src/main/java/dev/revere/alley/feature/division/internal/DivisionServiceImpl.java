@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.division.internal;
 
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.feature.division.model.DivisionTier;
-import dev.revere.alley.common.logger.Logger;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,7 +26,9 @@ public class DivisionServiceImpl implements DivisionService {
     private final List<Division> divisions = new ArrayList<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the DivisionServiceImpl class.
+     *
+     * @param configService The configService instance.
      */
     public DivisionServiceImpl(ConfigService configService) {
         this.configService = configService;

@@ -1,9 +1,9 @@
 package dev.revere.alley.core.profile;
 
 import com.mongodb.client.MongoCollection;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.lifecycle.Service;
 import dev.revere.alley.core.database.model.DatabaseProfile;
+import dev.revere.alley.feature.kit.Kit;
 import org.bson.Document;
 import org.bukkit.entity.Player;
 

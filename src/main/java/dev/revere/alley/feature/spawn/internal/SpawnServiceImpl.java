@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.spawn.internal;
 
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.Serializer;
+import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.spawn.SpawnService;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -25,7 +25,9 @@ public class SpawnServiceImpl implements SpawnService {
     private Location location;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the SpawnServiceImpl class.
+     *
+     * @param configService The configService instance.
      */
     public SpawnServiceImpl(ConfigService configService) {
         this.configService = configService;

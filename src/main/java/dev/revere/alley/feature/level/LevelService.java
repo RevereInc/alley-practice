@@ -13,6 +13,7 @@ import java.util.List;
 public interface LevelService extends Service {
     /**
      * Gets a list of all loaded level tiers.
+     *
      * @return An unmodifiable list of all LevelData objects.
      */
     List<LevelData> getLevels();

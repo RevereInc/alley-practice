@@ -1,13 +1,13 @@
 package dev.revere.alley.core.profile.menu.match.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.menu.match.MatchHistoryViewMenu;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.data.MatchData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.menu.match.MatchHistoryViewMenu;
-import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

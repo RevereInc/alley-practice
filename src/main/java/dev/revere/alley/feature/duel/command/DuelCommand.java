@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.duel.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.duel.DuelRequestService;
+import dev.revere.alley.feature.duel.menu.DuelRequestMenu;
+import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
-import dev.revere.alley.feature.duel.DuelRequestService;
-import dev.revere.alley.feature.duel.menu.DuelRequestMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**

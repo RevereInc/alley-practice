@@ -80,6 +80,12 @@ public class ListenerUtil {
         return !pressurePlates.contains(type);
     }
 
+    /**
+     * Checks if the player is stepping on a golden pressure plate.
+     *
+     * @param block The block you are standing on.
+     * @return true if the player is stepping on a pressure plate, false otherwise.
+     */
     public boolean checkSteppingOnGoldPressurePlate(Block block) {
         if (block == null) {
             return false;
@@ -89,6 +95,12 @@ public class ListenerUtil {
         return type == Material.GOLD_PLATE;
     }
 
+    /**
+     * Checks if the player is stepping on an iron pressure plate.
+     *
+     * @param block The block you are standing on.
+     * @return true if the player is stepping on a pressure plate, false otherwise.
+     */
     public boolean checkSteppingOnIronPressurePlate(Block block) {
         if (block == null) {
             return false;
@@ -98,6 +110,12 @@ public class ListenerUtil {
         return type == Material.IRON_PLATE;
     }
 
+    /**
+     * Teleports the player to the spawn location and clears any blocks above them.
+     *
+     * @param player        The player to teleport.
+     * @param spawnLocation The location to teleport the player to.
+     */
     public void teleportAndClearSpawn(Player player, Location spawnLocation) {
         for (int i = 0; i <= 2; i++) {
             Block block = spawnLocation.clone().add(0, i, 0).getBlock();

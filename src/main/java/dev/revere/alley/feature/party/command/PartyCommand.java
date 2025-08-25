@@ -1,8 +1,6 @@
 package dev.revere.alley.feature.party.command;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.party.command.impl.donator.PartyAnnounceCommand;
 import dev.revere.alley.feature.party.command.impl.external.PartyLookupCommand;
 import dev.revere.alley.feature.party.command.impl.leader.PartyCreateCommand;
@@ -14,7 +12,9 @@ import dev.revere.alley.feature.party.command.impl.leader.punishment.PartyBanCom
 import dev.revere.alley.feature.party.command.impl.leader.punishment.PartyBanListCommand;
 import dev.revere.alley.feature.party.command.impl.leader.punishment.PartyUnbanCommand;
 import dev.revere.alley.feature.party.command.impl.member.*;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**

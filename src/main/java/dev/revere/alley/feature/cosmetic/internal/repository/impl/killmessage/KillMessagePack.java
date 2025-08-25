@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.cosmetic.internal.repository.impl.killmessage;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 import java.util.*;
@@ -61,7 +60,7 @@ public abstract class KillMessagePack extends BaseCosmetic {
                 try {
                     EntityDamageEvent.DamageCause cause = EntityDamageEvent.DamageCause.valueOf(key.toUpperCase());
                     this.messagesByCause.put(cause, config.getStringList(key));
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException exception) {
                     if (key.equalsIgnoreCase("GENERIC")) {
                         this.genericMessages = config.getStringList(key);
                     } else {
@@ -69,8 +68,8 @@ public abstract class KillMessagePack extends BaseCosmetic {
                     }
                 }
             }
-        } catch (Exception e) {
-            Logger.logException("Failed to load kill message pack: " + fileName, e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to load kill message pack: " + fileName, exception);
         }
     }
 

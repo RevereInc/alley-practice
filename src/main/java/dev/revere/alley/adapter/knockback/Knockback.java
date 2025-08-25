@@ -15,5 +15,11 @@ public interface Knockback {
      */
     KnockbackType getType();
 
+    /**
+     * Applies knockback to a given player based on the specified profile.
+     *
+     * @param player  The player to whom knockback is to be applied.
+     * @param profile The profile determining the knockback settings.
+     */
     void applyKnockback(Player player, String profile);
 }

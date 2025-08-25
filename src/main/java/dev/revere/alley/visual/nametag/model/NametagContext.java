@@ -1,8 +1,8 @@
 package dev.revere.alley.visual.nametag.model;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 

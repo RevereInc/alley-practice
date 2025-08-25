@@ -30,6 +30,11 @@ public final class AlleyContext {
     private ScanResult scanResult;
     private List<Service> sortedServices = Collections.emptyList();
 
+    /**
+     * Constructor for the AlleyContext class.
+     *
+     * @param plugin The main plugin instance.
+     */
     public AlleyContext(AlleyPlugin plugin) {
         this.plugin = Objects.requireNonNull(plugin, "Plugin instance cannot be null");
     }
@@ -42,8 +47,8 @@ public final class AlleyContext {
 
         try {
             this.scanResult = new ClassGraph().enableAllInfo().acceptPackages(SERVICE_IMPL_PACKAGE).scan();
-        } catch (Exception e) {
-            throw new IllegalStateException("Classpath scanning failed.", e);
+        } catch (Exception exception) {
+            throw new IllegalStateException("Classpath scanning failed.", exception);
         }
 
         List<Class<? extends Service>> implementationClasses = discoverServices(this.scanResult);
@@ -93,8 +98,8 @@ public final class AlleyContext {
         for (Service service : reversedServices) {
             try {
                 service.shutdown(this);
-            } catch (Exception e) {
-                Logger.logException("Failed to shutdown service " + service.getClass().getSimpleName(), e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to shutdown service " + service.getClass().getSimpleName(), exception);
             }
         }
         Logger.info("--- Service Shutdown Complete ---");
@@ -102,6 +107,7 @@ public final class AlleyContext {
 
     /**
      * Retrieves a managed service by its interface.
+     *
      * @param serviceInterface The interface of the service to get.
      * @return An Optional containing the service instance if found.
      */
@@ -109,6 +115,12 @@ public final class AlleyContext {
         return Optional.ofNullable(serviceInterface.cast(serviceInstances.get(serviceInterface)));
     }
 
+    /**
+     * Instantiates a service implementation class, resolving and injecting its dependencies.
+     *
+     * @param implClass The implementation class to instantiate.
+     * @throws Exception if instantiation or dependency resolution fails.
+     */
     @SuppressWarnings("unchecked")
     private void instantiateService(Class<? extends Service> implClass) throws Exception {
         Class<? extends Service> providedInterface = getProvidedInterface(implClass);
@@ -151,6 +163,12 @@ public final class AlleyContext {
         servicesBeingConstructed.remove(implClass);
     }
 
+    /**
+     * Discover all service implementation classes annotated with {@link Service}
+     *
+     * @param scanResult The result of the classpath scan.
+     * @return A list of service implementation classes.
+     */
     @SuppressWarnings("unchecked")
     private List<Class<? extends Service>> discoverServices(ScanResult scanResult) {
         List<Class<? extends Service>> services = new ArrayList<>();
@@ -162,12 +180,24 @@ public final class AlleyContext {
         return services;
     }
 
+    /**
+     * Sorts service implementation classes based on their priority annotation.
+     *
+     * @param services The list of service implementation classes to sort.
+     * @return A sorted list of service implementation classes.
+     */
     private List<Class<? extends Service>> sortServicesByPriority(List<Class<? extends Service>> services) {
         return services.stream()
                 .sorted(Comparator.comparingInt(c -> c.getAnnotation(dev.revere.alley.bootstrap.annotation.Service.class).priority()))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Retrieves the service interface that the implementation class provides.
+     *
+     * @param implClass The implementation class.
+     * @return The service interface class.
+     */
     private Class<? extends Service> getProvidedInterface(Class<? extends Service> implClass) {
         return implClass.getAnnotation(dev.revere.alley.bootstrap.annotation.Service.class).provides();
     }

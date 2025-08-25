@@ -1,13 +1,13 @@
 package dev.revere.alley.core.profile.progress.internal;
 
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.data.ProfileData;
+import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 import dev.revere.alley.core.profile.progress.PlayerProgress;
 import dev.revere.alley.core.profile.progress.ProgressService;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.model.DivisionTier;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.ProfileData;
-import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 
 import java.util.List;
 

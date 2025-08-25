@@ -1,15 +1,15 @@
 package dev.revere.alley.core.profile.menu.shop.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.feature.cosmetic.internal.repository.BaseCosmeticRepository;
-import dev.revere.alley.feature.cosmetic.CosmeticService;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.StringUtil;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.menu.shop.ShopCategoryMenu;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.cosmetic.CosmeticService;
+import dev.revere.alley.feature.cosmetic.internal.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
+import dev.revere.alley.library.menu.Button;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

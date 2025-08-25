@@ -46,6 +46,14 @@ public class DuelRequestServiceImpl implements DuelRequestService {
 
     private final List<DuelRequest> duelRequests = new ArrayList<>();
 
+    /**
+     * DI Constructor for the DuelRequestServiceImpl class.
+     *
+     * @param profileService the profileService instance.
+     * @param arenaService   the arenaService instance.
+     * @param matchService   the matchService instance.
+     * @param serverService  the serverService instance.
+     */
     public DuelRequestServiceImpl(ProfileService profileService, ArenaService arenaService, MatchService matchService, ServerService serverService) {
         this.profileService = profileService;
         this.arenaService = arenaService;

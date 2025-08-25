@@ -20,7 +20,9 @@ public class KnockbackAdapterImpl implements KnockbackAdapter {
     private Knockback knockbackImplementation;
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance.
+     * DI Constructor for the KnockbackAdapterImpl class.
+     *
+     * @param plugin The Alley plugin instance.
      */
     public KnockbackAdapterImpl(AlleyPlugin plugin) {
         this.plugin = plugin;

@@ -29,7 +29,6 @@ public class ZoneKnockbackImpl implements Knockback {
         Set<String> profiles = KnockbackAPI.getAvailableProfileNames();
 
         boolean profileExists = profiles.stream().anyMatch(p -> p.equalsIgnoreCase(profile));
-
         if (!profileExists) {
             Logger.error("Attempted to apply a knockback profile that does not exist");
             return;

@@ -1,10 +1,10 @@
 package dev.revere.alley.core.profile.menu.reset;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

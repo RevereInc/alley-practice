@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.level.menu;
 
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.level.data.LevelData;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.level.data.LevelData;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

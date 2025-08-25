@@ -141,6 +141,7 @@ public class Logger {
             consoleSender.sendMessage(CC.translate(prefix + message + taskName + " &fin &6" + (end - start) + "ms&f."));
         }
     }
+
     /**
      * Log the time it takes to run a task.
      *
@@ -159,7 +160,7 @@ public class Logger {
             long end = System.currentTimeMillis();
             String prefix = success ? TASK_PREFIX_SUCCESS : TASK_PREFIX_FAIL;
             String message = success ? "&fSuccessfully ran &6" : "&cFailed to run &6";
-            consoleSender.sendMessage(CC.translate( prefix + message + runnableTaskName + " &fin &6" + (end - start) + "ms&f."));
+            consoleSender.sendMessage(CC.translate(prefix + message + runnableTaskName + " &fin &6" + (end - start) + "ms&f."));
         }
     }
 
@@ -188,6 +189,7 @@ public class Logger {
 
     /**
      * Logs the start of a major initialization phase.
+     *
      * @param phaseName The name of the phase (e.g., "Service Setup Phase").
      */
     public void logPhaseStart(String phaseName) {
@@ -197,6 +199,7 @@ public class Logger {
 
     /**
      * Logs the completion of a major initialization phase.
+     *
      * @param phaseName The name of the phase (e.g., "Service Initialization").
      */
     public void logPhaseComplete(String phaseName) {

@@ -9,7 +9,7 @@ import dev.revere.alley.bootstrap.lifecycle.Service;
  */
 public interface KnockbackAdapter extends Service {
     /**
-     * Gets the active knockback implementation that was detected during startup.
+     * Gets the name of the currently active knockback implementation.
      *
      * @return The IKnockback implementation for the current server type.
      */

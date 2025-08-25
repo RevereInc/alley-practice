@@ -11,7 +11,10 @@ import dev.revere.alley.visual.nametag.internal.strategy.impl.SpectatorStrategyI
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;

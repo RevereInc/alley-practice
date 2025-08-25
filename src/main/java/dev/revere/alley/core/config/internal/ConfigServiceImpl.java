@@ -3,8 +3,8 @@ package dev.revere.alley.core.config.internal;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -45,7 +45,9 @@ public class ConfigServiceImpl implements ConfigService {
     };
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance from the AlleyContext.
+     * DI Constructor for the ConfigServiceImpl class.
+     *
+     * @param plugin The Alley plugin instance.
      */
     public ConfigServiceImpl(AlleyPlugin plugin) {
         this.plugin = plugin;
@@ -75,8 +77,8 @@ public class ConfigServiceImpl implements ConfigService {
     public void saveConfig(File configFile, FileConfiguration fileConfiguration) {
         try {
             fileConfiguration.save(configFile);
-        } catch (Exception e) {
-            Logger.logException("Error occurred while saving config: " + configFile.getName(), e);
+        } catch (Exception exception) {
+            Logger.logException("Error occurred while saving config: " + configFile.getName(), exception);
         }
     }
 

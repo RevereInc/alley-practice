@@ -79,5 +79,4 @@ public interface ConfigService extends Service {
     FileConfiguration getNerdMessagesConfig();
 
     FileConfiguration getSpigotCommunityMessagesConfig();
-
 }

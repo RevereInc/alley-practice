@@ -12,7 +12,7 @@ public interface PlaceholderService extends Service {
     /**
      * Registers a papi expansion bootstrap with the Alley bootstrap.
      *
-     * @param plugin The Alley bootstrap instance to register.
+     * @param plugin The Alley plugin instance to register.
      */
     void registerExpansion(AlleyPlugin plugin);
 }

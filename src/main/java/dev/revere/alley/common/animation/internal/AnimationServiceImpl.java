@@ -1,12 +1,12 @@
 package dev.revere.alley.common.animation.internal;
 
-import dev.revere.alley.common.animation.AnimationService;
-import dev.revere.alley.common.animation.AnimationType;
-import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.animation.AnimationService;
+import dev.revere.alley.common.animation.AnimationType;
 import dev.revere.alley.common.animation.internal.config.TextAnimation;
 import dev.revere.alley.common.animation.internal.types.Animation;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.logger.Logger;
 import lombok.Getter;
 import org.reflections.Reflections;
@@ -34,7 +34,9 @@ public class AnimationServiceImpl implements AnimationService {
     private final Set<TextAnimation> configAnimations = new HashSet<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the AnimationServiceImpl class.
+     *
+     * @param pluginConstant The PluginConstant instance.
      */
     public AnimationServiceImpl(PluginConstant pluginConstant) {
         this.pluginConstant = pluginConstant;
@@ -89,8 +91,8 @@ public class AnimationServiceImpl implements AnimationService {
             try {
                 T instance = clazz.getDeclaredConstructor().newInstance();
                 targetSet.add(instance);
-            } catch (Exception e) {
-                Logger.logException("Failed to instantiate animation: " + clazz.getName(), e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to instantiate animation: " + clazz.getName(), exception);
             }
         }
     }

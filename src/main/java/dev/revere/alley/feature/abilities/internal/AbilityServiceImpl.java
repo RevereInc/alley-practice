@@ -52,8 +52,8 @@ public class AbilityServiceImpl implements AbilityService {
             try {
                 Ability instance = clazz.getDeclaredConstructor().newInstance();
                 this.abilities.add(instance);
-            } catch (Exception e) {
-                Logger.logException("Failed to instantiate ability: " + clazz.getName(), e);
+            } catch (Exception exception) {
+                Logger.logException("Failed to instantiate ability: " + clazz.getName(), exception);
             }
         }
     }
@@ -107,54 +107,47 @@ public class AbilityServiceImpl implements AbilityService {
     @Override
     public void giveAbility(CommandSender sender, Player player, String key, String abilityName, int amount) {
         player.getInventory().addItem(this.getAbilityItem(key, amount));
+
         if (player == sender) {
-            player.sendMessage(CC.translate(configService.getAbilityConfig().getString("RECEIVED_ABILITY")
-                    .replace("%ABILITY%", abilityName)
-                    .replace("%AMOUNT%", String.valueOf(amount))));
+            player.sendMessage(CC.translate(configService.getAbilityConfig().getString("RECEIVED_ABILITY").replace("%ABILITY%", abilityName).replace("%AMOUNT%", String.valueOf(amount))));
         } else {
-            player.sendMessage(CC.translate(configService.getAbilityConfig().getString("RECEIVED_ABILITY")
-                    .replace("%ABILITY%", abilityName)
-                    .replace("%AMOUNT%", String.valueOf(amount))));
-            sender.sendMessage(CC.translate(configService.getAbilityConfig().getString("GIVE_ABILITY")
-                    .replace("%ABILITY%", abilityName)
-                    .replace("%AMOUNT%", String.valueOf(amount))
-                    .replace("%PLAYER%", player.getName())));
+            player.sendMessage(CC.translate(configService.getAbilityConfig().getString("RECEIVED_ABILITY").replace("%ABILITY%", abilityName).replace("%AMOUNT%", String.valueOf(amount))));
+            sender.sendMessage(CC.translate(configService.getAbilityConfig().getString("GIVE_ABILITY").replace("%ABILITY%", abilityName).replace("%AMOUNT%", String.valueOf(amount)).replace("%PLAYER%", player.getName())));
         }
     }
 
     @Override
     public void sendPlayerMessage(Player player, String abilityKey) {
-        String displayName = getDisplayName(abilityKey);
+        String displayName = this.getDisplayName(abilityKey);
         String cooldown = String.valueOf(getCooldown(abilityKey));
 
-        configService.getAbilityConfig().getStringList(abilityKey + ".MESSAGE.PLAYER").forEach(
-                message -> CC.message(player, message
+        this.configService.getAbilityConfig().getStringList(abilityKey + ".MESSAGE.PLAYER").forEach(
+                message -> Logger.info(message
                         .replace("%ABILITY%", displayName)
-                        .replace("%COOLDOWN%", cooldown)));
+                        .replace("%COOLDOWN%", cooldown))
+        );
     }
 
     @Override
     public void sendTargetMessage(Player target, Player player, String abilityKey) {
-        String displayName = getDisplayName(abilityKey);
-
-        configService.getAbilityConfig().getStringList(abilityKey + ".MESSAGE.TARGET").forEach(
-                message -> CC.message(target, message
-                        .replace("%ABILITY%", displayName)
-                        .replace("%PLAYER%", player.getName())
-                        .replace("%TARGET%", target.getName())));
+        String displayName = this.getDisplayName(abilityKey);
+        this.configService.getAbilityConfig().getStringList(abilityKey + ".MESSAGE.TARGET").forEach(
+                message -> player.sendMessage(message.replace("%ABILITY%", displayName).replace("%PLAYER%", player.getName()).replace("%TARGET%", target.getName()))
+        );
     }
 
     @Override
     public void sendCooldownMessage(Player player, String abilityName, String cooldown) {
-        CC.message(player, configService.getAbilityConfig().getString("STILL_ON_COOLDOWN")
-                .replace("%ABILITY%", abilityName)
-                .replace("%COOLDOWN%", cooldown));
+        this.configService.getAbilityConfig().getStringList("STILL_ON_COOLDOWN").forEach(
+                message -> player.sendMessage(message.replace("%ABILITY%", abilityName).replace("%COOLDOWN%", cooldown))
+        );
+
     }
 
     @Override
     public void sendCooldownExpiredMessage(Player player, String abilityName, String ability) {
-        TaskUtil.runLaterAsync(() ->
-                CC.message(player, configService.getAbilityConfig().getString("COOLDOWN_EXPIRED")
-                        .replace("%ABILITY%", abilityName)), getCooldown(ability) * 20L);
+        TaskUtil.runLaterAsync(() -> this.configService.getAbilityConfig().getStringList("COOLDOWN_EXPIRED").forEach(message ->
+                player.sendMessage(message.replace("%ABILITY%", abilityName))), getCooldown(ability) * 20L)
+        ;
     }
 }

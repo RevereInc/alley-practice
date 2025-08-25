@@ -1,13 +1,13 @@
 package dev.revere.alley.core.profile.menu.setting;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileSettingData;
 import dev.revere.alley.core.profile.menu.setting.button.PracticeSettingsButton;
 import dev.revere.alley.core.profile.menu.setting.enums.PracticeSettingType;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -23,6 +23,7 @@ public class LoreHelper {
         String returnValue = value ? "&a&l✔ &6Toggled" : "&c&l✘ &cNot Toggled";
         return ChatColor.translateAlternateColorCodes('&', "&f&l│ " + returnValue);
     }
+
     /**
      * Returns a string representation of a boolean value.
      *

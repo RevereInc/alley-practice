@@ -1,9 +1,13 @@
 package dev.revere.alley.visual.scoreboard.internal.match;
 
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.animation.AnimationService;
+import dev.revere.alley.common.animation.AnimationType;
+import dev.revere.alley.common.animation.internal.types.DotAnimation;
 import dev.revere.alley.common.reflect.utility.ReflectionUtility;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
@@ -25,6 +29,15 @@ public interface MatchScoreboard {
      * @return The scoreboard lines.
      */
     List<String> getLines(Profile profile, Player player, GameParticipant<MatchGamePlayer> you, GameParticipant<MatchGamePlayer> opponent);
+
+    /**
+     * Gets the dot animation for the scoreboard.
+     *
+     * @return The dot animation.
+     */
+    default DotAnimation getDotAnimation() {
+        return AlleyPlugin.getInstance().getService(AnimationService.class).getAnimation(DotAnimation.class, AnimationType.INTERNAL);
+    }
 
     /**
      * Gets the corresponding color of the player including the player's name.

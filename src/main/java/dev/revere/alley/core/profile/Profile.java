@@ -1,19 +1,6 @@
 package dev.revere.alley.core.profile;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.QueueProfile;
-import dev.revere.alley.feature.queue.QueueType;
-import dev.revere.alley.feature.abilities.Ability;
-import dev.revere.alley.feature.abilities.cooldown.AbilityCooldown;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.feature.division.model.DivisionTier;
-import dev.revere.alley.feature.leaderboard.LeaderboardType;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
@@ -21,6 +8,19 @@ import dev.revere.alley.core.profile.data.types.ProfileRankedKitData;
 import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.cooldown.AbilityCooldown;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.feature.division.model.DivisionTier;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.leaderboard.LeaderboardType;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.queue.QueueProfile;
+import dev.revere.alley.feature.queue.QueueType;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -124,6 +124,7 @@ public class Profile {
 
     /**
      * Gets the cooldown object for a specific global cooldown type.
+     *
      * @param type The global cooldown type from the enum.
      * @return The AbilityCooldown object.
      */
@@ -245,9 +246,6 @@ public class Profile {
         return null;
     }
 
-    /**
-     * Updates the last play time of the profile.
-     */
     public void updatePlayTime() {
         ProfilePlayTimeData playTimeData = this.profileData.getPlayTimeData();
         playTimeData.setTotal(playTimeData.getTotal() + (System.currentTimeMillis() - playTimeData.getLastLogin()));

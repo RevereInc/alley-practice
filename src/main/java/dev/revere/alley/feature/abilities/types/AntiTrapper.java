@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.abilities.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.DurationFormatter;
+import dev.revere.alley.common.time.TimeUtil;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.feature.abilities.Ability;
 import dev.revere.alley.feature.abilities.AbilityService;
-import dev.revere.alley.common.time.DurationFormatter;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.GlobalCooldown;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.time.TimeUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -77,7 +77,7 @@ public class AntiTrapper extends Ability {
 
                     // Apply cooldown on third hit
                     profile.getCooldown(AntiTrapper.class).applyCooldown(damager, 60 * 1000);
-                    profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
+                    profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager, 10 * 1000);
 
                     // Apply cooldown on victim to prevent interaction
                     AntiTrapper.cooldownvic.put(victim.getName(), System.currentTimeMillis() + (15 * 1000));
@@ -134,7 +134,7 @@ public class AntiTrapper extends Ability {
     public void onFenceInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
         Block block = event.getClickedBlock();
-        if(event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+        if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
             if (block.getType().equals(Material.FENCE_GATE) || block.getType().equals(Material.CHEST)) {
                 if (AntiTrapper.isOnCooldownVic(player)) {
                     long millisLeft = AntiTrapper.cooldownvic.get(event.getPlayer().getName()) - System.currentTimeMillis();

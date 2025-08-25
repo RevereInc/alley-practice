@@ -50,6 +50,9 @@ public class InventoryUtil {
 
     /**
      * A private helper to iterate over an array of items and apply coloring.
+     *
+     * @param items     the array of items to color.
+     * @param teamColor the TeamColor data to apply.
      */
     private void colorItems(ItemStack[] items, TeamColor teamColor) {
         for (ItemStack item : items) {
@@ -75,8 +78,8 @@ public class InventoryUtil {
     /**
      * Clone an array of ItemStacks to ensure deep copy.
      *
-     * @param items the original array
-     * @return a cloned array
+     * @param items the original array.
+     * @return a cloned array.
      */
     public ItemStack[] cloneItemStackArray(ItemStack[] items) {
         if (items == null) return null;
@@ -91,8 +94,8 @@ public class InventoryUtil {
     /**
      * Give a specific item to a player.
      *
-     * @param player   the player to give the item to
-     * @param material the material of the item to give
+     * @param player   the player to give the item to.
+     * @param material the material of the item to give.
      */
     public void giveItem(Player player, Material material, int amount) {
         player.getInventory().addItem(new ItemStack(material, amount));
@@ -110,6 +113,12 @@ public class InventoryUtil {
         private final Color armorColor;
         private final short blockDataValue;
 
+        /**
+         * Constructor for the TeamColor enum.
+         *
+         * @param armorColor     the color to apply to leather armor.
+         * @param blockDataValue the durability value to apply to dyeable blocks.
+         */
         TeamColor(Color armorColor, short blockDataValue) {
             this.armorColor = armorColor;
             this.blockDataValue = blockDataValue;

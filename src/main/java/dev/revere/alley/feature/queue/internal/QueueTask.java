@@ -1,23 +1,23 @@
 package dev.revere.alley.feature.queue.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.queue.QueueProfile;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.TeamGameParticipant;
-import dev.revere.alley.feature.party.PartyService;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueProfile;
+import dev.revere.alley.feature.queue.QueueService;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -51,12 +51,12 @@ public class QueueTask implements Runnable {
      * @param queue The queue to process
      */
     public void processQueue(Queue queue) {
-        validateAndCleanupQueuePlayers(queue);
+        this.validateAndCleanupQueuePlayers(queue);
 
         if (queue.isDuos()) {
-            processDuosQueue(queue);
+            this.processDuosQueue(queue);
         } else {
-            processSoloQueue(queue);
+            this.processSoloQueue(queue);
         }
     }
 
@@ -72,9 +72,9 @@ public class QueueTask implements Runnable {
         for (QueueProfile profile : profilesToCheck) {
             Player player = Bukkit.getPlayer(profile.getUuid());
 
-            if (shouldRemovePlayerFromQueue(player, profile)) {
+            if (this.shouldRemovePlayerFromQueue(player, profile)) {
                 queue.removePlayer(profile);
-                notifyPlayerOfQueueRemoval(player, profile);
+                this.notifyPlayerOfQueueRemoval(player, profile);
             } else {
                 profile.queueRange(player);
             }
@@ -131,13 +131,13 @@ public class QueueTask implements Runnable {
             return;
         }
 
-        List<QueueProfile> availableSoloPlayers = getAvailableSoloPlayers(queue);
+        List<QueueProfile> availableSoloPlayers = this.getAvailableSoloPlayers(queue);
 
         if (availableSoloPlayers.size() < 2) {
             return;
         }
 
-        attemptSoloMatches(queue, availableSoloPlayers);
+        this.attemptSoloMatches(queue, availableSoloPlayers);
     }
 
     /**
@@ -166,7 +166,7 @@ public class QueueTask implements Runnable {
             QueueProfile firstProfile = availableSoloPlayers.get(i);
             Player firstPlayer = Bukkit.getPlayer(firstProfile.getUuid());
 
-            if (isPlayerInvalidForMatch(firstPlayer, firstProfile, queue)) {
+            if (this.isPlayerInvalidForMatch(firstPlayer, firstProfile, queue)) {
                 continue;
             }
 
@@ -174,11 +174,11 @@ public class QueueTask implements Runnable {
                 QueueProfile secondProfile = availableSoloPlayers.get(j);
                 Player secondPlayer = Bukkit.getPlayer(secondProfile.getUuid());
 
-                if (isPlayerInvalidForMatch(secondPlayer, secondProfile, queue)) {
+                if (this.isPlayerInvalidForMatch(secondPlayer, secondProfile, queue)) {
                     continue;
                 }
 
-                if (createSoloMatch(queue, firstPlayer, secondPlayer, firstProfile, secondProfile)) {
+                if (this.createSoloMatch(queue, firstPlayer, secondPlayer, firstProfile, secondProfile)) {
                     return;
                 }
             }
@@ -220,8 +220,7 @@ public class QueueTask implements Runnable {
      * @param secondProfile Second player's profile
      * @return true if match was successfully created
      */
-    private boolean createSoloMatch(Queue queue, Player firstPlayer, Player secondPlayer,
-                                    QueueProfile firstProfile, QueueProfile secondProfile) {
+    private boolean createSoloMatch(Queue queue, Player firstPlayer, Player secondPlayer, QueueProfile firstProfile, QueueProfile secondProfile) {
         GamePlayerList gamePlayerList = getGamePlayerList(firstPlayer, secondPlayer, firstProfile, secondProfile);
         GameParticipantList gameParticipantList = getSoloGameParticipantList(gamePlayerList);
 
@@ -259,7 +258,7 @@ public class QueueTask implements Runnable {
         List<QueueProfile> fullParties = getFullParties(availableProfiles);
         List<QueueProfile> soloDuosPlayers = getSoloDuosPlayers(availableProfiles);
 
-        attemptDuosMatching(queue, fullParties, soloDuosPlayers);
+        this.attemptDuosMatching(queue, fullParties, soloDuosPlayers);
     }
 
     /**
@@ -311,7 +310,7 @@ public class QueueTask implements Runnable {
             QueueProfile team1LeaderProfile = fullParties.get(0);
             QueueProfile team2LeaderProfile = fullParties.get(1);
 
-            if (tryMatchDuos(queue, team1LeaderProfile, team2LeaderProfile)) {
+            if (this.tryMatchDuos(queue, team1LeaderProfile, team2LeaderProfile)) {
                 return;
             }
         }
@@ -322,7 +321,7 @@ public class QueueTask implements Runnable {
             QueueProfile soloDuo1Profile = soloDuosPlayers.get(0);
             QueueProfile soloDuo2Profile = soloDuosPlayers.get(1);
 
-            if (tryMatchDuos(queue, partyLeaderProfile, soloDuo1Profile, soloDuo2Profile)) {
+            if (this.tryMatchDuos(queue, partyLeaderProfile, soloDuo1Profile, soloDuo2Profile)) {
                 return;
             }
         }
@@ -334,7 +333,7 @@ public class QueueTask implements Runnable {
             QueueProfile soloDuo3Profile = soloDuosPlayers.get(2);
             QueueProfile soloDuo4Profile = soloDuosPlayers.get(3);
 
-            tryMatchDuos(queue, soloDuo1Profile, soloDuo2Profile, soloDuo3Profile, soloDuo4Profile);
+            this.tryMatchDuos(queue, soloDuo1Profile, soloDuo2Profile, soloDuo3Profile, soloDuo4Profile);
         }
     }
 
@@ -355,18 +354,18 @@ public class QueueTask implements Runnable {
         List<Player> onlinePlayers = new ArrayList<>();
         List<QueueProfile> validQueueProfiles = new ArrayList<>();
 
-        if (!validatePotentialPlayers(potentialPlayers, onlinePlayers, validQueueProfiles)) {
+        if (!this.validatePotentialPlayers(potentialPlayers, onlinePlayers, validQueueProfiles)) {
             return false;
         }
 
-        List<Player> allMatchPlayers = buildMatchPlayerList(onlinePlayers, potentialPlayers.length);
+        List<Player> allMatchPlayers = this.buildMatchPlayerList(onlinePlayers, potentialPlayers.length);
 
         if (allMatchPlayers.size() != 4) {
             Logger.info("Expected exactly 4 players for duos match, but got: " + allMatchPlayers.size());
             return false;
         }
 
-        return createDuosMatch(queue, allMatchPlayers, validQueueProfiles, onlinePlayers, potentialPlayers.length);
+        return this.createDuosMatch(queue, allMatchPlayers, validQueueProfiles, onlinePlayers, potentialPlayers.length);
     }
 
     /**
@@ -406,7 +405,7 @@ public class QueueTask implements Runnable {
         allMatchPlayers.add(team1Leader);
 
         // Add team 1 party members
-        addPartyMembersToMatch(team1Leader, allMatchPlayers);
+        this.addPartyMembersToMatch(team1Leader, allMatchPlayers);
 
         // Determine team 2 leader position based on potential player count
         int team2StartIndex = (potentialPlayerCount == 2) ? 1 : 2;
@@ -414,10 +413,10 @@ public class QueueTask implements Runnable {
         allMatchPlayers.add(team2Leader);
 
         // Add team 2 party members
-        addPartyMembersToMatch(team2Leader, allMatchPlayers);
+        this.addPartyMembersToMatch(team2Leader, allMatchPlayers);
 
         // Add remaining solo players
-        addRemainingSoloPlayers(onlinePlayers, allMatchPlayers, team2StartIndex);
+        this.addRemainingSoloPlayers(onlinePlayers, allMatchPlayers, team2StartIndex);
 
         return allMatchPlayers;
     }
@@ -451,9 +450,7 @@ public class QueueTask implements Runnable {
      * @param allMatchPlayers Current match players list
      * @param team2StartIndex Index where team 2 starts
      */
-    private void addRemainingSoloPlayers(List<Player> onlinePlayers,
-                                         List<Player> allMatchPlayers,
-                                         int team2StartIndex) {
+    private void addRemainingSoloPlayers(List<Player> onlinePlayers, List<Player> allMatchPlayers, int team2StartIndex) {
         for (int i = 1; i < onlinePlayers.size(); i++) {
             if (i == team2StartIndex) continue;
 
@@ -474,10 +471,7 @@ public class QueueTask implements Runnable {
      * @param potentialPlayerCount Number of potential players
      * @return true if match was successfully created
      */
-    private boolean createDuosMatch(Queue queue, List<Player> allMatchPlayers,
-                                    List<QueueProfile> validQueueProfiles,
-                                    List<Player> onlinePlayers,
-                                    int potentialPlayerCount) {
+    private boolean createDuosMatch(Queue queue, List<Player> allMatchPlayers, List<QueueProfile> validQueueProfiles, List<Player> onlinePlayers, int potentialPlayerCount) {
         int team2StartIndex = (potentialPlayerCount == 2) ? 1 : 2;
         Player team1Leader = onlinePlayers.get(0);
         Player team2Leader = onlinePlayers.get(team2StartIndex);
@@ -488,7 +482,7 @@ public class QueueTask implements Runnable {
         GameParticipant<MatchGamePlayer> participantA = createTeamParticipant(team1Leader, team1LeaderProfile);
         GameParticipant<MatchGamePlayer> participantB = createTeamParticipant(team2Leader, team2LeaderProfile);
 
-        assignPlayersToTeams(allMatchPlayers, validQueueProfiles, team1Leader, team2Leader, participantA, participantB);
+        this.assignPlayersToTeams(allMatchPlayers, validQueueProfiles, team1Leader, team2Leader, participantA, participantB);
 
         if (participantA.getPlayerSize() != 2 || participantB.getPlayerSize() != 2) {
             Logger.info("Teams don't have exactly 2 players each. Team A: " + participantA.getPlayerSize() + " Team B: " + participantB.getPlayerSize());
@@ -496,11 +490,11 @@ public class QueueTask implements Runnable {
         }
 
         Arena arena = this.getArena(queue);
-        if (!isArenaAvailable(arena, allMatchPlayers, queue)) {
+        if (!this.isArenaAvailable(arena, allMatchPlayers, queue)) {
             List<UUID> allUUIDsToRemove = allMatchPlayers.stream()
                     .map(Player::getUniqueId)
                     .collect(Collectors.toList());
-            clearQueueProfiles(queue, allUUIDsToRemove, true);
+            this.clearQueueProfiles(queue, allUUIDsToRemove, true);
             return false;
         }
 
@@ -512,7 +506,7 @@ public class QueueTask implements Runnable {
         List<UUID> allUUIDsToRemove = allMatchPlayers.stream()
                 .map(Player::getUniqueId)
                 .collect(Collectors.toList());
-        clearQueueProfiles(queue, allUUIDsToRemove, false);
+        this.clearQueueProfiles(queue, allUUIDsToRemove, false);
         return true;
     }
 
@@ -538,11 +532,7 @@ public class QueueTask implements Runnable {
      * @param participantA       Team A participant
      * @param participantB       Team B participant
      */
-    private void assignPlayersToTeams(List<Player> allMatchPlayers,
-                                      List<QueueProfile> validQueueProfiles,
-                                      Player team1Leader, Player team2Leader,
-                                      GameParticipant<MatchGamePlayer> participantA,
-                                      GameParticipant<MatchGamePlayer> participantB) {
+    private void assignPlayersToTeams(List<Player> allMatchPlayers, List<QueueProfile> validQueueProfiles, Player team1Leader, Player team2Leader, GameParticipant<MatchGamePlayer> participantA, GameParticipant<MatchGamePlayer> participantB) {
         PartyService partyService = AlleyPlugin.getInstance().getService(PartyService.class);
         Party team1Party = partyService.getPartyByLeader(team1Leader);
         Party team2Party = partyService.getPartyByLeader(team2Leader);
@@ -555,7 +545,7 @@ public class QueueTask implements Runnable {
             int playerElo = getPlayerElo(player, validQueueProfiles);
             MatchGamePlayer gamePlayer = new MatchGamePlayer(player.getUniqueId(), player.getName(), playerElo);
 
-            assignPlayerToTeam(player, gamePlayer, team1Party, team2Party, participantA, participantB);
+            this.assignPlayerToTeam(player, gamePlayer, team1Party, team2Party, participantA, participantB);
         }
     }
 
@@ -584,10 +574,7 @@ public class QueueTask implements Runnable {
      * @param participantA Team A participant
      * @param participantB Team B participant
      */
-    private void assignPlayerToTeam(Player player, MatchGamePlayer gamePlayer,
-                                    Party team1Party, Party team2Party,
-                                    GameParticipant<MatchGamePlayer> participantA,
-                                    GameParticipant<MatchGamePlayer> participantB) {
+    private void assignPlayerToTeam(Player player, MatchGamePlayer gamePlayer, Party team1Party, Party team2Party, GameParticipant<MatchGamePlayer> participantA, GameParticipant<MatchGamePlayer> participantB) {
         if (team1Party != null && team1Party.getMembers().contains(player.getUniqueId())) {
             participantA.addPlayer(gamePlayer);
         } else if (team2Party != null && team2Party.getMembers().contains(player.getUniqueId())) {
@@ -681,7 +668,7 @@ public class QueueTask implements Runnable {
         Party party = partyService.getParty(leader);
         List<UUID> membersToClean = getMembersToClean(queue, party, leader);
 
-        cleanupPlayerProfiles(membersToClean);
+        this.cleanupPlayerProfiles(membersToClean);
         queue.getProfiles().remove(queueProfile);
     }
 
@@ -740,8 +727,7 @@ public class QueueTask implements Runnable {
      * @param secondProfile The second player's queue profile
      * @return Game player list containing both match game players
      */
-    private @NotNull GamePlayerList getGamePlayerList(Player firstPlayer, Player secondPlayer,
-                                                      QueueProfile firstProfile, QueueProfile secondProfile) {
+    private @NotNull GamePlayerList getGamePlayerList(Player firstPlayer, Player secondPlayer, QueueProfile firstProfile, QueueProfile secondProfile) {
         return new GamePlayerList(
                 new MatchGamePlayer(firstPlayer.getUniqueId(), firstPlayer.getName(), firstProfile.getElo()),
                 new MatchGamePlayer(secondPlayer.getUniqueId(), secondPlayer.getName(), secondProfile.getElo())

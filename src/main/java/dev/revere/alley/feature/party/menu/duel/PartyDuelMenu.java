@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.party.menu.duel;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.menu.duel.button.DuelOtherPartyButton;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import org.bukkit.entity.Player;
 
 import java.util.Comparator;

@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.match.snapshot.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.common.text.Symbol;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.snapshot.Snapshot;
 import dev.revere.alley.feature.match.snapshot.menu.button.SnapshotDataButton;
 import dev.revere.alley.feature.match.snapshot.menu.button.SnapshotOpponentButton;
 import dev.revere.alley.feature.match.snapshot.menu.button.items.SnapshotArmorButton;
 import dev.revere.alley.feature.match.snapshot.menu.button.items.SnapshotInventoryButton;
-import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;

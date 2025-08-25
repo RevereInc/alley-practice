@@ -1,21 +1,21 @@
 package dev.revere.alley.feature.server.internal;
 
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
-import org.bukkit.Bukkit;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
+import dev.revere.alley.feature.server.ServerService;
+import dev.revere.alley.feature.spawn.SpawnService;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -45,14 +45,14 @@ public class ServerServiceImpl implements ServerService {
     private final String BLOCKED_ITEMS_PATH = "blocked-crafting-items";
 
     /**
-     * Constructor for dependency injection.
+     * DI Constructor for the ServerServiceImpl class.
      *
-     * @param matchService   The match service.
-     * @param partyService   The party service.
-     * @param profileService The profile service.
-     * @param hotbarService  The hotbar service.
-     * @param spawnService   The spawn service.
-     * @param configService  The config service.
+     * @param matchService   The matchService instance.
+     * @param partyService   The partyService instance.
+     * @param profileService The profileService instance.
+     * @param hotbarService  The hotbarService instance.
+     * @param spawnService   The spawnService instance.
+     * @param configService  The configService instance.
      */
     public ServerServiceImpl(MatchService matchService, PartyService partyService, ProfileService profileService, HotbarService hotbarService, SpawnService spawnService, ConfigService configService) {
         this.matchService = matchService;
@@ -121,7 +121,7 @@ public class ServerServiceImpl implements ServerService {
         int playersRemoved = 0;
         for (Profile profile : this.profileService.getProfiles().values()) {
             if (profile.getState() == ProfileState.WAITING && profile.getQueueProfile() != null) {
-                Player queuePlayer = Bukkit.getPlayer(profile.getUuid());
+                Player queuePlayer = AlleyPlugin.getInstance().getServer().getPlayer(profile.getUuid());
                 if (queuePlayer != null) {
                     profile.getQueueProfile().getQueue().removePlayer(profile.getQueueProfile());
 
@@ -189,6 +189,6 @@ public class ServerServiceImpl implements ServerService {
     @Override
     public boolean isCraftable(Material material) {
         ItemStack itemStack = new ItemStack(material);
-        return !Bukkit.getServer().getRecipesFor(itemStack).isEmpty();
+        return !AlleyPlugin.getInstance().getServer().getRecipesFor(itemStack).isEmpty();
     }
 }

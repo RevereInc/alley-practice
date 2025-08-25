@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.cosmetic.command;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.cosmetic.command.impl.admin.CosmeticGetSelectedCommand;
 import dev.revere.alley.feature.cosmetic.command.impl.admin.CosmeticListCommand;
 import dev.revere.alley.feature.cosmetic.command.impl.admin.CosmeticSetCommand;
 import dev.revere.alley.feature.cosmetic.command.impl.player.CosmeticsCommand;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**

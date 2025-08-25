@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.tip;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 

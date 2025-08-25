@@ -1,7 +1,8 @@
-package dev.revere.alley.common.serializer;
+package dev.revere.alley.common;
 
+import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.logger.Logger;
 import lombok.experimental.UtilityClass;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
@@ -17,8 +18,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Utility class for serializing and deserializing various objects such as Locations, ItemStacks, PotionEffects, etc...
+ * Mainly used for saving to and retrieving from databases or YAML files.
+ *
+ * @author Emmy
+ * @project Alley
+ * @date 25/08/2025
+ */
 @UtilityClass
 public class Serializer {
+    private final String SEPARATOR = ":";
+
     /**
      * Serialize a location to a string.
      *
@@ -30,8 +41,9 @@ public class Serializer {
             return "null";
         }
 
-        return location.getWorld().getName() + ":" + location.getX() + ":" + location.getY() + ":" + location.getZ() +
-                ":" + location.getYaw() + ":" + location.getPitch();
+        return Objects.requireNonNull(location.getWorld()).getName() + SEPARATOR +
+                location.getX() + SEPARATOR + location.getY() + SEPARATOR + location.getZ() + SEPARATOR +
+                location.getYaw() + SEPARATOR + location.getPitch();
     }
 
     /**
@@ -45,15 +57,21 @@ public class Serializer {
             return null;
         }
 
-        String[] split = source.split(":");
-        World world = Bukkit.getServer().getWorld(split[0]);
+        String[] split = source.split(SEPARATOR);
+        World world = AlleyPlugin.getInstance().getServer().getWorld(split[0]);
 
         if (world == null) {
             return null;
         }
 
-        return new Location(world, Double.parseDouble(split[1]), Double.parseDouble(split[2]),
-                Double.parseDouble(split[3]), Float.parseFloat(split[4]), Float.parseFloat(split[5]));
+        return new Location(
+                world,
+                Double.parseDouble(split[1]),
+                Double.parseDouble(split[2]),
+                Double.parseDouble(split[3]),
+                Float.parseFloat(split[4]),
+                Float.parseFloat(split[5])
+        );
     }
 
     /**
@@ -75,7 +93,8 @@ public class Serializer {
             dataOutput.close();
             return Base64.getEncoder().encodeToString(outputStream.toByteArray());
         } catch (Exception exception) {
-            throw new RuntimeException("Unable to serialize item stacks.", exception);
+            Logger.logException("Failed to serialize item stacks.", exception);
+            return "";
         }
     }
 
@@ -98,7 +117,8 @@ public class Serializer {
             dataInput.close();
             return items;
         } catch (Exception exception) {
-            throw new RuntimeException("Unable to deserialize item stacks.", exception);
+            Logger.logException("Failed to deserialize item stacks.", exception);
+            return new ItemStack[0];
         }
     }
 
@@ -110,7 +130,7 @@ public class Serializer {
      */
     public List<String> serializePotionEffects(List<PotionEffect> potionEffects) {
         return potionEffects.stream()
-                .map(effect -> effect.getType().getName() + ":" + effect.getDuration() + ":" + effect.getAmplifier())
+                .map(effect -> effect.getType().getName() + SEPARATOR + effect.getDuration() + SEPARATOR + effect.getAmplifier())
                 .collect(Collectors.toList());
     }
 
@@ -123,7 +143,7 @@ public class Serializer {
     public List<PotionEffect> deserializePotionEffects(List<String> serializedEffects) {
         return serializedEffects.stream()
                 .map(s -> {
-                    String[] parts = s.split(":");
+                    String[] parts = s.split(SEPARATOR);
                     if (parts.length < 3) return null;
                     PotionEffectType type = PotionEffectType.getByName(parts[0]);
                     int duration = Integer.parseInt(parts[1]);

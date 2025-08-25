@@ -2,14 +2,14 @@ package dev.revere.alley.feature.abilities.types;
 
 import com.google.common.collect.Maps;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.abilities.Ability;
-import dev.revere.alley.feature.abilities.AbilityService;
-import dev.revere.alley.common.time.DurationFormatter;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.DurationFormatter;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.GlobalCooldown;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.AbilityService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -54,7 +54,7 @@ public class EffectDisabler extends Ability {
                 return;
             }
 
-            if(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(damager)){
+            if (profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(damager)) {
                 damager.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(damager), true, true)));
                 damager.updateInventory();
                 return;
@@ -71,7 +71,7 @@ public class EffectDisabler extends Ability {
             PlayerUtil.decrement(damager);
 
             profile.getCooldown(EffectDisabler.class).applyCooldown(damager, 60 * 1000);
-            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager,  10 * 1000);
+            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(damager, 10 * 1000);
 
             HITS.remove(victim.getUniqueId());
 

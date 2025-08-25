@@ -2,19 +2,19 @@ package dev.revere.alley.feature.leaderboard.menu;
 
 import com.google.common.collect.Maps;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.menu.statistic.button.StatisticsButton;
 import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRanked;
 import dev.revere.alley.feature.leaderboard.LeaderboardService;
-import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
 import dev.revere.alley.feature.leaderboard.LeaderboardType;
+import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
 import dev.revere.alley.feature.leaderboard.menu.button.DisplayTypeButton;
 import dev.revere.alley.feature.leaderboard.menu.button.LeaderboardKitButton;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.menu.statistic.button.StatisticsButton;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import org.bukkit.entity.Player;
 
 import java.util.List;

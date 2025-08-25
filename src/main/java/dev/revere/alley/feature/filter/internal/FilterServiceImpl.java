@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.filter.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.filter.FilterService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -34,7 +34,11 @@ public class FilterServiceImpl implements FilterService {
     private String notificationMessage;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FilterServiceImpl class.
+     *
+     * @param plugin         The Alley plugin instance.
+     * @param configService  The configService instance.
+     * @param pluginConstant The pluginConstant instance.
      */
     public FilterServiceImpl(AlleyPlugin plugin, ConfigService configService, PluginConstant pluginConstant) {
         this.plugin = plugin;

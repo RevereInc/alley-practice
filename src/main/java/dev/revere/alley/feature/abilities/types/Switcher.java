@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.abilities.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.DurationFormatter;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.feature.abilities.Ability;
 import dev.revere.alley.feature.abilities.AbilityService;
-import dev.revere.alley.common.time.DurationFormatter;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.GlobalCooldown;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.entity.Egg;
 import org.bukkit.entity.Player;
@@ -56,7 +56,7 @@ public class Switcher extends Ability {
                 return;
             }
 
-            if(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(shooter)){
+            if (profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).onCooldown(shooter)) {
                 shooter.sendMessage(CC.translate("&fYou are on &6&lPartner Item &fcooldown for &6" + DurationFormatter.getRemaining(profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).getRemainingMillis(shooter), true, true)));
                 shooter.updateInventory();
                 event.setCancelled(true);
@@ -64,7 +64,7 @@ public class Switcher extends Ability {
             }
 
             profile.getCooldown(Switcher.class).applyCooldown(shooter, 8 * 1000);
-            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(shooter,  10 * 1000);
+            profile.getGlobalCooldown(GlobalCooldown.PARTNER_ITEM).applyCooldown(shooter, 10 * 1000);
 
             abilityService.sendCooldownExpiredMessage(shooter, this.getName(), this.getAbility());
             abilityService.sendPlayerMessage(shooter, this.getAbility());
@@ -106,8 +106,7 @@ public class Switcher extends Ability {
                 shooter.teleport(playerLocation);
 
                 AlleyPlugin.getInstance().getService(AbilityService.class).sendTargetMessage(player, shooter, this.getAbility());
-            }
-            else if (projectile instanceof Snowball && projectile.hasMetadata(this.getAbility())) {
+            } else if (projectile instanceof Snowball && projectile.hasMetadata(this.getAbility())) {
                 Player player = (Player) event.getEntity();
                 Player shooter = (Player) projectile.getShooter();
 

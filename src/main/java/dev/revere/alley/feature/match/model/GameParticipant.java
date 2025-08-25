@@ -93,7 +93,7 @@ public class GameParticipant<T extends GamePlayer> {
      * @param player The player to remove.
      */
     public void removePlayer(T player) {
-       if (this.leader != null && this.leader.getUuid().equals(player.getUuid())) {
+        if (this.leader != null && this.leader.getUuid().equals(player.getUuid())) {
             this.leader = null;
         }
     }

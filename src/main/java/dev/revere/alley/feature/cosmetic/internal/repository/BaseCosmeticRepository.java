@@ -1,12 +1,15 @@
 package dev.revere.alley.feature.cosmetic.internal.repository;
 
-import dev.revere.alley.feature.cosmetic.model.CosmeticRepository;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.model.CosmeticRepository;
 import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import lombok.Getter;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Remi
@@ -30,8 +33,8 @@ public abstract class BaseCosmeticRepository<T extends BaseCosmetic> implements 
         try {
             T instance = clazz.getDeclaredConstructor().newInstance();
             this.cosmeticsByName.put(instance.getName(), instance);
-        } catch (Exception e) {
-            Logger.error("Failed to register cosmetic class " + clazz.getSimpleName() + ": " + e.getMessage());
+        } catch (Exception exception) {
+            Logger.error("Failed to register cosmetic class " + clazz.getSimpleName() + ": " + exception.getMessage());
         }
     }
 

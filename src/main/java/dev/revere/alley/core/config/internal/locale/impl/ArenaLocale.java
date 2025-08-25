@@ -1,9 +1,9 @@
 package dev.revere.alley.core.config.internal.locale.impl;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
-import dev.revere.alley.common.text.CC;
 
 /**
  * @author Emmy
@@ -11,7 +11,6 @@ import dev.revere.alley.common.text.CC;
  * @since 26/06/2025
  */
 public enum ArenaLocale implements Locale {
-
     ALREADY_EXISTS("messages.yml", "arena.error.already-exists"),
     NOT_FOUND("messages.yml", "arena.error.not-found"),
     NO_SELECTION("messages.yml", "arena.error.no-selection"),
@@ -55,11 +54,6 @@ public enum ArenaLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));

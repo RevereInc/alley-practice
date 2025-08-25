@@ -2,11 +2,11 @@ package dev.revere.alley.feature.match.listener.types;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.constants.PluginConstant;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

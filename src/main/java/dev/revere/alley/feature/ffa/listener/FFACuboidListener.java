@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.ffa.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.Cuboid;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import dev.revere.alley.feature.ffa.FFAState;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.geom.Cuboid;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

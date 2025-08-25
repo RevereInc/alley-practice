@@ -1,5 +1,18 @@
 package dev.revere.alley.feature.party.internal;
 
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.SoundUtil;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
+import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.cooldown.Cooldown;
@@ -8,29 +21,16 @@ import dev.revere.alley.feature.cooldown.CooldownType;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.TeamGameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyRequest;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.queue.Queue;
 import dev.revere.alley.feature.queue.QueueProfile;
 import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.model.TeamGameParticipant;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.reflect.ReflectionService;
-import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.SoundUtil;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.ClickableUtil;
-import dev.revere.alley.common.text.Symbol;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -61,6 +61,18 @@ public class PartyServiceImpl implements PartyService {
     private final List<PartyRequest> partyRequests = new ArrayList<>();
     private String chatFormat;
 
+    /**
+     * DI Constructor for the PartyServiceImpl class.
+     *
+     * @param configService     The configuration service for accessing settings.
+     * @param profileService    The profile service for managing player profiles.
+     * @param hotbarService     The hotbar service for managing player hotbars.
+     * @param reflectionService The reflection service for handling reflective operations.
+     * @param cooldownService   The cooldown service for managing player cooldowns.
+     * @param visibilityService The visibility service for managing player visibility.
+     * @param matchService      The match service for managing game matches.
+     * @param arenaService      The arena service for managing game arenas.
+     */
     public PartyServiceImpl(ConfigService configService, ProfileService profileService, HotbarService hotbarService, ReflectionService reflectionService, CooldownService cooldownService, VisibilityService visibilityService, MatchService matchService, ArenaService arenaService) {
         this.configService = configService;
         this.profileService = profileService;

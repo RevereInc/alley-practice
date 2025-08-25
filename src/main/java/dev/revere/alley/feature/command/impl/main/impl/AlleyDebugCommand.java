@@ -1,22 +1,22 @@
 package dev.revere.alley.feature.command.impl.main.impl;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.cooldown.CooldownService;
+import dev.revere.alley.feature.duel.DuelRequestService;
+import dev.revere.alley.feature.emoji.EmojiService;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.setting.KitSettingService;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.emoji.EmojiService;
-import dev.revere.alley.feature.duel.DuelRequestService;
 import dev.revere.alley.feature.match.MatchService;
 import dev.revere.alley.feature.match.snapshot.SnapshotService;
 import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.queue.QueueService;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 import java.text.NumberFormat;

@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.cosmetic.internal.repository;
 
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
 import dev.revere.alley.feature.cosmetic.internal.repository.impl.killeffect.*;
 import lombok.Getter;
 

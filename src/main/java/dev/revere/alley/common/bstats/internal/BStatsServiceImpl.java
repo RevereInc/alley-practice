@@ -1,10 +1,10 @@
 package dev.revere.alley.common.bstats.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.bstats.BStatsService;
 import org.bstats.bukkit.Metrics;
-import dev.revere.alley.bootstrap.AlleyContext;
 
 /**
  * @author Remi

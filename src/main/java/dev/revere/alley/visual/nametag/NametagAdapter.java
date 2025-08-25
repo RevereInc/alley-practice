@@ -88,8 +88,8 @@ public class NametagAdapter {
             if (mode == 0 || mode == 3 || mode == 4) {
                 ((Collection<String>) reflection.getField(PacketPlayOutScoreboardTeam.class, "g").get(packet)).addAll(Arrays.asList(players));
             }
-        } catch (Exception e) {
-            Logger.logException("Failed to create nametag packet", e);
+        } catch (Exception exception) {
+            Logger.logException("Failed to create nametag packet", exception);
         }
         return new PacketWrapper(packet, reflection);
     }

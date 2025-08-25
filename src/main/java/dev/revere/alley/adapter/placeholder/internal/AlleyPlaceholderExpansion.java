@@ -2,11 +2,11 @@ package dev.revere.alley.adapter.placeholder.internal;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.ProfileData;
+import dev.revere.alley.feature.level.LevelService;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +34,7 @@ public class AlleyPlaceholderExpansion extends PlaceholderExpansion {
     /**
      * Constructor for the AlleyPlaceholderExpansion class.
      *
-     * @param plugin The Alley bootstrap instance.
+     * @param plugin The Alley plugin instance.
      */
     public AlleyPlaceholderExpansion(AlleyPlugin plugin) {
         this.plugin = plugin;

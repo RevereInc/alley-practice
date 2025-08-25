@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.music.internal;
 
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.music.MusicSession;
 import lombok.RequiredArgsConstructor;

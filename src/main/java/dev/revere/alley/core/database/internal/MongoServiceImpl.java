@@ -5,11 +5,11 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.database.MongoService;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.database.MongoService;
 import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -27,7 +27,9 @@ public class MongoServiceImpl implements MongoService {
     private MongoDatabase mongoDatabase;
 
     /**
-     * Constructor for DI. Receives the IConfigService from the AlleyContext.
+     * DI Constructor for the MongoServiceImpl class.
+     *
+     * @param configService The configService instance.
      */
     public MongoServiceImpl(ConfigService configService) {
         this.configService = configService;
@@ -55,9 +57,9 @@ public class MongoServiceImpl implements MongoService {
             this.mongoDatabase = this.mongoClient.getDatabase(databaseName);
 
             this.mongoDatabase.listCollectionNames().first();
-        } catch (Exception e) {
+        } catch (Exception exception) {
             Logger.error("Failed to connect to MongoDB. Please check your credentials and network access.");
-            throw new RuntimeException("MongoDB Connection Failure", e);
+            throw new RuntimeException("MongoDB Connection Failure", exception);
         }
     }
 

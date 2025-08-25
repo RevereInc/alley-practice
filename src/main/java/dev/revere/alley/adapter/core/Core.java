@@ -1,9 +1,9 @@
 package dev.revere.alley.adapter.core;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 

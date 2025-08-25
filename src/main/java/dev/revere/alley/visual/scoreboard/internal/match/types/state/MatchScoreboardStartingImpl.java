@@ -1,14 +1,13 @@
 package dev.revere.alley.visual.scoreboard.internal.match.types.state;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.visual.scoreboard.internal.match.MatchScoreboard;
-import dev.revere.alley.common.animation.internal.types.DotAnimation;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.visual.scoreboard.internal.match.MatchScoreboard;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -20,15 +19,6 @@ import java.util.List;
  * @since 30/04/2025
  */
 public class MatchScoreboardStartingImpl implements MatchScoreboard {
-    private final DotAnimation dotAnimation;
-
-    /**
-     * Constructor for the MatchScoreboardStartingImpl class.
-     */
-    public MatchScoreboardStartingImpl() {
-        this.dotAnimation = new DotAnimation();
-    }
-
     @Override
     public List<String> getLines(Profile profile, Player player, GameParticipant<MatchGamePlayer> you, GameParticipant<MatchGamePlayer> opponent) {
         ConfigService configService = AlleyPlugin.getInstance().getService(ConfigService.class);
@@ -44,7 +34,7 @@ public class MatchScoreboardStartingImpl implements MatchScoreboard {
                     .replace("{player-ping}", String.valueOf(this.getPing(player)))
                     .replace("{duration}", profile.getMatch().getDuration())
                     .replace("{arena}", profile.getMatch().getArena().getDisplayName() == null ? "&c&lNULL" : profile.getMatch().getArena().getDisplayName())
-                    .replace("{dot-animation}", this.dotAnimation.getCurrentFrame())
+                    .replace("{dot-animation}", this.getDotAnimation().getCurrentFrame())
                     .replace("{countdown}", String.valueOf(profile.getMatch().getRunnable().getStage()))
                     .replace("{kit}", profile.getMatch().getKit().getDisplayName()));
         }

@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.division.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.title.menu.TitleMenu;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.title.menu.TitleMenu;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.Player;

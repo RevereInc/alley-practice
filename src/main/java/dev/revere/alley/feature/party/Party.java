@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.party;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.emoji.EmojiService;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.emoji.EmojiService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.Player;

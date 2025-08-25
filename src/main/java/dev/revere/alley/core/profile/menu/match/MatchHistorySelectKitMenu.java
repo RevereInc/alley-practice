@@ -1,14 +1,14 @@
 package dev.revere.alley.core.profile.menu.match;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.menu.match.button.MatchHistorySelectKitButton;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.match.data.MatchData;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.match.data.MatchData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.menu.match.button.MatchHistorySelectKitButton;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

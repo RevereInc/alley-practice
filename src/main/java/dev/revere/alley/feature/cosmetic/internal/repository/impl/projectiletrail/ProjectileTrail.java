@@ -2,7 +2,6 @@ package dev.revere.alley.feature.cosmetic.internal.repository.impl.projectiletra
 
 import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 /**
  * @author Remi

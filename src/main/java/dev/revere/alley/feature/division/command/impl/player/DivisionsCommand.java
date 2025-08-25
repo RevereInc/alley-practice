@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.division.command.impl.player;
 
+import dev.revere.alley.feature.division.menu.DivisionsMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.division.menu.DivisionsMenu;
 import org.bukkit.entity.Player;
 
 /**

@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.leaderboard.model;
 
-import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
 import dev.revere.alley.feature.leaderboard.LeaderboardType;
+import dev.revere.alley.feature.leaderboard.data.LeaderboardPlayerData;
 import lombok.Getter;
 
 import java.util.List;

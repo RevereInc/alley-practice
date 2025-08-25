@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.explosives.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.explosives.ExplosiveService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.explosives.ExplosiveService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -33,7 +33,7 @@ public class ExplosiveCommand extends BaseCommand {
 
         try {
             value = Double.parseDouble(valueStr);
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException exception) {
             sender.sendMessage(CC.translate("&cInvalid value. '" + valueStr + "' is not a valid number."));
             return;
         }

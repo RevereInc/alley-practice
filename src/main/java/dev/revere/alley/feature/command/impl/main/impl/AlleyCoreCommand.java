@@ -3,10 +3,10 @@ package dev.revere.alley.feature.command.impl.main.impl;
 import dev.revere.alley.adapter.core.Core;
 import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.adapter.core.CoreType;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;

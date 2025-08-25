@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.duel.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.feature.duel.DuelRequestService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.duel.DuelRequestService;
-import dev.revere.alley.common.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;

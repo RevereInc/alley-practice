@@ -7,8 +7,7 @@ import java.time.ZoneId;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public final class DateTimeFormats
-{
+public final class DateTimeFormats {
     public static final TimeZone SERVER_TIME_ZONE;
     public static final ZoneId SERVER_ZONE_ID;
     public static final FastDateFormat DAY_MTH_HR_MIN;

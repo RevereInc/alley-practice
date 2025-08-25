@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.ffa.spawn;
 
 import dev.revere.alley.bootstrap.lifecycle.Service;
-import dev.revere.alley.common.geom.Cuboid;
+import dev.revere.alley.common.Cuboid;
 import org.bukkit.Location;
 
 /**

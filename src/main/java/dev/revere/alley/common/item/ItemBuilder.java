@@ -15,24 +15,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBuilder implements Listener {
-
     private final ItemStack itemStack;
     private String command;
     private boolean commandEnabled = true;
 
-    public ItemBuilder(Material mat) {
-        itemStack = new ItemStack(mat);
+    /**
+     * Constructor for the ItemBuilder class.
+     *
+     * @param material The material type of the item.
+     */
+    public ItemBuilder(Material material) {
+        itemStack = new ItemStack(material);
     }
 
+    /**
+     * Constructor for the ItemBuilder class.
+     *
+     * @param itemStack The ItemStack to be modified.
+     */
     public ItemBuilder(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
+    /**
+     * Sets the amount of the item stack.
+     *
+     * @param amount The amount to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder amount(int amount) {
         itemStack.setAmount(amount);
         return this;
     }
 
+    /**
+     * Sets the display name of the item.
+     *
+     * @param name The display name to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder name(String name) {
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -47,6 +68,12 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Adds a line to the item's lore.
+     *
+     * @param name The lore line to add.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder lore(String name) {
         ItemMeta meta = itemStack.getItemMeta();
         List<String> lore = meta.getLore();
@@ -63,6 +90,12 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Sets the lore of the item.
+     *
+     * @param lore The lore lines to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder lore(String... lore) {
         List<String> toSet = new ArrayList<>();
         ItemMeta meta = itemStack.getItemMeta();
@@ -77,6 +110,12 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Sets the lore of the item.
+     *
+     * @param lore The lore lines to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder lore(List<String> lore) {
         List<String> toSet = new ArrayList<>();
         ItemMeta meta = itemStack.getItemMeta();
@@ -91,26 +130,56 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Sets the durability of the item.
+     *
+     * @param durability The durability to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder durability(int durability) {
         itemStack.setDurability((short) durability);
         return this;
     }
 
+    /**
+     * Adds an enchantment to the item.
+     *
+     * @param enchantment The enchantment to add.
+     * @param level       The level of the enchantment.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder enchantment(Enchantment enchantment, int level) {
         itemStack.addUnsafeEnchantment(enchantment, level);
         return this;
     }
 
+    /**
+     * Adds an enchantment to the item with level 1.
+     *
+     * @param enchantment The enchantment to add.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder enchantment(Enchantment enchantment) {
         itemStack.addUnsafeEnchantment(enchantment, 1);
         return this;
     }
 
+    /**
+     * Sets the material type of the item.
+     *
+     * @param material The material type to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder type(Material material) {
         itemStack.setType(material);
         return this;
     }
 
+    /**
+     * Clears the lore of the item.
+     *
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder clearLore() {
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -120,6 +189,12 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Adds or removes a glowing effect to the item.
+     *
+     * @param glow True to add glow, false to remove.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder glow(boolean glow) {
         ItemMeta meta = itemStack.getItemMeta();
 
@@ -136,6 +211,11 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Clears all enchantments from the item.
+     *
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder clearEnchantments() {
         for (Enchantment e : itemStack.getEnchantments().keySet()) {
             itemStack.removeEnchantment(e);
@@ -144,6 +224,11 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Hides all item meta-information (attributes from the item.
+     *
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder hideMeta() {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.addItemFlags(ItemFlag.values());
@@ -153,11 +238,23 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Sets a command to be associated with the item.
+     *
+     * @param command The command to set.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder command(String command) {
         this.command = command;
         return this;
     }
 
+    /**
+     * Enables or disables the command functionality for the item.
+     *
+     * @param enabled True to enable, false to disable.
+     * @return The current ItemBuilder instance for method chaining.
+     */
     public ItemBuilder commandEnabled(boolean enabled) {
         this.commandEnabled = enabled;
         return this;
@@ -186,6 +283,13 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Sets the owner of the skull item.
+     *
+     * @param owner The name of the player whose skin will be used for the skull.
+     * @return The current ItemBuilder instance for method chaining.
+     * @throws IllegalArgumentException if the ItemStack is not a skull.
+     */
     public ItemBuilder setSkull(String owner) {
         if (itemStack.getType() != Material.SKULL_ITEM) {
             throw new IllegalArgumentException("ItemStack must be a skull to set an owner.");
@@ -200,6 +304,11 @@ public class ItemBuilder implements Listener {
         return this;
     }
 
+    /**
+     * Constructs and returns the final ItemStack.
+     *
+     * @return The constructed ItemStack.
+     */
     public ItemStack build() {
         ItemMeta meta = itemStack.getItemMeta();
 

@@ -1,16 +1,16 @@
 package dev.revere.alley.library.assemble;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.animation.AnimationService;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.assemble.enums.AssembleStyle;
 import dev.revere.alley.library.assemble.events.AssembleBoardCreateEvent;
 import dev.revere.alley.library.assemble.events.AssembleBoardDestroyEvent;
 import dev.revere.alley.library.assemble.listener.AssembleListener;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.animation.AnimationService;
-import dev.revere.alley.common.logger.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

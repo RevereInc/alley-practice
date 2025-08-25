@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.party.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ChatChannel;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ChatChannel;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

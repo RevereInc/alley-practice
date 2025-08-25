@@ -1,14 +1,14 @@
 package dev.revere.alley.visual.scoreboard.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.visual.scoreboard.Scoreboard;
-import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.TimeUtil;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.visual.scoreboard.Scoreboard;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

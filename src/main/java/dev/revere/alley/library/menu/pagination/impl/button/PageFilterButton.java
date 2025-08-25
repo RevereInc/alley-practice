@@ -1,10 +1,10 @@
 package dev.revere.alley.library.menu.pagination.impl.button;
 
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.pagination.PageFilter;
 import dev.revere.alley.library.menu.pagination.impl.menu.FilterablePaginatedMenu;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.ChatColor;

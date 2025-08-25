@@ -1,13 +1,13 @@
 package dev.revere.alley;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.ProfileData;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.KitService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * AlleyAPI – A central class providing easy access to Alley.
+ * <b>AlleyAPI</b> – A central class providing easy access to Alley.
  * <p>
  * This class allows other developers to interact with the server functionalities of Alley,
  * such as registering custom code to be executed during bootstrap enable and disable,
@@ -32,19 +32,16 @@ import java.util.UUID;
  * @since 22/04/2025
  */
 @Getter
-public class Alley {
+public class AlleyAPI {
 
     @Getter
-    private static Alley instance;
+    private static AlleyAPI instance;
 
-    private final List<Runnable> onEnableCallbacks;
-    private final List<Runnable> onDisableCallbacks;
+    private final List<Runnable> onEnableCallbacks = new ArrayList<>();
+    private final List<Runnable> onDisableCallbacks = new ArrayList<>();
 
-    public Alley() {
+    public AlleyAPI() {
         instance = this;
-
-        this.onEnableCallbacks = new ArrayList<>();
-        this.onDisableCallbacks = new ArrayList<>();
     }
 
     /**

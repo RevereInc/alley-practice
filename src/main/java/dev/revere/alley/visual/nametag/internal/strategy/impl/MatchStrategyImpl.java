@@ -1,15 +1,15 @@
 package dev.revere.alley.visual.nametag.internal.strategy.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingHideAndSeek;
-import dev.revere.alley.visual.nametag.model.NametagContext;
-import dev.revere.alley.visual.nametag.NametagView;
-import dev.revere.alley.visual.nametag.NametagVisibility;
-import dev.revere.alley.visual.nametag.internal.strategy.NametagStrategy;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.internal.types.HideAndSeekMatch;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.visual.nametag.NametagView;
+import dev.revere.alley.visual.nametag.NametagVisibility;
+import dev.revere.alley.visual.nametag.internal.strategy.NametagStrategy;
+import dev.revere.alley.visual.nametag.model.NametagContext;
 import org.bukkit.ChatColor;
 
 /**

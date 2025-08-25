@@ -2,13 +2,13 @@ package dev.revere.alley.core.profile.menu.statistic.button;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.adapter.core.CoreAdapter;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfileFFAData;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.library.menu.Button;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;

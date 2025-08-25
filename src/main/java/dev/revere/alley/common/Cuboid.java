@@ -1,4 +1,4 @@
-package dev.revere.alley.common.geom;
+package dev.revere.alley.common;
 
 import org.bukkit.Location;
 import org.bukkit.World;

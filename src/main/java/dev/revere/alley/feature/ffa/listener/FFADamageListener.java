@@ -1,17 +1,17 @@
 package dev.revere.alley.feature.ffa.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.combat.CombatService;
-import dev.revere.alley.feature.kit.setting.types.visual.KitSettingBowShotIndicator;
-import dev.revere.alley.feature.kit.setting.types.visual.KitSettingHealthBar;
-import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.combat.CombatService;
+import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
+import dev.revere.alley.feature.kit.setting.types.visual.KitSettingBowShotIndicator;
+import dev.revere.alley.feature.kit.setting.types.visual.KitSettingHealthBar;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
