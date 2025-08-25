@@ -4,6 +4,8 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.DefaultReflectionImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.core.profile.Profile;
@@ -15,7 +17,6 @@ import dev.revere.alley.feature.spawn.SpawnService;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutWorldEvent;
 import org.bukkit.Location;
-import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.*;
@@ -31,12 +32,15 @@ import java.util.stream.Collectors;
 @Service(provides = MusicService.class, priority = 175)
 public class MusicServiceImpl implements MusicService {
     private static final int RECORD_PLAY_EFFECT_ID = 1005;
+    private static final String PLAYER_PREFIX = "&7[&6♬&7] &r";
 
     private final ProfileService profileService;
     private final SpawnService spawnService;
+
     private final Map<UUID, MusicSession> activeSessions = new ConcurrentHashMap<>();
     private final ThreadLocalRandom random = ThreadLocalRandom.current();
 
+    private DefaultReflectionImpl reflection;
     private MusicDisc[] allDiscs;
 
     /**
@@ -53,23 +57,24 @@ public class MusicServiceImpl implements MusicService {
     @Override
     public void initialize(AlleyContext context) {
         this.allDiscs = MusicDisc.values();
+        this.reflection = context.getPlugin().getService(ReflectionService.class).getReflectionService(DefaultReflectionImpl.class);
     }
 
     @Override
     public void startMusic(Player player) {
-        stopMusic(player);
+        this.stopMusic(player);
 
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile == null || !profile.getProfileData().getSettingData().isLobbyMusicEnabled()) {
             return;
         }
 
-        MusicDisc disc = getRandomSelectedMusicDisc(profile);
+        MusicDisc disc = this.getRandomSelectedMusicDisc(profile);
         Location jukeboxLocation = spawnService.getLocation();
-        sendPlaySoundPacket(player, disc, jukeboxLocation);
+        this.sendPlaySoundPacket(player, disc, jukeboxLocation);
 
         String formattedDuration = TimeUtil.formatTimeFromSeconds(disc.getDuration());
-        String message = CC.translate("&7[&6♬&7] &fNow playing: &6" + disc.getTitle() + " &7(" + formattedDuration + ")");
+        String message = CC.translate(PLAYER_PREFIX + "&fNow playing: &6" + disc.getTitle() + " &7(" + formattedDuration + ")");
         player.sendMessage(message);
 
         MusicSession session = new MusicSession(disc, jukeboxLocation);
@@ -83,8 +88,9 @@ public class MusicServiceImpl implements MusicService {
     public void stopMusic(Player player) {
         MusicSession session = activeSessions.remove(player.getUniqueId());
         if (session != null) {
-            sendStopSoundPacket(player, session.getJukeboxLocation());
+            this.sendStopSoundPacket(player, session.getJukeboxLocation());
             session.getTask().cancel();
+            //player.sendMessage(CC.translate(PLAYER_PREFIX + "&fMusic stopped."));
         }
     }
 
@@ -132,19 +138,49 @@ public class MusicServiceImpl implements MusicService {
         return Arrays.asList(this.allDiscs);
     }
 
-    MusicSession getSession(UUID playerUuid) {
-        return activeSessions.get(playerUuid);
+    /**
+     * Retrieves the active music session for a player by their UUID.
+     *
+     * @param playerUuid The UUID of the player.
+     * @return The active MusicSession, or null if none exists.
+     */
+    public MusicSession getSession(UUID playerUuid) {
+        return this.activeSessions.get(playerUuid);
     }
 
+    /**
+     * Sends a packet to the player to play a music disc sound effect at the specified location.
+     *
+     * @param player   The player to send the packet to.
+     * @param disc     The music disc to play.
+     * @param location The location where the sound effect should be played.
+     */
+    @SuppressWarnings("deprecation")
     public void sendPlaySoundPacket(Player player, MusicDisc disc, Location location) {
-        BlockPosition pos = new BlockPosition(location.getX(), location.getY(), location.getZ());
+        BlockPosition pos = new BlockPosition(
+                location.getX(),
+                location.getY(),
+                location.getZ()
+        );
+
         PacketPlayOutWorldEvent packet = new PacketPlayOutWorldEvent(RECORD_PLAY_EFFECT_ID, pos, disc.getMaterial().getId(), false);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        reflection.sendPacket(player, packet);
     }
 
+    /**
+     * Sends a packet to the player to stop the music disc sound effect at the specified location.
+     *
+     * @param player   The player to send the packet to.
+     * @param location The location where the sound effect should be stopped.
+     */
     public void sendStopSoundPacket(Player player, Location location) {
-        BlockPosition pos = new BlockPosition(location.getX(), location.getY(), location.getZ());
+        BlockPosition pos = new BlockPosition(
+                location.getX(),
+                location.getY(),
+                location.getZ()
+        );
+
         PacketPlayOutWorldEvent packet = new PacketPlayOutWorldEvent(RECORD_PLAY_EFFECT_ID, pos, 0, false);
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+        reflection.sendPacket(player, packet);
     }
 }

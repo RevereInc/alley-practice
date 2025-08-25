@@ -225,7 +225,7 @@ public class QueueTask implements Runnable {
         GameParticipantList gameParticipantList = getSoloGameParticipantList(gamePlayerList);
 
         Arena arena = this.getArena(queue);
-        if (!isArenaAvailable(arena, Arrays.asList(firstPlayer, secondPlayer), queue)) {
+        if (!isArenaAvailable(arena, Arrays.asList(firstPlayer, secondPlayer))) {
             return false;
         }
 
@@ -490,7 +490,7 @@ public class QueueTask implements Runnable {
         }
 
         Arena arena = this.getArena(queue);
-        if (!this.isArenaAvailable(arena, allMatchPlayers, queue)) {
+        if (!this.isArenaAvailable(arena, allMatchPlayers)) {
             List<UUID> allUUIDsToRemove = allMatchPlayers.stream()
                     .map(Player::getUniqueId)
                     .collect(Collectors.toList());
@@ -593,10 +593,9 @@ public class QueueTask implements Runnable {
      *
      * @param arena   The arena to check
      * @param players List of players for error messaging
-     * @param queue   The queue for removing players on failure
      * @return true if arena is available and suitable
      */
-    private boolean isArenaAvailable(Arena arena, List<Player> players, Queue queue) {
+    private boolean isArenaAvailable(Arena arena, List<Player> players) {
         if (arena == null || arena.getType().equals(ArenaType.FFA)) {
             players.forEach(p -> p.sendMessage(CC.translate("&cThere are no available arenas for this kit")));
             return false;

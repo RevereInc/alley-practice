@@ -187,14 +187,12 @@ public class MatchUtility {
      * @param message The message to send.
      */
     public void sendCombinedSpigotMessage(Match match, BaseComponent... message) {
-        match.getParticipants().forEach(gameParticipant -> {
-            gameParticipant.getPlayers().forEach(uuid -> {
-                Player player = plugin.getServer().getPlayer(uuid.getUuid());
-                if (player != null) {
-                    player.spigot().sendMessage(message);
-                }
-            });
-        });
+        match.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
+            Player player = plugin.getServer().getPlayer(uuid.getUuid());
+            if (player != null) {
+                player.spigot().sendMessage(message);
+            }
+        }));
 
         match.getSpectators().forEach(uuid -> {
             Player player = plugin.getServer().getPlayer(uuid);
