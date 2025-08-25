@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.troll.command;
 
-import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.troll.TrollService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -8,9 +7,6 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 
 /**
  * @author Emmy
