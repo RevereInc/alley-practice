@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.troll;
+package dev.revere.alley.feature.troll.command;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  */
 public class FakeExplosionCommand extends BaseCommand {
     @Override
-    @CommandData(name = "fakeexplosion", permission = "alley.command.troll.fakeexplosion", usage = "fakeexplosion", description = "Fake an explosion")
+    @CommandData(
+            name = "fakeexplosion",
+            permission = "alley.command.troll.fakeexplosion",
+            usage = "fakeexplosion",
+            description = "Fake an explosion"
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();

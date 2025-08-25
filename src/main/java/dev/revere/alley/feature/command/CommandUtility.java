@@ -22,7 +22,6 @@ import dev.revere.alley.feature.command.impl.other.gamemode.AdventureCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.CreativeCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.SpectatorCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.SurvivalCommand;
-import dev.revere.alley.feature.command.impl.other.troll.*;
 import dev.revere.alley.feature.cooldown.command.CooldownResetCommand;
 import dev.revere.alley.feature.cosmetic.command.CosmeticCommand;
 import dev.revere.alley.feature.division.command.DivisionCommand;
@@ -54,6 +53,7 @@ import dev.revere.alley.feature.spawn.command.SpawnCommand;
 import dev.revere.alley.feature.spawn.command.SpawnItemsCommand;
 import dev.revere.alley.feature.tip.command.TipCommand;
 import dev.revere.alley.feature.title.command.TitleCommand;
+import dev.revere.alley.feature.troll.command.*;
 import lombok.experimental.UtilityClass;
 
 /**

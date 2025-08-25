@@ -135,6 +135,11 @@ public class DeathReflectionServiceImpl implements Reflection {
         }
     }
 
+    /**
+     * Creates a metadata packet for the fake death entity.
+     *
+     * @return The metadata packet for the death animation.
+     */
     private PacketPlayOutEntityMetadata createMetadataPacket() {
         try {
             PacketPlayOutEntityMetadata metadataPacket = new PacketPlayOutEntityMetadata();

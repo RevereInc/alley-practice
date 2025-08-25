@@ -77,9 +77,16 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         MongoCollection<Document> profileCollection = this.mongoService.getMongoDatabase().getCollection("profiles");
 
         CompletableFuture.allOf(this.kitService.getKits().stream()
-                .map(kit -> CompletableFuture.runAsync(() -> calculateLeaderboardForKit(kit, profileCollection), executorService)).toArray(CompletableFuture[]::new)).join();
+                .map(kit -> CompletableFuture.runAsync(() -> calculateLeaderboardForKit(kit, profileCollection), executorService))
+                .toArray(CompletableFuture[]::new)).join();
     }
 
+    /**
+     * Calculates the leaderboard for a specific kit and updates the cache.
+     *
+     * @param kit               The kit for which to calculate the leaderboard.
+     * @param profileCollection The MongoDB collection containing profile data.
+     */
     private void calculateLeaderboardForKit(Kit kit, MongoCollection<Document> profileCollection) {
         List<LeaderboardRecord> records = Collections.synchronizedList(new ArrayList<>());
 
@@ -91,10 +98,18 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         this.leaderboardCache.put(kit, records);
     }
 
+    /**
+     * Fetches the leaderboard data using an optimized aggregation pipeline.
+     *
+     * @param profileCollection The MongoDB collection containing profile data.
+     * @param kit               The kit for which to fetch the leaderboard.
+     * @param type              The type of leaderboard to fetch.
+     * @return A list of LeaderboardPlayerData objects representing the leaderboard entries.
+     */
     private List<LeaderboardPlayerData> fetchOptimizedLeaderboard(MongoCollection<Document> profileCollection, Kit kit, LeaderboardType type) {
         List<LeaderboardPlayerData> playerDataList = new ArrayList<>();
 
-        List<Document> pipeline = buildAggregationPipeline(kit, type);
+        List<Document> pipeline = this.buildAggregationPipeline(kit, type);
 
         for (Document doc : profileCollection.aggregate(pipeline)) {
             try {
@@ -112,13 +127,21 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         return playerDataList;
     }
 
+    /**
+     * Builds the aggregation pipeline for fetching leaderboard data.
+     *
+     * @param kit  The kit for which to build the pipeline.
+     * @param type The type of leaderboard to build the pipeline for.
+     * @return A list of Documents representing the aggregation pipeline stages.
+     */
     private List<Document> buildAggregationPipeline(Kit kit, LeaderboardType type) {
         List<Document> pipeline = new ArrayList<>();
 
         Document projectStage = new Document("$project", new Document()
                 .append("uuid", 1)
                 .append("name", 1)
-                .append("value", buildValueExtraction(kit, type)));
+                .append("value", buildValueExtraction(kit, type))
+        );
 
         pipeline.add(projectStage);
 
@@ -127,12 +150,18 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         }
 
         pipeline.add(new Document("$sort", new Document("value", -1)));
-
         pipeline.add(new Document("$limit", 100));
 
         return pipeline;
     }
 
+    /**
+     * Builds the value extraction part of the aggregation pipeline based on the leaderboard type.
+     *
+     * @param kit  The kit for which to build the value extraction.
+     * @param type The type of leaderboard.
+     * @return A Document representing the value extraction logic.
+     */
     private Document buildValueExtraction(Kit kit, LeaderboardType type) {
         String kitName = kit.getName();
 
@@ -234,6 +263,14 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         leaderboard.sort(Comparator.comparingInt(LeaderboardPlayerData::getValue).reversed());
     }
 
+    /**
+     * Gets the value for a specific leaderboard type from a player's profile.
+     *
+     * @param profile the player's profile.
+     * @param kit     the kit to consider.
+     * @param type    the leaderboard type.
+     * @return the value corresponding to the leaderboard type.
+     */
     private int getValueForType(Profile profile, Kit kit, LeaderboardType type) {
         ProfileData data = profile.getProfileData();
         switch (type) {
@@ -247,12 +284,6 @@ public class LeaderboardServiceImpl implements LeaderboardService {
                 return data.getUnrankedKitData().getOrDefault(kit.getName(), new ProfileUnrankedKitData()).getWinstreak();
             default:
                 return 0;
-        }
-    }
-
-    public void shutdown() {
-        if (executorService != null && !executorService.isShutdown()) {
-            executorService.shutdown();
         }
     }
 }
