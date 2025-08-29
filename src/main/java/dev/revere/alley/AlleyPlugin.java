@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Alley – A modern, modular Practice PvP knockback built from the ground up for Minecraft 1.8.
+ * Alley – A modern, modular Practice PvP core built from the ground up for Minecraft 1.8.
  * <p>
  * Developed by Revere Inc., Alley focuses on clean, professional, and readable code,
  * making it easy for developers to jump into practice PvP development with minimal friction.
