@@ -1,17 +1,16 @@
-## 🎉 Alley v2.2.4
+## 🎉 Alley v2.2.5
 
 ### 🔧 **PATCH RELEASE** - Bug Fixes & Improvements
 
-**Previous Version:** `2.2.3`
-**New Version:** `2.2.4`
+**Previous Version:** `2.2.4`
+**New Version:** `2.2.5`
 
 ### 📝 Changes:
 
-- chore: unify cloak rotation logic into base class (abca53a2)
-- chore: implemented cloaks and suits, improved cosmetics storing, added server title command, removed body fall kill effect, reverted papi placeholders (f4188c69)
+- chore: fixing remi's mess where he couldn't refactor properly; turning "Practice PvP core" into "Practice PvP knockback" (b8ccec59)
 
 ---
-**Download:** [Alley-2.2.4.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.4/Alley-2.2.4.jar)
+**Download:** [Alley-2.2.5.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.5/Alley-2.2.5.jar)
 
 **Installation:** Place the JAR file in your `plugins/` folder and restart your server.
 
