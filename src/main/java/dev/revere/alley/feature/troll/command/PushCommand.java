@@ -1,9 +1,9 @@
-package dev.revere.alley.feature.command.impl.other.troll;
+package dev.revere.alley.feature.troll.command;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -12,7 +12,12 @@ import org.bukkit.entity.Player;
  * @date 25/06/2024 - 20:26
  */
 public class PushCommand extends BaseCommand {
-    @CommandData(name = "push", permission = "alley.command.troll.push", usage = "push <player> <value>", description = "Push a player")
+    @CommandData(
+            name = "push",
+            permission = "alley.command.troll.push",
+            usage = "push <player> <value>",
+            description = "Push a player"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

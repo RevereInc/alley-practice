@@ -1,9 +1,9 @@
-package dev.revere.alley.feature.command.impl.other.troll;
+package dev.revere.alley.feature.troll.command;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -12,7 +12,12 @@ import org.bukkit.entity.Player;
  * @date 28/10/2024 - 09:09
  */
 public class HeartAttackCommand extends BaseCommand {
-    @CommandData(name = "heartattack", permission = "alley.command.troll.heartattack")
+    @CommandData(
+            name = "heartattack",
+            usage = "heartattack <player>",
+            description = "Give a player a heart attack (0.5 health)",
+            permission = "alley.command.troll.heartattack"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

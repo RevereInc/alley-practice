@@ -20,7 +20,6 @@ import dev.revere.alley.feature.command.impl.other.gamemode.AdventureCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.CreativeCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.SpectatorCommand;
 import dev.revere.alley.feature.command.impl.other.gamemode.SurvivalCommand;
-import dev.revere.alley.feature.command.impl.other.troll.*;
 import dev.revere.alley.feature.abilities.command.AbilityCommand;
 import dev.revere.alley.feature.cosmetic.command.CosmeticCommand;
 import dev.revere.alley.feature.division.command.DivisionCommand;
@@ -97,13 +96,6 @@ public class CommandUtility {
             new SetSpawnCommand();
             new SpawnCommand();
             new SetCoinsCommand();
-
-            new FakeExplosionCommand();
-            new HeartAttackCommand();
-            new LaunchCommand();
-            new PushCommand();
-            new StrikeCommand();
-            new TrollCommand();
 
             new CooldownResetCommand();
 
