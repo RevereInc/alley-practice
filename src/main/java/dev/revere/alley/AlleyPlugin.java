@@ -47,7 +47,7 @@ public class AlleyPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final long startTime = System.currentTimeMillis();
+        final long startTime = System.nanoTime();
         instance = this;
 
         this.validatePluginMetadata();
