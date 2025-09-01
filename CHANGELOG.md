@@ -1,16 +1,16 @@
-## 🎉 Alley v2.2.5
+## 🎉 Alley v2.2.6
 
 ### 🔧 **PATCH RELEASE** - Bug Fixes & Improvements
 
-**Previous Version:** `2.2.4`
-**New Version:** `2.2.5`
+**Previous Version:** `2.2.5`
+**New Version:** `2.2.6`
 
 ### 📝 Changes:
 
-- chore: fixing remi's mess where he couldn't refactor properly; turning "Practice PvP core" into "Practice PvP knockback" (b8ccec59)
+
 
 ---
-**Download:** [Alley-2.2.5.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.5/Alley-2.2.5.jar)
+**Download:** [Alley-2.2.6.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.6/Alley-2.2.6.jar)
 
 **Installation:** Place the JAR file in your `plugins/` folder and restart your server.
 
