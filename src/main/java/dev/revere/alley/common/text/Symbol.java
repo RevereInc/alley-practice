@@ -44,7 +44,7 @@ public class Symbol {
         TICK = "✔";
         CROSS = "✘";
         CROWN = "♛";
-        WARNING = "[⚠]";
+        WARNING = "⚠";
         QUESTION = "❓";
         EXCLAMATION = "❗";
         CHECK = "✓";
