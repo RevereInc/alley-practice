@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -36,7 +37,7 @@ public class ArenaSetVoidLevelCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(CC.translate("&cYou can only set the void level for standalone arenas!"));
+            player.sendMessage(ArenaLocale.MUST_BE_STANDALONE.getMessage());
             return;
         }
 
@@ -48,7 +49,7 @@ public class ArenaSetVoidLevelCommand extends BaseCommand {
                 return;
             }
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid void level! Please enter a valid number."));
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 

@@ -39,7 +39,6 @@ public class CosmeticListCommand extends BaseCommand {
             BaseCosmeticRepository<?> repository = entry.getValue();
 
             List<? extends Cosmetic> cosmetics = repository.getCosmetics();
-
             if (cosmetics.isEmpty()) {
                 continue;
             }
@@ -52,7 +51,6 @@ public class CosmeticListCommand extends BaseCommand {
                 player.sendMessage(CC.translate("      &f● &6" + cosmetic.getName()));
             }
         }
-
 
         player.sendMessage("");
     }

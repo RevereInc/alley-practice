@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.cooldown.command;
 
+import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -9,8 +11,6 @@ import dev.revere.alley.feature.cooldown.CooldownType;
 import dev.revere.alley.common.text.StringUtil;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
-
-import java.util.Arrays;
 
 /**
  * @author Emmy
@@ -32,7 +32,7 @@ public class CooldownResetCommand extends BaseCommand {
         String targetName = args[0];
         Player target = this.plugin.getServer().getPlayer(targetName);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -40,7 +40,7 @@ public class CooldownResetCommand extends BaseCommand {
         try {
             type = CooldownType.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cInvalid cooldown type. Valid types: " + String.join(", ", Arrays.stream(CooldownType.values()).map(Enum::name).toArray(String[]::new))));
+            player.sendMessage(EnumFormatter.outputAvailableValues(CooldownType.class));
             return;
         }
 

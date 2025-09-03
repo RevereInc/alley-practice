@@ -41,6 +41,6 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         arena.setDisplayName(displayName);
         arenaService.saveArena(arena);
 
-        sender.sendMessage(CC.translate("&aSuccessfully set the display name of the arena &e" + arenaName + " &ato &e" + displayName + "&a."));
+        sender.sendMessage(ArenaLocale.DISPLAY_NAME_SET.getMessage().replace("{arena-name}", arenaName).replace("{display-name}", displayName));
     }
 }

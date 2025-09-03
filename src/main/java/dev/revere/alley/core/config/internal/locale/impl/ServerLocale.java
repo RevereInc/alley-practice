@@ -5,6 +5,8 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
 import dev.revere.alley.common.text.CC;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project alley-practice
@@ -29,13 +31,13 @@ public enum ServerLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
+    }
+
+    @Override
+    public List<String> getList() {
+        return CC.translateList(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getStringList(this.configString));
     }
 }

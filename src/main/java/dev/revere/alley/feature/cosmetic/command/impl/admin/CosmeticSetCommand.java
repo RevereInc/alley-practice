@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
+import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,7 +35,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found"));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -44,7 +46,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         CosmeticType cosmeticType = CosmeticType.fromString(typeName);
         if (cosmeticType == null) {
-            player.sendMessage(CC.translate("&cInvalid cosmetic type."));
+            player.sendMessage(EnumFormatter.outputAvailableValues(CosmeticType.class));
             return;
         }
 

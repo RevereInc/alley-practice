@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.explosives.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,8 +34,8 @@ public class ExplosiveCommand extends BaseCommand {
 
         try {
             value = Double.parseDouble(valueStr);
-        } catch (NumberFormatException e) {
-            sender.sendMessage(CC.translate("&cInvalid value. '" + valueStr + "' is not a valid number."));
+        } catch (NumberFormatException exception) {
+            sender.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 

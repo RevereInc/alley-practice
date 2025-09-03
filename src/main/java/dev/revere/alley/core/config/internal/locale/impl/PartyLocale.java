@@ -5,6 +5,8 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
 import dev.revere.alley.common.text.CC;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project Alley
@@ -22,6 +24,8 @@ public enum PartyLocale implements Locale {
     NO_PARTY_INVITE("messages.yml", "party.no-invite"),
     JOINED_PARTY("messages.yml", "party.joined"),
 
+    PARTY_LOOKUP_LIST("messages.yml", "party.lookup")
+
     ;
 
     private final String configName, configString;
@@ -37,13 +41,18 @@ public enum PartyLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
+    }
+
+    /**
+     * Gets a list of messages from the configuration.
+     *
+     * @return A list of translated messages.
+     */
+    @Override
+    public List<String> getList() {
+        return CC.translateList(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getStringList(this.configString));
     }
 }

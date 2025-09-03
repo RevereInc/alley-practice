@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.queue.command.admin.impl;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -38,7 +39,7 @@ public class QueueForceCommand extends BaseCommand {
         boolean ranked = Boolean.parseBoolean(args[2]);
 
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

@@ -11,16 +11,19 @@ import dev.revere.alley.common.text.CC;
  * @since 26/06/2025
  */
 public enum ArenaLocale implements Locale {
-
     ALREADY_EXISTS("messages.yml", "arena.error.already-exists"),
     NOT_FOUND("messages.yml", "arena.error.not-found"),
     NO_SELECTION("messages.yml", "arena.error.no-selection"),
     KIT_ALREADY_ADDED_TO_ARENA("messages.yml", "arena.error.kit-already-added-to-arena"),
     ARENA_DOES_NOT_HAVE_KIT("messages.yml", "arena.error.arena-does-not-have-kit"),
+    CAN_NOT_SET_CUBOID_FFA("messages.yml", "arena.error.cannot-set-cuboid-ffa"),
+    MUST_BE_STANDALONE("messages.yml", "arena.error.must-be-standalone"),
+    INVALID_PORTAL("messages.yml", "arena.error.invalid-portal"),
 
     SELECTION_TOOL_ADDED("messages.yml", "arena.manage.selection-tool.added"),
     SELECTION_TOOL_REMOVED("messages.yml", "arena.manage.selection-tool.removed"),
 
+    DISPLAY_NAME_SET("messages.yml", "arena.data.displayname-set"),
     CENTER_SET("messages.yml", "arena.data.center-set"),
     CUBOID_SET("messages.yml", "arena.data.geom-set"),
     HEIGHT_LIMIT_SET("messages.yml", "arena.data.height-limit-set"),
@@ -55,11 +58,6 @@ public enum ArenaLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));

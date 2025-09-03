@@ -1,22 +1,22 @@
 package dev.revere.alley.core.profile.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.music.MusicService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.music.MusicService;
+import dev.revere.alley.feature.spawn.SpawnService;
+import dev.revere.alley.feature.visibility.VisibilityService;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,6 +27,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.InventoryHolder;
+
+import java.util.List;
 
 /**
  * @author Emmy
@@ -68,6 +70,7 @@ public class ProfileListener implements Listener {
 
         this.handlePlayerJoin(profile, player);
         this.sendJoinMessage(player);
+        this.sendJoinMessageTitle(player);
     }
 
     @EventHandler
@@ -169,6 +172,18 @@ public class ProfileListener implements Listener {
         player.updateInventory();
     }
 
+    private void sendJoinMessageTitle(Player player) {
+        TitleReflectionServiceImpl titleService = AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
+
+        boolean enabled = ProfileLocale.JOIN_MESSAGE_TITLE_ENABLED.getBoolean();
+        if (!enabled) return;
+
+        String header = ProfileLocale.JOIN_MESSAGE_TITLE_HEADER.getMessage();
+        String subHeader = ProfileLocale.JOIN_MESSAGE_TITLE_SUBHEADER.getMessage();
+
+        titleService.sendTitle(player, header, subHeader);
+    }
+
     /**
      * Sends a welcome message to the player when they join the server.
      * The message is configured in the messages.yml file.
@@ -176,22 +191,16 @@ public class ProfileListener implements Listener {
      * @param player The player who joined.
      */
     private void sendJoinMessage(Player player) {
-        ConfigService configService = AlleyPlugin.getInstance().getService(ConfigService.class);
-        PluginConstant constants = AlleyPlugin.getInstance().getService(PluginConstant.class);
+        boolean enabled = ProfileLocale.JOIN_MESSAGE_CHAT_ENABLED.getBoolean();
+        if (!enabled) return;
 
-        FileConfiguration msgConfig = configService.getMessagesConfig();
-        if (msgConfig.getBoolean("welcome-message.enabled")) {
-            String playerName = player.getName();
-            String version = constants.getVersion();
-            String authors = constants.getAuthors().toString().replace("[", "").replace("]", "");
+        List<String> message = ProfileLocale.JOIN_MESSAGE_CHAT_MESSAGE_LIST.getList();
+        message.replaceAll(line -> line
+                .replace("{player}", player.getName())
+                .replace("{version}", AlleyPlugin.getInstance().getDescription().getVersion())
+                .replace("{author}", AlleyPlugin.getInstance().getDescription().getAuthors().toString().replace("[", "").replace("]", ""))
+        );
 
-            for (String message : msgConfig.getStringList("welcome-message.message")) {
-                player.sendMessage(CC.translate(message)
-                        .replace("{player}", playerName)
-                        .replace("{version}", version)
-                        .replace("{author}", authors)
-                );
-            }
-        }
+        message.forEach(line -> player.sendMessage(CC.translate(line)));
     }
 }

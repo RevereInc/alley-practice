@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.duel.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
 import dev.revere.alley.feature.duel.DuelRequestService;
 import dev.revere.alley.feature.duel.menu.DuelRequestMenu;
 import dev.revere.alley.core.profile.ProfileService;
@@ -60,7 +60,7 @@ public class DuelCommand extends BaseCommand {
         }
 
         if (targetProfile.isBusy()) {
-            player.sendMessage(ProfileLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
+            player.sendMessage(ErrorLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
             return;
         }
 

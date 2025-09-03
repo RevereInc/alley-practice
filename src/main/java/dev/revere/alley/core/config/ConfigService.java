@@ -1,6 +1,7 @@
 package dev.revere.alley.core.config;
 
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -13,8 +14,11 @@ import java.io.File;
 public interface ConfigService extends Service {
     /**
      * Reloads all configuration files from disk.
+     *
+     * @param sender The command sender who initiated the reload.
+     * @param debug  If true, will log debug information during the reload process.
      */
-    void reloadConfigs();
+    void reloadConfigs(CommandSender sender, boolean debug);
 
     /**
      * Saves a FileConfiguration to its corresponding file on disk.

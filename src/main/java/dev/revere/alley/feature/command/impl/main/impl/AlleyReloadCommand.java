@@ -14,14 +14,12 @@ import org.bukkit.entity.Player;
  */
 public class AlleyReloadCommand extends BaseCommand {
     @Override
-    @CommandData(name = "alley.reload", isAdminOnly = true)
+    @CommandData(
+            name = "alley.reload",
+            isAdminOnly = true,
+            inGameOnly = false
+    )
     public void onCommand(CommandArgs command) {
-        Player player = command.getPlayer();
-
-        player.sendMessage("");
-        player.sendMessage(CC.translate("&eReloading &6&lAlley&e..."));
-        this.plugin.getService(ConfigService.class).reloadConfigs();
-        player.sendMessage(CC.translate("&6&lAlley &ehas been reloaded."));
-        player.sendMessage("");
+        this.plugin.getService(ConfigService.class).reloadConfigs(command.getSender(), true);
     }
 }

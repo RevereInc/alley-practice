@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -40,7 +41,7 @@ public class FFAAddCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(CC.translate("&cPlayer not found: " + targetName));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

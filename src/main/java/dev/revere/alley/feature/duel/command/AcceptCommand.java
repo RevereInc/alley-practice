@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.duel.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
 import dev.revere.alley.feature.duel.DuelRequest;
 import dev.revere.alley.feature.duel.DuelRequestService;
 import dev.revere.alley.core.profile.ProfileService;
@@ -43,7 +43,7 @@ public class AcceptCommand extends BaseCommand {
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (targetProfile.isBusy()) {
-            player.sendMessage(ProfileLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
+            player.sendMessage(ErrorLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
             return;
         }
 

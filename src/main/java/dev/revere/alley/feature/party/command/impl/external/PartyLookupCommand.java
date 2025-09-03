@@ -1,14 +1,16 @@
 package dev.revere.alley.feature.party.command.impl.external;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Emmy
@@ -29,7 +31,7 @@ public class PartyLookupCommand extends BaseCommand {
 
         Player target = this.plugin.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cInvalid player."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -39,12 +41,14 @@ public class PartyLookupCommand extends BaseCommand {
             return;
         }
 
-        Arrays.asList(
-                "&6&l" + party.getLeader().getName() + "'s Party",
-                " &f● &6Leader: &f" + party.getLeader().getName(),
-                " &f● &6Members: &f" + party.getMembers().size(),
-                " &f● &6Status: &f" + (party.getState().getName()),
-                " &f● &6Privacy: &f" + (party.getState().getDescription()
-                )).forEach(msg -> player.sendMessage(CC.translate(msg)));
+        List<String> message = PartyLocale.PARTY_LOOKUP_LIST.getList();
+        message.replaceAll(line -> line
+                .replace("{leader}", party.getLeader().getName())
+                .replace("{members}", String.valueOf(party.getMembers().size()))
+                .replace("{status}", party.getState().getName())
+                .replace("{privacy}", party.getState().getDescription())
+        );
+
+        message.forEach(line -> player.sendMessage(CC.translate(line)));
     }
 }

@@ -3,9 +3,11 @@ package dev.revere.alley.core.config.internal;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.common.TaskUtil;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
 import lombok.Getter;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -32,13 +34,14 @@ public class ConfigServiceImpl implements ConfigService {
             nerdMessagesConfig, spigotCommunityMessagesConfig, texturesConfig, hotbarConfig;
 
     private final String[] configFileNames = {
-            "settings.yml", "messages.yml", "menus.yml", "pearls.yml", "abilities.yml", "visuals.yml",
-
             "database/database.yml",
+
+            "settings.yml", "messages.yml", "menus.yml",
 
             "storage/kits.yml", "storage/arenas.yml", "storage/divisions.yml", "storage/titles.yml", "storage/levels.yml",
 
             "providers/scoreboard.yml", "providers/tablist.yml", "providers/textures.yml", "providers/hotbar.yml",
+            "providers/pearls.yml", "providers/abilities.yml", "providers/visuals.yml",
 
             "cosmetics/messages/salty_messages.yml", "cosmetics/messages/yeet_messages.yml",
             "cosmetics/messages/nerd_messages.yml", "cosmetics/messages/spigot_community_messages.yml",
@@ -61,14 +64,77 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void reloadConfigs() {
+    public void reloadConfigs(CommandSender sender, boolean debug) {
         this.fileConfigurations.clear();
         this.configFiles.clear();
+
+        if (debug) {
+            this.reloadConfigsAndDebug(sender);
+            return;
+        }
+
         for (String fileName : this.configFileNames) {
             this.loadConfig(fileName);
         }
 
         this.assignConfigs();
+    }
+
+    /**
+     * Reloads all configuration files with detailed debug output to the sender and console.
+     *
+     * @param sender The command sender who initiated the reload.
+     */
+    private void reloadConfigsAndDebug(CommandSender sender) {
+        long timeTaken = System.nanoTime();
+
+        try {
+            Logger.sendMessageAndLog(sender, "");
+            Logger.sendMessageAndLog(sender, "&fReload process &a&lSTARTING&f.");
+            Logger.sendMessageAndLog(sender, "&fPlease wait...");
+            Logger.sendMessageAndLog(sender, "");
+
+            TaskUtil.runLaterAsync(() -> {
+                long totalReloadTime = 0L;
+                long delay = 0L;
+                long delayIncrement = 5L;
+
+                for (String fileName : this.configFileNames) {
+                    long startTime = System.nanoTime();
+
+                    this.loadConfig(fileName);
+
+                    long endTime = System.nanoTime();
+                    long timeTakenForFile = (endTime - startTime) / 1_000_000;
+
+                    totalReloadTime += timeTakenForFile;
+
+                    TaskUtil.runLaterAsync(() -> {
+                        Logger.sendMessageAndLog(sender, "&a✔  &6" + fileName);
+                    }, delay);
+
+                    delay += delayIncrement;
+                }
+
+                long finalTotalReloadTime = totalReloadTime;
+
+                TaskUtil.runLaterAsync(() -> {
+                    this.assignConfigs();
+
+                    Logger.sendMessageAndLog(sender, "");
+                    Logger.sendMessageAndLog(sender, "&fConfig files &a&lRE&r-&a&lASSIGNED&f.");
+
+                    long overallEndTime = System.nanoTime();
+                    long overallTimeTaken = (overallEndTime - timeTaken) / 1_000_000;
+
+                    Logger.sendMessageAndLog(sender, "&fReload process &a&lCOMPLETED&r in &6" + overallTimeTaken + "&f ms.");
+                    Logger.sendMessageAndLog(sender, "&fIndividual file reloads took a total of &6" + finalTotalReloadTime + "&f ms.");
+                }, delay + delayIncrement);
+            }, 20L);
+        } catch (Exception exception) {
+            Logger.sendMessageAndLog(sender, "&c✘  &c&lFAILURE: " + exception.getMessage());
+            Logger.logException("Error occurred while reloading configs.", exception);
+        }
     }
 
     @Override
@@ -92,9 +158,9 @@ public class ConfigServiceImpl implements ConfigService {
 
     private void assignConfigs() {
         this.menusConfig = this.getConfig("menus.yml");
-        this.pearlConfig = this.getConfig("pearls.yml");
-        this.abilityConfig = this.getConfig("abilities.yml");
-        this.visualsConfig = this.getConfig("visuals.yml");
+        this.pearlConfig = this.getConfig("providers/pearls.yml");
+        this.abilityConfig = this.getConfig("providers/abilities.yml");
+        this.visualsConfig = this.getConfig("providers/visuals.yml");
         this.settingsConfig = this.getConfig("settings.yml");
         this.messagesConfig = this.getConfig("messages.yml");
         this.databaseConfig = this.getConfig("database/database.yml");

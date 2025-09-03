@@ -2,21 +2,28 @@ spawn:
   teleported: "&6Teleported you to spawn!"
   spawn-set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
 
-welcome-message:
-  enabled: true
-  message:
-    - ""
-    - "&6&lEU Practice &7- Ranked, Events, FFA & more"
-    - ""
-    - "&6&lLinks"
-    - " &6Website: &frevere.dev"
-    - " &6Store: &frevere.dev/store"
-    - " &6Discord: &fdiscord.gg/revere"
-    - ""
-    - "&6&lMade by &f{author} &7(v{version})"
-    - ""
+join-message:
+  title:
+    enabled: true
+    header: "&6&lWelcome to Alley Practice"
+    subheader: "&fMade by &6Emmy &f& &6Remi"
+  chat:
+    enabled: true
+    message:
+      - ""
+      - "&6&lAlley Practice Core"
+      - " &6&l│ &rWebsite: &6revere.dev"
+      - " &6&l│ &rDiscord: &6discord.gg/p3R5qhfWAx"
+      - " &6&l│ &rGitHub: &6github.com/RevereInc/alley-practice"
+      - ""
+      - "&6&lMade by &f{author} &7(v{version})"
+      - ""
 
 error-messages:
+  invalid:
+    type: "&cInvalid {type}. Available types: &6{types}&c."
+    number: "&c'{input}' is not a valid number! Please enter a valid number."
+    player: "&cThat player could not be found!"
   player:
     is-busy: "&6{color}{player} &cis busy."
 
@@ -32,7 +39,11 @@ arena:
     no-selection: "&cYou don't have the bounds selected for the arena! Use &b/arena wand&c!"
     kit-already-added-to-arena: "&cThe kit &6{kit-name} &cis already added to the arena &6{arena-name}&c!"
     arena-does-not-have-kit: "&cThe arena &6{arena-name} &cdoes not have the kit &6{kit-name}&c!"
+    cannot-set-cuboid-ffa: "&cYou cannot set cuboids for Free-For-All arenas! You must use: &4/arena setsafezone pos1/pos2&c."
+    must-be-standalone: "&cThe arena &6{arena-name} &cmust be standalone to do this!"
+    invalid-portal: "&cInvalid portal. Please use 'red' or 'blue'."
   data:
+    displayname-set: "&aSuccessfully set the display name of the arena &6{arena-name}&a to &r{display-name}&a!"
     center-set: "&aSuccessfully set the center of the arena &6{arena-name}&a!"
     cuboid-set: "&aSuccessfully set the geom of the arena &6{arena-name}&a!"
     height-limit-set: "&aSuccessfully set the height limit of the arena &6{arena-name}&a to &6{height-limit}&a!"
@@ -104,6 +115,14 @@ party:
       - "  &f&l● &fLeader: &6{leader}"
       - "  &f&l● &fMembers: &6{members}"
       - ""
+  lookup:
+    - ""
+    - " &6&l{leader}'s Party"
+    - "  &f&l● &fLeader: &6{leader}"
+    - "  &f&l● &fMembers: &6{members}"
+    - "  &f&l● &fStatus: &6{status}"
+    - "  &f&l● &fPrivacy: &6{privacy}"
+    - ""
 
 #tournament-broadcast:
 #  player:

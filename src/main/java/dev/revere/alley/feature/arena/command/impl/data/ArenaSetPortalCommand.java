@@ -38,13 +38,13 @@ public class ArenaSetPortalCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(CC.translate("&cYou can only set portals for standalone arenas."));
+            player.sendMessage(ArenaLocale.MUST_BE_STANDALONE.getMessage().replace("{arena-name}", arena.getName()));
             return;
         }
 
         String portal = args[1];
         if (!portal.equalsIgnoreCase("red") && !portal.equalsIgnoreCase("blue")) {
-            player.sendMessage(CC.translate("&cInvalid portal. Please use 'red' or 'blue'."));
+            player.sendMessage(ArenaLocale.INVALID_PORTAL.getMessage());
             return;
         }
 

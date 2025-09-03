@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -36,8 +37,8 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         int minElo;
         try {
             minElo = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            sender.sendMessage(CC.translate("&cInvalid minimum Elo value! It must be a number."));
+        } catch (NumberFormatException exception) {
+            sender.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 

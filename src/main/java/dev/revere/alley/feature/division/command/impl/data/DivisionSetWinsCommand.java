@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -62,7 +63,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         try {
             wins = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number."));
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[2]));
             return;
         }
 
