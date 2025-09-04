@@ -31,12 +31,19 @@ public class FFASetArenaCommand extends BaseCommand {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
-        if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/ffa setarena &6<arenaName>"));
+        if (args.length < 2) {
+            sender.sendMessage(CC.translate("&6Usage: &e/ffa setarena &6<kitName> <arenaName>"));
             return;
         }
 
-        String arenaName = args[0];
+        KitService kitService = this.plugin.getService(KitService.class);
+        Kit kit = kitService.getKit(args[0]);
+        if (kit == null) {
+            sender.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage());
+            return;
+        }
+
+        String arenaName = args[1];
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
@@ -47,13 +54,6 @@ public class FFASetArenaCommand extends BaseCommand {
         if (arena.getType() != ArenaType.FFA) {
             //TODO: Locale
             sender.sendMessage(CC.translate("&cYou can only set the arena for Free-For-All arenas!"));
-            return;
-        }
-
-        KitService kitService = this.plugin.getService(KitService.class);
-        Kit kit = kitService.getKit(arenaName);
-        if (kit == null) {
-            sender.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage());
             return;
         }
 
