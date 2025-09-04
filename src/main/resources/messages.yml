@@ -1,7 +1,3 @@
-spawn:
-  teleported: "&6Teleported you to spawn!"
-  spawn-set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
-
 join-message:
   title:
     enabled: true
@@ -18,20 +14,6 @@ join-message:
       - ""
       - "&6&lMade by &f{author} &7(v{version})"
       - ""
-
-error-messages:
-  invalid:
-    type: "&cInvalid {type}. Available types: &6{types}&c."
-    number: "&c'{input}' is not a valid number! Please enter a valid number."
-    player: "&cThat player could not be found!"
-  player:
-    must-hold-item: "&cYou need to be holding an item!"
-    is-busy: "&6{color}{player} &cis busy."
-
-server:
-  crafting-operations:
-    toggled: "&aCrafting operations for &6{item} &aare now &6{status}&a."
-    must-hold-craftable-item: "&cYou must be holding a craftable item to manage crafting operations."
 
 arena:
   error:
@@ -98,6 +80,30 @@ kit:
     saved: "&aSuccessfully saved the &6{kit-name} &akit!"
     saved-all: "&aSuccessfully saved all kits!"
 
+ffa:
+  added-player: "&a&lADDED! &6{player-color}{player} &7&l» &6{ffa-name}"
+  kicked-player: "&c&lKICKED! &6{player-color}{player} &7&l» &6{ffa-name}"
+  error:
+    already-exists: "&cAn FFA Match named &6{ffa-name} &calready exists!"
+    not-found: "&cAn FFA Match named &6{ffa-name} &cdoes not exist!"
+    kit-not-eligible: "&cThis kit is not eligible for FFA matches! Please disable the &6BUILD/BOXING SETTINGS &cand try again."
+    disabled: "&cFFA mode is disabled for the kit &6{kit-name}&c!"
+    player-not-in-match: "&cThat player is not in an FFA Match!"
+  data:
+    created: "&aSuccessfully created a new FFA Match for the kit &6{kit-name}&a!" # {arena-name}, {max-players}, {menu-slot}
+    toggled: "&aFFA mode has been &6{status} &afor kit &6{kit-name}&a!"
+    arena-set: "&aSuccessfully set the arena of the FFA Match for kit &6{kit-name} &ato &6{arena-name}&a!"
+    safe-zone-set: "&aSuccessfully set the &6{pos} &asafezone of the FFA Match for kit &6{kit-name}&a!"
+    max-players-set: "&aSuccessfully set the max players of the FFA Match for kit &6{kit-name} &ato &6{max-players}&a!"
+    spawn-set: "&aFFA spawn position has been set for &6{arena-name}&a!"
+  killstreak-alert:
+    enabled: true # Whether to enable killstreak alerts or not
+    interval: 5 # the required amount of kills to alert ffa players about killstreaks
+    message:
+      - ""
+      - "&6&l{name-color}{player} &fis on a &6&l{killstreak} &fkillstreak!"
+      - ""
+
 division:
   error:
     not-found: "&cA division named &6{division-name} &cdoes not exist!"
@@ -144,23 +150,14 @@ cosmetics:
   error:
     not-found: "&cA cosmetic named &6{input} &cdoes not exist!"
 
-#tournament-broadcast:
-#  player:
-#    joined: "&a{player} has joined the tournament &f(&6{players}&f/&6{maxPlayers}&f)"
-#    left: "&c{player} has left the tournament &f(&6{players}&f/&6{maxPlayers}&f)"
-#  waiting:
-#    clickable-format: " &a[CLICK TO JOIN]"
-#    clickable-hover: "&aClick to join the tournament!"
-#    message:
-#      - ""
-#      - "&6&lTOURNAMENT"
-#      - " &f• &6Host: &f{host}"
-#      - " &f• &6Kit: &f{kit}"
-#      - " &f• &6Players: &f{players}/{maxPlayers}"
-#      - " &f• &6Waiting for &6{remaining} &fmore players."
-#      - ""
-#      - "[clickable]"
-#      - ""
+duel-requests:
+  accepted: "&aYou have accepted the duel request from &6{color}{player}&a!"
+  info:
+    pending-request: "&cYou already have a pending duel request from that player."
+    no-pending-request: "&cYou do not have a pending duel request from that player."
+  error:
+    player-duel-requests-disabled: "&c{color}{player} has duel requests disabled."
+    cant-duel-self: "&cYou can't duel yourself!"
 
 match:
   started:
@@ -216,14 +213,11 @@ match:
         - "  &6&l● &f{loser} &7{loser-color}{loser-indicator}{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})"
         - ""
 
-ffa:
-  killstreak-alert:
-    enabled: true # Whether to enable killstreak alerts or not
-    interval: 5 # the required amount of kills to alert ffa players about killstreaks
-    message:
-      - ""
-      - "&6&l{name-color}{player} &fis on a &6&l{killstreak} &fkillstreak!"
-      - ""
+tips:
+  - "&6Tip: &fUse F5 to look at your opponent one last time before they end you."
+  - "&6Tip: &fW-tap like your life depends on it. It kinda does."
+  - "&6Tip: &fKeep your crosshair at head level... unless you like tickling toes."
+  - "&6Tip: &fPractice spacing — or just hug them and pray."
 
 player-settings:
   party-invites: "&aYou've {status} &aparty invites."
@@ -241,8 +235,21 @@ rename-item:
   no-item: "&cYou need to be holding an item!"
   renamed: "&aYou've renamed the &a'&r{item}&a' &aitem to &a'&r{renamed}&a'."
 
-tips:
-  - "&6Tip: &fUse F5 to look at your opponent one last time before they end you."
-  - "&6Tip: &fW-tap like your life depends on it. It kinda does."
-  - "&6Tip: &fKeep your crosshair at head level... unless you like tickling toes."
-  - "&6Tip: &fPractice spacing — or just hug them and pray."
+spawn:
+  teleported: "&6Teleported you to spawn!"
+  spawn-set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
+
+error-messages:
+  invalid:
+    type: "&cInvalid {type}. Available types: &6{types}&c."
+    number: "&c'{input}' is not a valid number! Please enter a valid number."
+    player: "&cThat player could not be found!"
+  player:
+    must-hold-item: "&cYou need to be holding an item!"
+    is-busy: "&6{color}{player} &cis busy."
+
+server:
+  queueing-temporarily-disabled: "&cQueueing is temporarily disabled. Please try again later."
+  crafting-operations:
+    toggled: "&aCrafting operations for &6{item} &aare now &6{status}&a."
+    must-hold-craftable-item: "&cYou must be holding a craftable item to manage crafting operations."

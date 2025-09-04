@@ -28,7 +28,8 @@ public enum PartyLocale implements Locale {
 
     ;
 
-    private final String configName, configString;
+    private final String configName;
+    private final String configString;
 
     /**
      * Constructor for the PartyLocale enum.

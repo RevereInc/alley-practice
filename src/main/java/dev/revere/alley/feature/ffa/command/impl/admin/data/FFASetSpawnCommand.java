@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -29,16 +31,17 @@ public class FFASetSpawnCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            player.sendMessage(CC.translate("&cAn arena with that name does not exist!"));
+            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", args[0]));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
+            //TODO: Locale
             player.sendMessage(CC.translate("&cYou can only set the spawn for Free-For-All arenas!"));
             return;
         }
 
         arena.setPos1(player.getLocation());
-        player.sendMessage(CC.translate("&aFFA spawn position has been set for arena &6" + arena.getName() + "&a!"));
+        player.sendMessage(FFALocale.SPAWN_SET.getMessage().replace("{arena-name}", arena.getName()));
     }
 }

@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -31,11 +33,12 @@ public class FFASafeZoneCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         if (arenaService.getArenaByName(arenaName) == null) {
-            player.sendMessage(CC.translate("&cAn arena with that name does not exist!"));
+            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
             return;
         }
 
         if (arenaService.getArenaByName(arenaName).getType() != ArenaType.FFA) {
+            //TODO: Locale
             player.sendMessage(CC.translate("&cYou can only set the safezone for Free-For-All arenas!"));
             return;
         }
@@ -47,12 +50,14 @@ public class FFASafeZoneCommand extends BaseCommand {
 
         if (spawnType.equalsIgnoreCase("pos1")) {
             arenaService.getArenaByName(arenaName).setMaximum(player.getLocation());
-            player.sendMessage(CC.translate("&aSafe Zone position 1 has been set for arena &6" + arenaName + "&a!"));
         } else {
             arenaService.getArenaByName(arenaName).setMinimum(player.getLocation());
-            player.sendMessage(CC.translate("&aSafe Zone position 2 has been set for arena &6" + arenaName + "&a!"));
         }
 
+        player.sendMessage(FFALocale.SAFEZONE_SET.getMessage()
+                        .replace("{arena-name}", arenaName)
+                        .replace("{pos}", spawnType.equalsIgnoreCase("pos1") ? "position 1" : "position 2")
+        );
         arenaService.saveArena(arenaService.getArenaByName(arenaName));
     }
 }

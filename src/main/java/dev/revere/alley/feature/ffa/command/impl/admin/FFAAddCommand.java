@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
 import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -52,6 +54,10 @@ public class FFAAddCommand extends BaseCommand {
 
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
-        player.sendMessage(CC.translate("&aSuccessfully added " + targetName + " to the FFA match for kit: " + args[1]));
+        player.sendMessage(FFALocale.ADDED_PLAYER.getMessage()
+                .replace("{player}", targetName)
+                .replace("{ffa-name}", args[1])
+                .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
+        );
     }
 }

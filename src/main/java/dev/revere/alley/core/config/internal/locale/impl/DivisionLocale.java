@@ -23,8 +23,6 @@ public enum DivisionLocale implements Locale {
     CREATED("messages.yml", "division.manage.created"),
     DELETED("messages.yml", "division.manage.deleted"),
 
-
-
     ;
 
     private final String configName;

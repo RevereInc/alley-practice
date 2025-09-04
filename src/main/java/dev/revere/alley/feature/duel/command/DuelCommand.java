@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.duel.command;
 
 import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -31,36 +33,42 @@ public class DuelCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cThat player is not online."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage().replace("{input}", args[0]));
             return;
         }
 
         if (target == player) {
-            player.sendMessage(CC.translate("&cYou cannot duel yourself."));
+            player.sendMessage(ProfileLocale.CANT_DUEL_SELF.getMessage());
             return;
         }
 
         DuelRequestService duelRequestService = this.plugin.getService(DuelRequestService.class);
         if (duelRequestService.getDuelRequest(player, target) != null) {
-            player.sendMessage(CC.translate("&cYou already have a pending duel request with this player."));
+            player.sendMessage(ProfileLocale.PENDING_DUEL_REQUEST.getMessage());
             return;
         }
 
         ServerService serverService = this.plugin.getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
+            player.sendMessage(ServerLocale.QUEUE_TEMPORARILY_DISABLED.getMessage());
             player.closeInventory();
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (!targetProfile.getProfileData().getSettingData().isReceiveDuelRequestsEnabled()) {
-            player.sendMessage(CC.translate("&cThis player has disabled duel requests."));
+            player.sendMessage(ProfileLocale.PLAYER_DUEL_REQUESTS_DISABLED.getMessage()
+                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{player}", target.getName())
+            );
             return;
         }
 
         if (targetProfile.isBusy()) {
-            player.sendMessage(ErrorLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
+            player.sendMessage(ErrorLocale.IS_BUSY.getMessage()
+                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{player}", target.getName())
+            );
             return;
         }
 

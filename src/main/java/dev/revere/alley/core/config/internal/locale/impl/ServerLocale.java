@@ -16,9 +16,12 @@ public enum ServerLocale implements Locale {
     CRAFTING_TOGGLED("messages.yml", "server.crafting-operations.toggled"),
     MUST_HOLD_CRAFTABLE_ITEM("messages.yml", "server.crafting-operations.must-hold-craftable-item"),
 
+    QUEUE_TEMPORARILY_DISABLED("messages.yml", "server.queueing-temporarily-disabled"),
+
     ;
 
-    private final String configName, configString;
+    private final String configName;
+    private final String configString;
 
     /**
      * Constructor for the ServerLocale enum.

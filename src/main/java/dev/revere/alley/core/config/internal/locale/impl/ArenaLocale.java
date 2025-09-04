@@ -43,7 +43,6 @@ public enum ArenaLocale implements Locale {
 
     ;
 
-
     private final String configName;
     private final String configString;
 

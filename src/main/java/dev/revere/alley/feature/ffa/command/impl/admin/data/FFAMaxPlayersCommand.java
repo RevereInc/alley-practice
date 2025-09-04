@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -30,11 +31,14 @@ public class FFAMaxPlayersCommand extends BaseCommand {
 
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
-            player.sendMessage(CC.translate("&cThere is no FFA match with the name " + kitName + "."));
+            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", kitName));
             return;
         }
 
         match.setMaxPlayers(maxPlayers);
-        player.sendMessage(CC.translate("&aSuccessfully set the max players for the FFA match."));
+        player.sendMessage(FFALocale.MAX_PLAYERS_SET.getMessage()
+                .replace("{kit-name}", kitName)
+                .replace("{max-players}", String.valueOf(maxPlayers))
+        );
     }
 }

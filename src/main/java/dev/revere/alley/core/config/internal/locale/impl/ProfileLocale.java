@@ -23,6 +23,14 @@ public enum ProfileLocale implements Locale {
     TOGGLED_LOBBY_MUSIC("messages.yml", "player-settings.lobby-music"),
     TOGGLED_SERVER_TITLES("messages.yml", "player-settings.server-titles"),
 
+    ACCEPTED_DUEL_REQUEST("messages.yml", "duel-requests.accepted"),
+
+    CANT_DUEL_SELF("messages.yml", "duel-requests.error.cant-duel-self"),
+    PLAYER_DUEL_REQUESTS_DISABLED("messages.yml", "duel-requests.error.player-duel-requests-disabled"),
+
+    NO_PENDING_DUEL_REQUEST("messages.yml", "duel-requests.info.no-pending-request"),
+    PENDING_DUEL_REQUEST("messages.yml", "duel-requests.info.pending-request"),
+
     JOIN_MESSAGE_CHAT_ENABLED("messages.yml", "join-message.chat.enabled"),
     JOIN_MESSAGE_CHAT_MESSAGE_LIST("messages.yml", "join-message.chat.message"),
 
@@ -32,7 +40,8 @@ public enum ProfileLocale implements Locale {
 
     ;
 
-    private final String configName, configString;
+    private final String configName;
+    private final String configString;
 
     /**
      * Constructor for the ProfileLocale enum.

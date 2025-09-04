@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -28,7 +29,7 @@ public class FFAListPlayersCommand extends BaseCommand {
         String kitName = args[0];
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
-            player.sendMessage(CC.translate("&cThere is no FFA match with the name " + kitName + "."));
+            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", kitName));
             return;
         }
 

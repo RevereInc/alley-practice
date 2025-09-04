@@ -24,7 +24,7 @@ public class FFASpawnCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() != ProfileState.FFA) {
-            player.sendMessage(CC.translate("&cYou can only use this command in an ffa matcj."));
+            player.sendMessage(CC.translate("&cYou can only use this command in an ffa match."));
             return;
         }
 

@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -43,6 +45,7 @@ public class FFASetArenaCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.FFA) {
+            //TODO: Locale
             sender.sendMessage(CC.translate("&cYou can only set the arena for Free-For-All arenas!"));
             return;
         }
@@ -50,18 +53,21 @@ public class FFASetArenaCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(arenaName);
         if (kit == null) {
-            sender.sendMessage(CC.translate("&cA kit with that name does not exist!"));
+            sender.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage());
             return;
         }
 
         if (!kit.isFfaEnabled()) {
-            sender.sendMessage(CC.translate("&cFFA mode is not enabled for this kit!"));
+            sender.sendMessage(FFALocale.DISABLED.getMessage().replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaArenaName(arena.getName());
         kitService.saveKit(kit);
         this.plugin.getService(FFAService.class).reloadFFAKits();
-        sender.sendMessage(CC.translate("&aFFA arena has been set for kit &6" + kit.getName() + "&a!"));
+        sender.sendMessage(FFALocale.ARENA_SET.getMessage()
+                .replace("{kit-name}", kit.getName())
+                .replace("{arena-name}", arena.getName())
+        );
     }
 }
