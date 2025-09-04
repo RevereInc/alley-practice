@@ -55,8 +55,8 @@ public class FFAAddCommand extends BaseCommand {
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
         player.sendMessage(FFALocale.ADDED_PLAYER.getMessage()
-                .replace("{player}", targetName)
-                .replace("{ffa-name}", args[1])
+                .replace("{player}", targetPlayer.getName())
+                .replace("{ffa-name}", match.getName())
                 .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
         );
     }

@@ -44,7 +44,7 @@ public class FFAKickCommand extends BaseCommand {
         match.leave(targetPlayer);
         player.sendMessage(FFALocale.KICKED_PLAYER.getMessage()
                 .replace("{player}", targetPlayer.getName())
-                .replace("{ffa-name}", args[1])
+                .replace("{ffa-name}", match.getName())
                 .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
         );
     }

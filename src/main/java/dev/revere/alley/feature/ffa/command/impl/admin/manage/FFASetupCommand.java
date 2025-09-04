@@ -41,7 +41,7 @@ public class FFASetupCommand extends BaseCommand {
         }
 
         if (kit.isFfaEnabled()) {
-            player.sendMessage(FFALocale.ALREADY_EXISTS.getMessage());
+            player.sendMessage(FFALocale.ALREADY_EXISTS.getMessage().replace("{ffa-name}", kit.getName()));
             return;
         }
 

@@ -81,8 +81,8 @@ kit:
     saved-all: "&aSuccessfully saved all kits!"
 
 ffa:
-  added-player: "&a&lADDED! &6{player-color}{player} &7&l» &6{ffa-name}"
-  kicked-player: "&c&lKICKED! &6{player-color}{player} &7&l» &6{ffa-name}"
+  added-player: "&a&lADDED! &6{player-color}{player} &7&l» &6FFA {ffa-name}"
+  kicked-player: "&c&lKICKED! &6{player-color}{player} &7&l» &6FFA {ffa-name}"
   error:
     already-exists: "&cAn FFA Match named &6{ffa-name} &calready exists!"
     not-found: "&cAn FFA Match named &6{ffa-name} &cdoes not exist!"

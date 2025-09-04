@@ -77,7 +77,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         division.getTier(tier).setRequiredWins(wins);
         divisionService.saveDivision(division);
         player.sendMessage(DivisionLocale.WINS_SET.getMessage()
-                .replace("{division-name}", division.getDisplayName())
+                .replace("{division-name}", division.getName())
                 .replace("{tier-name}", tier)
                 .replace("{required-wins}", String.valueOf(wins))
         );
