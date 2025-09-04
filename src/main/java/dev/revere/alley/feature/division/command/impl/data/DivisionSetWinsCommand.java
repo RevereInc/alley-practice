@@ -1,13 +1,14 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
 import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -49,13 +50,13 @@ public class DivisionSetWinsCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(CC.translate("&cA division with that name does not exist."));
+            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage().replace("{division-name}", args[0]));
             return;
         }
 
         String tier = args[1];
         if (division.getTier(tier) == null) {
-            player.sendMessage(CC.translate("&cThe " + division.getDisplayName() + " division does not have a tier named " + tier + "."));
+            player.sendMessage(DivisionLocale.TIER_NOT_FOUND.getMessage().replace("{division-name}", division.getDisplayName()).replace("{tier-name}", tier));
             return;
         }
 
@@ -68,12 +69,17 @@ public class DivisionSetWinsCommand extends BaseCommand {
         }
 
         if (wins < 0) {
+            //TODO: Locale
             player.sendMessage(CC.translate("&cThe number of wins can't be 0."));
             return;
         }
 
         division.getTier(tier).setRequiredWins(wins);
         divisionService.saveDivision(division);
-        player.sendMessage(CC.translate("&aSuccessfully set the required wins for the " + division.getDisplayName() + " division's " + tier + " tier to " + wins + "."));
+        player.sendMessage(DivisionLocale.WINS_SET.getMessage()
+                .replace("{division-name}", division.getDisplayName())
+                .replace("{tier-name}", tier)
+                .replace("{required-wins}", String.valueOf(wins))
+        );
     }
 }

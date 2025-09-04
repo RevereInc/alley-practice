@@ -15,6 +15,7 @@ public enum ErrorLocale implements Locale {
     INVALID_PLAYER("messages.yml", "error-messages.invalid.player"),
     INVALID_TYPE("messages.yml", "error-messages.invalid.type"),
 
+    MUST_HOLD_ITEM("messages.yml", "error-messages.player.must-hold-item"),
     IS_BUSY("messages.yml", "error-messages.player.is-busy"),
 
     ;

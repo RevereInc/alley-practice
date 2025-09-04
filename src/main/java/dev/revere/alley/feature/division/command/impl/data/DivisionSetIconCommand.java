@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -28,18 +30,22 @@ public class DivisionSetIconCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(CC.translate("&cA division with that name does not exist."));
+            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage().replace("{division-name}", args[0]));
             return;
         }
 
         if (player.getItemInHand() == null) {
-            player.sendMessage(CC.translate("&cYou need be holding an item to set it as the division icon."));
+            player.sendMessage(ErrorLocale.MUST_HOLD_ITEM.getMessage());
             return;
         }
 
         division.setIcon(player.getItemInHand().getType());
         division.setDurability(player.getItemInHand().getDurability());
         divisionService.saveDivision(division);
-        player.sendMessage(CC.translate("&aSuccessfully set the icon for the division &6" + division.getDisplayName() + " &ato " + player.getItemInHand().getType().name() + ":" + player.getItemInHand().getDurability() + "&a."));
+        player.sendMessage(DivisionLocale.ICON_SET.getMessage()
+                .replace("{division-name}", division.getDisplayName())
+                .replace("{item-type}", player.getItemInHand().getType().name())
+                .replace("{item-durability}", String.valueOf(player.getItemInHand().getDurability()))
+        );
     }
 }

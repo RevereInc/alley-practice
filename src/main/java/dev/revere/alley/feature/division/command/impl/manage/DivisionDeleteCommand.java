@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
+import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -29,11 +30,11 @@ public class DivisionDeleteCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(name);
         if (division == null) {
-            player.sendMessage(CC.translate("&cA division with that name does not exist."));
+            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage());
             return;
         }
 
         divisionService.deleteDivision(division.getName());
-        player.sendMessage(CC.translate("&aSuccessfully deleted the division named &6" + name + "&a."));
+        player.sendMessage(DivisionLocale.DELETED.getMessage().replace("{division-name}", division.getName()));
     }
 }

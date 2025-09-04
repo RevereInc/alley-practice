@@ -17,9 +17,6 @@ import org.bukkit.entity.Player;
  */
 public class CosmeticCommand extends BaseCommand {
 
-    /**
-     * Register all Cosmetic subcommands in the constructor
-     */
     public CosmeticCommand() {
         new CosmeticsCommand();
         new CosmeticListCommand();

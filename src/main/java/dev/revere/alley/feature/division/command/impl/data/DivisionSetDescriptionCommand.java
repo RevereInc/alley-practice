@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -30,13 +31,16 @@ public class DivisionSetDescriptionCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(CC.translate("&cA division with that name does not exist."));
+            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage().replace("{division-name}", args[0]));
             return;
         }
 
         String description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         division.setDescription(description);
         divisionService.saveDivision(division);
-        player.sendMessage(CC.translate("&aSuccessfully set the description of the division named &6" + division.getDisplayName() + "&a to &6" + description + "&a."));
+        player.sendMessage(DivisionLocale.DESCRIPTION_SET.getMessage()
+                .replace("{division-name}", division.getDisplayName())
+                .replace("{description}", description)
+        );
     }
 }

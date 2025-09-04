@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
 import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.config.internal.locale.impl.CosmeticLocale;
 import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -58,11 +59,15 @@ public class CosmeticSetCommand extends BaseCommand {
 
         BaseCosmetic cosmetic = repository.getCosmetic(cosmeticName);
         if (cosmetic == null) {
-            player.sendMessage(CC.translate("&cCosmetic with name '" + cosmeticName + "' not found in that type."));
+            player.sendMessage(CosmeticLocale.COSMETIC_NOT_FOUND.getMessage().replace("{input}", cosmeticName));
             return;
         }
 
         profile.getProfileData().getCosmeticData().setSelected(cosmetic);
-        player.sendMessage(CC.translate("&aSuccessfully set &6" + cosmetic.getName() + " " + StringUtil.formatEnumName(cosmeticType) + " &aas the active cosmetic for &6" + target.getName()));
+        player.sendMessage(CosmeticLocale.SET_COSMETIC.getMessage()
+                .replace("{type}", StringUtil.formatEnumName(cosmeticType))
+                .replace("{cosmetic}", cosmetic.getName())
+                .replace("{player}", target.getName())
+        );
     }
 }

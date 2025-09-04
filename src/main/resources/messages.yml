@@ -25,6 +25,7 @@ error-messages:
     number: "&c'{input}' is not a valid number! Please enter a valid number."
     player: "&cThat player could not be found!"
   player:
+    must-hold-item: "&cYou need to be holding an item!"
     is-busy: "&6{color}{player} &cis busy."
 
 server:
@@ -97,6 +98,20 @@ kit:
     saved: "&aSuccessfully saved the &6{kit-name} &akit!"
     saved-all: "&aSuccessfully saved all kits!"
 
+division:
+  error:
+    not-found: "&cA division named &6{division-name} &cdoes not exist!"
+    already-exists: "&cThe name &6{division-name} &cis already taken by another division!"
+    tier-not-found: "&cA tier named &6{tier-name} &cdoes not exist in the &6{division-name} &cdivision!"
+  data:
+    description-set: "&aSuccessfully set the description of the &6{division-name} &adivision to &r{description}&a!"
+    display-name-set: "&aSuccessfully set the display name of the &6{division-name} &adivision to &r{display-name}&a!"
+    wins-set:  "&aSuccessfully set the required wins for the &6{division-name} &adivision's &6{tier-name} &atier to &6{required-wins}&a!"
+    icon-set: "&aSuccessfully set the icon for the division &6{division-name} &ato &6{item-type}:{item-durability}&a!"
+  manage:
+    created: "&aSuccessfully created a new division named &6{division-name} &awith &6{required-wins} &awins!"
+    deleted: "&cSuccessfully deleted the division named &6{division-name}&c!"
+
 party:
   chat-format: "&7[&6Party&7] &6{player}&7: &f{message}"
   already-in-party: "&cYou are already in a party."
@@ -123,6 +138,11 @@ party:
     - "  &f&l● &fStatus: &6{status}"
     - "  &f&l● &fPrivacy: &6{privacy}"
     - ""
+
+cosmetics:
+  set: "&aSuccessfully set &6{cosmetic} &a{type} as the active cosmetic for &6{player}&a!"
+  error:
+    not-found: "&cA cosmetic named &6{input} &cdoes not exist!"
 
 #tournament-broadcast:
 #  player:
