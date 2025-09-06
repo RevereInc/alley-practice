@@ -238,10 +238,6 @@ rename-item:
   no-item: "&cYou need to be holding an item!"
   renamed: "&aYou've renamed the &a'&r{item}&a' &aitem to &a'&r{renamed}&a'."
 
-spawn:
-  teleported: "&6Teleported you to spawn!"
-  spawn-set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
-
 error-messages:
   invalid:
     type: "&cInvalid {type}. Available types: &6{types}&c."
@@ -253,7 +249,15 @@ error-messages:
     is-busy: "&6{color}{player} &cis busy."
 
 server:
-  queueing-temporarily-disabled: "&cQueueing is temporarily disabled. Please try again later."
+  spawn:
+    items-given: "&aSuccessfully received the spawn items!"
+    teleported: "&6Teleported you to spawn!"
+    set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
+  queue:
+    forced-player: "&aSuccessfully forced &6{player} &ainto the &6{ranked} {kit} &aqueue!"
+    reloaded: "&aSuccessfully reloaded all queues!"
+    toggled: "&aYou've temporarily {status} &aqueueing for all players."
+    temporarily-disabled: "&cQueueing is temporarily disabled. Please try again later."
   crafting-operations:
     toggled: "&aCrafting operations for &6{item} &aare now &6{status}&a."
     must-hold-craftable-item: "&cYou must be holding a craftable item to manage crafting operations."

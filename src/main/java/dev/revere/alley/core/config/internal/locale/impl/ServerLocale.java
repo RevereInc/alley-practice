@@ -16,7 +16,14 @@ public enum ServerLocale implements Locale {
     CRAFTING_TOGGLED("messages.yml", "server.crafting-operations.toggled"),
     MUST_HOLD_CRAFTABLE_ITEM("messages.yml", "server.crafting-operations.must-hold-craftable-item"),
 
-    QUEUE_TEMPORARILY_DISABLED("messages.yml", "server.queueing-temporarily-disabled"),
+    QUEUE_TEMPORARILY_DISABLED("messages.yml", "server.queue.temporarily-disabled"),
+    QUEUE_TOGGLED("messages.yml", "server.queue.toggled"),
+    QUEUE_RELOADED("messages.yml", "server.queue.reloaded"),
+    QUEUE_FORCED_PLAYER("messages.yml", "server.queue.forced-player"),
+
+    SPAWN_SET("messages.yml", "server.spawn.set"),
+    SPAWN_TELEPORTED("messages.yml", "server.spawn.teleported"),
+    SPAWN_ITEMS_GIVEN("messages.yml", "server.spawn.items-given"),
 
     ;
 

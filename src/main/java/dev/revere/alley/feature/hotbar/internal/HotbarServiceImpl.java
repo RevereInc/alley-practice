@@ -180,6 +180,7 @@ public class HotbarServiceImpl implements HotbarService {
     @Override
     public void applyHotbarItems(Player player, HotbarType type) {
         player.getInventory().clear();
+        player.getInventory().setArmorContents(null);
 
         List<HotbarItem> itemsToApply = this.getItemsForType(type);
         if (itemsToApply == null) return;

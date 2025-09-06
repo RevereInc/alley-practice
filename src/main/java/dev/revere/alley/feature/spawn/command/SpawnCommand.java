@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -59,9 +60,10 @@ public class SpawnCommand extends BaseCommand {
      */
     private void sendToSpawn(Player player) {
         PlayerUtil.reset(player, false, true);
+
         this.plugin.getService(SpawnService.class).teleportToSpawn(player);
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);
 
-        player.sendMessage(CC.translate(this.plugin.getService(ConfigService.class).getMessagesConfig().getString("spawn.teleported")));
+        player.sendMessage(ServerLocale.SPAWN_TELEPORTED.getMessage());
     }
 }

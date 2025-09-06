@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -19,6 +19,6 @@ public class SpawnItemsCommand extends BaseCommand {
         Player player = args.getPlayer();
 
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);
-        player.sendMessage(CC.translate("&aYou were given the spawn items!"));
+        player.sendMessage(ServerLocale.SPAWN_ITEMS_GIVEN.getMessage());
     }
 }
