@@ -1,5 +1,8 @@
 package dev.revere.alley.feature.party.command.impl.leader.privacy;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -28,7 +31,7 @@ public class PartyOpenCommand extends BaseCommand {
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(CC.translate("&cYou must be in the lobby to open your party."));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

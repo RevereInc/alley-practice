@@ -36,8 +36,7 @@ public class FFASetSpawnCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            //TODO: Locale
-            player.sendMessage(CC.translate("&cYou can only set the spawn for Free-For-All arenas!"));
+            player.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
             return;
         }
 

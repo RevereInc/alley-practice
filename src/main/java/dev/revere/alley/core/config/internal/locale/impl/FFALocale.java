@@ -16,6 +16,9 @@ public enum FFALocale implements Locale {
     DISABLED("messages.yml", "ffa.error.disabled"),
     KIT_NOT_ELIGIBLE("messages.yml", "ffa.error.kit-not-eligible"),
     PLAYER_NOT_IN_MATCH("messages.yml", "ffa.error.player-not-in-match"),
+    CAN_ONLY_SETUP_IN_FFA_ARENA("messages.yml", "ffa.error.can-only-setup-in-ffa-arena"),
+    FFA_FULL("messages.yml", "ffa.error.ffa-full"),
+    PLAYER_NOT_IN_FFA("messages.yml", "ffa.error.player-not-in-ffa"),
 
     MATCH_CREATED("messages.yml", "ffa.data.created"),
     TOGGLED("messages.yml", "ffa.data.toggled"),

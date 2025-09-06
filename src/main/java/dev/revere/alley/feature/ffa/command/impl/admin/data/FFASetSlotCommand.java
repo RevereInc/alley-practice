@@ -49,6 +49,9 @@ public class FFASetSlotCommand extends BaseCommand {
 
         kit.setFfaSlot(slot);
         kitService.saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_FFASLOT_SET.getMessage()).replace("{kit-name}", kit.getName()).replace("{slot}", String.valueOf(slot)));
+        player.sendMessage(CC.translate(KitLocale.KIT_FFASLOT_SET.getMessage())
+                .replace("{kit-name}", kit.getName())
+                .replace("{slot}", String.valueOf(slot))
+        );
     }
 }

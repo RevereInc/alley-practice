@@ -37,7 +37,7 @@ public class FFAAddCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(CC.translate("&cNo FFA match found for kit: " + args[1]));
+            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", args[1]));
             return;
         }
 
@@ -48,7 +48,7 @@ public class FFAAddCommand extends BaseCommand {
         }
 
         if (match.getPlayers().size() >= match.getMaxPlayers()) {
-            player.sendMessage(CC.translate("&cThe FFA match is full!"));
+            player.sendMessage(FFALocale.FFA_FULL.getMessage());
             return;
         }
 

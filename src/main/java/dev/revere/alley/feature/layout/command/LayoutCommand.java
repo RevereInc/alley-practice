@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.layout.command;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -25,7 +26,7 @@ public class LayoutCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() != ProfileState.LOBBY && profile.getState() != ProfileState.WAITING) {
-            player.sendMessage(CC.translate("&cYou are not in the lobby!"));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

@@ -89,6 +89,9 @@ ffa:
     kit-not-eligible: "&cThis kit is not eligible for FFA matches! Please disable the &6BUILD/BOXING SETTINGS &cand try again."
     disabled: "&cFFA mode is disabled for the kit &6{kit-name}&c!"
     player-not-in-match: "&cThat player is not in an FFA Match!"
+    can-only-setup-in-ffa-arena: "&cYou can only setup FFA matches in FFA arenas!"
+    ffa-full: "&cThis FFA Match is full!"
+    player-not-in-ffa: "&cThat player is not in an FFA Match!"
   data:
     created: "&aSuccessfully created a new FFA Match for the kit &6{kit-name}&a!" # {arena-name}, {max-players}, {menu-slot}
     toggled: "&aFFA mode has been &6{status} &afor kit &6{kit-name}&a!"
@@ -245,6 +248,7 @@ error-messages:
     number: "&c'{input}' is not a valid number! Please enter a valid number."
     player: "&cThat player could not be found!"
   player:
+    must-be-in-lobby: "&cYou must be in the lobby to do that!"
     must-hold-item: "&cYou need to be holding an item!"
     is-busy: "&6{color}{player} &cis busy."
 

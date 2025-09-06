@@ -52,8 +52,7 @@ public class FFASetArenaCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            //TODO: Locale
-            sender.sendMessage(CC.translate("&cYou can only set the arena for Free-For-All arenas!"));
+            sender.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
             return;
         }
 

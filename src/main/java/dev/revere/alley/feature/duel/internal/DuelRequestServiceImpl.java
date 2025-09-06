@@ -3,6 +3,7 @@ package dev.revere.alley.feature.duel.internal;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -185,7 +186,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         }
 
         if (senderProfile.getState() != ProfileState.LOBBY) {
-            sender.sendMessage(CC.translate("&cYou must be in the lobby to duel."));
+            sender.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return true;
         }
 
@@ -298,7 +299,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
 
         Profile profile = this.profileService.getProfile(duelRequest.getSender().getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            duelRequest.getSender().sendMessage(CC.translate("&cYou can only accept duel requests in the lobby."));
+            duelRequest.getSender().sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return false;
         }
 

@@ -52,8 +52,7 @@ public class FFASetupCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            //TODO: Locale
-            player.sendMessage(CC.translate("&cYou can only set up FFA matches in FFA arenas!"));
+            player.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
             return;
         }
 
