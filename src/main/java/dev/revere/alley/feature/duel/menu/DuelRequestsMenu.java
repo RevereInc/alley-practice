@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.duel.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.feature.server.ServerService;
@@ -97,7 +98,7 @@ public class DuelRequestsMenu extends PaginatedMenu {
 
             ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
             if (!serverService.isQueueingAllowed()) {
-                player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
+                player.sendMessage(ServerLocale.QUEUE_TEMPORARILY_DISABLED.getMessage());
                 player.closeInventory();
                 return;
             }

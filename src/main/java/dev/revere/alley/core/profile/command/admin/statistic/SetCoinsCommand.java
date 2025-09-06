@@ -1,5 +1,6 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -27,7 +28,7 @@ public class SetCoinsCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -38,7 +39,7 @@ public class SetCoinsCommand extends BaseCommand {
             profile.getProfileData().setCoins(amount);
             player.sendMessage(CC.translate("&aSuccessfully set " + target.getName() + "'s coins to " + amount + "."));
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number."));
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
         }
     }
 }

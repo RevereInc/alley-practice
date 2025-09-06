@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.match.command.player;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -21,7 +22,7 @@ public class CurrentMatchesCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou can only execute this command at lobby."));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

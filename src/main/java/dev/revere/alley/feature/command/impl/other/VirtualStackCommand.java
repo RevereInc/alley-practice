@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.command.impl.other;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -42,8 +43,8 @@ public class VirtualStackCommand extends BaseCommand {
         int amount;
         try {
             amount = Integer.parseInt(args[0]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number provided."));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[0]));
             return;
         }
 

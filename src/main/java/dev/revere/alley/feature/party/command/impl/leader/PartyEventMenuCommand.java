@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.party.command.impl.leader;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -29,7 +30,7 @@ public class PartyEventMenuCommand extends BaseCommand {
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou are not in the lobby!"));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

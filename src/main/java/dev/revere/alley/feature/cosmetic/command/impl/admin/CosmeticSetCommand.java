@@ -1,5 +1,8 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
+import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.config.internal.locale.impl.CosmeticLocale;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,7 +36,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found"));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -44,7 +47,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         CosmeticType cosmeticType = CosmeticType.fromString(typeName);
         if (cosmeticType == null) {
-            player.sendMessage(CC.translate("&cInvalid cosmetic type."));
+            player.sendMessage(EnumFormatter.outputAvailableValues(CosmeticType.class));
             return;
         }
 
@@ -56,11 +59,15 @@ public class CosmeticSetCommand extends BaseCommand {
 
         BaseCosmetic cosmetic = repository.getCosmetic(cosmeticName);
         if (cosmetic == null) {
-            player.sendMessage(CC.translate("&cCosmetic with name '" + cosmeticName + "' not found in that type."));
+            player.sendMessage(CosmeticLocale.COSMETIC_NOT_FOUND.getMessage().replace("{input}", cosmeticName));
             return;
         }
 
         profile.getProfileData().getCosmeticData().setSelected(cosmetic);
-        player.sendMessage(CC.translate("&aSuccessfully set &6" + cosmetic.getName() + " " + StringUtil.formatEnumName(cosmeticType) + " &aas the active cosmetic for &6" + target.getName()));
+        player.sendMessage(CosmeticLocale.SET_COSMETIC.getMessage()
+                .replace("{type}", StringUtil.formatEnumName(cosmeticType))
+                .replace("{cosmetic}", cosmetic.getName())
+                .replace("{player}", target.getName())
+        );
     }
 }

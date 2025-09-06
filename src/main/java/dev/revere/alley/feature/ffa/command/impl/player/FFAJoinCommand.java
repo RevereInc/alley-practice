@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -44,7 +45,7 @@ public class FFAJoinCommand extends BaseCommand {
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou can only join FFA from the lobby."));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

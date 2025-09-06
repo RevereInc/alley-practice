@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.server.command.impl;
 
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -13,7 +14,12 @@ import org.bukkit.entity.Player;
  * @since 09/03/2025
  */
 public class ServiceAllowQueueCommand extends BaseCommand {
-    @CommandData(name = "service.allowqueue", isAdminOnly = true, usage = "/service allowqueue <true/false>", description = "Allow/disallow queueing.")
+    @CommandData(
+            name = "service.allowqueue",
+            isAdminOnly = true,
+            usage = "/service allowqueue <true/false>",
+            description = "Allow/disallow queueing."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,6 +34,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         try {
             allowQueue = Boolean.parseBoolean(args[0]);
         } catch (Exception e) {
+            //TODO: Locale
             player.sendMessage(CC.translate("&cInvalid parameter. Please use true or false."));
             return;
         }
@@ -35,6 +42,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         ServerService serverService = this.plugin.getService(ServerService.class);
         serverService.clearAllQueues(player);
         serverService.setQueueingAllowed(allowQueue);
-        player.sendMessage(CC.translate("&aYou've " + (allowQueue ? "&aenabled" : "&cdisabled") + " queueing."));
+
+        player.sendMessage(ServerLocale.QUEUE_TOGGLED.getMessage().replace("{status}", allowQueue ? CC.translate("&aallowed") : CC.translate("&cdisallowed")));
     }
 }

@@ -49,6 +49,16 @@ public class DefaultFFAMatch extends FFAMatch {
      */
     @Override
     public void join(Player player) {
+        if (this.getArena() == null) {
+            player.sendMessage(CC.translate("&cThis FFA match is not set up correctly. Please contact an administrator."));
+            return;
+        }
+
+        if (this.getArena().getPos1() == null) {
+            player.sendMessage(CC.translate("&cThis FFA match is not set up correctly. Please contact an administrator."));
+            return;
+        }
+
         GameFFAPlayer gameFFAPlayer = new GameFFAPlayer(player.getUniqueId(), player.getName());
         if (this.getPlayers().size() >= this.getMaxPlayers()) {
             player.sendMessage(CC.translate("&cThis FFA match is full. " + getMaxPlayers() + " players are already in the match."));
@@ -66,9 +76,18 @@ public class DefaultFFAMatch extends FFAMatch {
      * @param player The player
      */
     public void forceJoin(Player player) {
+        if (this.getArena() == null) {
+            player.sendMessage(CC.translate("&cThis FFA match is not set up correctly. Please contact an administrator."));
+            return;
+        }
+
+        if (this.getArena().getPos1() == null) {
+            player.sendMessage(CC.translate("&cThis FFA match is not set up correctly. Please contact an administrator."));
+            return;
+        }
+
         GameFFAPlayer gameFFAPlayer = new GameFFAPlayer(player.getUniqueId(), player.getName());
         this.getPlayers().add(gameFFAPlayer);
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate("&a" + player.getName() + " has been forced into the FFA match.")));
         this.setupPlayer(player);
     }
 

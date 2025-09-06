@@ -59,7 +59,7 @@ public class ArenaSetCuboidCommand extends BaseCommand {
         }
 
         if (arena.getType() == ArenaType.FFA) {
-            player.sendMessage(CC.translate("&cYou cannot set cuboids for Free-For-All arenas! You must use: &4/arena setsafezone pos1/pos2&c."));
+            player.sendMessage(ArenaLocale.CAN_NOT_SET_CUBOID_FFA.getMessage());
             return;
         }
 

@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -36,7 +37,7 @@ public class ArenaSetHeightLimitCommand extends BaseCommand {
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(CC.translate("&cYou can only set the height limit for standalone arenas!"));
+            player.sendMessage(ArenaLocale.MUST_BE_STANDALONE.getMessage().replace("{arena-name}", arena.getName()));
             return;
         }
 
@@ -47,8 +48,8 @@ public class ArenaSetHeightLimitCommand extends BaseCommand {
                 player.sendMessage(CC.translate("&cHeight limit must be between 0 and 256!"));
                 return;
             }
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid height limit! Please enter a valid number."));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 

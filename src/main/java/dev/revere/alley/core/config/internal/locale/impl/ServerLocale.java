@@ -5,6 +5,8 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
 import dev.revere.alley.common.text.CC;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project alley-practice
@@ -14,9 +16,19 @@ public enum ServerLocale implements Locale {
     CRAFTING_TOGGLED("messages.yml", "server.crafting-operations.toggled"),
     MUST_HOLD_CRAFTABLE_ITEM("messages.yml", "server.crafting-operations.must-hold-craftable-item"),
 
+    QUEUE_TEMPORARILY_DISABLED("messages.yml", "server.queue.temporarily-disabled"),
+    QUEUE_TOGGLED("messages.yml", "server.queue.toggled"),
+    QUEUE_RELOADED("messages.yml", "server.queue.reloaded"),
+    QUEUE_FORCED_PLAYER("messages.yml", "server.queue.forced-player"),
+
+    SPAWN_SET("messages.yml", "server.spawn.set"),
+    SPAWN_TELEPORTED("messages.yml", "server.spawn.teleported"),
+    SPAWN_ITEMS_GIVEN("messages.yml", "server.spawn.items-given"),
+
     ;
 
-    private final String configName, configString;
+    private final String configName;
+    private final String configString;
 
     /**
      * Constructor for the ServerLocale enum.
@@ -29,13 +41,13 @@ public enum ServerLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
+    }
+
+    @Override
+    public List<String> getList() {
+        return CC.translateList(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getStringList(this.configString));
     }
 }

@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.queue;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.MatchService;
@@ -124,7 +125,7 @@ public class Queue {
                 }
             } else {
                 if (profile.getState() != ProfileState.LOBBY) {
-                    player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
+                    player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
                     return;
                 }
 
@@ -134,7 +135,7 @@ public class Queue {
             }
         } else {
             if (profile.getState() != ProfileState.LOBBY) {
-                player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
+                player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
                 return;
             }
         }

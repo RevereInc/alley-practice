@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -42,12 +43,15 @@ public class FFASetSlotCommand extends BaseCommand {
         }
 
         if (!kit.isFfaEnabled()) {
-            player.sendMessage(CC.translate("&cFFA mode is not enabled for this kit!"));
+            player.sendMessage(FFALocale.DISABLED.getMessage().replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaSlot(slot);
         kitService.saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_FFASLOT_SET.getMessage()).replace("{kit-name}", kit.getName()).replace("{slot}", String.valueOf(slot)));
+        player.sendMessage(CC.translate(KitLocale.KIT_FFASLOT_SET.getMessage())
+                .replace("{kit-name}", kit.getName())
+                .replace("{slot}", String.valueOf(slot))
+        );
     }
 }

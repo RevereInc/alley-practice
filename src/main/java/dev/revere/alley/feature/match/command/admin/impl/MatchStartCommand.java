@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -74,7 +75,7 @@ public class MatchStartCommand extends BaseCommand {
         String arenaName = args[3];
 
         if (player1 == null || player2 == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

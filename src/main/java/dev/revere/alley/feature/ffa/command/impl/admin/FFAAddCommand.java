@@ -1,5 +1,8 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -34,23 +37,27 @@ public class FFAAddCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(CC.translate("&cNo FFA match found for kit: " + args[1]));
+            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", args[1]));
             return;
         }
 
         Player targetPlayer = this.plugin.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(CC.translate("&cPlayer not found: " + targetName));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
         if (match.getPlayers().size() >= match.getMaxPlayers()) {
-            player.sendMessage(CC.translate("&cThe FFA match is full!"));
+            player.sendMessage(FFALocale.FFA_FULL.getMessage());
             return;
         }
 
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
-        player.sendMessage(CC.translate("&aSuccessfully added " + targetName + " to the FFA match for kit: " + args[1]));
+        player.sendMessage(FFALocale.ADDED_PLAYER.getMessage()
+                .replace("{player}", targetPlayer.getName())
+                .replace("{ffa-name}", match.getName())
+                .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
+        );
     }
 }

@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -42,7 +43,7 @@ public class DonutCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage(CC.translate("&cPlayer not found or not online."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.party.command.impl.donator;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -35,7 +36,7 @@ public class PartyAnnounceCommand extends BaseCommand {
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(CC.translate("&cYou must be in the lobby to announce to your party."));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
 

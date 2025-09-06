@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.party.internal;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.cooldown.Cooldown;
@@ -304,7 +305,7 @@ public class PartyServiceImpl implements PartyService {
     public void joinParty(Player player, Player leader) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou must be in lobby to join a party."));
+            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
             return;
         }
         Party party = this.getPartyByLeader(leader);

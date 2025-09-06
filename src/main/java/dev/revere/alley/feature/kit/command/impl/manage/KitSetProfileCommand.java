@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.impl.manage;
 
+import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -28,7 +29,7 @@ public class KitSetProfileCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate("&cA kit with that name does not exist!"));
+            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", args[0]));
             return;
         }
 

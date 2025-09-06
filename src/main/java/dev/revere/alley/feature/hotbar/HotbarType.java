@@ -11,20 +11,4 @@ public enum HotbarType {
     QUEUE,
     SPECTATOR,
     TOURNAMENT;
-
-    /**
-     * Returns a string representation of all available hotbar types.
-     *
-     * @return A comma-separated string of all hotbar types in lowercase.
-     */
-    public static String availableTypes() {
-        StringBuilder types = new StringBuilder();
-        for (HotbarType type : values()) {
-            if (types.length() > 0) {
-                types.append(", ");
-            }
-            types.append(type.name().toLowerCase());
-        }
-        return types.toString();
-    }
 }

@@ -1,5 +1,6 @@
 package dev.revere.alley.core.profile.command.admin.ranked.impl;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -31,7 +32,7 @@ public class RankedUnbanCommand extends BaseCommand {
         String targetName = args[0];
         OfflinePlayer target = PlayerUtil.getOfflinePlayerByName(targetName);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

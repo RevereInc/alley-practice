@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
+import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -29,13 +31,13 @@ public class FFAToggleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate("&cA kit with that name does not exist!"));
+            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", args[0]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(CC.translate("&cThis kit is not eligible for FFA due to the kit setting it has enabled!"));
+            player.sendMessage(FFALocale.KIT_NOT_ELIGIBLE.getMessage());
             return;
         }
 
@@ -44,7 +46,10 @@ public class FFAToggleCommand extends BaseCommand {
 
         kitService.saveKit(kit);
         ffaService.reloadFFAKits();
-        player.sendMessage(CC.translate("&aFFA mode has been " + (ffaEnabled ? "&aenabled" : "&cdisabled") + " for kit &6" + kit.getName() + "&a!"));
+        player.sendMessage(FFALocale.TOGGLED.getMessage()
+                .replace("{kit-name}", kit.getName())
+                .replace("{status}", ffaEnabled ? "enabled" : "disabled")
+        );
         player.sendMessage(CC.translate("&7Additionally, all FFA matches have been reloaded."));
     }
 }

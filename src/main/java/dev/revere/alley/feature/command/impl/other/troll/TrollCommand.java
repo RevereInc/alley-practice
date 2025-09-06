@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -30,7 +31,7 @@ public class TrollCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(CC.translate("&cPlayer not found."));
+            sender.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 

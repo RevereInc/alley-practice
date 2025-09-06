@@ -81,7 +81,7 @@ public class LobbyScoreboardImpl implements Scoreboard {
             if (profile.getParty() != null) {
                 processedLine = CC.translate(processedLine)
                         .replace("{party-size}", String.valueOf(profile.getParty().getMembers().size()))
-                        .replace("{party-privacy}", profile.getParty().isPrivate() ? "&cPrivate" : "&aPublic")
+                        .replace("{party-privacy}", profile.getParty().isPrivate() ? "Private" : "Public")
                         .replace("{party-leader}", profileService.getProfile(profile.getParty().getLeader().getUniqueId()).getFancyName());
             }
 

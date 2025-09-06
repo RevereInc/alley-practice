@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
+import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -44,7 +45,7 @@ public class ArenaCreateCommand extends BaseCommand {
                 .orElse(null);
 
         if (arenaType == null) {
-            player.sendMessage(CC.translate("&cInvalid arena type! Valid types: SHARED, STANDALONE, FFA"));
+            player.sendMessage(EnumFormatter.outputAvailableValues(ArenaType.class));
             return;
         }
 

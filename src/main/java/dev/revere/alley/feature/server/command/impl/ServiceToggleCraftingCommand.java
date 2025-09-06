@@ -41,6 +41,9 @@ public class ServiceToggleCraftingCommand extends BaseCommand {
         }
 
         serverService.saveBlockedItems(itemType);
-        player.sendMessage(ServerLocale.CRAFTING_TOGGLED.getMessage().replace("{item}", itemType.name()).replace("{status}", serverService.getBlockedCraftingItems().contains(itemType) ? CC.translate("&cDisabled") : CC.translate("&aEnabled")));
+        player.sendMessage(ServerLocale.CRAFTING_TOGGLED.getMessage()
+                .replace("{item}", itemType.name())
+                .replace("{status}", serverService.getBlockedCraftingItems().contains(itemType) ? CC.translate("&cDisabled") : CC.translate("&aEnabled"))
+        );
     }
 }

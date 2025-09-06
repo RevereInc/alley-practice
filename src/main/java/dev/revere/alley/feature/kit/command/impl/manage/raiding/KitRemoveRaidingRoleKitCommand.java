@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.impl.manage.raiding;
 
+import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -46,7 +47,7 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         try {
             role = BaseRaiderRole.valueOf(roleName);
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(CC.translate("&cInvalid raiding role: " + roleName + ". Valid roles are: RAIDER, TRAPPER"));
+            sender.sendMessage(EnumFormatter.outputAvailableValues(BaseRaiderRole.class));
             return;
         }
 

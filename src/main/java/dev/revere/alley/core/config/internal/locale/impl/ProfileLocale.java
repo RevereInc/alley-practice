@@ -5,6 +5,8 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.config.internal.locale.Locale;
 import dev.revere.alley.common.text.CC;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project Alley
@@ -21,11 +23,25 @@ public enum ProfileLocale implements Locale {
     TOGGLED_LOBBY_MUSIC("messages.yml", "player-settings.lobby-music"),
     TOGGLED_SERVER_TITLES("messages.yml", "player-settings.server-titles"),
 
-    IS_BUSY("messages.yml", "error-messages.player.is-busy"),
+    ACCEPTED_DUEL_REQUEST("messages.yml", "duel-requests.accepted"),
+
+    CANT_DUEL_SELF("messages.yml", "duel-requests.error.cant-duel-self"),
+    PLAYER_DUEL_REQUESTS_DISABLED("messages.yml", "duel-requests.error.player-duel-requests-disabled"),
+
+    NO_PENDING_DUEL_REQUEST("messages.yml", "duel-requests.info.no-pending-request"),
+    PENDING_DUEL_REQUEST("messages.yml", "duel-requests.info.pending-request"),
+
+    JOIN_MESSAGE_CHAT_ENABLED("messages.yml", "join-message.chat.enabled"),
+    JOIN_MESSAGE_CHAT_MESSAGE_LIST("messages.yml", "join-message.chat.message"),
+
+    JOIN_MESSAGE_TITLE_ENABLED("messages.yml", "join-message.title.enabled"),
+    JOIN_MESSAGE_TITLE_HEADER("messages.yml", "join-message.title.header"),
+    JOIN_MESSAGE_TITLE_SUBHEADER("messages.yml", "join-message.title.subheader"),
 
     ;
 
-    private final String configName, configString;
+    private final String configName;
+    private final String configString;
 
     /**
      * Constructor for the ProfileLocale enum.
@@ -38,13 +54,18 @@ public enum ProfileLocale implements Locale {
         this.configString = configString;
     }
 
-    /**
-     * Gets the String from the config.
-     *
-     * @return The message from the config.
-     */
     @Override
     public String getMessage() {
         return CC.translate(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getString(this.configString));
+    }
+
+    @Override
+    public boolean getBoolean() {
+        return AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getBoolean(this.configString);
+    }
+
+    @Override
+    public List<String> getList() {
+        return CC.translateList(AlleyPlugin.getInstance().getService(ConfigService.class).getConfig(this.configName).getStringList(this.configString));
     }
 }

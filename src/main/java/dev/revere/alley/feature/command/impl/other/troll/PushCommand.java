@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -27,7 +28,7 @@ public class PushCommand extends BaseCommand {
         Player target = player.getServer().getPlayer(targetName);
 
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
             return;
         }
 
@@ -35,8 +36,8 @@ public class PushCommand extends BaseCommand {
 
         try {
             value = Double.parseDouble(args[1]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number."));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 

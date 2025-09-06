@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
+import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -9,8 +10,6 @@ import dev.revere.alley.feature.kit.KitCategory;
 import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
-
-import java.util.Arrays;
 
 /**
  * @author Emmy
@@ -41,7 +40,7 @@ public class KitSetCategoryCommand extends BaseCommand {
         try {
             category = KitCategory.valueOf(args[1].toUpperCase());
         } catch (IllegalArgumentException e) {
-            sender.sendMessage(CC.translate("&cInvalid category. Available categories: " + Arrays.toString(KitCategory.values())));
+            sender.sendMessage(EnumFormatter.outputAvailableValues(KitCategory.class));
             return;
         }
 

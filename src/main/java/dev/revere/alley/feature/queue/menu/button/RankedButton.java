@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.queue.menu.button;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
@@ -81,7 +82,7 @@ public class RankedButton extends Button {
 
         ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
+            player.sendMessage(ServerLocale.QUEUE_TEMPORARILY_DISABLED.getMessage());
             player.closeInventory();
             return;
         }

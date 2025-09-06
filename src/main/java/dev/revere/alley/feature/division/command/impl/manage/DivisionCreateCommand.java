@@ -1,5 +1,7 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
+import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
+import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -29,19 +31,22 @@ public class DivisionCreateCommand extends BaseCommand {
         int requiredWins;
         try {
             requiredWins = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number."));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
             return;
         }
 
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(name);
         if (division != null) {
-            player.sendMessage(CC.translate("&cA division with that name already exists."));
+            player.sendMessage(DivisionLocale.ALREADY_EXISTS.getMessage().replace("{division-name}", name));
             return;
         }
 
         divisionService.createDivision(name, requiredWins);
-        player.sendMessage(CC.translate("&aSuccessfully created a new division named &6" + name + "&a with &6" + requiredWins + " &awins."));
+        player.sendMessage(DivisionLocale.CREATED.getMessage()
+                .replace("{division-name}", name)
+                .replace("{required-wins}", String.valueOf(requiredWins))
+        );
     }
 }

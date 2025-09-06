@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,8 +34,8 @@ public class HotbarCreateCommand extends BaseCommand {
         HotbarType type;
         try {
             type = HotbarType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cInvalid hotbar type! Valid types are: " + HotbarType.availableTypes()));
+        } catch (IllegalArgumentException exception) {
+            player.sendMessage(EnumFormatter.outputAvailableValues(HotbarType.class));
             return;
         }
 

@@ -24,7 +24,7 @@ public class AlleyCommand extends BaseCommand {
         List<String> completion = new ArrayList<>();
         if (command.getArgs().length == 1 && command.getPlayer().hasPermission(this.getAdminPermission())) {
             completion.addAll(Arrays.asList(
-                    "reload", "debug", "server"
+                    "reload", "debug", "core"
             ));
         }
 
@@ -39,20 +39,20 @@ public class AlleyCommand extends BaseCommand {
         Arrays.asList(
                 "",
                 "     &6&lAlley Practice",
-                "      &f│ Authors: &6" + this.plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
-                "      &f│ Version: &6" + this.plugin.getDescription().getVersion(),
+                "      &6&l│ &fAuthors: &6" + this.plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
+                "      &6&l│ &fVersion: &6" + this.plugin.getDescription().getVersion(),
                 "",
                 "     &6&lDescription:",
-                "      &f│ " + this.plugin.getDescription().getDescription(),
+                "      &6&l│ &f" + this.plugin.getDescription().getDescription(),
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
 
         if (sender.hasPermission(this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix())) {
             Arrays.asList(
                     "     &6&lAdmin Help",
-                    "      &f│ /alley reload &7- &6Reloads the bootstrap.",
-                    "      &f│ /alley debug &7- &6Database Debugging.",
-                    "      &f│ /alley server &7- &6Core Hook Info.",
+                    "      &6&l│ &f/alley reload &7- &6Reloads the bootstrap.",
+                    "      &6&l│ &f/alley debug &7- &6Database Debugging.",
+                    "      &6&l│ &f/alley core &7- &6Core Hook Info.",
                     ""
             ).forEach(line -> sender.sendMessage(CC.translate(line)));
         }
