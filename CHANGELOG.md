@@ -1,16 +1,17 @@
-## 🎉 Alley v2.2.6
+## 🎉 Alley v2.2.7
 
 ### 🔧 **PATCH RELEASE** - Bug Fixes & Improvements
 
-**Previous Version:** `2.2.5`
-**New Version:** `2.2.6`
+**Previous Version:** `2.2.6`
+**New Version:** `2.2.7`
 
 ### 📝 Changes:
 
-
+- feat: expand on arena condition check (8fc22a12)
+- chore: fix "plugin loaded in" millis calculation (ade1b108)
 
 ---
-**Download:** [Alley-2.2.6.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.6/Alley-2.2.6.jar)
+**Download:** [Alley-2.2.7.jar](https://github.com/RevereInc/alley-practice/releases/download/v2.2.7/Alley-2.2.7.jar)
 
 **Installation:** Place the JAR file in your `plugins/` folder and restart your server.
 
