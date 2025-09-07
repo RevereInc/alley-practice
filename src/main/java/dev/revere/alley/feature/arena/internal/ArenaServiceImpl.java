@@ -1,24 +1,28 @@
 package dev.revere.alley.feature.arena.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.FileUtil;
+import dev.revere.alley.common.VoidChunkGenerator;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.serializer.Serializer;
+import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
+import dev.revere.alley.feature.arena.ArenaValidator;
 import dev.revere.alley.feature.arena.internal.types.FreeForAllArena;
 import dev.revere.alley.feature.arena.internal.types.SharedArena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
-import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.serializer.Serializer;
-import dev.revere.alley.common.FileUtil;
-import dev.revere.alley.common.VoidChunkGenerator;
+import dev.revere.alley.feature.kit.KitService;
 import lombok.Getter;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -54,6 +58,8 @@ public class ArenaServiceImpl implements ArenaService {
     private World temporaryWorld;
     private Location nextCopyLocation;
     private final int arenaSpacing = 1500;
+
+    private final ArenaValidator arenaValidator = new ArenaValidator();
 
     public ArenaServiceImpl(AlleyPlugin plugin, ConfigService configService, KitService kitService, ArenaSchematicService arenaSchematicService) {
         this.plugin = plugin;

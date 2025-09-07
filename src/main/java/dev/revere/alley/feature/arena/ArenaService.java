@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.arena;
 
+import dev.revere.alley.feature.arena.internal.ArenaServiceImpl;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.lifecycle.Service;
@@ -85,4 +86,11 @@ public interface ArenaService extends Service {
      * @param arena The new arena to add.
      */
     void registerNewArena(Arena arena);
+
+    /**
+     * Provides access to the internal arena validator for external validation needs.
+     *
+     * @return The ArenaValidator instance.
+     */
+    ArenaValidator getArenaValidator();
 }
