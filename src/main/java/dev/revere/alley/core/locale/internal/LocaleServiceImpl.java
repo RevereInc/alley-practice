@@ -86,7 +86,7 @@ public class LocaleServiceImpl implements LocaleService {
             return CC.translate(config.getString(entry.getConfigPath()));
         } else {
             Logger.error("'" + entry.getConfigPath() + "' doesn't exist in " + entry.getConfigName() + ". Using default value. Restarting your server will fix this.");
-            return (String) entry.getDefaultValue();
+            return CC.translate(entry.getDefaultValue().toString());
         }
     }
 
@@ -98,7 +98,7 @@ public class LocaleServiceImpl implements LocaleService {
             return CC.translateList(config.getStringList(entry.getConfigPath()));
         } else {
             Logger.error("'" + entry.getConfigPath() + "' doesn't exist in " + entry.getConfigName() + ". Using default value. Restarting your server will fix this.");
-            return (List<String>) entry.getDefaultValue();
+            return CC.translateList((List<String>) entry.getDefaultValue());
         }
     }
 
