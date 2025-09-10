@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -13,7 +13,13 @@ import org.bukkit.entity.Player;
  * @date 25/06/2024 - 19:42
  */
 public class StrikeCommand extends BaseCommand {
-    @CommandData(name = "strike", permission = "alley.command.troll.strike", usage = "strike <player> | all", description = "Strike a player with lightning")
+    @CommandData(
+            name = "strike",
+            isAdminOnly = true,
+            inGameOnly = true,
+            usage = "strike <player> | all",
+            description = "Strike a player with lightning"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +34,7 @@ public class StrikeCommand extends BaseCommand {
         Player target = player.getServer().getPlayer(targetName);
 
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.party.internal;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.cooldown.Cooldown;
@@ -16,7 +18,7 @@ import dev.revere.alley.feature.queue.Queue;
 import dev.revere.alley.feature.queue.QueueProfile;
 import dev.revere.alley.feature.visibility.VisibilityService;
 import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.match.MatchService;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
@@ -157,7 +159,7 @@ public class PartyServiceImpl implements PartyService {
     public void disbandParty(Player leader) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.NOT_IN_PARTY));
             return;
         }
 
@@ -305,7 +307,7 @@ public class PartyServiceImpl implements PartyService {
     public void joinParty(Player player, Player leader) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
         Party party = this.getPartyByLeader(leader);
@@ -346,7 +348,7 @@ public class PartyServiceImpl implements PartyService {
         party.getMembers().add(player.getUniqueId());
         party.notifyParty("&a" + player.getName() + " has joined the party.");
 
-        player.sendMessage(CC.translate(PartyLocale.JOINED_PARTY.getMessage().replace("{player}", leader.getName())));
+        player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.JOINED_PARTY).replace("{player}", leader.getName())));
 
         this.setupProfile(player, true);
     }

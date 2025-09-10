@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -30,7 +30,13 @@ public class DonutCommand extends BaseCommand {
     private static final int TUBE_SEGMENTS = 250;
     private static int FAKE_ENTITY_ID_COUNTER = Integer.MAX_VALUE - 1_100_100;
 
-    @CommandData(name = "donut", permission = "alley.command.troll.donut")
+    @CommandData(
+            name = "donut",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "donut <player>",
+            description = "Spawns a donut of boats around a player"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -43,7 +49,7 @@ public class DonutCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

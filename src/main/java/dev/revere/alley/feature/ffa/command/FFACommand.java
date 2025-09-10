@@ -19,8 +19,6 @@ import java.util.List;
  * @since 25/07/2025
  */
 public class FFACommand extends BaseCommand {
-
-    @SuppressWarnings("unused")
     @CompleterData(name = "ffa")
     public List<String> ffaCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -43,7 +41,9 @@ public class FFACommand extends BaseCommand {
             name = "ffa",
             aliases = "ffa.help",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "ffa help <page>",
+            description = "View FFA commands."
     )
     @Override
     public void onCommand(CommandArgs command) {

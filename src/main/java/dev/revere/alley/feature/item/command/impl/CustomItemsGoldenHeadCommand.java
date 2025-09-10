@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.item.command.impl;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +18,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
     @CommandData(
             name = "customitems.goldenhead",
             aliases = {"alleyitems.goldenhead", "specialitems.goldenhead"},
-            usage = "/customitems goldenhead <amount>",
+            usage = "customitems goldenhead <amount>",
             description = "Gives the player specific amount of custom golden heads",
             isAdminOnly = true
     )
@@ -35,7 +36,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid amount specified. Please enter a valid number."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
             return;
         }
 

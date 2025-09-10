@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @date 16/11/2024 - 23:25
  */
 public class PartyJoinCommand extends BaseCommand {
-    @CommandData(name = "party.join", aliases = {"p.join"})
+    @CommandData(
+            name = "party.join",
+            aliases = {"p.join"},
+            usage = "party join <player>",
+            description = "Join a player's party."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -22,7 +22,12 @@ import org.bukkit.entity.Player;
  * @since 11/04/2025
  */
 public class FFASetupCommand extends BaseCommand {
-    @CommandData(name = "ffa.setup", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.setup",
+            isAdminOnly = true,
+            usage = "ffa setup <kitName> <arenaName> <maxPlayers> <menu-slot>",
+            description = "Setup a new FFA match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -36,23 +41,23 @@ public class FFASetupCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage());
+            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
         if (kit.isFfaEnabled()) {
-            player.sendMessage(FFALocale.ALREADY_EXISTS.getMessage().replace("{ffa-name}", kit.getName()));
+            player.sendMessage(this.getMessage(FFALocaleImpl.ALREADY_EXISTS).replace("{ffa-name}", kit.getName()));
             return;
         }
 
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(args[1]);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", args[1]));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[1]));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            player.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
+            player.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
@@ -60,7 +65,7 @@ public class FFASetupCommand extends BaseCommand {
         try {
             maxPlayers = Integer.parseInt(args[2]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
@@ -68,13 +73,13 @@ public class FFASetupCommand extends BaseCommand {
         try {
             menuSlot = Integer.parseInt(args[3]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(FFALocale.KIT_NOT_ELIGIBLE.getMessage());
+            player.sendMessage(this.getMessage(FFALocaleImpl.KIT_NOT_ELIGIBLE));
             return;
         }
 
@@ -85,7 +90,7 @@ public class FFASetupCommand extends BaseCommand {
         ffaService.createFFAMatch(arena, kit, maxPlayers);
         kitService.saveKit(kit);
 
-        player.sendMessage(FFALocale.MATCH_CREATED.getMessage()
+        player.sendMessage(this.getMessage(FFALocaleImpl.MATCH_CREATED)
                 .replace("kit-name", kit.getName())
                 .replace("arena-name", arena.getName())
                 .replace("max-players", String.valueOf(maxPlayers))

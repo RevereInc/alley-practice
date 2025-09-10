@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -14,8 +14,14 @@ import org.bukkit.entity.Player;
  * @date 20/06/2024 - 01:15
  */
 public class InvSeeCommand extends BaseCommand {
+    @CommandData(
+            name = "invsee",
+            aliases = {"seeinventory", "seeinv"},
+            isAdminOnly = true,
+            usage = "invsee <player>",
+            description = "View another player's inventory."
+    )
     @Override
-    @CommandData(name = "invsee", aliases = {"seeinventory", "seeinv"}, permission = "alley.command.invsee")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -27,7 +33,7 @@ public class InvSeeCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

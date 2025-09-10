@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.types.HotbarLocaleImpl;
+import dev.revere.alley.feature.hotbar.HotbarItem;
+import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarItem;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,7 +17,9 @@ import org.bukkit.entity.Player;
 public class HotbarDeleteCommand extends BaseCommand {
     @CommandData(
             name = "hotbar.delete",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "hotbar delete <name>",
+            description = "Delete a saved hotbar item."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -34,11 +37,11 @@ public class HotbarDeleteCommand extends BaseCommand {
 
         HotbarItem hotbarItem = hotbarService.getHotbarItem(name);
         if (hotbarItem == null) {
-            player.sendMessage(CC.translate("&cNo hotbar item found with the name &e" + name + "&c."));
+            player.sendMessage(this.getMessage(HotbarLocaleImpl.NOT_FOUND).replace("{hotbar-name}", name));
             return;
         }
 
         hotbarService.deleteHotbarItem(hotbarItem);
-        player.sendMessage(CC.translate("&aHotbar item &e" + name + " &adeleted successfully."));
+        player.sendMessage(this.getMessage(HotbarLocaleImpl.DELETED_ITEM).replace("{hotbar-name}", name));
     }
 }

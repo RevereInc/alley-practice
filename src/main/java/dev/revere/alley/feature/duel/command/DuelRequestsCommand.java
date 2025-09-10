@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.duel.command;
 
-import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @date 22/10/2024 - 18:19
  */
 public class DuelRequestsCommand extends BaseCommand {
-    @CommandData(name = "duelrequests", aliases = {"viewduelrequests", "viewrequests"})
+    @CommandData(
+            name = "duelrequests",
+            aliases = {"viewduelrequests", "viewrequests"},
+            usage = "duelrequests",
+            description = "View your duel requests"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +33,7 @@ public class DuelRequestsCommand extends BaseCommand {
 
         ServerService serverService = this.plugin.getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(ServerLocale.QUEUE_TEMPORARILY_DISABLED.getMessage());
+            player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

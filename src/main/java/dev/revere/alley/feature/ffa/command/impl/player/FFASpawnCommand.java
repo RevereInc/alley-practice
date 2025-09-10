@@ -15,7 +15,11 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFASpawnCommand extends BaseCommand {
-    @CommandData(name = "ffa.spawn")
+    @CommandData(
+            name = "ffa.spawn",
+            usage = "ffa spawn",
+            description = "Teleport to the ffa safe zone."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

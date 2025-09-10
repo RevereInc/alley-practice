@@ -16,7 +16,7 @@ public class CustomItemsCommand extends BaseCommand {
     @CommandData(
             name = "customitems",
             aliases = {"alleyitems", "specialitems"},
-            usage = "/customitems",
+            usage = "customitems",
             description = "List of commands for special items",
             isAdminOnly = true
     )

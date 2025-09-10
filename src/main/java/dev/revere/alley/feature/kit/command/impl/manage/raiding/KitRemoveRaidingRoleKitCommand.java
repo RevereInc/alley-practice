@@ -18,7 +18,13 @@ import org.bukkit.command.CommandSender;
  * @since 16/06/2025
  */
 public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
-    @CommandData(name = "kit.removeraidingrolekit", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "kit.removeraidingrolekit",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "kit removeraidingrolekit <kitName> <role> <roleKitName>",
+            description = "Remove a raiding role kit mapping from a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -71,7 +77,6 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         }
 
         raidingService.removeRaidingKitMapping(kit, role);
-
         sender.sendMessage(CC.translate("&aSuccessfully removed the &6" + role + " &araiding role kit from &6" + roleKit.getName() + "&a for the &6" + kit.getName() + " &akit."));
     }
 }

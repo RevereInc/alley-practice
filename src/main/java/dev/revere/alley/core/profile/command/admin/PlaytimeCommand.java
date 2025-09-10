@@ -23,14 +23,20 @@ import java.util.List;
  * @date 24/05/2024 - 18:45
  */
 public class PlaytimeCommand extends BaseCommand {
+    @CommandData(
+            name = "playtime",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "playtime <player>",
+            description = "Check a player's playtime."
+    )
     @Override
-    @CommandData(name = "playtime", isAdminOnly = true, inGameOnly = false)
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            sender.sendMessage(CC.translate("&cUsage: /playtime (player)"));
+            sender.sendMessage(CC.translate("&cUsage: /playtime <player>"));
             return;
         }
 

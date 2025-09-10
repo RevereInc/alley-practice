@@ -14,7 +14,12 @@ import java.util.Arrays;
  * @since 13/03/2025
  */
 public class RankedCommand extends BaseCommand {
-    @CommandData(name = "ranked", isAdminOnly = true, description = "Manage ranked allowance.")
+    @CommandData(
+            name = "ranked",
+            isAdminOnly = true,
+            usage = "ranked",
+            description = "Manage ranked allowance."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

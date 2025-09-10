@@ -6,7 +6,8 @@ import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.types.ProfileLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -175,11 +176,11 @@ public class ProfileListener implements Listener {
     private void sendJoinMessageTitle(Player player) {
         TitleReflectionServiceImpl titleService = AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
 
-        boolean enabled = ProfileLocale.JOIN_MESSAGE_TITLE_ENABLED.getBoolean();
+        boolean enabled = AlleyPlugin.getInstance().getService(LocaleService.class).getBoolean(ProfileLocaleImpl.JOIN_MESSAGE_TITLE_ENABLED);
         if (!enabled) return;
 
-        String header = ProfileLocale.JOIN_MESSAGE_TITLE_HEADER.getMessage();
-        String subHeader = ProfileLocale.JOIN_MESSAGE_TITLE_SUBHEADER.getMessage();
+        String header = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ProfileLocaleImpl.JOIN_MESSAGE_TITLE_HEADER);
+        String subHeader = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ProfileLocaleImpl.JOIN_MESSAGE_TITLE_SUBHEADER);
 
         titleService.sendTitle(player, header, subHeader);
     }
@@ -191,10 +192,10 @@ public class ProfileListener implements Listener {
      * @param player The player who joined.
      */
     private void sendJoinMessage(Player player) {
-        boolean enabled = ProfileLocale.JOIN_MESSAGE_CHAT_ENABLED.getBoolean();
+        boolean enabled = AlleyPlugin.getInstance().getService(LocaleService.class).getBoolean(ProfileLocaleImpl.JOIN_MESSAGE_CHAT_ENABLED);
         if (!enabled) return;
 
-        List<String> message = ProfileLocale.JOIN_MESSAGE_CHAT_MESSAGE_LIST.getList();
+        List<String> message = AlleyPlugin.getInstance().getService(LocaleService.class).getMessageList(ProfileLocaleImpl.JOIN_MESSAGE_CHAT_MESSAGE_LIST);
         message.replaceAll(line -> line
                 .replace("{player}", player.getName())
                 .replace("{version}", AlleyPlugin.getInstance().getDescription().getVersion())

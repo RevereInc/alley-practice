@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  */
 public class FFASafeZoneCommand extends BaseCommand {
     @Override
-    @CommandData(name = "ffa.safezone", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.safezone",
+            isAdminOnly = true,
+            usage = "ffa safezone <arenaName> <pos1/pos2>",
+            description = "Set the safezone positions for an FFA arena."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -33,12 +38,12 @@ public class FFASafeZoneCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         if (arenaService.getArenaByName(arenaName) == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arenaService.getArenaByName(arenaName).getType() != ArenaType.FFA) {
-            player.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
+            player.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
@@ -53,7 +58,7 @@ public class FFASafeZoneCommand extends BaseCommand {
             arenaService.getArenaByName(arenaName).setMinimum(player.getLocation());
         }
 
-        player.sendMessage(FFALocale.SAFEZONE_SET.getMessage()
+        player.sendMessage(this.getMessage(FFALocaleImpl.SAFEZONE_SET)
                         .replace("{arena-name}", arenaName)
                         .replace("{pos}", spawnType.equalsIgnoreCase("pos1") ? "position 1" : "position 2")
         );

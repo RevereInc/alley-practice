@@ -1,9 +1,11 @@
 package dev.revere.alley.feature.duel.internal;
 
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -186,7 +188,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         }
 
         if (senderProfile.getState() != ProfileState.LOBBY) {
-            sender.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            sender.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return true;
         }
 
@@ -299,7 +301,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
 
         Profile profile = this.profileService.getProfile(duelRequest.getSender().getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            duelRequest.getSender().sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            duelRequest.getSender().sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return false;
         }
 

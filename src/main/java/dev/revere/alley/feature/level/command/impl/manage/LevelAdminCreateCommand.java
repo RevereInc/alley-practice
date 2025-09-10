@@ -14,7 +14,13 @@ import org.bukkit.command.CommandSender;
  * @since 26/05/2025
  */
 public class LevelAdminCreateCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.create", isAdminOnly = true, description = "Create a new level", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.create",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "leveladmin create <levelName> <minElo> <maxElo>",
+            description = "Create a new level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

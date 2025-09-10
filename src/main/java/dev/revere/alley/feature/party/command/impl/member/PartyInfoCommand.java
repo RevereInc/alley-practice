@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -23,7 +23,12 @@ import java.util.stream.Collectors;
  */
 public class PartyInfoCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.info", aliases = {"p.info"})
+    @CommandData(
+            name = "party.info",
+            aliases = {"p.info"},
+            usage = "party info",
+            description = "View information about your party."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
@@ -31,7 +36,7 @@ public class PartyInfoCommand extends BaseCommand {
         Party party = partyService.getPartyByMember(player.getUniqueId());
 
         if (party == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
             return;
         }
 

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.gamemode;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -14,7 +14,13 @@ import org.bukkit.entity.Player;
  * @since 13/06/2025
  */
 public class SpectatorCommand extends BaseCommand {
-    @CommandData(name = "gmsp", aliases = {"gm.sp", "gamemode.sp", "gm.3", "gm3", "gamemode.3", "gamemode.spectator"}, isAdminOnly = true)
+    @CommandData(
+            name = "gmsp",
+            aliases = {"gm.sp", "gamemode.sp", "gm.3", "gm3", "gamemode.3", "gamemode.spectator"},
+            isAdminOnly = true,
+            usage = "gamemode spectator [player]",
+            description = "Sets your or another player's gamemode to Spectator."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +34,7 @@ public class SpectatorCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

@@ -7,7 +7,7 @@ import dev.revere.alley.library.command.annotation.CompleterData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -20,7 +20,6 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaToggleCommand extends BaseCommand {
-
     @CompleterData(name = "arena.toggle")
     public List<String> arenaToggleCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -32,7 +31,12 @@ public class ArenaToggleCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "arena.toggle", isAdminOnly = true)
+    @CommandData(
+            name = "arena.toggle",
+            isAdminOnly = true,
+            usage = "arena toggle <arenaName>",
+            description = "Toggles the enabled status of an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -47,7 +51,7 @@ public class ArenaToggleCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -69,6 +73,9 @@ public class ArenaToggleCommand extends BaseCommand {
         arena.setEnabled(!arena.isEnabled());
         arenaService.saveArena(arena);
 
-        player.sendMessage(ArenaLocale.TOGGLED.getMessage().replace("{arena-name}", arena.getName()).replace("{status}", arena.isEnabled() ? "enabled" : "disabled"));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.TOGGLED)
+                .replace("{arena-name}", arena.getName())
+                .replace("{status}", arena.isEnabled() ? "enabled" : "disabled")
+        );
     }
 }

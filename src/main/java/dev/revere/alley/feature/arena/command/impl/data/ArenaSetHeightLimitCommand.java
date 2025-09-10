@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -8,7 +8,7 @@ import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,13 @@ import org.bukkit.entity.Player;
  * @since 06/03/2025
  */
 public class ArenaSetHeightLimitCommand extends BaseCommand {
-    @CommandData(name = "arena.setheightlimit", aliases = {"arena.limit", "arena.height"}, isAdminOnly = true)
+    @CommandData(
+            name = "arena.setheightlimit",
+            aliases = {"arena.limit", "arena.height"},
+            isAdminOnly = true,
+            usage = "arena setheightlimit <arenaName> <heightLimit>",
+            description = "Set the height limit for a standalone arena."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,12 +38,12 @@ public class ArenaSetHeightLimitCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", args[0]));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(ArenaLocale.MUST_BE_STANDALONE.getMessage().replace("{arena-name}", arena.getName()));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.MUST_BE_STANDALONE).replace("{arena-name}", arena.getName()));
             return;
         }
 
@@ -49,13 +55,16 @@ public class ArenaSetHeightLimitCommand extends BaseCommand {
                 return;
             }
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         ((StandAloneArena) arena).setHeightLimit(heightLimit);
         arenaService.saveArena(arena);
 
-        player.sendMessage(ArenaLocale.HEIGHT_LIMIT_SET.getMessage().replace("{arena-name}", arena.getName()).replace("{height-limit}", String.valueOf(heightLimit)));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.HEIGHT_LIMIT_SET)
+                .replace("{arena-name}", arena.getName())
+                .replace("{height-limit}", String.valueOf(heightLimit))
+        );
     }
 }

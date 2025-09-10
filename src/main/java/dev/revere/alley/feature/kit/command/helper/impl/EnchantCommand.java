@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -16,14 +17,19 @@ import org.bukkit.inventory.ItemStack;
  * @date 28/05/2024 - 20:28
  */
 public class EnchantCommand extends BaseCommand {
-    @CommandData(name = "enchant", permission = "alley.command.enchant")
+    @CommandData(
+            name = "enchant",
+            isAdminOnly = true,
+            usage = "enchant <enchantment> <level>",
+            description = "Enchant the item in your hand with the specified enchantment and level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /enchant (enchantment) (level)"));
+            player.sendMessage(CC.translate("&cUsage: /enchant <enchantment> <level>"));
             return;
         }
 
@@ -37,14 +43,14 @@ public class EnchantCommand extends BaseCommand {
         int level;
         try {
             level = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cEnchantment level must be a number!"));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
             return;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to enchant!"));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_HOLD_ITEM));
             return;
         }
 

@@ -20,7 +20,12 @@ import java.util.Map;
  * @date 6/1/2024
  */
 public class CosmeticListCommand extends BaseCommand {
-    @CommandData(name = "cosmetic.list", isAdminOnly = true)
+    @CommandData(
+            name = "cosmetic.list",
+            isAdminOnly = true,
+            usage = "cosmetic list",
+            description = "List all registered cosmetics."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

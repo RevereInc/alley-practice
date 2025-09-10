@@ -16,7 +16,11 @@ import org.bukkit.entity.Player;
  * @since 26/06/2025
  */
 public class ViewPlayersCommand extends BaseCommand {
-    @CommandData(name = "viewplayers")
+    @CommandData(
+            name = "viewplayers",
+            usage = "viewplayers",
+            description = "View all players in the match (spectator only)."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

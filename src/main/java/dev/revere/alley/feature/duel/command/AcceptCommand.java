@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.duel.command;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.ProfileLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -18,7 +18,12 @@ import org.bukkit.entity.Player;
  * @date 17/10/2024 - 20:31
  */
 public class AcceptCommand extends BaseCommand {
-    @CommandData(name = "accept", aliases = {"duel.accept"})
+    @CommandData(
+            name = "accept",
+            aliases = {"duel.accept"},
+            usage = "accept <player>",
+            description = "Accept a duel request"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,24 +36,30 @@ public class AcceptCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage().replace("{input}", args[0]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER).replace("{input}", args[0]));
             return;
         }
 
         DuelRequestService duelRequestService = this.plugin.getService(DuelRequestService.class);
         DuelRequest duelRequest = duelRequestService.getDuelRequest(player, target);
         if (duelRequest == null) {
-            player.sendMessage(ProfileLocale.NO_PENDING_DUEL_REQUEST.getMessage());
+            player.sendMessage(this.getMessage(ProfileLocaleImpl.NO_PENDING_DUEL_REQUEST));
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (targetProfile.isBusy()) {
-            player.sendMessage(ErrorLocale.IS_BUSY.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.IS_BUSY)
+                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{player}", target.getName())
+            );
             return;
         }
 
         duelRequestService.acceptPendingRequest(duelRequest);
-        player.sendMessage(ProfileLocale.ACCEPTED_DUEL_REQUEST.getMessage().replace("{color}", String.valueOf(targetProfile.getNameColor())).replace("{player}", target.getName()));
+        player.sendMessage(this.getMessage(ProfileLocaleImpl.ACCEPTED_DUEL_REQUEST)
+                .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                .replace("{player}", target.getName())
+        );
     }
 }

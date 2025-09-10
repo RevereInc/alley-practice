@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.player;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @date 17/11/2024 - 12:07
  */
 public class StatsCommand extends BaseCommand {
-    @CommandData(name = "stats", aliases = {"statistics"})
+    @CommandData(
+            name = "stats",
+            aliases = {"statistics"},
+            usage = "stats [player]",
+            description = "View your or another player's statistics."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -30,7 +35,7 @@ public class StatsCommand extends BaseCommand {
         Player onlineTarget = Bukkit.getPlayerExact(args[0]);
         OfflinePlayer target = onlineTarget != null ? onlineTarget : PlayerUtil.getOfflinePlayerByName(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

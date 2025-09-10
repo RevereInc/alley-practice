@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @since 26/05/2025
  */
 public class LevelAdminSetIconCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.seticon", isAdminOnly = true, description = "Set the icon for a level")
+    @CommandData(
+            name = "leveladmin.seticon",
+            isAdminOnly = true,
+            usage = "leveladmin seticon <levelName>",
+            description = "Set the icon for a level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

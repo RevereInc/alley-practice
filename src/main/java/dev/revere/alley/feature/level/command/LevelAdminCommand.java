@@ -1,19 +1,11 @@
 package dev.revere.alley.feature.level.command;
 
+import dev.revere.alley.common.constants.PluginConstant;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetDisplayNameCommand;
-import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetIconCommand;
-import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetMaxEloCommand;
-import dev.revere.alley.feature.level.command.impl.data.LevelAdminSetMinEloCommand;
-import dev.revere.alley.feature.level.command.impl.manage.LevelAdminCreateCommand;
-import dev.revere.alley.feature.level.command.impl.manage.LevelAdminDeleteCommand;
-import dev.revere.alley.feature.level.command.impl.manage.LevelAdminListCommand;
-import dev.revere.alley.feature.level.command.impl.manage.LevelAdminViewCommand;
-import dev.revere.alley.common.text.CC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,19 +17,6 @@ import java.util.List;
  * @since 26/05/2025
  */
 public class LevelAdminCommand extends BaseCommand {
-
-    public LevelAdminCommand() {
-        new LevelAdminCreateCommand();
-        new LevelAdminDeleteCommand();
-        new LevelAdminViewCommand();
-        new LevelAdminListCommand();
-        new LevelAdminSetDisplayNameCommand();
-        new LevelAdminSetMaxEloCommand();
-        new LevelAdminSetMinEloCommand();
-        new LevelAdminSetIconCommand();
-    }
-
-    @SuppressWarnings("unused")
     @CompleterData(name = "leveladmin")
     public List<String> kitCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -57,7 +36,13 @@ public class LevelAdminCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "leveladmin", isAdminOnly = true, description = "Admin command for managing levels", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "leveladmin",
+            description = "Admin command for managing levels"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Arrays.asList(

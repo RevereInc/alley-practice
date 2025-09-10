@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -20,7 +20,6 @@ import java.util.List;
  * @since 28/01/2025
  */
 public class DivisionSetWinsCommand extends BaseCommand {
-
     @CompleterData(name = "division.setwins")
     public List<String> DivisionSetWinsCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -36,7 +35,12 @@ public class DivisionSetWinsCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "division.setwins", isAdminOnly = true, usage = "division setwins <name> <tier> <wins>")
+    @CommandData(
+            name = "division.setwins",
+            isAdminOnly = true,
+            usage = "division setwins <name> <tier> <wins>",
+            description = "Set the required wins for a division tier."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -50,13 +54,13 @@ public class DivisionSetWinsCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage().replace("{division-name}", args[0]));
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         String tier = args[1];
         if (division.getTier(tier) == null) {
-            player.sendMessage(DivisionLocale.TIER_NOT_FOUND.getMessage().replace("{division-name}", division.getDisplayName()).replace("{tier-name}", tier));
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.TIER_NOT_FOUND).replace("{division-name}", division.getDisplayName()).replace("{tier-name}", tier));
             return;
         }
 
@@ -64,7 +68,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         try {
             wins = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
@@ -76,7 +80,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
 
         division.getTier(tier).setRequiredWins(wins);
         divisionService.saveDivision(division);
-        player.sendMessage(DivisionLocale.WINS_SET.getMessage()
+        player.sendMessage(this.getMessage(DivisionLocaleImpl.WINS_SET)
                 .replace("{division-name}", division.getName())
                 .replace("{tier-name}", tier)
                 .replace("{required-wins}", String.valueOf(wins))

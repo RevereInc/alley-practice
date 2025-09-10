@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.match.command.player;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  * @date 5/21/2024
  */
 public class SpectateCommand extends BaseCommand {
-    @CommandData(name = "spectate", aliases = {"spec"})
+    @CommandData(
+            name = "spectate",
+            aliases = {"spec"},
+            usage = "spectate <player>",
+            description = "Spectate a player."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -37,7 +42,7 @@ public class SpectateCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
 

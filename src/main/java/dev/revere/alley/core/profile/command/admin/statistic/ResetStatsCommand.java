@@ -1,5 +1,6 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -20,7 +21,13 @@ import java.util.UUID;
  * @date 02/01/2025 - 20:58
  */
 public class ResetStatsCommand extends BaseCommand {
-    @CommandData(name = "resetstats", aliases = {"wipestats",}, isAdminOnly = true)
+    @CommandData(
+            name = "resetstats",
+            aliases = {"wipestats",},
+            isAdminOnly = true,
+            usage = "resetstats <player>",
+            description = "Reset a player's statistics."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -36,13 +43,13 @@ public class ResetStatsCommand extends BaseCommand {
 
         UUID uuid = target.getUniqueId();
         if (uuid == null) {
-            player.sendMessage(CC.translate("&cThat player is invalid."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(uuid);
         if (profile == null) {
-            player.sendMessage(CC.translate("&cThat player does not exist."));
+            player.sendMessage(CC.translate("&cThat profile does not exist."));
             return;
         }
 

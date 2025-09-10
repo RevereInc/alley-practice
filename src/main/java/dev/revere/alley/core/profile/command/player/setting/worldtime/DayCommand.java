@@ -14,8 +14,13 @@ import org.bukkit.entity.Player;
  * @date 02/06/2024 - 10:57
  */
 public class DayCommand extends BaseCommand {
+    @CommandData(
+            name = "day",
+            cooldown = 1,
+            usage = "day",
+            description = "Set your world time to day."
+    )
     @Override
-    @CommandData(name = "day")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);

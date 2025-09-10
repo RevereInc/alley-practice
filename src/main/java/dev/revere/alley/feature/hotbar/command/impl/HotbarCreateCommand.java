@@ -1,12 +1,13 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.locale.internal.types.HotbarLocaleImpl;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.hotbar.HotbarType;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,7 +18,9 @@ import org.bukkit.entity.Player;
 public class HotbarCreateCommand extends BaseCommand {
     @CommandData(
             name = "hotbar.create",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "hotbar create <name> <type>",
+            description = "Create a new hotbar item."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -40,6 +43,9 @@ public class HotbarCreateCommand extends BaseCommand {
         }
 
         this.plugin.getService(HotbarService.class).createHotbarItem(name, type);
-        player.sendMessage(CC.translate("&aHotbar item &e" + name + " &acreated successfully with type &e" + type.name() + "&a!"));
+        player.sendMessage(this.getMessage(HotbarLocaleImpl.CREATED_ITEM)
+                .replace("{name}", name)
+                .replace("{type}", type.name())
+        );
     }
 }

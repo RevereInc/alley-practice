@@ -7,7 +7,7 @@ import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  * @since 02/03/2025
  */
 public class ArenaSetPortalCommand extends BaseCommand {
-    @CommandData(name = "arena.setportal", isAdminOnly = true)
+    @CommandData(
+            name = "arena.setportal",
+            isAdminOnly = true,
+            usage = "arena setportal <name> <red/blue>",
+            description = "Set the portal location for a standalone arena."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -33,18 +38,18 @@ public class ArenaSetPortalCommand extends BaseCommand {
 
         Arena arena = arenaService.getArenaByName(name);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", name));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", name));
             return;
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(ArenaLocale.MUST_BE_STANDALONE.getMessage().replace("{arena-name}", arena.getName()));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.MUST_BE_STANDALONE).replace("{arena-name}", arena.getName()));
             return;
         }
 
         String portal = args[1];
         if (!portal.equalsIgnoreCase("red") && !portal.equalsIgnoreCase("blue")) {
-            player.sendMessage(ArenaLocale.INVALID_PORTAL.getMessage());
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.INVALID_PORTAL));
             return;
         }
 
@@ -56,6 +61,9 @@ public class ArenaSetPortalCommand extends BaseCommand {
         }
 
         arenaService.saveArena(arena);
-        player.sendMessage(ArenaLocale.PORTAL_SET.getMessage().replace("{arena-name}", arena.getName()).replace("{portal}", portal));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.PORTAL_SET)
+                .replace("{arena-name}", arena.getName())
+                .replace("{portal}", portal)
+        );
     }
 }

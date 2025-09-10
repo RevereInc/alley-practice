@@ -1,13 +1,9 @@
 package dev.revere.alley.feature.match.command.admin;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.match.command.admin.impl.MatchCancelCommand;
-import dev.revere.alley.feature.match.command.admin.impl.MatchInfoCommand;
-import dev.revere.alley.feature.match.command.admin.impl.MatchResetBlocksCommand;
-import dev.revere.alley.feature.match.command.admin.impl.MatchStartCommand;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -16,16 +12,14 @@ import org.bukkit.command.CommandSender;
  * @date 5/26/2024
  */
 public class MatchCommand extends BaseCommand {
-
-    public MatchCommand() {
-        new MatchStartCommand();
-        new MatchCancelCommand();
-        new MatchInfoCommand();
-        new MatchResetBlocksCommand();
-    }
-
+    @CommandData(
+            name = "match",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "match",
+            description = "Manage matches"
+    )
     @Override
-    @CommandData(name = "match", isAdminOnly = true)
     public void onCommand(CommandArgs args) {
         CommandSender sender = args.getSender();
 

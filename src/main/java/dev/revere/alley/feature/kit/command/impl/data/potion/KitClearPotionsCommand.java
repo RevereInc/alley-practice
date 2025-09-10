@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -15,8 +15,12 @@ import org.bukkit.entity.Player;
  * @since 16/06/2025
  */
 public class KitClearPotionsCommand extends BaseCommand {
-
-    @CommandData(name = "kit.clearpotions", isAdminOnly = true)
+    @CommandData(
+            name = "kit.clearpotions",
+            isAdminOnly = true,
+            usage = "kit clearpotions <kitName>",
+            description = "Clear all potion effects from a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,7 +35,7 @@ public class KitClearPotionsCommand extends BaseCommand {
         Kit kit = kitService.getKit(args[0]);
 
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -42,6 +46,6 @@ public class KitClearPotionsCommand extends BaseCommand {
 
         kit.getPotionEffects().clear();
         kitService.saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_POTION_EFFECTS_CLEARED.getMessage().replace("{kit-name}", kit.getName())));
+        player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_POTION_EFFECTS_CLEARED).replace("{kit-name}", kit.getName())));
     }
 }

@@ -18,7 +18,13 @@ import org.bukkit.command.CommandSender;
  * @since 16/06/2025
  */
 public class KitSetRaidingRoleKitCommand extends BaseCommand {
-    @CommandData(name = "kit.setraidingrolekit", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "kit.setraidingrolekit",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "kit setraidingrolekit <kitName> <role> <kitName>",
+            description = "Set the raiding role kit for a specific role in a raiding kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

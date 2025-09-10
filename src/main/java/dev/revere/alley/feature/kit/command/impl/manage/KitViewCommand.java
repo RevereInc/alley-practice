@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
 import org.bukkit.entity.Player;
@@ -16,7 +16,13 @@ import org.bukkit.entity.Player;
  * @date 08/10/2024 - 19:56
  */
 public class KitViewCommand extends BaseCommand {
-    @CommandData(name = "kit.view", permission = "alley.admin.view")
+    @CommandData(
+            name = "kit.view",
+            aliases = "kit.info",
+            isAdminOnly = true,
+            usage = "kit view <kitName>",
+            description = "View information about a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -29,7 +35,7 @@ public class KitViewCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 

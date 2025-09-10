@@ -6,7 +6,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.KitSettingService;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -16,7 +16,13 @@ import org.bukkit.entity.Player;
  * @date 5/21/2024
  */
 public class KitSetSettingCommand extends BaseCommand {
-    @CommandData(name = "kit.setsetting", aliases = {"kit.setting"}, isAdminOnly = true)
+    @CommandData(
+            name = "kit.setsetting",
+            aliases = {"kit.setting"},
+            isAdminOnly = true,
+            usage = "kit setsetting <kit> <setting> <true/false>",
+            description = "Set a setting for a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -29,7 +35,7 @@ public class KitSetSettingCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -43,6 +49,11 @@ public class KitSetSettingCommand extends BaseCommand {
 
         kit.getKitSettings().stream().filter(setting -> setting.getName().equalsIgnoreCase(settingName)).findFirst().ifPresent(setting -> setting.setEnabled(enabled));
         this.plugin.getService(KitService.class).saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_SETTING_SET.getMessage()).replace("{setting-name}", settingName).replace("{enabled}", String.valueOf(enabled)).replace("{kit-name}", kit.getName()));
+
+        player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_SETTING_SET))
+                .replace("{setting-name}", settingName)
+                .replace("{enabled}", String.valueOf(enabled))
+                .replace("{kit-name}", kit.getName())
+        );
     }
 }

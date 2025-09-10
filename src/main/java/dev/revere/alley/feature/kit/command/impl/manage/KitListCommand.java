@@ -13,7 +13,13 @@ import org.bukkit.command.CommandSender;
  * @date 28/04/2024 - 22:07
  */
 public class KitListCommand extends BaseCommand {
-    @CommandData(name = "kit.list", aliases = {"kits"}, isAdminOnly = true)
+    @CommandData(
+            name = "kit.list",
+            aliases = {"kits"},
+            isAdminOnly = true,
+            usage = "kit list",
+            description = "Sends a list of all kits."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

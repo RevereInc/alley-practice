@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class DivisionListCommand extends BaseCommand {
-    @CommandData(name = "division.list", isAdminOnly = true)
+    @CommandData(
+            name = "division.list",
+            isAdminOnly = true,
+            usage = "division list",
+            description = "Sends a list of all divisions."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

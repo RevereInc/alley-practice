@@ -9,8 +9,8 @@ import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -23,7 +23,6 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaAddKitCommand extends BaseCommand {
-
     @CompleterData(name = "arena.addkit")
     public List<String> arenaAddKitCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -35,7 +34,12 @@ public class ArenaAddKitCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "arena.addkit", isAdminOnly = true)
+    @CommandData(
+            name = "arena.addkit",
+            isAdminOnly = true,
+            usage = "arena addkit <arenaName> <kitName>",
+            description = "Adds a kit to an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -52,7 +56,7 @@ public class ArenaAddKitCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -63,17 +67,23 @@ public class ArenaAddKitCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", kitName));
+            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         if (arena.getKits().contains(kit.getName())) {
-            player.sendMessage(ArenaLocale.KIT_ALREADY_ADDED_TO_ARENA.getMessage().replace("{arena-name}", arenaName).replace("{kit-name}", kitName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.KIT_ALREADY_ADDED_TO_ARENA)
+                    .replace("{arena-name}", arenaName)
+                    .replace("{kit-name}", kitName)
+            );
             return;
         }
 
         arena.getKits().add(kit.getName());
         arenaService.saveArena(arena);
-        player.sendMessage(ArenaLocale.KIT_ADDED.getMessage().replace("{arena-name}", arenaName).replace("{kit-name}", kitName));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.KIT_ADDED)
+                .replace("{arena-name}", arenaName)
+                .replace("{kit-name}", kitName)
+        );
     }
 }

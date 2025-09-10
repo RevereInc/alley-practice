@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -18,8 +18,14 @@ import java.lang.reflect.Method;
  * @date 28/10/2024 - 09:00
  */
 public class TrollCommand extends BaseCommand {
+    @CommandData(
+            name = "troll",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "troll <player>",
+            description = "Opens demo screen for target player"
+    )
     @Override
-    @CommandData(name = "troll", aliases = "playertroll", inGameOnly = false, permission = "alley.command.troll.demo-menu")
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
@@ -31,7 +37,7 @@ public class TrollCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

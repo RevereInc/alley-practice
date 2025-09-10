@@ -17,9 +17,14 @@ public class AlleyReloadCommand extends BaseCommand {
     @CommandData(
             name = "alley.reload",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "alley.reload",
+            description = "Reload Alley plugin configurations."
     )
     public void onCommand(CommandArgs command) {
-        this.plugin.getService(ConfigService.class).reloadConfigs(command.getSender(), true);
+        Player player = command.getPlayer();
+        player.sendMessage(CC.translate("&6&lAlley &freloading..."));
+        this.plugin.getService(ConfigService.class).reloadConfigs(command.getSender(), false);
+        player.sendMessage(CC.translate("&6&lAlley &a&lreloaded&f."));
     }
 }

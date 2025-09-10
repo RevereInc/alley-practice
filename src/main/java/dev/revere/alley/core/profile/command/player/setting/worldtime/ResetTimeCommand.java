@@ -14,8 +14,14 @@ import org.bukkit.entity.Player;
  * @date 02/06/2024 - 10:59
  */
 public class ResetTimeCommand extends BaseCommand {
+    @CommandData(
+            name = "resettime",
+            aliases = "currenttime",
+            cooldown = 1,
+            usage = "resettime",
+            description = "Reset your personal world time to the server time."
+    )
     @Override
-    @CommandData(name = "resettime", aliases = "currenttime")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);

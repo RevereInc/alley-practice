@@ -3,7 +3,7 @@ package dev.revere.alley.core.profile.command.player.setting.toggle;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.locale.internal.types.ProfileLocaleImpl;
 import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @since 19/07/2025
  */
 public class ToggleLobbyMusicCommand extends BaseCommand {
-    @CommandData(name = "togglelobbymusic", cooldown = 1)
+    @CommandData(
+            name = "togglelobbymusic",
+            cooldown = 1,
+            usage = "togglelobbymusic",
+            description = "Toggle the lobby music on or off"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -34,6 +39,6 @@ public class ToggleLobbyMusicCommand extends BaseCommand {
             musicService.stopMusic(player);
         }
 
-        player.sendMessage(CC.translate(ProfileLocale.TOGGLED_LOBBY_MUSIC.getMessage().replace("{status}", profile.getProfileData().getSettingData().isLobbyMusicEnabled() ? "&aenabled" : "&cdisabled")));
+        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_LOBBY_MUSIC).replace("{status}", profile.getProfileData().getSettingData().isLobbyMusicEnabled() ? "&aenabled" : "&cdisabled")));
     }
 }

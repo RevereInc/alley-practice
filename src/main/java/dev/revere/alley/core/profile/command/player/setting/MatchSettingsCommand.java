@@ -13,8 +13,12 @@ import org.bukkit.entity.Player;
  */
 
 public class MatchSettingsCommand extends BaseCommand {
+    @CommandData(
+            name = "matchsettings",
+            usage = "matchsettings",
+            description = "Open the match settings menu."
+    )
     @Override
-    @CommandData(name = "matchsettings")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 

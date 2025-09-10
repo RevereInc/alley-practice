@@ -7,7 +7,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitCategory;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
@@ -17,7 +17,13 @@ import org.bukkit.command.CommandSender;
  * @since 01/05/2025
  */
 public class KitSetCategoryCommand extends BaseCommand {
-    @CommandData(name = "kit.setcategory", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "kit.setcategory", 
+            isAdminOnly = true, 
+            inGameOnly = false,
+            usage = "kit setcategory <kitName> <category>",
+            description = "Set the category of a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -31,7 +37,7 @@ public class KitSetCategoryCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            sender.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
@@ -46,6 +52,6 @@ public class KitSetCategoryCommand extends BaseCommand {
 
         kit.setCategory(category);
         kitService.saveKit(kit);
-        sender.sendMessage(CC.translate(KitLocale.KIT_SET_CATEGORY.getMessage().replace("{kit-name}", kit.getName()).replace("{category}", category.getName())));
+        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_SET_CATEGORY).replace("{kit-name}", kit.getName()).replace("{category}", category.getName())));
     }
 }

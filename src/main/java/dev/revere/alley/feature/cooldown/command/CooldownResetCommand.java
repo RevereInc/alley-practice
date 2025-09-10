@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.cooldown.command;
 
 import dev.revere.alley.common.text.EnumFormatter;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -18,7 +18,13 @@ import org.bukkit.entity.Player;
  * @since 24/06/2025
  */
 public class CooldownResetCommand extends BaseCommand {
-    @CommandData(name = "cooldown.reset", isAdminOnly = true)
+    @CommandData(
+            name = "cooldown.reset",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "cooldown reset <player> <cooldown>",
+            description = "Reset a player's cooldown of a specific type."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,7 +38,7 @@ public class CooldownResetCommand extends BaseCommand {
         String targetName = args[0];
         Player target = this.plugin.getServer().getPlayer(targetName);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -19,9 +19,9 @@ import org.bukkit.entity.Player;
 public class VirtualStackCommand extends BaseCommand {
     @CommandData(
             name = "virtualstack",
+            isAdminOnly = true,
             description = "Bypass stack size limits for items and set a virtual stack amount (max 127)",
-            usage = "/virtualstack <amount> [bypassLimit]",
-            isAdminOnly = true
+            usage = "virtualstack <amount> [bypassLimit]"
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -44,7 +44,7 @@ public class VirtualStackCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[0]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[0]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[0]));
             return;
         }
 

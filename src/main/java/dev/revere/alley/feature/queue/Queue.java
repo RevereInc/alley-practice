@@ -1,16 +1,17 @@
 package dev.revere.alley.feature.queue;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -125,7 +126,7 @@ public class Queue {
                 }
             } else {
                 if (profile.getState() != ProfileState.LOBBY) {
-                    player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.INVALID_PLAYER));
                     return;
                 }
 
@@ -135,7 +136,7 @@ public class Queue {
             }
         } else {
             if (profile.getState() != ProfileState.LOBBY) {
-                player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.INVALID_PLAYER));
                 return;
             }
         }

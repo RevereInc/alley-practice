@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -18,7 +19,12 @@ import org.bukkit.potion.PotionEffectType;
  * @date 03/11/2024 - 20:28
  */
 public class PotionDurationCommand extends BaseCommand {
-    @CommandData(name = "potionduration", permission = "alley.command.potionduration")
+    @CommandData(
+            name = "potionduration",
+            isAdminOnly = true,
+            usage = "potionduration <duration/infinite>",
+            description = "Set the duration of the potion you are holding."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -61,7 +67,7 @@ public class PotionDurationCommand extends BaseCommand {
         try {
             duration = Integer.parseInt(args[0]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(CC.translate("&cIncorrect duration format. Please enter a number."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
             return;
         }
 

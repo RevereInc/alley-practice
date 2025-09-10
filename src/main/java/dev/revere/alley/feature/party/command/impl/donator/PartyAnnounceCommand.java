@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.party.command.impl.donator;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.PartyState;
 import dev.revere.alley.core.profile.ProfileService;
@@ -24,19 +24,25 @@ import java.util.Optional;
  * @date 17/11/2024 - 11:16
  */
 public class PartyAnnounceCommand extends BaseCommand {
-    @CommandData(name = "party.announce", aliases = {"p.announce"}, permission = "alley.donator.party.announce")
+    @CommandData(
+            name = "party.announce", 
+            aliases = {"p.announce"}, 
+            permission = "alley.donator.party.announce",
+            usage = "party announce",
+            description = "Announce your party to the server."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getParty() == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
             return;
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
 

@@ -1,8 +1,6 @@
 package dev.revere.alley.feature.party.command.impl.leader.privacy;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -19,7 +17,12 @@ import org.bukkit.entity.Player;
  * @date 16/11/2024 - 23:14
  */
 public class PartyOpenCommand extends BaseCommand {
-    @CommandData(name = "party.open", aliases = {"p.open"})
+    @CommandData(
+            name = "party.open",
+            aliases = {"p.open"},
+            usage = "party open",
+            description = "Open your party to the public."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,7 +34,7 @@ public class PartyOpenCommand extends BaseCommand {
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
 

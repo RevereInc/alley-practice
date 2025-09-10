@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -13,7 +13,13 @@ import org.bukkit.entity.Player;
  * @date 25/06/2024 - 20:26
  */
 public class PushCommand extends BaseCommand {
-    @CommandData(name = "push", permission = "alley.command.troll.push", usage = "push <player> <value>", description = "Push a player")
+    @CommandData(
+            name = "push",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "push <player> <value>",
+            description = "Push a player"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +34,7 @@ public class PushCommand extends BaseCommand {
         Player target = player.getServer().getPlayer(targetName);
 
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
@@ -37,7 +43,7 @@ public class PushCommand extends BaseCommand {
         try {
             value = Double.parseDouble(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 

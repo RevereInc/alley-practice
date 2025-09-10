@@ -19,7 +19,12 @@ public class AbilityCommand extends BaseCommand {
 
     private AlleyPlugin plugin = AlleyPlugin.getInstance();
 
-    @CommandData(name = "ability", permission = "hypractice.command.ability")
+    @CommandData(
+            name = "ability",
+            permission = "hypractice.command.ability",
+            usage = "ability",
+            description = "Manage abilities."
+    )
     @Override
     public void onCommand(CommandArgs commandArgs) {
         Player player = commandArgs.getPlayer();

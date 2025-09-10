@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,13 @@ import org.bukkit.entity.Player;
  * @date 15/09/2024 - 11:39
  */
 public class MatchInfoCommand extends BaseCommand {
-    @CommandData(name = "match.info", permission = "alley.command.match.info", inGameOnly = false)
+    @CommandData(
+            name = "match.info",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "match info <player>",
+            description = "Get information about a player's current match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -31,7 +37,7 @@ public class MatchInfoCommand extends BaseCommand {
         String playerName = args[0];
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
-            sender.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
@@ -43,9 +49,9 @@ public class MatchInfoCommand extends BaseCommand {
 
         sender.sendMessage(CC.translate("&c&lMatch Information"));
         sender.sendMessage(CC.translate(" &f&l● &fPlayers:"));
-        profile.getMatch().getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(gamePlayer -> {
-            sender.sendMessage(CC.translate("   &f* &c" + gamePlayer.getUsername()));
-        }));
+        profile.getMatch().getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(gamePlayer ->
+                sender.sendMessage(CC.translate("   &f* &c" + gamePlayer.getUsername())))
+        );
 
         sender.sendMessage(CC.translate(" &f&l● &fSpectators:"));
         if (profile.getMatch().getSpectators().isEmpty()) {

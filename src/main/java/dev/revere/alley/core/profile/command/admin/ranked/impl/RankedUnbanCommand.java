@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.admin.ranked.impl;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -18,7 +18,12 @@ import org.bukkit.entity.Player;
  * @since 13/03/2025
  */
 public class RankedUnbanCommand extends BaseCommand {
-    @CommandData(name = "ranked.unban", isAdminOnly = true, description = "Unban a player from ranked matches.", usage = "/ranked unban <player>")
+    @CommandData(
+            name = "ranked.unban",
+            isAdminOnly = true,
+            usage = "ranked unban <player>",
+            description = "Unban a player from ranked matches."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,7 +37,7 @@ public class RankedUnbanCommand extends BaseCommand {
         String targetName = args[0];
         OfflinePlayer target = PlayerUtil.getOfflinePlayerByName(targetName);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

@@ -19,8 +19,6 @@ import java.util.List;
  * @date 28/04/2024 - 21:58
  */
 public class KitCommand extends BaseCommand {
-
-    @SuppressWarnings("unused")
     @CompleterData(name = "kit")
     public List<String> kitCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -41,7 +39,9 @@ public class KitCommand extends BaseCommand {
             name = "kit",
             aliases = "kit.help",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "kit help <page>",
+            description = "View all kit commands."
     )
     @Override
     public void onCommand(CommandArgs command) {

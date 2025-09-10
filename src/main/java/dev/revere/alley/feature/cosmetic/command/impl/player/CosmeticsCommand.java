@@ -12,7 +12,11 @@ import org.bukkit.entity.Player;
  * @date 6/1/2024
  */
 public class CosmeticsCommand extends BaseCommand {
-    @CommandData(name = "cosmetics")
+    @CommandData(
+            name = "cosmetics",
+            usage = "cosmetics",
+            description = "Open the cosmetics menu"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

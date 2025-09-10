@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class SetCoinsCommand extends BaseCommand {
-    @CommandData(name = "coins.set", isAdminOnly = true)
+    @CommandData(
+            name = "coins.set",
+            isAdminOnly = true,
+            usage = "coins set <player> <amount>",
+            description = "Set a player's coins."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +33,7 @@ public class SetCoinsCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
@@ -39,7 +44,7 @@ public class SetCoinsCommand extends BaseCommand {
             profile.getProfileData().setCoins(amount);
             player.sendMessage(CC.translate("&aSuccessfully set " + target.getName() + "'s coins to " + amount + "."));
         } catch (NumberFormatException e) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
         }
     }
 }

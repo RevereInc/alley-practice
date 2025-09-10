@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFAListCommand extends BaseCommand {
-    @CommandData(name = "ffa.list", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.list",
+            isAdminOnly = true,
+            usage = "ffa list",
+            description = "Sends a list of all FFA matches."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

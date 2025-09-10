@@ -13,8 +13,12 @@ import org.bukkit.entity.Player;
  */
 
 public class PracticeSettingsCommand extends BaseCommand {
+    @CommandData(
+            name = "psettings",
+            usage = "practicesettings",
+            description = "Open the practice settings menu."
+    )
     @Override
-    @CommandData(name = "practicesettings")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 

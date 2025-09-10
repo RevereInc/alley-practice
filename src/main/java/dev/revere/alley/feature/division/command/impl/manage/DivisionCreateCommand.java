@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
-import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @since 26/01/2025
  */
 public class DivisionCreateCommand extends BaseCommand {
-    @CommandData(name = "division.create", isAdminOnly = true, usage = "division.create <name> <requiredWins>")
+    @CommandData(
+            name = "division.create",
+            isAdminOnly = true,
+            usage = "division.create <name> <requiredWins>",
+            description = "Create a new division."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,19 +37,19 @@ public class DivisionCreateCommand extends BaseCommand {
         try {
             requiredWins = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(name);
         if (division != null) {
-            player.sendMessage(DivisionLocale.ALREADY_EXISTS.getMessage().replace("{division-name}", name));
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.ALREADY_EXISTS).replace("{division-name}", name));
             return;
         }
 
         divisionService.createDivision(name, requiredWins);
-        player.sendMessage(DivisionLocale.CREATED.getMessage()
+        player.sendMessage(this.getMessage(DivisionLocaleImpl.CREATED)
                 .replace("{division-name}", name)
                 .replace("{required-wins}", String.valueOf(requiredWins))
         );

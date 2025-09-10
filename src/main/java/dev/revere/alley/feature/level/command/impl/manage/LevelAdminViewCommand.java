@@ -16,7 +16,13 @@ import java.util.Arrays;
  * @since 26/05/2025
  */
 public class LevelAdminViewCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.view", isAdminOnly = true, description = "View level information", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.view",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "leveladmin view <levelName>",
+            description = "View level information"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

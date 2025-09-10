@@ -14,7 +14,12 @@ import java.util.Arrays;
  * @since 09/03/2025
  */
 public class ServiceCommand extends BaseCommand {
-    @CommandData(name = "service", isAdminOnly = true, usage = "/service", description = "Service command.")
+    @CommandData(
+            name = "service",
+            isAdminOnly = true,
+            usage = "service",
+            description = "Service command."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  * @date 5/26/2024
  */
 public class MatchCancelCommand extends BaseCommand {
-    @CommandData(name = "match.cancel", isAdminOnly = true)
+    @CommandData(
+            name = "match.cancel",
+            isAdminOnly = true,
+            usage = "match cancel <player>",
+            description = "Forcefully cancel a player's match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -30,7 +35,7 @@ public class MatchCancelCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

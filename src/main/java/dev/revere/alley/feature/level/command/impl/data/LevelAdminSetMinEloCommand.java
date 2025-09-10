@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -15,7 +15,13 @@ import org.bukkit.command.CommandSender;
  * @since 26/05/2025
  */
 public class LevelAdminSetMinEloCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.setminelo", isAdminOnly = true, description = "Set the minimum Elo for a level", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.setminelo",
+            isAdminOnly = true,
+            usage = "leveladmin setminelo <levelName> <minElo>",
+            description = "Set the minimum Elo for a level",
+            inGameOnly = false
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -38,7 +44,7 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         try {
             minElo = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 

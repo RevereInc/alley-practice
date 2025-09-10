@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.server.command.impl;
 
-import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
     @CommandData(
             name = "service.allowqueue",
             isAdminOnly = true,
-            usage = "/service allowqueue <true/false>",
+            usage = "service allowqueue <true/false>",
             description = "Allow/disallow queueing."
     )
     @Override
@@ -43,6 +43,6 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         serverService.clearAllQueues(player);
         serverService.setQueueingAllowed(allowQueue);
 
-        player.sendMessage(ServerLocale.QUEUE_TOGGLED.getMessage().replace("{status}", allowQueue ? CC.translate("&aallowed") : CC.translate("&cdisallowed")));
+        player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_TOGGLED).replace("{status}", allowQueue ? CC.translate("&aallowed") : CC.translate("&cdisallowed")));
     }
 }

@@ -14,8 +14,13 @@ import org.bukkit.entity.Player;
  * @date 02/06/2024 - 11:02
  */
 public class NightCommand extends BaseCommand {
+    @CommandData(
+            name = "night",
+            cooldown = 1,
+            usage = "night",
+            description = "Set your personal world time to night."
+    )
     @Override
-    @CommandData(name = "night")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);

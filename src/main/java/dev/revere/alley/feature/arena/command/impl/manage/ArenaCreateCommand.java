@@ -12,7 +12,7 @@ import dev.revere.alley.feature.arena.internal.types.SharedArena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -26,8 +26,12 @@ import java.util.Objects;
  * @date 5/20/2024
  */
 public class ArenaCreateCommand extends BaseCommand {
-
-    @CommandData(name = "arena.create", isAdminOnly = true)
+    @CommandData(
+            name = "arena.create",
+            isAdminOnly = true,
+            usage = "arena create <arenaName> <type>",
+            description = "Creates a new arena of the specified type"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -50,7 +54,7 @@ public class ArenaCreateCommand extends BaseCommand {
         }
 
         if (this.plugin.getService(ArenaService.class).getArenaByName(arenaName) != null) {
-            player.sendMessage(ArenaLocale.ALREADY_EXISTS.getMessage());
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.ALREADY_EXISTS));
             return;
         }
 
@@ -78,7 +82,10 @@ public class ArenaCreateCommand extends BaseCommand {
         arena.setDisplayName(Objects.requireNonNull(this.getDefaultDisplayName(arenaType)).replace("{arena-name}", arenaName));
 
         arena.createArena();
-        player.sendMessage(ArenaLocale.CREATED.getMessage().replace("{arena-name}", arenaName).replace("{arena-type}", arenaType.name()));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.CREATED)
+                .replace("{arena-name}", arenaName)
+                .replace("{arena-type}", arenaType.name())
+        );
     }
 
     /**

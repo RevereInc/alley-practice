@@ -10,14 +10,20 @@ import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
 import org.bukkit.entity.Player;
 
+import java.util.Objects;
+
 /**
  * @author Remi
  * @project alley-practice
  * @date 20/06/2025
  */
 public class ArenaTestCommand extends BaseCommand {
-
-    @CommandData(name = "arena.test", isAdminOnly = true)
+    @CommandData(
+            name = "arena.test",
+            isAdminOnly = true,
+            usage = "arena test",
+            description = "Tests various arena properties for debugging purposes"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -40,7 +46,7 @@ public class ArenaTestCommand extends BaseCommand {
                 player.sendMessage("Arena Type: " + arena.getType());
                 player.sendMessage("Arena Positions: " + arena.getPos1() + " - " + arena.getPos2());
                 player.sendMessage("Arena Display Name: " + arena.getDisplayName());
-                player.sendMessage("Arena World " + arena.getMinimum().getWorld().getName());
+                player.sendMessage("Arena World " + Objects.requireNonNull(arena.getMinimum().getWorld()).getName());
                 player.sendMessage("Is copied: " + arena.isTemporaryCopy());
                 player.sendMessage("Arena Center: " + arena.getCenter());
                 player.sendMessage("Arena Enabled: " + arena.isEnabled());

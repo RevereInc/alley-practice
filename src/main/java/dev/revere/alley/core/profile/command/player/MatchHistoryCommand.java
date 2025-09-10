@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @date 14/09/2024 - 23:05
  */
 public class MatchHistoryCommand extends BaseCommand {
-    @CommandData(name = "matchhistory", aliases = {"pastmatches", "previousmatches", "mh"})
+    @CommandData(
+            name = "matchhistory",
+            aliases = {"pastmatches", "previousmatches", "mh"},
+            usage = "matchhistory",
+            description = "View your match history"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

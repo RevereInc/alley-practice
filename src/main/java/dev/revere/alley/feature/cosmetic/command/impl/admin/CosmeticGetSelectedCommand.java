@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -19,7 +19,13 @@ import org.bukkit.entity.Player;
  * @date 6/1/2024
  */
 public class CosmeticGetSelectedCommand extends BaseCommand {
-    @CommandData(name = "cosmetic.getselected", aliases = {"cosmetic.get"}, isAdminOnly = true)
+    @CommandData(
+            name = "cosmetic.getselected",
+            aliases = {"cosmetic.get"},
+            isAdminOnly = true,
+            usage = "cosmetic get <player>",
+            description = "Get the selected cosmetics of a player."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,7 +38,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

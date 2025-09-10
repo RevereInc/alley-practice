@@ -45,6 +45,7 @@ arena:
       added: "&aSuccessfully added the selection tool to your inventory!"
       removed: "&cSuccessfully removed the selection tool from your inventory!"
   storage:
+    saved: "&aSuccessfully saved the &6{arena-name} &aarena!"
     saved-all: "&aSuccessfully saved all arenas!"
 
 kit:
@@ -120,6 +121,14 @@ division:
   manage:
     created: "&aSuccessfully created a new division named &6{division-name} &awith &6{required-wins} &awins!"
     deleted: "&cSuccessfully deleted the division named &6{division-name}&c!"
+
+hotbar:
+  error:
+    not-found: "&cA hotbar item named &6{hotbar-name} &cdoes not exist!"
+    already-exists: "&cA hotbar item with that name already exists!"
+  manage:
+    created: "&aSuccessfully created a new hotbar item named &6{hotbar-name}&a!"
+    deleted: "&cSuccessfully deleted the hotbar item named &6{hotbar-name}&c!"
 
 party:
   chat-format: "&7[&6Party&7] &6{player}&7: &f{message}"

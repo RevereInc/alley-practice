@@ -16,7 +16,12 @@ import java.util.Arrays;
  * @date 28/10/2024 - 08:47
  */
 public class RefillCommand extends BaseCommand {
-    @CommandData(name = "refill", permission = "alley.command.refill", usage = "refill", description = "Refill your inventory with health potions")
+    @CommandData(
+            name = "refill",
+            isAdminOnly = true,
+            usage = "refill",
+            description = "Refill your inventory with health potions."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

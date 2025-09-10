@@ -14,7 +14,12 @@ import org.bukkit.entity.Player;
  * @date 13/10/2024 - 10:25
  */
 public class ToggleWorldTimeCommand extends BaseCommand {
-    @CommandData(name = "toggleworldtime")
+    @CommandData(
+            name = "toggleworldtime",
+            cooldown = 1,
+            usage = "toggleworldtime",
+            description = "Toggle through your world time settings."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

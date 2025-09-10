@@ -18,7 +18,9 @@ import java.util.Collection;
 public class HotbarListCommand extends BaseCommand {
     @CommandData(
             name = "hotbar.list",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "hotbar list",
+            description = "Sends a list of all hotbar items."
     )
     @Override
     public void onCommand(CommandArgs command) {

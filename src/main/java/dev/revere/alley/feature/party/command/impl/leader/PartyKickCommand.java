@@ -3,7 +3,7 @@ package dev.revere.alley.feature.party.command.impl.leader;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.common.text.CC;
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  */
 public class PartyKickCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.kick", aliases = "p.kick")
+    @CommandData(
+            name = "party.kick",
+            aliases = "p.kick",
+            usage = "party kick <player>",
+            description = "Kick a player from your party."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -36,7 +41,7 @@ public class PartyKickCommand extends BaseCommand {
         PartyService partyService = this.plugin.getService(PartyService.class);
         Party party = partyService.getPartyByLeader(player);
         if (party == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY)));
             return;
         }
 

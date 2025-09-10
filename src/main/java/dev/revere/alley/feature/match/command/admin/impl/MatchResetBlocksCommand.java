@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @since 16/06/2025
  */
 public class MatchResetBlocksCommand extends BaseCommand {
-    @CommandData(name = "match.resetblocks", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "match.resetblocks",
+            isAdminOnly = true,
+            usage = "match resetblocks",
+            description = "Reset all block changes in your current match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -15,7 +15,13 @@ import org.bukkit.command.CommandSender;
  * @since 04/05/2025
  */
 public class KitSetEditableCommand extends BaseCommand {
-    @CommandData(name = "kit.seteditable", isAdminOnly = true, usage = "kit seteditable <name> <true/false>", inGameOnly = false)
+    @CommandData(
+            name = "kit.seteditable",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "kit seteditable <name> <true/false>",
+            description = "Set whether a kit is editable or not."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -30,7 +36,7 @@ public class KitSetEditableCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
-            sender.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -44,7 +50,7 @@ public class KitSetEditableCommand extends BaseCommand {
 
         kit.setEditable(editable);
         kitService.saveKit(kit);
-        sender.sendMessage(CC.translate(KitLocale.KIT_SET_EDITABLE.getMessage()
+        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_SET_EDITABLE)
                 .replace("{kit-name}", kit.getName())
                 .replace("{editable}", String.valueOf(editable))));
     }

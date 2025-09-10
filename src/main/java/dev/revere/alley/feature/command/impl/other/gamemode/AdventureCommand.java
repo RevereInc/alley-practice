@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.gamemode;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -14,7 +14,13 @@ import org.bukkit.entity.Player;
  * @since 13/06/2025
  */
 public class AdventureCommand extends BaseCommand {
-    @CommandData(name = "gma", aliases = {"gm.a", "gamemode.a", "gm.2", "gm2", "gamemode.2", "gamemode.adventure"}, isAdminOnly = true)
+    @CommandData(
+            name = "gma",
+            aliases = {"gm.a", "gamemode.a", "gm.2", "gm2", "gamemode.2", "gamemode.adventure"},
+            isAdminOnly = true,
+            usage = "gamemode adventure [player]",
+            description = "Set your or another player's gamemode to Adventure."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -28,7 +34,7 @@ public class AdventureCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

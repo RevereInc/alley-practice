@@ -3,8 +3,8 @@ package dev.revere.alley.feature.queue.command.admin.impl;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.SoundUtil;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
-import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.hotbar.HotbarService;
@@ -23,7 +23,13 @@ import org.bukkit.entity.Player;
  * @date 5/26/2024
  */
 public class QueueForceCommand extends BaseCommand {
-    @CommandData(name = "queue.force", aliases = {"forcequeue"}, isAdminOnly = true)
+    @CommandData(
+            name = "queue.force",
+            aliases = {"forcequeue"},
+            isAdminOnly = true,
+            usage = "queue force <player> <kit> <ranked>",
+            description = "Force a player into a queue."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -40,7 +46,7 @@ public class QueueForceCommand extends BaseCommand {
         boolean ranked = Boolean.parseBoolean(args[2]);
 
         if (target == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
@@ -58,7 +64,7 @@ public class QueueForceCommand extends BaseCommand {
                 SoundUtil.playBanHammer(target);
                 this.plugin.getService(HotbarService.class).applyHotbarItems(target);
 
-                player.sendMessage(ServerLocale.QUEUE_FORCED_PLAYER.getMessage()
+                player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_FORCED_PLAYER)
                         .replace("{player}", target.getName())
                         .replace("{kit}", kit.getName())
                         .replace("{ranked}", ranked ? "ranked" : "unranked")

@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @date 5/26/2024
  */
 public class KitSettingsCommand extends BaseCommand {
-    @CommandData(name = "kit.settings", isAdminOnly = true)
+    @CommandData(
+            name = "kit.settings",
+            isAdminOnly = true,
+            usage = "kit settings",
+            description = "List all available kit settings."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

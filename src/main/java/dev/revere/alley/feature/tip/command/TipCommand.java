@@ -19,7 +19,13 @@ public class TipCommand extends BaseCommand {
         this.tip = new Tip();
     }
 
-    @CommandData(name = "tip", aliases = {"tips"}, cooldown = 5)
+    @CommandData(
+            name = "tip",
+            aliases = {"tips"},
+            usage = "tip",
+            description = "Get a random tip.",
+            cooldown = 5
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

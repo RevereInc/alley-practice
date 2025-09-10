@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.InventoryUtil;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
@@ -17,7 +17,13 @@ import org.bukkit.inventory.ItemStack;
  * @date 28/04/2024 - 22:23
  */
 public class KitSetInvCommand extends BaseCommand {
-    @CommandData(name = "kit.setinventory", aliases = "kit.setinv", permission = "practice.admin")
+    @CommandData(
+            name = "kit.setinventory",
+            aliases = "kit.setinv",
+            isAdminOnly = true,
+            usage = "kit setinventory <kitName>",
+            description = "Set the inventory and armor of a kit to your current inventory and armor."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,7 +37,7 @@ public class KitSetInvCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -41,6 +47,6 @@ public class KitSetInvCommand extends BaseCommand {
         kit.setItems(inventory);
         kit.setArmor(armor);
         kitService.saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_INVENTORY_SET.getMessage().replace("{kit-name}", kit.getName())));
+        player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_INVENTORY_SET).replace("{kit-name}", kit.getName())));
     }
 }

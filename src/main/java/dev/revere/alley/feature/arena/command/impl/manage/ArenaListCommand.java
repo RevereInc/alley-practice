@@ -22,8 +22,13 @@ import java.util.Comparator;
  * @date 10/07/2025
  */
 public class ArenaListCommand extends BaseCommand {
-
-    @CommandData(name = "arena.list", aliases = {"arenas"}, isAdminOnly = true)
+    @CommandData(
+            name = "arena.list",
+            aliases = {"arenas"},
+            isAdminOnly = true,
+            usage = "arena list",
+            description = "Lists all arenas on the server"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

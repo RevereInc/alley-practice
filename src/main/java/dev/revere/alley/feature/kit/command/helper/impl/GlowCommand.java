@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,7 +34,7 @@ public class GlowCommand extends BaseCommand {
 
         ItemStack item = player.getItemInHand();
         if (item == null || item.getType() == Material.AIR) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to modify glow state."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_HOLD_ITEM));
             return;
         }
 

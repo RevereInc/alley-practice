@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.feature.level.data.LevelData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -14,7 +14,13 @@ import org.bukkit.command.CommandSender;
  * @since 26/05/2025
  */
 public class LevelAdminDeleteCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.delete", isAdminOnly = true, description = "Delete a level", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.delete",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "leveladmin delete <levelName>",
+            description = "Delete a level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

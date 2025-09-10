@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.explosives.command;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,14 @@ import java.util.List;
  * @since 24/06/2025
  */
 public class ExplosiveCommand extends BaseCommand {
-    @CommandData(name = "explosive", aliases = {"expl"}, isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "explosive",
+            aliases = {"expl"},
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "explosive <setting> <value>",
+            description = "Set various explosive settings."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -35,7 +42,7 @@ public class ExplosiveCommand extends BaseCommand {
         try {
             value = Double.parseDouble(valueStr);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 

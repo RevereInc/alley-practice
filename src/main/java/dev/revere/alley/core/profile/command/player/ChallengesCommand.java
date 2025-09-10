@@ -12,7 +12,11 @@ import org.bukkit.entity.Player;
  * @date 14/09/2024 - 23:03
  */
 public class ChallengesCommand extends BaseCommand {
-    @CommandData(name = "challenges")
+    @CommandData(
+            name = "challenges",
+            usage = "challenges",
+            description = "View your challenges."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

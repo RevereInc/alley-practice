@@ -13,7 +13,13 @@ import org.bukkit.command.CommandSender;
  * @since 26/05/2025
  */
 public class LevelAdminListCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.list", isAdminOnly = true, usage = "level admin list", description = "List all levels.", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.list",
+            isAdminOnly = true,
+            usage = "level admin list",
+            description = "List all levels.",
+            inGameOnly = false
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

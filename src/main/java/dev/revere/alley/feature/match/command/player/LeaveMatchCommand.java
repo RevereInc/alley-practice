@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @date 5/26/2024
  */
 public class LeaveMatchCommand extends BaseCommand {
-    @CommandData(name = "leave", aliases = {"leavematch", "suicide"})
+    @CommandData(
+            name = "leave",
+            aliases = {"leavematch", "suicide"},
+            usage = "leave",
+            description = "Leave your current match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

@@ -6,7 +6,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
@@ -16,7 +16,13 @@ import org.bukkit.command.CommandSender;
  * @date 24/09/2024 - 18:29
  */
 public class ArenaViewCommand extends BaseCommand {
-    @CommandData(name = "arena.view", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "arena.view",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "arena view <arenaName>",
+            description = "View detailed information about an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -31,9 +37,11 @@ public class ArenaViewCommand extends BaseCommand {
 
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            sender.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", args[0]));
+            sender.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
+
+        //TODO: add remaining arena details
 
         sender.sendMessage("");
         sender.sendMessage(CC.translate("&6&lArena " + arena.getName() + " &f(" + (arena.isEnabled() ? "&aEnabled" : "&cDisabled") + "&f)"));

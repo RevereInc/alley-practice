@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -15,7 +15,13 @@ import org.bukkit.entity.Player;
  * @date 28/04/2024 - 22:25
  */
 public class KitGetInvCommand extends BaseCommand {
-    @CommandData(name = "kit.getinventory", aliases = "kit.getinv", isAdminOnly = true)
+    @CommandData(
+            name = "kit.getinventory",
+            aliases = "kit.getinv",
+            isAdminOnly = true,
+            usage = "kit getinventory <kitName>",
+            description = "Get the inventory of a kit"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -29,12 +35,12 @@ public class KitGetInvCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
         player.getInventory().setContents(kit.getItems());
         player.getInventory().setArmorContents(kit.getArmor());
-        player.sendMessage(CC.translate(KitLocale.KIT_INVENTORY_GIVEN.getMessage().replace("{kit-name}", kit.getName())));
+        player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_INVENTORY_GIVEN).replace("{kit-name}", kit.getName())));
     }
 }

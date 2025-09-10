@@ -18,7 +18,6 @@ import java.util.List;
  * @date 19/04/2024 - 17:39
  */
 public class AlleyCommand extends BaseCommand {
-    @SuppressWarnings("unused")
     @CompleterData(name = "alley")
     public List<String> alleyCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -31,7 +30,13 @@ public class AlleyCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "alley", aliases = {"apractice", "aprac", "practice", "prac", "emmy", "remi", "revere"}, inGameOnly = false)
+    @CommandData(
+            name = "alley",
+            aliases = {"apractice", "aprac", "practice", "prac", "emmy", "remi", "revere"},
+            inGameOnly = false,
+            usage = "alley",
+            description = "Displays information about the plugin."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

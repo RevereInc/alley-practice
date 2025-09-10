@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -16,7 +16,12 @@ import org.bukkit.entity.Player;
  * @date 21/05/2024 - 00:25
  */
 public class FFASetSlotCommand extends BaseCommand {
-    @CommandData(name = "ffa.setslot", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.setslot",
+            isAdminOnly = true,
+            usage = "ffa setslot <kitName> <slot>",
+            description = "Set the FFA slot for a kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -30,7 +35,7 @@ public class FFASetSlotCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -38,18 +43,18 @@ public class FFASetSlotCommand extends BaseCommand {
         try {
             slot = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate(KitLocale.SLOT_MUST_BE_NUMBER.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.SLOT_MUST_BE_NUMBER)));
             return;
         }
 
         if (!kit.isFfaEnabled()) {
-            player.sendMessage(FFALocale.DISABLED.getMessage().replace("{kit-name}", kit.getName()));
+            player.sendMessage(this.getMessage(FFALocaleImpl.DISABLED).replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaSlot(slot);
         kitService.saveKit(kit);
-        player.sendMessage(CC.translate(KitLocale.KIT_FFASLOT_SET.getMessage())
+        player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_FFASLOT_SET))
                 .replace("{kit-name}", kit.getName())
                 .replace("{slot}", String.valueOf(slot))
         );

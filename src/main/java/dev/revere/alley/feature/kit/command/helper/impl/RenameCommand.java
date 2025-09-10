@@ -15,13 +15,17 @@ import java.util.stream.Collectors;
 
 /**
  * @author Emmy
- * @project Alley
+ * @project alley-practice
  * @date 28/05/2024 - 20:16
- * I skidded this from FlowerCore !!!!!!!!!!!!!!!!!!!!
  */
 public class RenameCommand extends BaseCommand {
+    @CommandData(
+            name = "rename",
+            isAdminOnly = true,
+            usage = "rename <name>",
+            description = "Rename the item in your hand"
+    )
     @Override
-    @CommandData(name = "rename", permission = "alley.command.rename", usage = "rename <name>", description = "Rename the item in your hand")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 

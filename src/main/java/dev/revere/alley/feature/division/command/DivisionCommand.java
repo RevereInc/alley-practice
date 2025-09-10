@@ -1,19 +1,10 @@
 package dev.revere.alley.feature.division.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.division.menu.DivisionsMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.division.command.impl.data.DivisionSetDescriptionCommand;
-import dev.revere.alley.feature.division.command.impl.data.DivisionSetDisplayNameCommand;
-import dev.revere.alley.feature.division.command.impl.data.DivisionSetIconCommand;
-import dev.revere.alley.feature.division.command.impl.data.DivisionSetWinsCommand;
-import dev.revere.alley.feature.division.command.impl.manage.DivisionCreateCommand;
-import dev.revere.alley.feature.division.command.impl.manage.DivisionDeleteCommand;
-import dev.revere.alley.feature.division.command.impl.manage.DivisionListCommand;
-import dev.revere.alley.feature.division.command.impl.manage.DivisionViewCommand;
-import dev.revere.alley.feature.division.command.impl.player.DivisionsCommand;
-import dev.revere.alley.feature.division.menu.DivisionsMenu;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -22,20 +13,11 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class DivisionCommand extends BaseCommand {
-
-    public DivisionCommand() {
-        new DivisionsCommand();
-        new DivisionCreateCommand();
-        new DivisionDeleteCommand();
-        new DivisionListCommand();
-        new DivisionViewCommand();
-        new DivisionSetWinsCommand();
-        new DivisionSetIconCommand();
-        new DivisionSetDisplayNameCommand();
-        new DivisionSetDescriptionCommand();
-    }
-
-    @CommandData(name = "division")
+    @CommandData(
+            name = "division",
+            usage = "division",
+            description = "Sends a list of commands for managing divisions"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

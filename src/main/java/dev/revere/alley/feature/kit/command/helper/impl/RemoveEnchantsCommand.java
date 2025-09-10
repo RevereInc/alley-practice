@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -12,13 +13,19 @@ import org.bukkit.entity.Player;
  * @date 28/10/2024 - 09:15
  */
 public class RemoveEnchantsCommand extends BaseCommand {
-    @CommandData(name = "removeenchants", aliases = "enchantsremovement", permission = "alley.command.removeenchants")
+    @CommandData(
+            name = "removeenchants",
+            aliases = "enchantsremovement",
+            isAdminOnly = true,
+            usage = "removeenchants",
+            description = "Removes all enchantments from the item you're holding."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
         if (player.getInventory().getItemInHand() == null) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to remove its enchantments."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_HOLD_ITEM));
             return;
         }
 

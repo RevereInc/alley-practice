@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFALeaveCommand extends BaseCommand {
-    @CommandData(name = "ffa.leave", aliases = "leaveffa")
+    @CommandData(
+            name = "ffa.leave",
+            aliases = "leaveffa",
+            usage = "ffa leave",
+            description = "Leave your current FFA match"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

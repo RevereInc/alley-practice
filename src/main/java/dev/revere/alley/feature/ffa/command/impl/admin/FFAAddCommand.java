@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -18,7 +18,13 @@ import org.bukkit.entity.Player;
  * @since 04/06/2025
  */
 public class FFAAddCommand extends BaseCommand {
-    @CommandData(name = "ffa.add", isAdminOnly = true, usage = "/ffa add <player> <kit>", description = "Add a player to an FFA match", aliases = {"ffa.addplayer", "ffa.addp"})
+    @CommandData(
+            name = "ffa.add",
+            aliases = {"ffa.addplayer", "ffa.addp"},
+            isAdminOnly = true,
+            usage = "ffa add <player> <kit>",
+            description = "Add a player to an FFA match"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -37,24 +43,24 @@ public class FFAAddCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", args[1]));
+            player.sendMessage(this.getMessage(FFALocaleImpl.NOT_FOUND).replace("{ffa-name}", args[1]));
             return;
         }
 
         Player targetPlayer = this.plugin.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
         if (match.getPlayers().size() >= match.getMaxPlayers()) {
-            player.sendMessage(FFALocale.FFA_FULL.getMessage());
+            player.sendMessage(this.getMessage(FFALocaleImpl.FFA_FULL));
             return;
         }
 
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
-        player.sendMessage(FFALocale.ADDED_PLAYER.getMessage()
+        player.sendMessage(this.getMessage(FFALocaleImpl.ADDED_PLAYER)
                 .replace("{player}", targetPlayer.getName())
                 .replace("{ffa-name}", match.getName())
                 .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))

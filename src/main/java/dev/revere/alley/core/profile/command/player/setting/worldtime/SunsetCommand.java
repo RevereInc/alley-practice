@@ -14,8 +14,14 @@ import org.bukkit.entity.Player;
  * @date 02/06/2024 - 11:05
  */
 public class SunsetCommand extends BaseCommand {
+    @CommandData(
+            name = "sunset",
+            aliases = "sunrise",
+            cooldown = 1,
+            usage = "sunset",
+            description = "Set your personal world time to sunset."
+    )
     @Override
-    @CommandData(name = "sunset", aliases = "sunrise")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);

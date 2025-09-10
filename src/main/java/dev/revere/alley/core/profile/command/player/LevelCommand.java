@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @since 22/04/2025
  */
 public class LevelCommand extends BaseCommand {
-    @CommandData(name = "level", aliases = {"levels"})
+    @CommandData(
+            name = "level",
+            aliases = {"levels"},
+            usage = "level",
+            description = "View info about your current level."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

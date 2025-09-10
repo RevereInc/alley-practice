@@ -3,7 +3,7 @@ package dev.revere.alley.feature.party.command.impl.member;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyRequest;
@@ -19,13 +19,18 @@ import org.bukkit.entity.Player;
  */
 public class PartyAcceptCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.accept", aliases = "p.accept")
+    @CommandData(
+            name = "party.accept",
+            aliases = "p.accept",
+            usage = "party accept <player>",
+            description = "Accept a party invite."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /party accept (party-owner)"));
+            player.sendMessage(CC.translate("&cUsage: /party accept <player>"));
             return;
         }
 
@@ -51,7 +56,7 @@ public class PartyAcceptCommand extends BaseCommand {
 
         PartyRequest partyRequest = partyService.getRequest(player);
         if (partyRequest == null || !partyRequest.getSender().equals(target)) {
-            player.sendMessage(CC.translate(PartyLocale.NO_PARTY_INVITE.getMessage().replace("{player}", target.getName())));
+            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.NO_PARTY_INVITE).replace("{player}", target.getName())));
             return;
         }
 

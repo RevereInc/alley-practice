@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -18,7 +18,6 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaDeleteCommand extends BaseCommand {
-
     @CompleterData(name = "arena.delete")
     public List<String> arenaDeleteCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -32,7 +31,12 @@ public class ArenaDeleteCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "arena.delete", isAdminOnly = true)
+    @CommandData(
+            name = "arena.delete",
+            isAdminOnly = true,
+            usage = "arena delete <arenaName>",
+            description = "Deletes an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -47,11 +51,11 @@ public class ArenaDeleteCommand extends BaseCommand {
 
         String arenaName = args[0];
         if (arenaService.getArenaByName(arenaName) == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
-        player.sendMessage(ArenaLocale.DELETED.getMessage().replace("{arena-name}", arenaName));
         arenaService.deleteArena(arenaService.getArenaByName(arenaName));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.DELETED).replace("{arena-name}", arenaName));
     }
 }

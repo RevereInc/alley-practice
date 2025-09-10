@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.spawn.command;
 
-import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
 import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -16,16 +16,20 @@ import java.util.Objects;
  * @date 29/04/2024 - 18:41
  */
 public class SetSpawnCommand extends BaseCommand {
-
+    @CommandData(
+            name = "setspawn",
+            isAdminOnly = true,
+            usage = "setspawn",
+            description = "Set the server spawn point."
+    )
     @Override
-    @CommandData(name = "setspawn", isAdminOnly = true)
     public void onCommand(CommandArgs cmd) {
         Player player = (Player) cmd.getSender();
 
         Location location = player.getLocation();
         this.plugin.getService(SpawnService.class).updateSpawnLocation(location);
 
-        player.sendMessage(ServerLocale.SPAWN_SET.getMessage()
+        player.sendMessage(this.getMessage(ServerLocaleImpl.SPAWN_SET)
                 .replace("{world}", Objects.requireNonNull(location.getWorld()).getName())
                 .replace("{x}", String.format("%.2f", location.getX()))
                 .replace("{y}", String.format("%.2f", location.getY()))

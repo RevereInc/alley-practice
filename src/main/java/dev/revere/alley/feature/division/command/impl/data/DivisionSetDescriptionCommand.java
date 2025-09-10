@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
+import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,12 @@ import java.util.Arrays;
  * @since 28/01/2025
  */
 public class DivisionSetDescriptionCommand extends BaseCommand {
-    @CommandData(name = "division.setdescription", isAdminOnly = true, usage = "division setdescription <name> <description>")
+    @CommandData(
+            name = "division.setdescription",
+            isAdminOnly = true,
+            usage = "division setdescription <name> <description>",
+            description = "Set the description of a division."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,14 +36,14 @@ public class DivisionSetDescriptionCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage().replace("{division-name}", args[0]));
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         String description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         division.setDescription(description);
         divisionService.saveDivision(division);
-        player.sendMessage(DivisionLocale.DESCRIPTION_SET.getMessage()
+        player.sendMessage(this.getMessage(DivisionLocaleImpl.DESCRIPTION_SET)
                 .replace("{division-name}", division.getDisplayName())
                 .replace("{description}", description)
         );

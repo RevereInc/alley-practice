@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  * @since 11/04/2025
  */
 public class FFAToggleCommand extends BaseCommand {
-    @CommandData(name = "ffa.toggle", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.toggle",
+            isAdminOnly = true,
+            usage = "ffa toggle <kitName>",
+            description = "Toggle a kit's eligibility for FFA matches."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -31,13 +36,13 @@ public class FFAToggleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", args[0]));
+            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", args[0]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(FFALocale.KIT_NOT_ELIGIBLE.getMessage());
+            player.sendMessage(this.getMessage(FFALocaleImpl.KIT_NOT_ELIGIBLE));
             return;
         }
 
@@ -46,7 +51,7 @@ public class FFAToggleCommand extends BaseCommand {
 
         kitService.saveKit(kit);
         ffaService.reloadFFAKits();
-        player.sendMessage(FFALocale.TOGGLED.getMessage()
+        player.sendMessage(this.getMessage(FFALocaleImpl.TOGGLED)
                 .replace("{kit-name}", kit.getName())
                 .replace("{status}", ffaEnabled ? "enabled" : "disabled")
         );

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -19,7 +19,11 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFAJoinCommand extends BaseCommand {
-    @CommandData(name = "ffa.join")
+    @CommandData(
+            name = "ffa.join",
+            usage = "ffa join <kit>",
+            description = "Join a FFA match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -45,7 +49,7 @@ public class FFAJoinCommand extends BaseCommand {
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(ErrorLocale.MUST_BE_IN_LOBBY.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
 

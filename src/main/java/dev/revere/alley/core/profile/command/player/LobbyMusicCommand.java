@@ -14,7 +14,8 @@ public class LobbyMusicCommand extends BaseCommand {
     @CommandData(
             name = "lobbymusic",
             aliases = {"music"},
-            permission = "alley.donator.command.lobbymusic"
+            usage = "lobbymusic",
+            description = "Open the lobby music selector menu"
     )
     @Override
     public void onCommand(CommandArgs command) {

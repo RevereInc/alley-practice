@@ -6,7 +6,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -19,8 +19,9 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaSetCenterCommand extends BaseCommand {
-
-    @CompleterData(name = "arena.setcenter")
+    @CompleterData(
+            name = "arena.setcenter"
+    )
     public List<String> arenaSetCenterCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
 
@@ -31,8 +32,12 @@ public class ArenaSetCenterCommand extends BaseCommand {
         return completion;
     }
 
-
-    @CommandData(name = "arena.setcenter", isAdminOnly = true)
+    @CommandData(
+            name = "arena.setcenter",
+            isAdminOnly = true,
+            usage = "arena setcenter <arenaName>",
+            description = "Sets the center location of an arena."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -47,13 +52,13 @@ public class ArenaSetCenterCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         arena.setCenter(player.getLocation());
         arenaService.saveArena(arena);
 
-        player.sendMessage(ArenaLocale.CENTER_SET.getMessage().replace("{arena-name}", arena.getName()));
+        player.sendMessage(this.getMessage(ArenaLocaleImpl.CENTER_SET).replace("{arena-name}", arena.getName()));
     }
 }

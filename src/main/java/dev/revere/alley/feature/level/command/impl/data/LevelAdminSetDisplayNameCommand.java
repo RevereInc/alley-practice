@@ -16,7 +16,13 @@ import java.util.Arrays;
  * @since 26/05/2025
  */
 public class LevelAdminSetDisplayNameCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.setdisplayname", isAdminOnly = true, description = "Set the display name of a level", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.setdisplayname",
+            isAdminOnly = true,
+            usage = "leveladmin setdisplayname <levelName> <displayName>",
+            description = "Set the display name of a level",
+            inGameOnly = false
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFAListPlayersCommand extends BaseCommand {
-    @CommandData(name = "ffa.listplayers", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.listplayers",
+            isAdminOnly = true,
+            usage = "ffa listplayers <kit>",
+            description = "List all players in an FFA match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -29,7 +34,7 @@ public class FFAListPlayersCommand extends BaseCommand {
         String kitName = args[0];
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
-            player.sendMessage(FFALocale.NOT_FOUND.getMessage().replace("{ffa-name}", kitName));
+            player.sendMessage(this.getMessage(FFALocaleImpl.NOT_FOUND).replace("{ffa-name}", kitName));
             return;
         }
 

@@ -3,7 +3,7 @@ package dev.revere.alley.feature.party.command.impl.member;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.core.profile.ProfileService;
@@ -19,7 +19,12 @@ import org.bukkit.entity.Player;
  */
 public class PartyInviteCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.invite", aliases = "p.invite")
+    @CommandData(
+            name = "party.invite",
+            aliases = "p.invite",
+            usage = "party invite <player>",
+            description = "Invite a player to your party."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -28,7 +33,7 @@ public class PartyInviteCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /party invite (player)"));
+            player.sendMessage(CC.translate("&cUsage: /party invite <player>"));
             return;
         }
 
@@ -47,7 +52,7 @@ public class PartyInviteCommand extends BaseCommand {
 
         Party party = partyService.getPartyByMember(player.getUniqueId());
         if (party == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY)));
             return;
         }
 
@@ -58,7 +63,7 @@ public class PartyInviteCommand extends BaseCommand {
 
         Profile targetProfile = profileService.getProfile(targetPlayer.getUniqueId());
         if (!targetProfile.getProfileData().getSettingData().isPartyInvitesEnabled()) {
-            player.sendMessage(CC.translate(PartyLocale.PLAYER_DISABLED_PARTY_INVITES.getMessage().replace("{player}", target)));
+            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.PLAYER_DISABLED_PARTY_INVITES).replace("{player}", target)));
             return;
         }
 

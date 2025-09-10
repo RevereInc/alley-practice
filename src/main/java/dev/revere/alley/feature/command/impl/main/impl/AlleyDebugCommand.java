@@ -31,7 +31,7 @@ import java.util.Locale;
 public class AlleyDebugCommand extends BaseCommand {
 
     @Override
-    @CommandData(name = "alley.debug", isAdminOnly = true, usage = "/alley debug <memory/instance/profile/profileData>", description = "Displays debug information for development purposes.")
+    @CommandData(name = "alley.debug", isAdminOnly = true, usage = "alley debug <memory/instance/profile/profileData>", description = "Displays debug information for development purposes.")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();

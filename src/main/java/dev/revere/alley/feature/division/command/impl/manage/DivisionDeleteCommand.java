@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
-import dev.revere.alley.core.config.internal.locale.impl.DivisionLocale;
+import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -15,7 +15,12 @@ import org.bukkit.entity.Player;
  * @since 26/01/2025
  */
 public class DivisionDeleteCommand extends BaseCommand {
-    @CommandData(name = "division.delete", isAdminOnly = true, usage = "division delete <name>")
+    @CommandData(
+            name = "division.delete",
+            isAdminOnly = true,
+            usage = "division delete <name>",
+            description = "Delete a division."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -30,11 +35,11 @@ public class DivisionDeleteCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(name);
         if (division == null) {
-            player.sendMessage(DivisionLocale.NOT_FOUND.getMessage());
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.NOT_FOUND));
             return;
         }
 
         divisionService.deleteDivision(division.getName());
-        player.sendMessage(DivisionLocale.DELETED.getMessage().replace("{division-name}", division.getName()));
+        player.sendMessage(this.getMessage(DivisionLocaleImpl.DELETED).replace("{division-name}", division.getName()));
     }
 }

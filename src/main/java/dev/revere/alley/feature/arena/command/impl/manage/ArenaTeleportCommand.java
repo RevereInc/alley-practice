@@ -6,7 +6,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -19,8 +19,10 @@ import java.util.List;
  * @date 01/06/2024 - 00:08
  */
 public class ArenaTeleportCommand extends BaseCommand {
-
-    @CompleterData(name = "arena.teleport", aliases = "arena.tp")
+    @CompleterData(
+            name = "arena.teleport",
+            aliases = "arena.tp"
+    )
     public List<String> arenaTeleportCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
 
@@ -31,8 +33,14 @@ public class ArenaTeleportCommand extends BaseCommand {
         return completion;
     }
 
+    @CommandData(
+            name = "arena.teleport",
+            aliases = "arena.tp",
+            isAdminOnly = true,
+            usage = "arena teleport <arenaName>",
+            description = "Teleports you to the center of an arena."
+    )
     @Override
-    @CommandData(name = "arena.teleport", aliases = "arena.tp", isAdminOnly = true)
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -46,7 +54,7 @@ public class ArenaTeleportCommand extends BaseCommand {
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(arenaName);
 
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 

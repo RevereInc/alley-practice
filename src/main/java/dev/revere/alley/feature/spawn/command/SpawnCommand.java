@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.spawn.command;
 
-import dev.revere.alley.core.config.internal.locale.impl.ServerLocale;
+import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.ffa.FFAMatch;
 import dev.revere.alley.feature.ffa.FFAState;
 import dev.revere.alley.core.profile.ProfileService;
@@ -22,8 +21,13 @@ import org.bukkit.entity.Player;
  * @date 29/04/2024 - 19:01
  */
 public class SpawnCommand extends BaseCommand {
+    @CommandData(
+            name = "spawn",
+            isAdminOnly = true,
+            usage = "spawn",
+            description = "Teleport to spawn."
+    )
     @Override
-    @CommandData(name = "spawn", isAdminOnly = true)
     public void onCommand(CommandArgs args) {
         Player player = args.getPlayer();
         ProfileService profileService = this.plugin.getService(ProfileService.class);
@@ -64,6 +68,6 @@ public class SpawnCommand extends BaseCommand {
         this.plugin.getService(SpawnService.class).teleportToSpawn(player);
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);
 
-        player.sendMessage(ServerLocale.SPAWN_TELEPORTED.getMessage());
+        player.sendMessage(this.getMessage(ServerLocaleImpl.SPAWN_TELEPORTED));
     }
 }

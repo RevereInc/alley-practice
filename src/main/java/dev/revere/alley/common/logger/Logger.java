@@ -42,6 +42,15 @@ public class Logger {
     }
 
     /**
+     * Log a message to the console without any prefix.
+     *
+     * @param message the message to log
+     */
+    public void infoNoPrefix(String message) {
+        consoleSender.sendMessage(CC.translate(message));
+    }
+
+    /**
      * Log an error to the console.
      *
      * @param message the error message to log

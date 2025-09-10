@@ -1,4 +1,4 @@
-auto-update: true
+auto-update: false
 
 command:
   anti-syntax-message: "&cYou cannot execute {argument}."

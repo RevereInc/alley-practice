@@ -15,8 +15,9 @@ import java.util.Arrays;
 public class KitHelperCommand extends BaseCommand {
     @CommandData(
             name = "kithelper",
-            description = "Provides assistance for essentials.",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "kithelper",
+            description = "Provides assistance for essentials."
     )
     @Override
     public void onCommand(CommandArgs command) {

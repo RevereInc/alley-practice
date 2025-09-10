@@ -12,8 +12,13 @@ import org.bukkit.entity.Player;
  * @date 19/05/2024 - 11:29
  */
 public class LeaderboardCommand extends BaseCommand {
+    @CommandData(
+            name = "leaderboard",
+            aliases = {"leaderboards", "lb"},
+            usage = "leaderboard",
+            description = "View the global leaderboards."
+    )
     @Override
-    @CommandData(name = "leaderboard", aliases = {"leaderboards", "lb"})
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 

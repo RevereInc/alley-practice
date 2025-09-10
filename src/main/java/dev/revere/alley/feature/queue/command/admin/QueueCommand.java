@@ -1,11 +1,9 @@
 package dev.revere.alley.feature.queue.command.admin;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.queue.command.admin.impl.QueueForceCommand;
-import dev.revere.alley.feature.queue.command.admin.impl.QueueReloadCommand;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -14,13 +12,13 @@ import org.bukkit.command.CommandSender;
  * @date 24/09/2024 - 20:51
  */
 public class QueueCommand extends BaseCommand {
-
-    public QueueCommand() {
-        new QueueForceCommand();
-        new QueueReloadCommand();
-    }
-
-    @CommandData(name = "queue", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "queue",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "queue",
+            description = "Main queue command"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

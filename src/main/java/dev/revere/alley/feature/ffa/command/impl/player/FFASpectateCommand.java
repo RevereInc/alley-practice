@@ -1,15 +1,18 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -18,7 +21,12 @@ import org.bukkit.entity.Player;
  * @since 04/06/2025
  */
 public class FFASpectateCommand extends BaseCommand {
-    @CommandData(name = "ffa.spectate", usage = "/spectate <ffaKit>", aliases = {"specffa", "spectateffa"}, description = "Spectate a FFA match")
+    @CommandData(
+            name = "ffa.spectate",
+            usage = "spectate <ffaKit>",
+            aliases = {"specffa", "spectateffa"},
+            description = "Spectate a FFA match"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -32,7 +40,7 @@ public class FFASpectateCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou cannot do this right now!"));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
             return;
         }
 
@@ -44,13 +52,13 @@ public class FFASpectateCommand extends BaseCommand {
                 .orElse(null);
 
         if (ffaKit == null) {
-            player.sendMessage(CC.translate("&cFFA kit not found: " + ffaKitName));
+            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", ffaKitName));
             return;
         }
 
         if (!ffaKit.isFfaEnabled()) {
             //should never happen, but just in case
-            player.sendMessage(CC.translate("&cFFA kit is not enabled: " + ffaKitName));
+            player.sendMessage(this.getMessage(FFALocaleImpl.DISABLED));
             return;
         }
 
@@ -60,7 +68,7 @@ public class FFASpectateCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(CC.translate("&cNo active FFA match found for kit: " + ffaKitName));
+            player.sendMessage(this.getMessage(FFALocaleImpl.NOT_FOUND).replace("{ffa-name}", ffaKitName));
             return;
         }
 

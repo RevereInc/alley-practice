@@ -15,14 +15,18 @@ import org.bukkit.entity.Player;
  * @date 22/10/2024 - 12:14
  */
 public class ChatCommand extends BaseCommand {
-    @CommandData(name = "chat")
+    @CommandData(
+            name = "chat",
+            usage = "chat <chatChannel>",
+            description = "Set your chat channel."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/chat &6<chat-channel>"));
+            player.sendMessage(CC.translate("&6Usage: &e/chat &6<chatChannel>"));
             player.sendMessage(CC.translate("&cAvailable chat channels: " + ChatChannel.getChatChannelsSorted()));
             return;
         }

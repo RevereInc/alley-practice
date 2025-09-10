@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -13,8 +13,14 @@ import org.bukkit.entity.Player;
  * @date 29/06/2024 - 11:51
  */
 public class FakeExplosionCommand extends BaseCommand {
+    @CommandData(
+            name = "fakeexplosion",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "fakeexplosion",
+            description = "Fake an explosion"
+    )
     @Override
-    @CommandData(name = "fakeexplosion", permission = "alley.command.troll.fakeexplosion", usage = "fakeexplosion", description = "Fake an explosion")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -26,7 +32,7 @@ public class FakeExplosionCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 

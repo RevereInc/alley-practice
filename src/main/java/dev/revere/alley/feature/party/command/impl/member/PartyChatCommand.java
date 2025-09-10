@@ -3,7 +3,7 @@ package dev.revere.alley.feature.party.command.impl.member;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
@@ -20,7 +20,12 @@ import java.util.stream.Collectors;
  * @date 5/25/2024
  */
 public class PartyChatCommand extends BaseCommand {
-    @CommandData(name = "party.chat", aliases = {"p.chat", "pc"})
+    @CommandData(
+            name = "party.chat",
+            aliases = {"p.chat", "pc"},
+            usage = "party chat [message]",
+            description = "Toggle or send a message to party chat."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -42,12 +47,12 @@ public class PartyChatCommand extends BaseCommand {
         }
 
         if (profile.getParty() == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
             return;
         }
 
         if (!profile.getProfileData().getSettingData().isPartyMessagesEnabled()) {
-            player.sendMessage(CC.translate(PartyLocale.DISABLED_PARTY_CHAT.getMessage()));
+            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.DISABLED_PARTY_CHAT)));
             return;
         }
 

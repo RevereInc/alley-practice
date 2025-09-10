@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
@@ -17,7 +17,13 @@ import java.util.Arrays;
  * @date 15/09/2024 - 11:45
  */
 public class ArenaSetDisplayNameCommand extends BaseCommand {
-    @CommandData(name = "arena.setdisplayname", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "arena.setdisplayname",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "arena setdisplayname <arenaName> <displayName>",
+            description = "Sets the display name of an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -32,7 +38,7 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            sender.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            sender.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -41,6 +47,9 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         arena.setDisplayName(displayName);
         arenaService.saveArena(arena);
 
-        sender.sendMessage(ArenaLocale.DISPLAY_NAME_SET.getMessage().replace("{arena-name}", arenaName).replace("{display-name}", displayName));
+        sender.sendMessage(this.getMessage(ArenaLocaleImpl.DISPLAY_NAME_SET)
+                .replace("{arena-name}", arenaName)
+                .replace("{display-name}", displayName)
+        );
     }
 }

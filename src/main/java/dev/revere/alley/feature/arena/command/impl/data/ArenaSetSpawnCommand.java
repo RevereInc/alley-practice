@@ -7,7 +7,7 @@ import dev.revere.alley.library.command.annotation.CompleterData;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
@@ -20,7 +20,6 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaSetSpawnCommand extends BaseCommand {
-
     @CompleterData(name = "arena.setspawn")
     public List<String> arenaSetSpawnCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -32,7 +31,12 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "arena.setspawn", isAdminOnly = true)
+    @CommandData(
+            name = "arena.setspawn",
+            isAdminOnly = true,
+            usage = "arena setspawn <arenaName> <blue/red/ffa>",
+            description = "Sets the spawn location of an arena."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -49,7 +53,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -65,7 +69,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                     return;
                 }
                 arena.setPos1(player.getLocation());
-                player.sendMessage(ArenaLocale.BLUE_SPAWN_SET.getMessage().replace("{arena-name}", arenaName));
+                player.sendMessage(this.getMessage(ArenaLocaleImpl.BLUE_SPAWN_SET).replace("{arena-name}", arenaName));
                 break;
             case "ffa":
                 if (arena.getType() != ArenaType.FFA) {
@@ -73,7 +77,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                     return;
                 }
                 arena.setPos1(player.getLocation());
-                player.sendMessage(ArenaLocale.FFA_SPAWN_SET.getMessage().replace("{arena-name}", arenaName));
+                player.sendMessage(this.getMessage(ArenaLocaleImpl.FFA_SPAWN_SET).replace("{arena-name}", arenaName));
                 break;
             default:
                 if (arena.getType() == ArenaType.FFA) {
@@ -81,7 +85,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                     return;
                 }
                 arena.setPos2(player.getLocation());
-                player.sendMessage(ArenaLocale.RED_SPAWN_SET.getMessage().replace("{arena-name}", arenaName));
+                player.sendMessage(this.getMessage(ArenaLocaleImpl.RED_SPAWN_SET).replace("{arena-name}", arenaName));
                 break;
         }
 

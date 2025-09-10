@@ -1,14 +1,17 @@
 package dev.revere.alley.library.command;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleEntry;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.List;
 import java.util.UUID;
 
 public abstract class BaseCommand {
@@ -66,5 +69,64 @@ public abstract class BaseCommand {
      */
     public String getAdminPermission() {
         return this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix();
+    }
+
+    /**
+     * Gets the locale service.
+     *
+     * @return The locale service.
+     */
+    private LocaleService getLocaleService() {
+        return this.plugin.getService(LocaleService.class);
+    }
+
+    /**
+     * Fetches a localized message from the locale service.
+     *
+     * @param entry The locale entry.
+     * @return The localized message.
+     */
+    public String getMessage(LocaleEntry entry) {
+        return this.getLocaleService().getMessage(entry);
+    }
+
+    /**
+     * Fetches a localized list of messages from the locale service.
+     *
+     * @param entry The locale entry.
+     * @return The localized list of messages.
+     */
+    public List<String> getMessageList(LocaleEntry entry) {
+        return this.getLocaleService().getMessageList(entry);
+    }
+
+    /**
+     * Fetches a boolean value from the locale service.
+     *
+     * @param entry The locale entry.
+     * @return The boolean value.
+     */
+    public boolean getBoolean(LocaleEntry entry) {
+        return this.getLocaleService().getBoolean(entry);
+    }
+
+    /**
+     * Fetches an integer value from the locale service.
+     *
+     * @param entry The locale entry.
+     * @return The integer value.
+     */
+    public int getInt(LocaleEntry entry) {
+        return this.getLocaleService().getInt(entry);
+    }
+
+    /**
+     * Fetches a double value from the locale service.
+     *
+     * @param entry The locale entry.
+     * @return The double value.
+     */
+    public double getDouble(LocaleEntry entry) {
+        return this.getLocaleService().getDouble(entry);
     }
 }

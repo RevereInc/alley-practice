@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.arena.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.ClickableUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -19,8 +19,6 @@ import java.util.List;
  * @date 02/05/2024 - 19:02
  */
 public class ArenaCommand extends BaseCommand {
-
-    @SuppressWarnings("unused")
     @CompleterData(name = "arena")
     public List<String> arenaCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -29,8 +27,8 @@ public class ArenaCommand extends BaseCommand {
             completion.addAll(Arrays.asList(
                     "create", "delete", "list", "kitlist", "setcuboid", "setcenter",
                     "setspawn", "removekit", "addkit", "teleport", "toggle", "tool",
-                    "saveall", "setsafezone", "setdisplayname", "setheightlimit",
-                    "setvoidlevel", "setportal", "view", "test", "paste-test"
+                    "setdisplayname", "setheightlimit", "setvoidlevel", "setportal",
+                    "view", "test", "paste", "saveall", "save"
             ));
         }
 
@@ -41,7 +39,9 @@ public class ArenaCommand extends BaseCommand {
             name = "arena",
             aliases = "arena.help",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "arena help <page>",
+            description = "Displays a list of arena commands"
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -86,6 +86,10 @@ public class ArenaCommand extends BaseCommand {
                     " &f● &6/arena tool &7| Get the Arena Selection tool"
             },
             {
+                    " &f● &6/arena paste &8(&7arenaName&8) &7| Paste schematic at your location",
+                    " &f● &6/arena test &8(&7arenaName&8) &7| Debug/Test an arena"
+            },
+            {
                     " &f● &6/arena setdisplayname &8(&7arenaName&8) &8(&7displayname&8) &7| Set display-name of an arena",
                     " &f● &6/arena setcenter &8(&7arenaName&8) &7| Set center position",
                     " &f● &6/arena setcuboid &8(&7arenaName&8) &7| Set min and max position",
@@ -100,6 +104,7 @@ public class ArenaCommand extends BaseCommand {
                     " &f● &6/arena removekit &8(&7arenaName&8) &8(&7kitName&8) &7| Remove arena kit"
             },
             {
+                    " &f● &6/arena save &8(&7arenaName&8) &7| Save an arena",
                     " &f● &6/arena saveall &7| Save all arenas"
             },
     };

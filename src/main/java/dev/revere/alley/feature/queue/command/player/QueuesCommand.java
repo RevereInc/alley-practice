@@ -17,7 +17,12 @@ import org.bukkit.entity.Player;
  */
 public class QueuesCommand extends BaseCommand {
     @Override
-    @CommandData(name = "queues", aliases = {"selectqueue", "joinqueue"})
+    @CommandData(
+            name = "queues",
+            aliases = {"selectqueue", "joinqueue"},
+            usage = "queues",
+            description = "Open the queue selection menu."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 

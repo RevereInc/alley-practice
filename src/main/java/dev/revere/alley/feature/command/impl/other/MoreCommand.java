@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.command.impl.other;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -15,7 +15,12 @@ import org.bukkit.inventory.ItemStack;
  * @date 28/10/2024 - 08:50
  */
 public class MoreCommand extends BaseCommand {
-    @CommandData(name = "more", permission = "alley.command.more")
+    @CommandData(
+            name = "more",
+            isAdminOnly = true,
+            usage = "more <soup/potion> <amount>",
+            description = "Gives you more soup or potions."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -30,7 +35,7 @@ public class MoreCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(ErrorLocale.INVALID_NUMBER.getMessage().replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 

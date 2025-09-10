@@ -14,7 +14,13 @@ import org.bukkit.command.CommandSender;
  * @since 26/05/2025
  */
 public class LevelAdminSetMaxEloCommand extends BaseCommand {
-    @CommandData(name = "leveladmin.setmaxelo", isAdminOnly = true, description = "Set the maximum Elo for a level", inGameOnly = false)
+    @CommandData(
+            name = "leveladmin.setmaxelo",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "leveladmin setmaxelo <levelName> <maxElo>",
+            description = "Set the maximum Elo for a level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();

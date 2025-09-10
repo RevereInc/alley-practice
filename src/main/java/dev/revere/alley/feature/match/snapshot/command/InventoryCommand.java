@@ -18,14 +18,19 @@ import java.util.UUID;
  * @date 15/06/2024 - 22:19
  */
 public class InventoryCommand extends BaseCommand {
-    @CommandData(name = "inventory")
+    @CommandData(
+            name = "inventory",
+            aliases = {"inv", "snapshot"},
+            usage = "inventory <playerId>",
+            description = "View a player's inventory."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /inventory (uuid)"));
+            player.sendMessage(CC.translate("&cUsage: /inventory <playerId>"));
             return;
         }
 

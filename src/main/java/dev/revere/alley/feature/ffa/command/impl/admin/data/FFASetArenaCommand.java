@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
-import dev.revere.alley.core.config.internal.locale.impl.FFALocale;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -10,7 +10,7 @@ import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
+import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
@@ -24,7 +24,9 @@ public class FFASetArenaCommand extends BaseCommand {
     @CommandData(
             name = "ffa.setarena",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "ffa setarena <kitName> <arenaName>",
+            description = "Set the FFA arena for a kit."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -39,7 +41,7 @@ public class FFASetArenaCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage());
+            sender.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
@@ -47,24 +49,24 @@ public class FFASetArenaCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            sender.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            sender.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            sender.sendMessage(FFALocale.CAN_ONLY_SETUP_IN_FFA_ARENA.getMessage());
+            sender.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
         if (!kit.isFfaEnabled()) {
-            sender.sendMessage(FFALocale.DISABLED.getMessage().replace("{kit-name}", kit.getName()));
+            sender.sendMessage(this.getMessage(FFALocaleImpl.DISABLED).replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaArenaName(arena.getName());
         kitService.saveKit(kit);
         this.plugin.getService(FFAService.class).reloadFFAKits();
-        sender.sendMessage(FFALocale.ARENA_SET.getMessage()
+        sender.sendMessage(this.getMessage(FFALocaleImpl.ARENA_SET)
                 .replace("{kit-name}", kit.getName())
                 .replace("{arena-name}", arena.getName())
         );

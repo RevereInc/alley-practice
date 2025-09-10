@@ -5,7 +5,7 @@ import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
+import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
 import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
@@ -15,7 +15,13 @@ import org.bukkit.command.CommandSender;
  * @since 11/04/2025
  */
 public class KitToggleCommand extends BaseCommand {
-    @CommandData(name = "kit.toggle", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "kit.toggle",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "kit toggle <kitName>",
+            description = "Toggle a kit's enabled status."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -30,7 +36,7 @@ public class KitToggleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
-            sender.sendMessage(CC.translate(KitLocale.KIT_NOT_FOUND.getMessage()));
+            sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 

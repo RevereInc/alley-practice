@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
-import dev.revere.alley.core.config.internal.locale.impl.ErrorLocale;
+import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -24,9 +24,7 @@ import java.util.List;
  * @date 5/26/2024
  */
 public class MatchStartCommand extends BaseCommand {
-
     @CompleterData(name = "match.start")
-    @SuppressWarnings("unused")
     public List<String> matchStartCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
         Player player = command.getPlayer();
@@ -58,7 +56,14 @@ public class MatchStartCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "match.start", isAdminOnly = true)
+    @CommandData(
+            name = "match.start",
+            isAdminOnly = true,
+            aliases = {"mstart"},
+            cooldown = 1,
+            usage = "match start <player1> <player2> <kit> <arena>",
+            description = "Start a match between two players with a specific kit and arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -75,7 +80,7 @@ public class MatchStartCommand extends BaseCommand {
         String arenaName = args[3];
 
         if (player1 == null || player2 == null) {
-            player.sendMessage(ErrorLocale.INVALID_PLAYER.getMessage());
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
             return;
         }
 
