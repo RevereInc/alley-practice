@@ -1,10 +1,11 @@
 package dev.revere.alley.visual.tablist.task;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.visual.tablist.TablistAdapter;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
@@ -34,12 +35,12 @@ public class TablistImpl implements TablistAdapter {
 
     @Override
     public List<String> getHeader(Player player) {
-        return AlleyPlugin.getInstance().getService(ConfigService.class).getTabListConfig().getStringList("tablist.header");
+        return this.plugin.getService(LocaleService.class).getMessageList(VisualLocaleImpl.TAB_HEADER);
     }
 
     @Override
     public List<String> getFooter(Player player) {
-        return AlleyPlugin.getInstance().getService(ConfigService.class).getTabListConfig().getStringList("tablist.footer");
+        return this.plugin.getService(LocaleService.class).getMessageList(VisualLocaleImpl.TAB_FOOTER);
     }
 
     @Override

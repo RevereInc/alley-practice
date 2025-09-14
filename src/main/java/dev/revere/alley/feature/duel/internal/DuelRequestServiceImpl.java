@@ -5,7 +5,7 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -42,6 +42,9 @@ import java.util.UUID;
 @Getter
 @Service(provides = DuelRequestService.class, priority = 260)
 public class DuelRequestServiceImpl implements DuelRequestService {
+
+    //TODO: Locale
+
     private final ProfileService profileService;
     private final ArenaService arenaService;
     private final MatchService matchService;

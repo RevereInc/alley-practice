@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -52,7 +52,7 @@ public class FFASpectateCommand extends BaseCommand {
                 .orElse(null);
 
         if (ffaKit == null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", ffaKitName));
+            player.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND).replace("{kit-name}", ffaKitName));
             return;
         }
 
@@ -73,7 +73,7 @@ public class FFASpectateCommand extends BaseCommand {
         }
 
         if (match.getSpectators().contains(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou are already spectating this FFA match."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.ALREADY_SPECTATING_FFA));
             return;
         }
 

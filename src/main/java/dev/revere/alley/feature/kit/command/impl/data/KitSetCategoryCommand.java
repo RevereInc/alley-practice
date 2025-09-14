@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitCategory;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.kit.KitCategory;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -18,8 +18,8 @@ import org.bukkit.command.CommandSender;
  */
 public class KitSetCategoryCommand extends BaseCommand {
     @CommandData(
-            name = "kit.setcategory", 
-            isAdminOnly = true, 
+            name = "kit.setcategory",
+            isAdminOnly = true,
             inGameOnly = false,
             usage = "kit setcategory <kitName> <category>",
             description = "Set the category of a kit."
@@ -37,7 +37,7 @@ public class KitSetCategoryCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND));
+            sender.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND));
             return;
         }
 
@@ -52,6 +52,6 @@ public class KitSetCategoryCommand extends BaseCommand {
 
         kit.setCategory(category);
         kitService.saveKit(kit);
-        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_SET_CATEGORY).replace("{kit-name}", kit.getName()).replace("{category}", category.getName())));
+        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.SET_CATEGORY).replace("{kit-name}", kit.getName()).replace("{category}", category.getName())));
     }
 }

@@ -1,12 +1,11 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.types.ProfileLocaleImpl;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -26,11 +25,11 @@ public class ToggleScoreboardCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setScoreboardEnabled(!profile.getProfileData().getSettingData().isScoreboardEnabled());
 
-        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_SCOREBOARD).replace("{status}", profile.getProfileData().getSettingData().isScoreboardEnabled() ? "&aenabled" : "&cdisabled")));
+        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_SCOREBOARD)
+                .replace("{status}", profile.getProfileData().getSettingData().isScoreboardEnabled() ? "&aenabled" : "&cdisabled"))
+        );
     }
 }

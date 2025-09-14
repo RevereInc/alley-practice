@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -44,7 +44,7 @@ public class FFAJoinCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getParty() != null) {
-            player.sendMessage(CC.translate("&cYou must leave your party to join FFA."));
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_LEAVE_PARTY_TO_JOIN_FFA));
             return;
         }
 

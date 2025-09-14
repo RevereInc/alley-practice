@@ -14,6 +14,76 @@ import org.bukkit.entity.Player;
 @Getter
 @Setter
 public class ProfileSettingData {
+
+    //TODO: Clean this class up a bit, make generic methods for toggling settings, use an enum map to store settings, etc.
+
+    /**
+     * public class ProfileSettingData {
+     * private final EnumMap<ProfileSetting, ToggleState> settings = new EnumMap<>(ProfileSetting.class);
+     * private ChatChannel chatChannel = ChatChannel.GLOBAL;
+     * private WorldTime worldTime = WorldTime.DEFAULT;
+     * <p>
+     * public ProfileSettingData() {
+     * settings.put(ProfileSetting.PARTY_MESSAGES, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.PARTY_INVITES, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.SCOREBOARD, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.TABLIST, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.SCOREBOARD_LINES, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.PROFANITY_FILTER, ToggleState.DISABLED);
+     * settings.put(ProfileSetting.DUEL_REQUESTS, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.LOBBY_MUSIC, ToggleState.ENABLED);
+     * settings.put(ProfileSetting.SERVER_TITLES, ToggleState.ENABLED);
+     * }
+     * <p>
+     * public boolean isEnabled(ProfileSetting setting) {
+     * return settings.get(setting).asBoolean();
+     * }
+     * <p>
+     * public void set(ProfileSetting setting, ToggleState state) {
+     * settings.put(setting, state);
+     * }
+     * <p>
+     * public void applyWorldTime(Player player) {
+     * worldTime.apply(player);
+     * }
+     * }
+     * <p>
+     * public enum WorldTime {
+     * DEFAULT("Default", (player) -> player.resetPlayerTime()),
+     * DAY("Day", (player) -> player.setPlayerTime(6000L, false)),
+     * SUNSET("Sunset", (player) -> player.setPlayerTime(12000L, false)),
+     * NIGHT("Night", (player) -> player.setPlayerTime(18000L, false));
+     * <p>
+     * private final String name;
+     * private final Consumer<Player> applier;
+     * <p>
+     * WorldTime(String name, Consumer<Player> applier) {
+     * this.name = name;
+     * this.applier = applier;
+     * }
+     * <p>
+     * public String getName() {
+     * return name;
+     * }
+     * <p>
+     * public void apply(Player player) {
+     * applier.accept(player);
+     * }
+     * }
+     * <p>
+     * public enum ToggleState {
+     * ENABLED, DISABLED;
+     * <p>
+     * public boolean asBoolean() {
+     * return this == ENABLED;
+     * }
+     * <p>
+     * public static ToggleState fromBoolean(boolean value) {
+     * return value ? ENABLED : DISABLED;
+     * }
+     * }
+     */
+
     private boolean partyMessagesEnabled;
     private boolean partyInvitesEnabled;
     private boolean scoreboardEnabled;

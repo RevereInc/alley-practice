@@ -1,11 +1,13 @@
 package dev.revere.alley.feature.explosives.command;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.feature.explosives.ExplosiveService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.explosives.ExplosiveService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -50,22 +52,22 @@ public class ExplosiveCommand extends BaseCommand {
 
         switch (settingName) {
             case "horizontal":
-                explosiveService.setHorizontal(value);
+                explosiveService.setHorizontalFireballKnockback(value);
                 break;
             case "vertical":
-                explosiveService.setVertical(value);
+                explosiveService.setVerticalFireballKnockback(value);
                 break;
             case "range":
-                explosiveService.setRange(value);
+                explosiveService.setFireballExplosionRange(value);
                 break;
             case "speed":
-                explosiveService.setSpeed(value);
+                explosiveService.setFireballThrowSpeed(value);
                 break;
             case "fuse":
                 explosiveService.setTntFuseTicks((int) value);
                 break;
             case "explosion":
-                explosiveService.setExplosionRange(value);
+                explosiveService.setTntExplosionRange(value);
                 break;
             default:
                 sendHelpMessage(sender);
@@ -74,7 +76,11 @@ public class ExplosiveCommand extends BaseCommand {
 
         explosiveService.save();
 
-        sender.sendMessage(CC.translate("&aSuccessfully set the explosive " + settingName + " value to &6" + value + "&a."));
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        sender.sendMessage(localeService.getMessage(ServerLocaleImpl.EXPLOSIVE_SETTING_UPDATED)
+                .replace("{setting-name}", settingName)
+                .replace("{setting-value}", String.valueOf(value))
+        );
     }
 
     private void sendHelpMessage(CommandSender sender) {

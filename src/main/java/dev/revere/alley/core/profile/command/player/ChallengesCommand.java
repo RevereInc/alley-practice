@@ -1,9 +1,11 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -20,6 +22,11 @@ public class ChallengesCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
+        Profile profile = this.getProfile(player.getUniqueId());
+        if (profile.isBusy()) {
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            return;
+        }
 
         player.sendMessage(CC.translate("&cThis feature is not yet implemented."));
     }

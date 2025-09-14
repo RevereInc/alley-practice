@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.arena.command.impl.storage;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;

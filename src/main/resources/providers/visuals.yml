@@ -1,9 +1,99 @@
-game:
-  health-bar:
+titles:
+  match-starting:
+    header: '&a&l{stage}'
+    footer: ''
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  match-restarting-round:
+    header: '&a&l{stage}'
+    footer: '&fRound #{current-round}'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  match-started:
+    header: '&6&lMatch started'
+    footer: '&fGood Luck!'
+    fade-in: 0
+    stay: 40
+    fade-out: 20
+  match-respawning:
+    header: '&6&lRespawn'
+    footer: '&fRespawning in &6{seconds}s'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  match-victory:
+    header: '&a&lVICTORY!'
+    footer: '&a{winner} &fwon the Match!'
+    fade-in: 10
+    stay: 20
+    fade-out: 20
+  match-defeat:
+    header: '&c&lDEFEAT!'
+    footer: '&c{winner} &fwon the Match!'
+    fade-in: 10
+    stay: 20
+    fade-out: 20
+  team-scored:
+    header: '&a&l{scorer} &fhas scored!'
+    footer: '&f{current-score} &7/&f {max-rounds}'
+    fade-in: 10
+    stay: 20
+    fade-out: 20
+  checkpoint:
+    header: '&aCHECKPOINT!'
+    footer: '&7({x}, {y}, {z})'
+    fade-in: 10
+    stay: 20
+    fade-out: 20
+  match-bed-destroyed:
+    header: '&c&lBED DESTROYED!'
+    footer: '&fYou will no longer respawn!'
+    fade-in: 10
+    stay: 60
+    fade-out: 10
+  match-seekers-released:
+    header: '&c&lSEEKERS RELEASED!'
+    footer: '&fTHe hunt has begun!'
+    fade-in: 10
+    stay: 40
+    fade-out: 20
+  camp-protection:
+    header: '&cCAMP PROTECTION'
+    footer: '&fYou will take damage in {seconds} seconds!'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  camp-protection-taking-damage:
+    header: '&cTAKING DAMAGE!'
+    footer: '&fMove down!'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  party-disbanded:
+    header: '&c&l✖ Party Disbanded'
+    footer: '&7You''ve removed your party.'
+    fade-in: 10
+    stay: 15
+    fade-out: 10
+  party-created:
+    header: '&a&l⚔ Party Created'
+    footer: '&7Type /p for help.'
+    fade-in: 10
+    stay: 15
+    fade-out: 10
+
+action-bars:
+  health-indicator:
+    # Placeholders:
+    # {name-color} color of the players rank
+    # {target} Target player's name
+    # {health-bar} Health bar made of symbols (2,5 hearts = &4&l❤ &4&l❤ &c&l❤ &7&l❤❤❤❤❤❤❤)
+    message-format: '{name-color}{target} {health-bar}'
     symbol:
-      appearance: "❤"
+      appearance: ❤
       color:
-        full: "&4&l"
-        empty: "&c&l"
-    round-up-health: true
-    message-format: "{name-color}{target} {health-bar}"
+        full: '&4&l'
+        half: '&c&l'
+        empty: '&7&l'

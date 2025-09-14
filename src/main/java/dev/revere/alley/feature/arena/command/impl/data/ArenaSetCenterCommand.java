@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

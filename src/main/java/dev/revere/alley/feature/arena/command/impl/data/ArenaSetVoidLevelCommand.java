@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**
@@ -51,7 +51,7 @@ public class ArenaSetVoidLevelCommand extends BaseCommand {
         try {
             voidLevel = Integer.parseInt(args[1]);
             if (voidLevel < 0 || voidLevel > 256) {
-                player.sendMessage(CC.translate("&cVoid level must be between 0 and 256!"));
+                player.sendMessage(this.getMessage(ArenaLocaleImpl.VOID_LEVEL_OUT_OF_BOUNDS));
                 return;
             }
         } catch (NumberFormatException e) {

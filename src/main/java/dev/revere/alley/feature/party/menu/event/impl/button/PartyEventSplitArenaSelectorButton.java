@@ -3,7 +3,7 @@ package dev.revere.alley.feature.party.menu.event.impl.button;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;

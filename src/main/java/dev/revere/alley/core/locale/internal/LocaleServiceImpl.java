@@ -7,7 +7,9 @@ import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleEntry;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.types.*;
+import dev.revere.alley.core.locale.internal.impl.*;
+import dev.revere.alley.core.locale.internal.impl.command.*;
+import dev.revere.alley.core.locale.internal.impl.provider.ScoreboardLocaleImpl;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -37,10 +39,16 @@ public class LocaleServiceImpl implements LocaleService {
     @Override
     public void initialize(AlleyContext context) {
         List<Class<? extends LocaleEntry>> localeEntries = Arrays.asList(
+                GameLocaleImpl.class, ProfileLocaleImpl.class, ServerLocaleImpl.class,
+
+                ErrorLocaleImpl.class,
+
                 ArenaLocaleImpl.class, CosmeticLocaleImpl.class, DivisionLocaleImpl.class, FFALocaleImpl.class,
                 HotbarLocaleImpl.class, KitLocaleImpl.class, PartyLocaleImpl.class,
 
-                ErrorLocaleImpl.class,ProfileLocaleImpl.class, ServerLocaleImpl.class
+                ScoreboardLocaleImpl.class,
+
+                VisualLocaleImpl.class
         );
 
         Logger.infoNoPrefix("");
@@ -103,6 +111,18 @@ public class LocaleServiceImpl implements LocaleService {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<String> getListRaw(LocaleEntry entry) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        if (config.contains(entry.getConfigPath())) {
+            return config.getStringList(entry.getConfigPath());
+        } else {
+            Logger.error("'" + entry.getConfigPath() + "' doesn't exist in " + entry.getConfigName() + ". Using default value. Restarting your server will fix this.");
+            return (List<String>) entry.getDefaultValue();
+        }
+    }
+
+    @Override
     public int getInt(LocaleEntry entry) {
         FileConfiguration config = this.configService.getConfig(entry.getConfigName());
         if (config.contains(entry.getConfigPath())) {
@@ -133,5 +153,45 @@ public class LocaleServiceImpl implements LocaleService {
             Logger.error("'" + entry.getConfigPath() + "' doesn't exist in " + entry.getConfigName() + ". Using default value. Restarting your server will fix this.");
             return (boolean) entry.getDefaultValue();
         }
+    }
+
+    @Override
+    public void setMessage(LocaleEntry entry, String message) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        config.set(entry.getConfigPath(), message);
+        File file = this.configService.getConfigFile(entry.getConfigName());
+        this.configService.saveConfig(file, config);
+    }
+
+    @Override
+    public void setList(LocaleEntry entry, List<String> messages) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        config.set(entry.getConfigPath(), messages);
+        File file = this.configService.getConfigFile(entry.getConfigName());
+        this.configService.saveConfig(file, config);
+    }
+
+    @Override
+    public void setInt(LocaleEntry entry, int value) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        config.set(entry.getConfigPath(), value);
+        File file = this.configService.getConfigFile(entry.getConfigName());
+        this.configService.saveConfig(file, config);
+    }
+
+    @Override
+    public void setDouble(LocaleEntry entry, double value) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        config.set(entry.getConfigPath(), value);
+        File file = this.configService.getConfigFile(entry.getConfigName());
+        this.configService.saveConfig(file, config);
+    }
+
+    @Override
+    public void setBoolean(LocaleEntry entry, boolean value) {
+        FileConfiguration config = this.configService.getConfig(entry.getConfigName());
+        config.set(entry.getConfigPath(), value);
+        File file = this.configService.getConfigFile(entry.getConfigName());
+        this.configService.saveConfig(file, config);
     }
 }

@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.item.command.impl;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.feature.item.ItemService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.item.ItemService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,6 +42,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         }
 
         if (amount <= 0) {
+            //TODO: Locale
             player.sendMessage(CC.translate("&cAmount must be greater than zero."));
             return;
         }
@@ -48,12 +50,15 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         ItemService itemService = this.plugin.getService(ItemService.class);
         ItemStack goldenHead = itemService.getGoldenHead();
         if (goldenHead == null) {
-            player.sendMessage(CC.translate("&cCustom golden head item is not configured."));
+            player.sendMessage(this.getMessage(ServerLocaleImpl.ITEM_NOT_CONFIGURED).replace("{item-name}", "Custom Golden Head"));
             return;
         }
 
         goldenHead.setAmount(amount);
         player.getInventory().addItem(goldenHead);
-        player.sendMessage(CC.translate("&aYou have been given " + amount + " custom golden head(s)."));
+        player.sendMessage(this.getMessage(ServerLocaleImpl.GIVEN_ITEM)
+                .replace("{item-name}", "Custom Golden Head" + (amount > 1 ? "s" : ""))
+                .replace("{amount}", String.valueOf(amount))
+        );
     }
 }

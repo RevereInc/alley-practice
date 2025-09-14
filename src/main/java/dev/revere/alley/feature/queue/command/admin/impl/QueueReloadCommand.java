@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.queue.command.admin.impl;
 
-import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.queue.QueueService;
 import org.bukkit.entity.Player;
 
 /**

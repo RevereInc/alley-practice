@@ -1,19 +1,19 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
-import dev.revere.alley.core.locale.internal.types.CosmeticLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.StringUtil;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.CosmeticLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.cosmetic.CosmeticService;
+import dev.revere.alley.feature.cosmetic.internal.repository.BaseCosmeticRepository;
+import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.feature.cosmetic.internal.repository.BaseCosmeticRepository;
-import dev.revere.alley.feature.cosmetic.CosmeticService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -58,7 +58,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         BaseCosmeticRepository<?> repository = this.plugin.getService(CosmeticService.class).getRepository(cosmeticType);
         if (repository == null) {
-            player.sendMessage(CC.translate("&cError: No repository found for that type."));
+            player.sendMessage(this.getMessage(CosmeticLocaleImpl.COSMETIC_TYPE_NOT_SUPPORTED).replace("{type}", typeName));
             return;
         }
 

@@ -1,10 +1,9 @@
 package dev.revere.alley.feature.tip;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,19 +19,9 @@ public class Tip {
     private final List<String> tips = new ArrayList<>();
 
     public Tip() {
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig();
-
-        if (!config.contains("tips")) {
-            Logger.info("Tips section not found in messages config.");
-            return;
-        }
-
-        if (config.getStringList("tips").isEmpty()) {
-            Logger.info("No tips found in messages config.");
-            return;
-        }
-
-        this.tips.addAll(config.getStringList("tips"));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+        List<String> loadedTips = localeService.getListRaw(ServerLocaleImpl.TIPS_LIST);
+        this.tips.addAll(loadedTips);
     }
 
     /**
@@ -42,7 +31,7 @@ public class Tip {
      */
     public String getRandomTip() {
         if (this.tips.isEmpty()) {
-            return "&cNo tips found in config.";
+            return "&cThe list of tips appears to be empty at the moment. Well at this point we can only apologize and hit you up with this tip: &ePractice makes perfect!";
         }
 
         return this.tips.get(ThreadLocalRandom.current().nextInt(this.tips.size()));

@@ -1,11 +1,11 @@
 package dev.revere.alley.library.menu.pagination.impl.button;
 
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.MenuUtil;
 import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.library.menu.pagination.impl.menu.ViewAllPagesMenu;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -83,7 +83,7 @@ public class PageButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType == ClickType.RIGHT) {
             new ViewAllPagesMenu(this.menu).openMenu(player);
-        } else if (clickType != ClickType.LEFT) {
+        } else if (clickType == ClickType.LEFT) {
             if (this.offset > 0) {
                 if (MenuUtil.hasNext(player, offset, this.menu)) {
                     this.menu.modPage(player, this.offset);

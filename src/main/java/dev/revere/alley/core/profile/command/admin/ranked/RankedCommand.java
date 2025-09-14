@@ -1,9 +1,9 @@
 package dev.revere.alley.core.profile.command.admin.ranked;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -14,6 +14,9 @@ import java.util.Arrays;
  * @since 13/03/2025
  */
 public class RankedCommand extends BaseCommand {
+
+    //TODO: Menu for managing ranked bans? reason? duration?
+
     @CommandData(
             name = "ranked",
             isAdminOnly = true,

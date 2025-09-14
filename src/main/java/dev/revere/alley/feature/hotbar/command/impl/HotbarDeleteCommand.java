@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.HotbarLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.HotbarLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarItem;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;

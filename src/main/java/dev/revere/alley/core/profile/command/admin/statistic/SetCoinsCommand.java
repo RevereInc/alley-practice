@@ -1,12 +1,12 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,6 +15,9 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class SetCoinsCommand extends BaseCommand {
+
+    //TODO: Locale
+
     @CommandData(
             name = "coins.set",
             isAdminOnly = true,

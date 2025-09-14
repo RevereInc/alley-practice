@@ -4,13 +4,12 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.explosives.ExplosiveService;
 import dev.revere.alley.feature.explosives.listener.ExplosiveListener;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.configuration.file.FileConfiguration;
-
-import java.io.File;
 
 /**
  * @author Emmy
@@ -23,62 +22,62 @@ import java.io.File;
 public class ExplosiveServiceImpl implements ExplosiveService {
     private final AlleyPlugin plugin;
     private final ConfigService configService;
+    private final LocaleService localeService;
 
-    private double explosionRange;
-    private double horizontal;
-    private double vertical;
-    private double range;
-    private double speed;
-    private int tntFuseTicks;
     private boolean enabled;
 
+    private double horizontalFireballKnockback;
+    private double verticalFireballKnockback;
+    private double fireballExplosionRange;
+    private double fireballThrowSpeed;
+
+    private double tntExplosionRange;
+    private int tntFuseTicks;
+
     /**
-     * Constructor for DI.
+     * DI Constructor for the ExplosiveServiceImpl class.
+     *
+     * @param plugin        The main AlleyPlugin instance.
+     * @param configService The configuration service.
+     * @param localeService The locale service.
      */
-    public ExplosiveServiceImpl(AlleyPlugin plugin, ConfigService configService) {
+    public ExplosiveServiceImpl(AlleyPlugin plugin, ConfigService configService, LocaleService localeService) {
         this.plugin = plugin;
         this.configService = configService;
+        this.localeService = localeService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        FileConfiguration settingsConfig = this.configService.getSettingsConfig();
-        this.enabled = settingsConfig.getBoolean("explosive.enabled", false);
+        this.enabled = this.localeService.getBoolean(ServerLocaleImpl.EXPLOSIVE_ENABLED);
 
         if (this.enabled) {
-            this.assignValues(settingsConfig);
+            this.assignValues();
             this.registerListener();
         }
     }
 
-    /**
-     * Assigns the values for the explosive knockback settings from the configuration.
-     *
-     * @param settingsConfig The configuration file containing the settings.
-     */
-    private void assignValues(FileConfiguration settingsConfig) {
-        this.horizontal = settingsConfig.getDouble("explosive.values.horizontal");
-        this.vertical = settingsConfig.getDouble("explosive.values.vertical");
-        this.range = settingsConfig.getDouble("explosive.values.range");
-        this.speed = settingsConfig.getDouble("explosive.values.speed");
-        this.tntFuseTicks = settingsConfig.getInt("explosive.values.tnt-fuse-ticks");
-        this.explosionRange = settingsConfig.getDouble("explosive.values.explosion-range");
-    }
+    private void assignValues() {
+        this.horizontalFireballKnockback = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE);
+        this.verticalFireballKnockback = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE);
+        this.fireballExplosionRange = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE);
+        this.fireballThrowSpeed = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE);
 
+        this.tntFuseTicks = this.localeService.getInt(ServerLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE);
+        this.tntExplosionRange = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE);
+    }
 
     @Override
     public void save() {
-        FileConfiguration settingsConfig = this.configService.getSettingsConfig();
-        File settingsFile = this.configService.getConfigFile("settings.yml");
+        this.localeService.setBoolean(ServerLocaleImpl.EXPLOSIVE_ENABLED, this.enabled);
 
-        settingsConfig.set("explosive.values.horizontal", this.horizontal);
-        settingsConfig.set("explosive.values.vertical", this.vertical);
-        settingsConfig.set("explosive.values.range", this.range);
-        settingsConfig.set("explosive.values.speed", this.speed);
-        settingsConfig.set("explosive.values.tnt-fuse-ticks", this.tntFuseTicks);
-        settingsConfig.set("explosive.values.explosion-range", this.explosionRange);
+        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE, this.horizontalFireballKnockback);
+        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE, this.verticalFireballKnockback);
+        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE, this.fireballExplosionRange);
+        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE, this.fireballThrowSpeed);
 
-        this.configService.saveConfig(settingsFile, settingsConfig);
+        this.localeService.setInt(ServerLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE, this.tntFuseTicks);
+        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE, this.tntExplosionRange);
     }
 
     private void registerListener() {

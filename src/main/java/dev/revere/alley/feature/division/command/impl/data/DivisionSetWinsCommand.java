@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.DivisionLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -60,7 +60,10 @@ public class DivisionSetWinsCommand extends BaseCommand {
 
         String tier = args[1];
         if (division.getTier(tier) == null) {
-            player.sendMessage(this.getMessage(DivisionLocaleImpl.TIER_NOT_FOUND).replace("{division-name}", division.getDisplayName()).replace("{tier-name}", tier));
+            player.sendMessage(this.getMessage(DivisionLocaleImpl.TIER_NOT_FOUND)
+                    .replace("{division-name}", division.getDisplayName())
+                    .replace("{tier-name}", tier)
+            );
             return;
         }
 

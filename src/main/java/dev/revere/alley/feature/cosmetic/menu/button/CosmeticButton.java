@@ -1,14 +1,15 @@
 package dev.revere.alley.feature.cosmetic.menu.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.cosmetic.internal.repository.impl.suit.BaseSuit;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
+import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -59,18 +60,19 @@ public class CosmeticButton extends Button {
             return;
         }
 
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         ProfileCosmeticData cosmeticData = profile.getProfileData().getCosmeticData();
 
         if (cosmeticData.isSelected(cosmetic)) {
-            player.sendMessage(CC.translate("&cYou already have this cosmetic selected."));
+            player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_ALREADY_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
 
         if (!player.hasPermission(cosmetic.getPermission())) {
-            player.sendMessage(CC.translate("&cYou do not have permission to use this cosmetic."));
+            player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_NOT_OWNED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
@@ -80,6 +82,6 @@ public class CosmeticButton extends Button {
         cosmeticData.setSelected(cosmetic);
 
         this.playSuccess(player);
-        player.sendMessage(CC.translate("&aYou have selected the &6" + cosmetic.getName() + " &acosmetic."));
+        player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
     }
 }

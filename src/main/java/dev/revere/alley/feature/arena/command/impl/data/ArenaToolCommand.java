@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.selection.ArenaSelection;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**

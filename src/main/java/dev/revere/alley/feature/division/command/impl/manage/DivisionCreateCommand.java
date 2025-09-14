@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
-import dev.revere.alley.core.locale.internal.types.DivisionLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.DivisionLocaleImpl;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**

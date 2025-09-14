@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -11,10 +11,9 @@ import dev.revere.alley.feature.arena.internal.types.FreeForAllArena;
 import dev.revere.alley.feature.arena.internal.types.SharedArena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.arena.selection.ArenaSelection;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.common.text.CC;
-import org.bukkit.configuration.file.FileConfiguration;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -60,7 +59,7 @@ public class ArenaCreateCommand extends BaseCommand {
 
         ArenaSelection arenaSelection = ArenaSelection.createSelection(player);
         if (!arenaSelection.hasSelection()) {
-            player.sendMessage(CC.translate("&cYou must select the minimum and maximum locations for the arena."));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.NO_SELECTION));
             return;
         }
 
@@ -95,15 +94,15 @@ public class ArenaCreateCommand extends BaseCommand {
      * @return The default display name.
      */
     private String getDefaultDisplayName(ArenaType arenaType) {
-        FileConfiguration config = this.plugin.getService(ConfigService.class).getSettingsConfig();
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
 
         switch (arenaType) {
             case SHARED:
-                return config.getString("arena.default-display-name.shared");
+                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_SHARED);
             case STANDALONE:
-                return config.getString("arena.default-display-name.standalone");
+                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_STANDALONE);
             case FFA:
-                return config.getString("arena.default-display-name.ffa");
+                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_FFA);
         }
 
         return null;

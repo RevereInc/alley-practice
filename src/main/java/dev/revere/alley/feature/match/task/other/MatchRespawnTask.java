@@ -1,13 +1,18 @@
 package dev.revere.alley.feature.match.task.other;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchState;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
 
 /**
  * @author Emmy
@@ -45,14 +50,27 @@ public class MatchRespawnTask extends BukkitRunnable {
             return;
         }
 
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_HEADER).replace("{seconds}", String.valueOf(this.count));
+        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FOOTER).replace("{seconds}", String.valueOf(this.count));
+        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FADE_IN);
+        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_STAY);
+        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FADEOUT);
+
         AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
-                "&6&lRespawn",
-                "&fRespawning in &6" + this.count + "s",
-                0, 23, 20
+                header,
+                footer,
+                fadeIn, stay, fadeOut
         );
 
-        this.player.sendMessage(CC.translate("&a" + this.count + "..."));
+        boolean messageEnabled = localeService.getBoolean(GameLocaleImpl.MATCH_RESPAWNING_MESSAGE_ENABLED_BOOLEAN);
+        List<String> messageFormat = localeService.getMessageList(GameLocaleImpl.MATCH_RESPAWNING_MESSAGE_FORMAT);
+        if (messageEnabled) {
+            messageFormat.forEach(message -> this.player.sendMessage(CC.translate(message.replace("{seconds}", String.valueOf(this.count)))));
+        }
+
         this.count--;
     }
 }

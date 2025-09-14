@@ -9,7 +9,6 @@ import dev.revere.alley.bootstrap.lifecycle.Service;
  * @date 2/07/2025
  */
 public interface MongoService extends Service {
-
     /**
      * Gets the active MongoDatabase instance for other services to use.
      *
@@ -17,5 +16,4 @@ public interface MongoService extends Service {
      * @throws IllegalStateException if the service has not been initialized yet.
      */
     MongoDatabase getMongoDatabase();
-
 }

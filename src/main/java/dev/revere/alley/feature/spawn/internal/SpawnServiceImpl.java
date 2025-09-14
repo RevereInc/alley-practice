@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.spawn.internal;
 
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.serializer.Serializer;
-import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.spawn.SpawnService;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 /**
@@ -21,14 +21,17 @@ import org.bukkit.entity.Player;
 @Getter
 @Service(provides = SpawnService.class, priority = 240)
 public class SpawnServiceImpl implements SpawnService {
-    private final ConfigService configService;
+    private final LocaleService localeService;
+
     private Location location;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the SpawnServiceImpl class.
+     *
+     * @param localeService The locale service.
      */
-    public SpawnServiceImpl(ConfigService configService) {
-        this.configService = configService;
+    public SpawnServiceImpl(LocaleService localeService) {
+        this.localeService = localeService;
     }
 
     @Override
@@ -37,8 +40,7 @@ public class SpawnServiceImpl implements SpawnService {
     }
 
     private void loadSpawnLocation() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        Location location = Serializer.deserializeLocation(config.getString("spawn.join-location"));
+        Location location = Serializer.deserializeLocation(this.localeService.getMessage(ServerLocaleImpl.LOCATION_SPAWN));
         if (location == null) {
             Logger.error("Spawn location is null.");
             return;
@@ -52,10 +54,7 @@ public class SpawnServiceImpl implements SpawnService {
         if (location == null) return;
 
         this.location = location;
-
-        FileConfiguration config = this.configService.getSettingsConfig();
-        config.set("spawn.join-location", Serializer.serializeLocation(location));
-        this.configService.saveConfig(this.configService.getConfigFile("settings.yml"), config);
+        this.localeService.setMessage(ServerLocaleImpl.LOCATION_SPAWN, Serializer.serializeLocation(location));
     }
 
     @Override

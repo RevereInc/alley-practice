@@ -1,13 +1,13 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.types.ProfileLocaleImpl;
-import dev.revere.alley.feature.music.MusicService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -25,13 +25,15 @@ public class ToggleLobbyMusicCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
+        Profile profile = this.getProfile(player.getUniqueId());
+        if (profile.isBusy()) {
+            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            return;
+        }
 
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        MusicService musicService = this.plugin.getService(MusicService.class);
-
-        Profile profile = profileService.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setLobbyMusicEnabled(!profile.getProfileData().getSettingData().isLobbyMusicEnabled());
 
+        MusicService musicService = this.plugin.getService(MusicService.class);
         boolean isEnabled = profile.getProfileData().getSettingData().isLobbyMusicEnabled();
         if (isEnabled) {
             musicService.startMusic(player);
@@ -39,6 +41,8 @@ public class ToggleLobbyMusicCommand extends BaseCommand {
             musicService.stopMusic(player);
         }
 
-        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_LOBBY_MUSIC).replace("{status}", profile.getProfileData().getSettingData().isLobbyMusicEnabled() ? "&aenabled" : "&cdisabled")));
+        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_LOBBY_MUSIC)
+                .replace("{status}", isEnabled ? "&aenabled" : "&cdisabled"))
+        );
     }
 }

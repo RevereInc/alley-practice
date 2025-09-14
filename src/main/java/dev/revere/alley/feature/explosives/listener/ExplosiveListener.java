@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.explosives.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingExplosiveImpl;
 import dev.revere.alley.feature.explosives.ExplosiveService;
+import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingExplosiveImpl;
 import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -37,6 +37,9 @@ import java.util.Optional;
  * @since 24/06/2025
  */
 public class ExplosiveListener implements Listener {
+
+    //TODO: Locale
+
     private static final String PRACTICE_TNT_METADATA = "PRACTICE_TNT";
 
     @EventHandler
@@ -92,7 +95,7 @@ public class ExplosiveListener implements Listener {
         Fireball fireball = player.launchProjectile(Fireball.class);
         fireball.setIsIncendiary(false);
         fireball.setYield(2.0F);
-        fireball.setVelocity(player.getLocation().getDirection().normalize().multiply(explosiveService.getSpeed()));
+        fireball.setVelocity(player.getLocation().getDirection().normalize().multiply(explosiveService.getFireballThrowSpeed()));
 
         //SoundUtil.playCustomSound(player, Sound.GHAST_FIREBALL, 1.0f, 1.0f);
 
@@ -188,9 +191,9 @@ public class ExplosiveListener implements Listener {
      */
     private void applyPlayerKnockback(Entity source, Location explosionLocation) {
         ExplosiveService explosiveService = AlleyPlugin.getInstance().getService(ExplosiveService.class);
-        double maxRange = explosiveService.getRange();
-        double maxHorizontal = explosiveService.getHorizontal();
-        double maxVertical = explosiveService.getVertical();
+        double maxRange = explosiveService.getFireballExplosionRange();
+        double maxHorizontal = explosiveService.getHorizontalFireballKnockback();
+        double maxVertical = explosiveService.getVerticalFireballKnockback();
 
         source.getNearbyEntities(maxRange, maxRange, maxRange).forEach(entity -> {
             if (!(entity instanceof Player)) {
@@ -276,7 +279,7 @@ public class ExplosiveListener implements Listener {
      */
     private void handleFireballExplosion(Location explosionLocation) {
         ExplosiveService explosiveService = AlleyPlugin.getInstance().getService(ExplosiveService.class);
-        double range = explosiveService.getExplosionRange();
+        double range = explosiveService.getTntExplosionRange();
 
         List<Block> blocksToBreak = new ArrayList<>();
         int radius = (int) Math.ceil(range);
@@ -315,7 +318,7 @@ public class ExplosiveListener implements Listener {
      */
     private void handleCustomTntExplosion(TNTPrimed tnt, Location explosionLocation) {
         ExplosiveService explosiveService = AlleyPlugin.getInstance().getService(ExplosiveService.class);
-        double range = explosiveService.getExplosionRange();
+        double range = explosiveService.getTntExplosionRange();
 
         List<Block> blocksToBreak = new ArrayList<>();
         int radius = (int) Math.ceil(range);

@@ -1,11 +1,10 @@
 package dev.revere.alley.core.profile.command.player.setting.worldtime;
 
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -23,10 +22,11 @@ public class NightCommand extends BaseCommand {
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
 
         profile.getProfileData().getSettingData().setTimeNight(player);
-        player.sendMessage(CC.translate("&aYou have set the time to night."));
+        player.sendMessage(this.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
+        );
     }
 }

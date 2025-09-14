@@ -1,27 +1,26 @@
 package dev.revere.alley.feature.server.internal;
 
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.feature.spawn.SpawnService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
+import dev.revere.alley.feature.server.ServerService;
+import dev.revere.alley.feature.spawn.SpawnService;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,30 +36,29 @@ public class ServerServiceImpl implements ServerService {
     private final ProfileService profileService;
     private final HotbarService hotbarService;
     private final SpawnService spawnService;
-    private final ConfigService configService;
+    private final LocaleService localeService;
 
     private boolean queueingAllowed = true;
 
     private final Set<Material> blockedCraftingItems = new HashSet<>();
-    private final String BLOCKED_ITEMS_PATH = "blocked-crafting-items";
 
     /**
-     * Constructor for dependency injection.
+     * DI Constructor for the ServerServiceImpl class.
      *
      * @param matchService   The match service.
      * @param partyService   The party service.
      * @param profileService The profile service.
      * @param hotbarService  The hotbar service.
      * @param spawnService   The spawn service.
-     * @param configService  The config service.
+     * @param localeService  The locale service.
      */
-    public ServerServiceImpl(MatchService matchService, PartyService partyService, ProfileService profileService, HotbarService hotbarService, SpawnService spawnService, ConfigService configService) {
+    public ServerServiceImpl(MatchService matchService, PartyService partyService, ProfileService profileService, HotbarService hotbarService, SpawnService spawnService, LocaleService localeService) {
         this.matchService = matchService;
         this.partyService = partyService;
         this.profileService = profileService;
         this.hotbarService = hotbarService;
         this.spawnService = spawnService;
-        this.configService = configService;
+        this.localeService = localeService;
     }
 
     @Override
@@ -151,8 +149,7 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public void loadBlockedCraftingItems() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        List<String> blocked = config.getStringList(this.BLOCKED_ITEMS_PATH);
+        List<String> blocked = this.localeService.getListRaw(ServerLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST);
 
         this.blockedCraftingItems.clear();
         for (String mat : blocked) {
@@ -167,13 +164,8 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public void saveBlockedItems(Material material) {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        File configFile = this.configService.getConfigFile("settings.yml");
-
         List<String> materialNames = this.blockedCraftingItems.stream().map(Material::name).collect(Collectors.toList());
-        config.set(this.BLOCKED_ITEMS_PATH, materialNames);
-
-        this.configService.saveConfig(configFile, config);
+        this.localeService.setList(ServerLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST, materialNames);
     }
 
     @Override

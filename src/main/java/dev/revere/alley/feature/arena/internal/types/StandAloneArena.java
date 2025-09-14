@@ -1,18 +1,20 @@
 package dev.revere.alley.feature.arena.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.serializer.Serializer;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.schematic.ArenaSchematicService;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.internal.types.BedMatch;
 import dev.revere.alley.feature.match.internal.types.RoundsMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.serializer.Serializer;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -56,7 +58,7 @@ public class StandAloneArena extends Arena {
 
         if (team1Portal != null) this.team1Portal = team1Portal;
         if (team2Portal != null) this.team2Portal = team2Portal;
-        this.portalRadius = this.plugin.getService(ConfigService.class).getSettingsConfig().getInt("game.portal-radius");
+        this.portalRadius = this.plugin.getService(LocaleService.class).getInt(ServerLocaleImpl.GAME_ARENA_PORTAL_RADIUS);
         this.heightLimit = heightLimit;
         this.voidLevel = voidLevel;
     }
@@ -69,7 +71,7 @@ public class StandAloneArena extends Arena {
 
         if (team1Portal != null) this.team1Portal = team1Portal;
         if (team2Portal != null) this.team2Portal = team2Portal;
-        this.portalRadius = this.plugin.getService(ConfigService.class).getSettingsConfig().getInt("game.portal-radius");
+        this.portalRadius = this.plugin.getService(LocaleService.class).getInt(ServerLocaleImpl.GAME_ARENA_PORTAL_RADIUS);
         this.heightLimit = heightLimit;
         this.voidLevel = voidLevel;
     }

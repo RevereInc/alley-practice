@@ -1,15 +1,16 @@
 package dev.revere.alley.feature.ffa.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.geom.Cuboid;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import dev.revere.alley.feature.ffa.FFAState;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.geom.Cuboid;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,6 +48,7 @@ public class FFACuboidListener implements Listener {
 
         FFAService ffaService = AlleyPlugin.getInstance().getService(FFAService.class);
         CombatService combatService = AlleyPlugin.getInstance().getService(CombatService.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (ffaService.getFFAMatch(player) == null || !ffaService.getMatchByPlayer(player).isPresent()) {
             return;
@@ -60,10 +62,10 @@ public class FFACuboidListener implements Listener {
         if (isInCuboid != wasInCuboid) {
             if (isInCuboid) {
                 if (combatService.isPlayerInCombat(playerId)) return;
-                player.sendMessage(CC.translate("&aYou have entered the FFA spawn area."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.FFA_SPAWN_ENTER));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.SPAWN));
             } else {
-                player.sendMessage(CC.translate("&cYou have left the FFA spawn area."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.FFA_SPAWN_LEAVE));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.FIGHTING));
             }
 

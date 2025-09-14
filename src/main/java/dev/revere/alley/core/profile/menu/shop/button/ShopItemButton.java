@@ -1,16 +1,16 @@
 package dev.revere.alley.core.profile.menu.shop.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +56,8 @@ public class ShopItemButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
 
+        //TODO: Locale
+
         if (player.hasPermission(cosmetic.getPermission())) {
             player.sendMessage(CC.translate("&cYou already own this cosmetic."));
             this.playFail(player);
@@ -70,8 +72,12 @@ public class ShopItemButton extends Button {
 
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getSettingsConfig();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.get("command.grant-cosmetic-permission-command").toString().replace("{player}", player.getName()).replace("%permission%", cosmetic.getPermission()));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+        String command = localeService.getMessage(ServerLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
+                .replace("{player}", player.getName())
+                .replace("{permission}", cosmetic.getPermission());
+
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 
         player.sendMessage(CC.translate("&aSuccessfully purchased the &6" + cosmetic.getName() + " &acosmetic!"));
         this.playSuccess(player);

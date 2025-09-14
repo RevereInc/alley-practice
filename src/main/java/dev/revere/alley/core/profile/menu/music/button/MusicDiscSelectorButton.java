@@ -1,12 +1,12 @@
 package dev.revere.alley.core.profile.menu.music.button;
 
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.music.MusicDisc;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.data.types.ProfileMusicData;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.LoreHelper;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.music.MusicDisc;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -39,6 +39,8 @@ public class MusicDiscSelectorButton extends Button {
     @Override
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
+
+        //TODO: Locale
 
         ProfileMusicData musicData = this.profile.getProfileData().getMusicData();
 

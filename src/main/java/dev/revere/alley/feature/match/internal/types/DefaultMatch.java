@@ -1,41 +1,42 @@
 package dev.revere.alley.feature.match.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.kit.raiding.BaseRaidingService;
-import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingDropItemsImpl;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRespawnTimer;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.layout.data.LayoutData;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.feature.match.model.MatchGamePlayerData;
-import dev.revere.alley.feature.match.model.BaseRaiderRole;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.utility.MatchUtility;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.progress.ProgressService;
-import dev.revere.alley.core.profile.progress.PlayerProgress;
+import dev.revere.alley.common.InventoryUtil;
+import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.elo.EloCalculator;
 import dev.revere.alley.common.elo.EloResult;
 import dev.revere.alley.common.elo.OldEloResult;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.InventoryUtil;
-import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.progress.PlayerProgress;
+import dev.revere.alley.core.profile.progress.ProgressService;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.raiding.BaseRaidingService;
+import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingDropItemsImpl;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRespawnTimer;
+import dev.revere.alley.feature.layout.data.LayoutData;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchState;
+import dev.revere.alley.feature.match.model.BaseRaiderRole;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.MatchGamePlayerData;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.match.utility.MatchUtility;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -156,8 +157,8 @@ public class DefaultMatch extends Match {
      * Handles all player-facing messages at the end of a match, including titles and results.
      */
     private void broadcastMatchOutcome(GameParticipant<MatchGamePlayer> winner, GameParticipant<MatchGamePlayer> loser) {
-        winner.getPlayers().forEach(gamePlayer -> sendVictory(gamePlayer.getTeamPlayer()));
-        loser.getPlayers().forEach(gamePlayer -> sendDefeat(gamePlayer.getTeamPlayer()));
+        this.sendVictory(winner);
+        this.sendDefeat(loser, winner);
 
         if (this.isTeamMatch()) {
             MatchUtility.sendConjoinedMatchResult(this, winner, loser);
@@ -244,29 +245,59 @@ public class DefaultMatch extends Match {
     }
 
     /**
-     * Send the winner title to the player.
+     * Sends the victory title to the winning participant.
      *
-     * @param player The player to send the title to.
+     * @param winner The winning participant.
      */
-    private void sendVictory(Player player) {
-        AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                player,
-                "&a&lVICTORY!",
-                "&fYou have won the match!"
-        );
+    private void sendVictory(GameParticipant<MatchGamePlayer> winner) {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+
+        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_VICTORY_HEADER).replace("{winner}", winner.getLeader().getUsername());
+        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_VICTORY_FOOTER).replace("{winner}", winner.getLeader().getUsername());
+
+        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_FADE_IN);
+        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_STAY);
+        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_FADEOUT);
+
+        winner.getPlayers().forEach(matchGamePlayer -> {
+            Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
+            if (player != null && player.isOnline()) {
+                this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                        player,
+                        header,
+                        footer,
+                        fadeIn, stay, fadeOut
+                );
+            }
+        });
     }
 
     /**
-     * Send the loser title to the player.
+     * Sends the defeat title to the losing participant.
      *
-     * @param player The player to send the title to.
+     * @param loser The losing participant.
      */
-    private void sendDefeat(Player player) {
-        AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                player,
-                "&c&lDEFEAT!",
-                "&fYou have lost the match!"
-        );
+    private void sendDefeat(GameParticipant<MatchGamePlayer> loser, GameParticipant<MatchGamePlayer> winner) {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+
+        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_DEFEAT_HEADER).replace("{winner}", winner.getLeader().getUsername());
+        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FOOTER).replace("{winner}", winner.getLeader().getUsername());
+
+        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FADE_IN);
+        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_STAY);
+        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FADEOUT);
+
+        loser.getPlayers().forEach(matchGamePlayer -> {
+            Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
+            if (player != null && player.isOnline()) {
+                this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                        player,
+                        header,
+                        footer,
+                        fadeIn, stay, fadeOut
+                );
+            }
+        });
     }
 
     /**
@@ -280,28 +311,24 @@ public class DefaultMatch extends Match {
      * @param newEloLoser  The new elo of the loser.
      */
     public void sendEloResult(String winnerName, String loserName, int oldEloWinner, int oldEloLoser, int newEloWinner, int newEloLoser) {
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig();
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        if (localeService.getBoolean(GameLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_ENABLED_BOOLEAN)) {
+            List<String> list = localeService.getMessageList(GameLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_FORMAT);
 
-        List<String> list = config.getStringList("match.ended.elo-changes.format");
-        String winnerIndicatorColor = config.getString("match.ended.elo-changes.winner-indicator-color", "&a");
-        String loserIndicatorColor = config.getString("match.ended.elo-changes.loser-indicator-color", "&c");
+            list.replaceAll(string -> string
+                    .replace("{winner}", winnerName)
+                    .replace("{loser}", loserName)
+                    .replace("{old-winner-elo}", String.valueOf(oldEloWinner))
+                    .replace("{old-loser-elo}", String.valueOf(oldEloLoser))
+                    .replace("{new-winner-elo}", String.valueOf(newEloWinner))
+                    .replace("{new-loser-elo}", String.valueOf(newEloLoser))
+                    .replace("{math-winner-elo}", String.valueOf(Math.abs(oldEloWinner - newEloWinner)))
+                    .replace("{math-loser-elo}", String.valueOf(Math.abs(oldEloLoser - newEloLoser)))
+            );
 
-        list.replaceAll(string -> string
-                .replace("{winner}", winnerName)
-                .replace("{loser}", loserName)
-                .replace("{old-winner-elo}", String.valueOf(oldEloWinner))
-                .replace("{old-loser-elo}", String.valueOf(oldEloLoser))
-                .replace("{new-winner-elo}", String.valueOf(newEloWinner))
-                .replace("{new-loser-elo}", String.valueOf(newEloLoser))
-                .replace("{winner-indicator}", newEloWinner > oldEloWinner ? "+" : "-")
-                .replace("{loser-indicator}", newEloLoser > oldEloLoser ? "+" : "-")
-                .replace("{winner-color}", newEloWinner > oldEloWinner ? winnerIndicatorColor : loserIndicatorColor)
-                .replace("{loser-color}", newEloLoser > oldEloLoser ? winnerIndicatorColor : loserIndicatorColor)
-                .replace("{math-winner-elo}", String.valueOf(Math.abs(oldEloWinner - newEloWinner)))
-                .replace("{math-loser-elo}", String.valueOf(Math.abs(oldEloLoser - newEloLoser)))
-        );
+            list.forEach(this::notifyParticipants);
+        }
 
-        list.forEach(this::notifyParticipants);
     }
 
     /**

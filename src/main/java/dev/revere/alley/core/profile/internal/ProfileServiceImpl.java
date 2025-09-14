@@ -1,18 +1,18 @@
 package dev.revere.alley.core.profile.internal;
 
 import com.mongodb.client.MongoCollection;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.database.MongoService;
 import dev.revere.alley.core.database.model.DatabaseProfile;
 import dev.revere.alley.core.database.model.internal.MongoProfileImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.feature.layout.data.LayoutData;
 import dev.revere.alley.core.profile.data.ProfileData;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.layout.data.LayoutData;
 import lombok.Getter;
 import org.bson.Document;
 import org.bukkit.Bukkit;
@@ -79,15 +79,23 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setProfileData(new ProfileData());
         profile.save();
 
+        //TODO: Locale
+
         Arrays.asList(
-                "", "&c&lSTAT RESET ISSUED", "&cSuccessfully reset stats of " + targetPlayer.getName() + ".",
-                "&7Be aware that if this is being abused, you will be punished.", ""
+                "",
+                "&c&lSTAT RESET ISSUED",
+                "&cSuccessfully reset stats of " + targetPlayer.getName() + ".",
+                "&7Be aware that if this is being abused, you will be punished.",
+                ""
         ).forEach(line -> player.sendMessage(CC.translate(line)));
 
         if (targetPlayer.isOnline() && targetPlayer.getPlayer() != null) {
             Arrays.asList(
-                    "", "&c&lSTAT RESET ACTION", "&cYour stats have been wiped due to suspicious activity.",
-                    "&7If you believe this was unjust, create a support ticket.", ""
+                    "",
+                    "&c&lSTAT RESET ACTION",
+                    "&cYour stats have been wiped due to suspicious activity.",
+                    "&7If you believe this was unjust, create a support ticket.",
+                    ""
             ).forEach(line -> targetPlayer.getPlayer().sendMessage(CC.translate(line)));
         }
     }
@@ -101,6 +109,8 @@ public class ProfileServiceImpl implements ProfileService {
                 profile.getProfileData().getLayoutData().getLayouts().put(kit.getName(), layouts);
             }
         });
+
+        //TODO: Locale
         Bukkit.broadcastMessage(CC.translate("&c&lLAYOUT RESET: &cThe layout for kit " + kit.getName() + " has been reset for all players."));
     }
 }

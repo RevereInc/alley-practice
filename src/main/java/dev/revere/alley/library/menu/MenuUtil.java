@@ -4,8 +4,6 @@ import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.experimental.UtilityClass;
 import org.bukkit.entity.Player;
 
-import java.util.Map;
-
 /**
  * @author Emmy
  * @project Alley
@@ -36,15 +34,5 @@ public class MenuUtil {
     public boolean hasPrevious(int offset, PaginatedMenu menu) {
         int pg = menu.getPage() + offset;
         return pg > 0;
-    }
-
-    /**
-     * Calculates the number of rows to increment by one.
-     *
-     * @param buttons the buttons to display
-     * @return the number of rows to increment by one
-     */
-    public int calculateRequiredRows(Map<Integer, Button> buttons) {
-        return (int) Math.ceil(buttons.size() / 9.0) + 1;
     }
 }

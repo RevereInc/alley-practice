@@ -1,12 +1,11 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.enums.ChatChannel;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ChatChannel;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -31,8 +30,7 @@ public class ChatCommand extends BaseCommand {
             return;
         }
 
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
         if (ChatChannel.getExactChatChannel(args[0], true) == null) {
             player.sendMessage(CC.translate("&cThe chat channel &6" + args[0] + " &cdoes not exist."));
             return;

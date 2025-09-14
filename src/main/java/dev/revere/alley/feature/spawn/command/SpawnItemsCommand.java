@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.spawn.command;
 
-import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;

@@ -28,6 +28,9 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class DefaultFFAMatch extends FFAMatch {
+
+    //TODO: Locale
+
     protected final AlleyPlugin plugin = AlleyPlugin.getInstance();
 
     /**

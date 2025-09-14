@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import net.minecraft.server.v1_8_R3.EntityBoat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
@@ -89,7 +89,7 @@ public class DonutCommand extends BaseCommand {
             }
         }
 
-        int [] idsToDestroy = fakeEntityIds.stream().mapToInt(Integer::intValue).toArray();
+        int[] idsToDestroy = fakeEntityIds.stream().mapToInt(Integer::intValue).toArray();
         PacketPlayOutEntityDestroy destroyPacket = new PacketPlayOutEntityDestroy(idsToDestroy);
 
         Bukkit.getScheduler().runTaskLater(AlleyPlugin.getInstance(), () -> {

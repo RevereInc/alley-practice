@@ -1,19 +1,19 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**
@@ -41,7 +41,7 @@ public class FFASetupCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND));
+            player.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND));
             return;
         }
 

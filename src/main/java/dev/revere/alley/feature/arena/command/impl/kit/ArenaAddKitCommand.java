@@ -1,17 +1,17 @@
 package dev.revere.alley.feature.arena.command.impl.kit;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.arena.ArenaType;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -61,13 +61,13 @@ public class ArenaAddKitCommand extends BaseCommand {
         }
 
         if (arena.getType() == ArenaType.FFA) {
-            player.sendMessage(CC.translate("&cYou cannot add kits to Free-For-All arenas!"));
+            player.sendMessage(this.getMessage(ArenaLocaleImpl.CANNOT_ADD_KITS_TO_FFA));
             return;
         }
 
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
+            player.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 

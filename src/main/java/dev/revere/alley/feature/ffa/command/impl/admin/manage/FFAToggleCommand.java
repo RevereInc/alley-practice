@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -36,7 +36,7 @@ public class FFAToggleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", args[0]));
+            player.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND).replace("{kit-name}", args[0]));
             return;
         }
 
@@ -55,6 +55,6 @@ public class FFAToggleCommand extends BaseCommand {
                 .replace("{kit-name}", kit.getName())
                 .replace("{status}", ffaEnabled ? "enabled" : "disabled")
         );
-        player.sendMessage(CC.translate("&7Additionally, all FFA matches have been reloaded."));
+        player.sendMessage(this.getMessage(FFALocaleImpl.KITS_RELOADED));
     }
 }

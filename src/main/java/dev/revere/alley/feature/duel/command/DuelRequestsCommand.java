@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.duel.command;
 
-import dev.revere.alley.core.locale.internal.types.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.duel.menu.DuelRequestsMenu;
+import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.feature.duel.menu.DuelRequestsMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -27,7 +27,7 @@ public class DuelRequestsCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-            player.sendMessage(CC.translate("&cYou are already in a match."));
+            player.sendMessage(this.getMessage(ProfileLocaleImpl.ALREADY_IN_MATCH));
             return;
         }
 

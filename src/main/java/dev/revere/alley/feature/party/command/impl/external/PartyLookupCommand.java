@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.party.command.impl.external;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;

@@ -63,6 +63,17 @@ public abstract class BaseCommand {
     }
 
     /**
+     * Fetches the profile of a player by their UUID.
+     *
+     * @param uuid The UUID of the player.
+     * @return The profile of the player, or null if not found.
+     */
+    public Profile getProfile(UUID uuid) {
+        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        return profileService.getProfile(uuid);
+    }
+
+    /**
      * Gets the admin permission prefix for the bootstrap.
      *
      * @return The admin permission prefix.

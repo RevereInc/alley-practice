@@ -1,16 +1,16 @@
 package dev.revere.alley.feature.party.menu.event;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.menu.event.impl.PartyEventFFAMenu;
 import dev.revere.alley.feature.party.menu.event.impl.PartyEventSplitMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

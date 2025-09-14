@@ -156,7 +156,7 @@ public abstract class Match {
         this.cleanupTasks();
         this.cleanupHealthDisplay();
 
-        AlleyPlugin.getInstance().getService(MatchService.class).removeMatch(this);
+        this.plugin.getService(MatchService.class).removeMatch(this);
     }
 
     private void deleteArenaCopyIfStandalone() {
@@ -164,7 +164,7 @@ public abstract class Match {
             return;
         }
 
-        ArenaService arenaService = AlleyPlugin.getInstance().getService(ArenaService.class);
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
         arenaService.deleteTemporaryArena((StandAloneArena) this.arena);
     }
 
@@ -172,7 +172,7 @@ public abstract class Match {
      * Helper method to trigger a nametag update for all participants in the match.
      */
     private void updateParticipantNametags() {
-        NametagService nametagService = AlleyPlugin.getInstance().getService(NametagService.class);
+        NametagService nametagService = this.plugin.getService(NametagService.class);
 
         getParticipants().forEach(participant -> {
             List<MatchGamePlayer> playersToUpdate = participant.getAllPlayers();
@@ -190,8 +190,8 @@ public abstract class Match {
      * @param gameParticipant The game participant to initialize.
      */
     private void initializeParticipant(GameParticipant<MatchGamePlayer> gameParticipant) {
-        VisibilityService visibilityService = AlleyPlugin.getInstance().getService(VisibilityService.class);
-        KnockbackAdapter knockbackAdapter = AlleyPlugin.getInstance().getService(KnockbackAdapter.class);
+        VisibilityService visibilityService = this.plugin.getService(VisibilityService.class);
+        KnockbackAdapter knockbackAdapter = this.plugin.getService(KnockbackAdapter.class);
 
         gameParticipant.getPlayers().forEach(gamePlayer -> {
             Player player = this.plugin.getServer().getPlayer(gamePlayer.getUuid());
@@ -233,7 +233,7 @@ public abstract class Match {
      * @param player The player to finalize.
      */
     public void finalizePlayer(Player player) {
-        VisibilityService visibilityService = AlleyPlugin.getInstance().getService(VisibilityService.class);
+        VisibilityService visibilityService = this.plugin.getService(VisibilityService.class);
         this.updatePlayerProfileForLobby(player);
         this.resetPlayerState(player);
         visibilityService.updateVisibility(player);
@@ -326,8 +326,8 @@ public abstract class Match {
      * @param player The player to give the kit to.
      */
     public void giveLoadout(Player player, Kit kit) {
-        LayoutService layoutService = AlleyPlugin.getInstance().getService(LayoutService.class);
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        LayoutService layoutService = this.plugin.getService(LayoutService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
 
         player.getInventory().setArmorContents(kit.getArmor());
 
@@ -354,8 +354,8 @@ public abstract class Match {
             return;
         }
 
-        CombatService combatService = AlleyPlugin.getInstance().getService(CombatService.class);
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        CombatService combatService = this.plugin.getService(CombatService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
 
         GameParticipant<MatchGamePlayer> participant = this.getParticipant(player);
         MatchGamePlayer gamePlayer = this.getFromAllGamePlayers(player);
@@ -477,7 +477,7 @@ public abstract class Match {
             return;
         }
 
-        CosmeticService cosmeticRepository = AlleyPlugin.getInstance().getService(CosmeticService.class);
+        CosmeticService cosmeticRepository = this.plugin.getService(CosmeticService.class);
         BaseCosmeticRepository<?> repository = cosmeticRepository.getRepository(CosmeticType.KILL_MESSAGE);
         KillMessagePack pack = (KillMessagePack) repository.getCosmetic(selectedPackName);
 
@@ -511,8 +511,8 @@ public abstract class Match {
         processKillerStatActions(killer);
 
 
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
-        ReflectionService reflectionService = AlleyPlugin.getInstance().getService(ReflectionService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
+        ReflectionService reflectionService = this.plugin.getService(ReflectionService.class);
 
         Profile killerProfile = profileService.getProfile(killer.getUniqueId());
 
@@ -536,7 +536,7 @@ public abstract class Match {
      * @param killer The player who got the kill.
      */
     private void handleDeathEffects(Player player, Player killer) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(killer.getUniqueId());
 
         String selectedKillEffectName = profile.getProfileData().getCosmeticData().getSelectedKillEffect();
@@ -559,7 +559,7 @@ public abstract class Match {
             return;
         }
 
-        CosmeticService cosmeticService = AlleyPlugin.getInstance().getService(CosmeticService.class);
+        CosmeticService cosmeticService = this.plugin.getService(CosmeticService.class);
         if (cosmeticService == null) {
             return;
         }
@@ -717,9 +717,9 @@ public abstract class Match {
             this.spectators.add(player.getUniqueId());
         }
 
-        NametagService nametagService = AlleyPlugin.getInstance().getService(NametagService.class);
-        VisibilityService visibilityService = AlleyPlugin.getInstance().getService(VisibilityService.class);
-        HotbarService hotbarService = AlleyPlugin.getInstance().getService(HotbarService.class);
+        NametagService nametagService = this.plugin.getService(NametagService.class);
+        VisibilityService visibilityService = this.plugin.getService(VisibilityService.class);
+        HotbarService hotbarService = this.plugin.getService(HotbarService.class);
 
         nametagService.updatePlayerState(player);
         visibilityService.updateVisibility(player);
@@ -735,7 +735,7 @@ public abstract class Match {
 
         ListenerUtil.teleportAndClearSpawn(player, this.arena.getCenter());
 
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         this.notifyAll("&6" + profile.getFancyName() + " &fis now spectating the match.");
     }
@@ -746,13 +746,13 @@ public abstract class Match {
      * @param player The player to remove from spectating.
      */
     public void removeSpectator(Player player, boolean notify) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         profile.setState(ProfileState.LOBBY);
         profile.setMatch(null);
 
-        NametagService nametagService = AlleyPlugin.getInstance().getService(NametagService.class);
-        VisibilityService visibilityService = AlleyPlugin.getInstance().getService(VisibilityService.class);
+        NametagService nametagService = this.plugin.getService(NametagService.class);
+        VisibilityService visibilityService = this.plugin.getService(VisibilityService.class);
 
         nametagService.updatePlayerState(player);
         visibilityService.updateVisibility(player);
@@ -980,13 +980,28 @@ public abstract class Match {
     }
 
     /**
+     * Plays a sound for a specific participant.
+     *
+     * @param participant The participant to play the sound for.
+     * @param sound       The sound to play.
+     */
+    public void playSound(GameParticipant<MatchGamePlayer> participant, Sound sound) {
+        participant.getPlayers().forEach(uuid -> {
+            Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
+            if (player != null) {
+                SoundUtil.playCustomSound(player, sound, 1.0F, 1.0F);
+            }
+        });
+    }
+
+    /**
      * Sends a title to all participants and spectators.
      *
      * @param title    The title to send.
      * @param subtitle The subtitle to send.
      */
     public void sendTitle(String title, String subtitle) {
-        ReflectionService reflectionService = AlleyPlugin.getInstance().getService(ReflectionService.class);
+        ReflectionService reflectionService = this.plugin.getService(ReflectionService.class);
         this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
             if (player != null) {
@@ -1008,6 +1023,44 @@ public abstract class Match {
                 );
             }
         });
+    }
+
+    /**
+     * Sends a title to all participants and spectators with custom timings.
+     *
+     * @param title    The title to send.
+     * @param subtitle The subtitle to send.
+     * @param fadeIn   The fade-in time in ticks.
+     * @param stay     The stay time in ticks.
+     * @param fadeOut  The fade-out time in ticks.
+     */
+    public void sendTitle(String title, String subtitle, int fadeIn, int stay, int fadeOut, boolean spectators) {
+        ReflectionService reflectionService = this.plugin.getService(ReflectionService.class);
+        this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
+            Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
+            if (player != null) {
+                reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                        player,
+                        title,
+                        subtitle,
+                        fadeIn, stay, fadeOut
+                );
+            }
+        }));
+
+        if (spectators) {
+            this.getSpectators().forEach(uuid -> {
+                Player player = this.plugin.getServer().getPlayer(uuid);
+                if (player != null) {
+                    reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                            player,
+                            title,
+                            subtitle,
+                            fadeIn, stay, fadeOut
+                    );
+                }
+            });
+        }
     }
 
     /**
@@ -1108,8 +1161,8 @@ public abstract class Match {
     private void teleportPlayerToSpawn(Player player) {
         if (player == null) return;
 
-        HotbarService hotbarService = AlleyPlugin.getInstance().getService(HotbarService.class);
-        SpawnService spawnService = AlleyPlugin.getInstance().getService(SpawnService.class);
+        HotbarService hotbarService = this.plugin.getService(HotbarService.class);
+        SpawnService spawnService = this.plugin.getService(SpawnService.class);
 
         spawnService.teleportToSpawn(player);
         hotbarService.applyHotbarItems(player);
@@ -1236,14 +1289,14 @@ public abstract class Match {
     }
 
     private void updatePlayerProfileForMatch(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         profile.setState(ProfileState.PLAYING);
         profile.setMatch(this);
     }
 
     private void updatePlayerProfileForLobby(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         profile.setState(ProfileState.LOBBY);
@@ -1251,7 +1304,7 @@ public abstract class Match {
     }
 
     private void setupSpectatorProfile(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         profile.setState(ProfileState.SPECTATING);
         profile.setMatch(this);
@@ -1266,7 +1319,7 @@ public abstract class Match {
      * @param player The player to calculate the coin reward for.
      */
     public void calculateCoinReward(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         MatchGamePlayerData data = this.getGamePlayer(player).getData();
@@ -1293,7 +1346,7 @@ public abstract class Match {
      * @param player The player to send the reward message to.
      */
     public void sendRewardMessage(Player player) {
-        ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         int coins = profile.getProfileData().getCoins();
 

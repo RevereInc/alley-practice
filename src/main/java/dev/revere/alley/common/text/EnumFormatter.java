@@ -2,7 +2,7 @@ package dev.revere.alley.common.text;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;

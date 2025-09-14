@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.types.KitLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -36,7 +36,7 @@ public class KitSetEditableCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
-            sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_NOT_FOUND)));
+            sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.NOT_FOUND)));
             return;
         }
 
@@ -50,7 +50,7 @@ public class KitSetEditableCommand extends BaseCommand {
 
         kit.setEditable(editable);
         kitService.saveKit(kit);
-        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.KIT_SET_EDITABLE)
+        sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.SET_EDITABLE)
                 .replace("{kit-name}", kit.getName())
                 .replace("{editable}", String.valueOf(editable))));
     }

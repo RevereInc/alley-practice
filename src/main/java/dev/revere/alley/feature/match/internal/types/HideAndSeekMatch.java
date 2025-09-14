@@ -1,16 +1,18 @@
 package dev.revere.alley.feature.match.internal.types;
 
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.match.model.GamePlayer;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.model.TeamGameParticipant;
 import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.GamePlayer;
+import dev.revere.alley.feature.match.model.TeamGameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -128,7 +130,16 @@ public class HideAndSeekMatch extends DefaultMatch {
         long totalDelayTicks = (hidingTimeSeconds + preMatchCountdownSeconds) * 20L;
 
         this.seekerReleaseTask = plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            sendTitle("&c&lSeekers Released!", "&7The hunt has begun!");
+            LocaleService localeService = plugin.getService(LocaleService.class);
+
+            String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_HEADER);
+            String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FOOTER);
+            int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADE_IN);
+            int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_STAY);
+            int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADEOUT);
+
+            this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
+
             playSound(Sound.ENDERDRAGON_GROWL);
 
             getParticipantA().getPlayers().forEach(seeker -> {

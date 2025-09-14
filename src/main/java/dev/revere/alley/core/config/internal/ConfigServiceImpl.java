@@ -64,14 +64,9 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     @Override
-    public void reloadConfigs(CommandSender sender, boolean debug) {
+    public void reloadConfigs() {
         this.fileConfigurations.clear();
         this.configFiles.clear();
-
-        if (debug) {
-            this.reloadConfigsAndDebug(sender);
-            return;
-        }
 
         for (String fileName : this.configFileNames) {
             this.loadConfig(fileName);
@@ -141,8 +136,8 @@ public class ConfigServiceImpl implements ConfigService {
     public void saveConfig(File configFile, FileConfiguration fileConfiguration) {
         try {
             fileConfiguration.save(configFile);
-        } catch (Exception e) {
-            Logger.logException("Error occurred while saving config: " + configFile.getName(), e);
+        } catch (Exception exception) {
+            Logger.logException("Error occurred while saving config: " + configFile.getName(), exception);
         }
     }
 

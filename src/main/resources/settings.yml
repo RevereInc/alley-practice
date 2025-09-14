@@ -1,63 +1,48 @@
-auto-update: false
+plugin:
+  auto-update: true
 
-command:
-  anti-syntax-message: "&cYou cannot execute {argument}."
-  # Allows you to execute for example alley:alley (syntax)
-  syntax-bypass-perm: "alley.owner"
-  # The dispatched/executed command by console when the players buy a cosmetic
-  grant-cosmetic-permission-command: "permission set {player} {permission}"
+server:
+  chat-format:
+    party: '&7[&6Party&7] &6{player}&7: &f{message}'
+  locations:
+    spawn: world:0.5:73.0:0.5:90.0:0.0
+  essentials:
+    emoji-feature: true
 
-spawn:
-  # The spawn location of the server
-  join-location: world:0.5:73.0:0.5:90.0:0.0
-
-game:
-  blocked-commands: # Commands that will be blocked in-game, players won't be able to execute them.
-    - "kill"
-    - "gamemode"
-    - "troll"
-  # The amount of lives each player will have in a lives match.
-  lives: 3
-  # The radius of the portal in blocks.
-  portal-radius: 5
-
-essentials:
-  emojis: true
-
-explosive:
-  enabled: true # Whether to enable explosives or not (in case if you want to use your own custom approach)
-  values:
-    range: 3.0 # Measured in blocks (the distance in which other players will be affected by the explosives)
-    speed: 1.2
-    vertical: 0.8
-    horizontal: 1.2
-    tnt-fuse-ticks: 80
-
-parkour:
-  starter-location: world:-5.1145064347201865:69.0:40.13243289901497:-1.9397448:20.588186
-
-arena:
-  # When creating an arena, the following display-name for each
-  # arena type will be set. {arena} represents the arena name.
-  default-display-name:
-    shared: "&6{arena-name}"
-    standalone: "&6{arena-name}"
-    ffa: "&6{arena-name}"
-
-kit:
-  # The default name and description that's going to be set when creating a kit.
-  default-values:
-    display-name: "&6{kit-name}"
-    description: ""
-    disclaimer: "&7{kit-name} kit disclaimer."
-    menu-title: "&6&l{kit-name}"
-
-blocked-crafting-items: []
+crafting-operations:
+  blocked-items: [ ]
 
 profanity-filter:
-  add-default-words: false # Alley has a built-in list of rude and toxic words, set this to true if you want them to apply (The list below will be used in addition to the built-in list).
-  staff-notification-format: "&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f: &7{message}"
+  add-default-words: true
+  staff-notification-format: '&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f:
+    &7{message}'
   filtered-words:
-    - "shit"
-    - "fuck"
-    - "bitch"
+    - shit
+    - fuck
+    - bitch
+
+commands:
+  grant-cosmetic-permission: permission set {player} {permission}
+  anti-syntax-message: '&cYou cannot execute {argument}.'
+
+permissions:
+  syntax-bypass-permission: alley.syntax.bypass
+
+explosive:
+  enabled: true
+  values:
+    fireball:
+      explosion-range: 3.0
+      vertical-kb: 2.2
+      horizontal-kb: 2.5
+      throw-speed: 0.7
+    tnt:
+      explosion-range: 3.0
+      fuse-ticks: 60
+
+game:
+  blocked-commands:
+    - kill
+    - tp
+  lives-per-game: 3
+  portal-radius: 5

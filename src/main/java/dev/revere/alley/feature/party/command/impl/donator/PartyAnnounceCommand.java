@@ -1,19 +1,19 @@
 package dev.revere.alley.feature.party.command.impl.donator;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
-import dev.revere.alley.core.locale.internal.types.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.PartyState;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 import java.util.Optional;
@@ -25,8 +25,8 @@ import java.util.Optional;
  */
 public class PartyAnnounceCommand extends BaseCommand {
     @CommandData(
-            name = "party.announce", 
-            aliases = {"p.announce"}, 
+            name = "party.announce",
+            aliases = {"p.announce"},
             permission = "alley.donator.party.announce",
             usage = "party announce",
             description = "Announce your party to the server."

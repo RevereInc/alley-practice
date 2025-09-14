@@ -22,6 +22,8 @@ public class DivisionCommand extends BaseCommand {
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
+        //TODO: make page based
+
         if (player.hasPermission("alley.admin")) {
             player.sendMessage(" ");
             player.sendMessage(CC.translate("&6&lDivision Commands Help:"));

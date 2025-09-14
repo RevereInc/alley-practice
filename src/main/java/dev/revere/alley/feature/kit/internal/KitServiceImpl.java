@@ -5,6 +5,8 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitCategory;
 import dev.revere.alley.feature.kit.KitService;
@@ -31,15 +33,21 @@ import java.util.List;
 public class KitServiceImpl implements KitService {
     private final ConfigService configService;
     private final KitSettingService kitSettingService;
+    private final LocaleService localeService;
 
     private final List<Kit> kits = new ArrayList<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the KitServiceImpl class.
+     *
+     * @param configService     The configuration service.
+     * @param kitSettingService The kit setting service.
+     * @param localeService     The locale service.
      */
-    public KitServiceImpl(ConfigService configService, KitSettingService kitSettingService) {
+    public KitServiceImpl(ConfigService configService, KitSettingService kitSettingService, LocaleService localeService) {
         this.configService = configService;
         this.kitSettingService = kitSettingService;
+        this.localeService = localeService;
     }
 
     @Override
@@ -138,15 +146,17 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public void createKit(String kitName, ItemStack[] inventory, ItemStack[] armor, Material icon) {
-        FileConfiguration config = configService.getSettingsConfig();
-        String defaultKey = "kit.default-values";
+        String defaultDisplayName = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DISPLAYNAME).replace("{kit}", kitName);
+        String defaultDescription = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DESCRIPTION).replace("{kit}", kitName);
+        String defaultDisclaimer = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DISCLAIMER).replace("{kit}", kitName);
+        String defaultMenuTitle = this.localeService.getMessage(KitLocaleImpl.DEFAULT_MENU_TITLE).replace("{kit}", kitName);
 
         Kit kit = new Kit(
                 kitName,
-                config.getString(defaultKey + ".display-name").replace("{kit-name}", kitName),
-                config.getString(defaultKey + ".description").replace("{kit-name}", kitName),
-                config.getString(defaultKey + ".disclaimer").replace("{kit-name}", kitName),
-                config.getString(defaultKey + ".menu-title").replace("{kit-name}", kitName),
+                defaultDisplayName,
+                defaultDescription,
+                defaultDisclaimer,
+                defaultMenuTitle,
                 KitCategory.NORMAL,
                 icon,
                 0,

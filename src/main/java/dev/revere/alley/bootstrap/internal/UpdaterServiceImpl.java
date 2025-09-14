@@ -3,11 +3,12 @@ package dev.revere.alley.bootstrap.internal;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.bootstrap.UpdaterService;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.UpdaterService;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -20,19 +21,19 @@ import java.net.URL;
  */
 @Service(provides = UpdaterService.class, priority = 1500)
 public class UpdaterServiceImpl implements UpdaterService {
-    private final ConfigService configService;
+    private final LocaleService localeService;
     private final String currentVersion;
 
     private final String githubRepo = "RevereInc/alley-practice";
     private String latestVersion;
 
     /**
-     * Constructor for DI. Receives the main bootstrap instance and config service.
+     * DI Constructor for the UpdaterServiceImpl class.
      *
-     * @param configService The configuration service to access settings.
+     * @param localeService The Locale service.
      */
-    public UpdaterServiceImpl(ConfigService configService) {
-        this.configService = configService;
+    public UpdaterServiceImpl(LocaleService localeService) {
+        this.localeService = localeService;
         this.currentVersion = AlleyPlugin.getInstance().getDescription().getVersion();
     }
 
@@ -47,7 +48,7 @@ public class UpdaterServiceImpl implements UpdaterService {
 
     @Override
     public void initialize(AlleyContext context) {
-        checkForUpdates();
+        this.checkForUpdates();
     }
 
     @Override
@@ -57,8 +58,8 @@ public class UpdaterServiceImpl implements UpdaterService {
                 if (latestVersion != null && !currentVersion.equals(latestVersion)) {
                     Logger.warn("New version available: " + latestVersion + " (Current: " + currentVersion + ")");
 
-                    if (shouldAutoUpdate()) {
-                        downloadAndUpdate(latestVersion);
+                    if (this.shouldAutoUpdate()) {
+                        this.downloadAndUpdate(latestVersion);
                     }
                 }
             } catch (Exception e) {
@@ -126,7 +127,12 @@ public class UpdaterServiceImpl implements UpdaterService {
         }
     }
 
+    /**
+     * Determines if the plugin should auto-update based on the configuration setting.
+     *
+     * @return True if auto-update is enabled, false otherwise.
+     */
     private boolean shouldAutoUpdate() {
-        return configService.getSettingsConfig().getBoolean("auto-update", true);
+        return this.localeService.getBoolean(ServerLocaleImpl.AUTO_UPDATE_BOOLEAN);
     }
 }

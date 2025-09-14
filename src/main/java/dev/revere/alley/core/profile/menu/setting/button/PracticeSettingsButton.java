@@ -3,6 +3,8 @@ package dev.revere.alley.core.profile.menu.setting.button;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.WorldTime;
@@ -104,23 +106,32 @@ public class PracticeSettingsButton extends Button {
     private void handleWorldTimeClick(Player player, Profile profile, ClickType clickType) {
         WorldTime newTime = getNextWorldTime(clickType, profile);
         profile.getProfileData().getSettingData().setTime(newTime.getName());
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         switch (newTime) {
             case DEFAULT:
                 profile.getProfileData().getSettingData().setTimeDefault(player);
-                player.sendMessage(CC.translate("&aYou have reset your world time."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                        .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
+                );
                 break;
             case DAY:
                 profile.getProfileData().getSettingData().setTimeDay(player);
-                player.sendMessage(CC.translate("&aYou have set the time to day."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                        .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
+                );
                 break;
             case SUNSET:
                 profile.getProfileData().getSettingData().setTimeSunset(player);
-                player.sendMessage(CC.translate("&aYou have set the time to sunset."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                        .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
+                );
                 break;
             case NIGHT:
                 profile.getProfileData().getSettingData().setTimeNight(player);
-                player.sendMessage(CC.translate("&aYou have set the time to night."));
+                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                        .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
+                );
                 break;
         }
     }

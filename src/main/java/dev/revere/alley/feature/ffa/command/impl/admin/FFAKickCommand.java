@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
-import dev.revere.alley.core.locale.internal.types.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**

@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
-import dev.revere.alley.core.locale.internal.types.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.types.FFALocaleImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -48,7 +48,7 @@ public class FFASafeZoneCommand extends BaseCommand {
         }
 
         if (!spawnType.equalsIgnoreCase("pos1") && !spawnType.equalsIgnoreCase("pos2")) {
-            player.sendMessage(CC.translate("&cInvalid spawn type! Valid types: pos1, pos2"));
+            player.sendMessage(this.getMessage(FFALocaleImpl.INVALID_SPAWN_TYPE));
             return;
         }
 
@@ -59,8 +59,8 @@ public class FFASafeZoneCommand extends BaseCommand {
         }
 
         player.sendMessage(this.getMessage(FFALocaleImpl.SAFEZONE_SET)
-                        .replace("{arena-name}", arenaName)
-                        .replace("{pos}", spawnType.equalsIgnoreCase("pos1") ? "position 1" : "position 2")
+                .replace("{arena-name}", arenaName)
+                .replace("{pos}", spawnType.equalsIgnoreCase("pos1") ? "position 1" : "position 2")
         );
         arenaService.saveArena(arenaService.getArenaByName(arenaName));
     }
