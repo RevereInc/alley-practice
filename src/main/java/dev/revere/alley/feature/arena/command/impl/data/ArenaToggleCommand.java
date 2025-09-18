@@ -4,6 +4,8 @@ import dev.revere.alley.common.text.CC;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
+import dev.revere.alley.feature.arena.ArenaValidator;
+import dev.revere.alley.feature.arena.internal.ArenaServiceImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -60,13 +62,8 @@ public class ArenaToggleCommand extends BaseCommand {
             return;
         }
 
-        if (arena.getMinimum() == null || arena.getMaximum() == null || arena.getPos1() == null || arena.getPos2() == null) {
-            player.sendMessage(CC.translate("&cYou must finish configuring this arena before enabling or disabling!"));
-            return;
-        }
-
-        if (arena.getKits().isEmpty()) {
-            player.sendMessage(CC.translate("&cYou must add at least one kit to this arena before enabling or disabling!"));
+        ArenaValidator validator = arenaService.getArenaValidator();
+        if (!validator.isEligible(player, arena)) {
             return;
         }
 
