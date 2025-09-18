@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.server.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -43,6 +43,6 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         serverService.clearAllQueues(player);
         serverService.setQueueingAllowed(allowQueue);
 
-        player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_TOGGLED).replace("{status}", allowQueue ? CC.translate("&aallowed") : CC.translate("&cdisallowed")));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.QUEUE_TOGGLED).replace("{status}", allowQueue ? CC.translate("&aallowed") : CC.translate("&cdisallowed")));
     }
 }

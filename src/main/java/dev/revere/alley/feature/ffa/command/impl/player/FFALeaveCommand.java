@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.combat.CombatService;
@@ -28,7 +28,7 @@ public class FFALeaveCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getFfaMatch() == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.NOT_IN_FFA_MATCH));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_NOT_IN_A_MATCH));
             return;
         }
 

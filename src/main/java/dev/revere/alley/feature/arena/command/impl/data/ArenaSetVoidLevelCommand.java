@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -38,12 +37,12 @@ public class ArenaSetVoidLevelCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.MUST_BE_STANDALONE));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_MUST_BE_STANDALONE));
             return;
         }
 
@@ -51,18 +50,18 @@ public class ArenaSetVoidLevelCommand extends BaseCommand {
         try {
             voidLevel = Integer.parseInt(args[1]);
             if (voidLevel < 0 || voidLevel > 256) {
-                player.sendMessage(this.getMessage(ArenaLocaleImpl.VOID_LEVEL_OUT_OF_BOUNDS));
+                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_VOID_LEVEL_OUT_OF_BOUNDS));
                 return;
             }
         } catch (NumberFormatException e) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         ((StandAloneArena) arena).setVoidLevel(voidLevel);
         arenaService.saveArena(arena);
 
-        player.sendMessage(this.getMessage(ArenaLocaleImpl.VOID_LEVEL_SET)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_VOID_LEVEL_SET)
                 .replace("{arena-name}", arena.getName())
                 .replace("{void-level}", String.valueOf(voidLevel))
         );

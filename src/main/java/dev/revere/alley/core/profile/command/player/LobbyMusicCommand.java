@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.player;
 
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.menu.music.MusicDiscSelectorMenu;
 import dev.revere.alley.library.command.BaseCommand;
@@ -25,7 +25,7 @@ public class LobbyMusicCommand extends BaseCommand {
         Player player = command.getPlayer();
         Profile profile = this.getProfile(player.getUniqueId());
         if (!profile.isInLobbyOrInQueue()) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
             return;
         }
 

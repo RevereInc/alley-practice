@@ -1,0 +1,72 @@
+match:
+  started:
+    kit-disclaimer:
+      enabled: true
+      format:
+        - ''
+        - '&6&l{kit-name}'
+        - ' &6&l│ &f{kit-disclaimer}'
+        - ''
+    message:
+      regular:
+        enabled: true
+        format:
+          - '&fMatch has started.'
+      round:
+        enabled: true
+        format:
+          - '&fRound {current-round} has started.'
+  starting:
+    message:
+      enabled: true
+      format:
+        - '&a{stage}...'
+  respawning:
+    message:
+      enabled: true
+      format:
+        - '&a{seconds}...'
+  ending:
+    time-limit-exceeded:
+      format:
+        - '&cMatch ended due to reaching the time limit of &6{time-limit} minutes&c.'
+  scored:
+    enabled: true
+    format:
+      solo:
+        - ''
+        - '{winner-color}&l{scorer} &6&lscored!'
+        - '{winner-color}&l{winner-goals} &7- {loser-color}&l{loser-goals}'
+        - ''
+      team:
+        - ''
+        - '{winner-color}&l{winner}''s Team &6&lscored!'
+        - '{winner-color}&l{winner-goals} &7- {loser-color}&l{loser-goals}'
+        - ''
+  bed-destruction:
+    enabled: true
+    format:
+      - ''
+      - '&6&lBED DESTRUCTION! &6{bed-color}{bed} &fwas destroyed by &6{breaker-color}{breaker}&f!'
+      - ''
+  ended:
+    match-result:
+      regular:
+        format:
+          - ''
+          - '&6&lMatch Results: &7(click to view)'
+          - '&aWinner: &f{winner} &7| &cLoser: &f{loser}'
+          - ''
+        winner:
+          command: /inventory {winner}
+          hover: '&aClick to view {winner}''s inventory'
+        loser:
+          command: /inventory {loser}
+          hover: '&cClick to view {loser}''s inventory'
+    elo-changes:
+      enabled: true
+      format:
+        - '&6&lElo Changes'
+        - '&6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
+        - '&6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
+        - ''

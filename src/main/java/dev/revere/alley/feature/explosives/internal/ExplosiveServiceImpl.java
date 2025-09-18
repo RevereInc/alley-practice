@@ -5,7 +5,7 @@ import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.explosives.ExplosiveService;
 import dev.revere.alley.feature.explosives.listener.ExplosiveListener;
 import lombok.Getter;
@@ -49,7 +49,7 @@ public class ExplosiveServiceImpl implements ExplosiveService {
 
     @Override
     public void initialize(AlleyContext context) {
-        this.enabled = this.localeService.getBoolean(ServerLocaleImpl.EXPLOSIVE_ENABLED);
+        this.enabled = this.localeService.getBoolean(SettingsLocaleImpl.EXPLOSIVE_ENABLED);
 
         if (this.enabled) {
             this.assignValues();
@@ -58,26 +58,26 @@ public class ExplosiveServiceImpl implements ExplosiveService {
     }
 
     private void assignValues() {
-        this.horizontalFireballKnockback = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE);
-        this.verticalFireballKnockback = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE);
-        this.fireballExplosionRange = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE);
-        this.fireballThrowSpeed = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE);
+        this.horizontalFireballKnockback = this.localeService.getDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE);
+        this.verticalFireballKnockback = this.localeService.getDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE);
+        this.fireballExplosionRange = this.localeService.getDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE);
+        this.fireballThrowSpeed = this.localeService.getDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE);
 
-        this.tntFuseTicks = this.localeService.getInt(ServerLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE);
-        this.tntExplosionRange = this.localeService.getDouble(ServerLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE);
+        this.tntFuseTicks = this.localeService.getInt(SettingsLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE);
+        this.tntExplosionRange = this.localeService.getDouble(SettingsLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE);
     }
 
     @Override
     public void save() {
-        this.localeService.setBoolean(ServerLocaleImpl.EXPLOSIVE_ENABLED, this.enabled);
+        this.localeService.setBoolean(SettingsLocaleImpl.EXPLOSIVE_ENABLED, this.enabled);
 
-        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE, this.horizontalFireballKnockback);
-        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE, this.verticalFireballKnockback);
-        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE, this.fireballExplosionRange);
-        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE, this.fireballThrowSpeed);
+        this.localeService.setDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_HORIZONTAL_KB_VALUE, this.horizontalFireballKnockback);
+        this.localeService.setDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_VERTICAL_KB_VALUE, this.verticalFireballKnockback);
+        this.localeService.setDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_EXPLOSION_RANGE_VALUE, this.fireballExplosionRange);
+        this.localeService.setDouble(SettingsLocaleImpl.EXPLOSIVE_FIREBALL_THROW_SPEED_VALUE, this.fireballThrowSpeed);
 
-        this.localeService.setInt(ServerLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE, this.tntFuseTicks);
-        this.localeService.setDouble(ServerLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE, this.tntExplosionRange);
+        this.localeService.setInt(SettingsLocaleImpl.EXPLOSIVE_TNT_FUSE_TICKS_VALUE, this.tntFuseTicks);
+        this.localeService.setDouble(SettingsLocaleImpl.EXPLOSIVE_TNT_EXPLOSION_RANGE_VALUE, this.tntExplosionRange);
     }
 
     private void registerListener() {

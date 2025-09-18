@@ -1,7 +1,7 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -27,7 +27,7 @@ public class ToggleDuelRequestsCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setReceiveDuelRequestsEnabled(!profile.getProfileData().getSettingData().isReceiveDuelRequestsEnabled());
 
-        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_DUEL_REQUESTS)
+        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_DUEL_REQUESTS)
                 .replace("{status}", profile.getProfileData().getSettingData().isReceiveDuelRequestsEnabled() ? "&aenabled" : "&cdisabled"))
         );
     }

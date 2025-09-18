@@ -5,7 +5,7 @@ import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.Reflection;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
@@ -83,14 +83,14 @@ public class ActionBarReflectionServiceImpl implements Reflection {
     public void visualizeTargetHealth(Player player, Player target) {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String message = localeService.getMessage(VisualLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT)
+        String message = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT)
                 .replace("{target}", target.getName())
                 .replace("{name-color}", AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(target.getUniqueId()).getNameColor().toString());
 
-        String symbol = localeService.getMessage(VisualLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE);
-        String fullColor = localeService.getMessage(VisualLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL);
-        String halfColor = localeService.getMessage(VisualLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF);
-        String emptyColor = localeService.getMessage(VisualLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY);
+        String symbol = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE);
+        String fullColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL);
+        String halfColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF);
+        String emptyColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY);
 
         int maxHealth = (int) target.getMaxHealth() / 2;
         double rawHealth = target.getHealth() / 2;

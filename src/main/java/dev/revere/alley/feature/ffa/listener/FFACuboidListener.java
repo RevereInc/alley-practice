@@ -3,7 +3,7 @@ package dev.revere.alley.feature.ffa.listener;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.geom.Cuboid;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -62,10 +62,10 @@ public class FFACuboidListener implements Listener {
         if (isInCuboid != wasInCuboid) {
             if (isInCuboid) {
                 if (combatService.isPlayerInCombat(playerId)) return;
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.FFA_SPAWN_ENTER));
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.FFA_SPAWN_ENTERED));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.SPAWN));
             } else {
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.FFA_SPAWN_LEAVE));
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.FFA_SPAWN_LEFT));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.FIGHTING));
             }
 

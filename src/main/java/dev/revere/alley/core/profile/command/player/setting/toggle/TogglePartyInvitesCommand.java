@@ -1,7 +1,7 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -27,7 +27,7 @@ public class TogglePartyInvitesCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setPartyInvitesEnabled(!profile.getProfileData().getSettingData().isPartyInvitesEnabled());
 
-        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_PARTY_INVITES)
+        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_PARTY_INVITES)
                 .replace("{status}", profile.getProfileData().getSettingData().isPartyInvitesEnabled() ? "&aenabled" : "&cdisabled"))
         );
     }

@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.library.command.BaseCommand;
@@ -44,7 +44,7 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         try {
             minElo = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 

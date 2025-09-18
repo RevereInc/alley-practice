@@ -8,7 +8,7 @@ import dev.revere.alley.bootstrap.UpdaterService;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -133,6 +133,6 @@ public class UpdaterServiceImpl implements UpdaterService {
      * @return True if auto-update is enabled, false otherwise.
      */
     private boolean shouldAutoUpdate() {
-        return this.localeService.getBoolean(ServerLocaleImpl.AUTO_UPDATE_BOOLEAN);
+        return this.localeService.getBoolean(SettingsLocaleImpl.AUTO_UPDATE_BOOLEAN);
     }
 }

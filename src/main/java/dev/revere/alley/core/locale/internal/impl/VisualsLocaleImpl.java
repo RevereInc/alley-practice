@@ -12,7 +12,27 @@ import java.util.Arrays;
  * @since 13/09/2025
  */
 @Getter
-public enum VisualLocaleImpl implements LocaleEntry {
+public enum VisualsLocaleImpl implements LocaleEntry {
+
+    //TODO: Add booleans for all titles (option to disable or enable)
+
+    ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.health-indicator.message-format", "{name-color}{target} {health-bar}"),
+    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE("providers/visuals.yml", "action-bars.health-indicator.symbol.appearance", "❤"),
+    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL("providers/visuals.yml", "action-bars.health-indicator.symbol.color.full", "&4&l"),
+    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF("providers/visuals.yml", "action-bars.health-indicator.symbol.color.half", "&c&l"),
+    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY("providers/visuals.yml", "action-bars.health-indicator.symbol.color.empty", "&7&l"),
+
+    TAB_LIST_ENABLED_BOOLEAN("providers/tab-list.yml", "tab-list.enabled", true),
+    TAB_LIST_HEADER("providers/tab-list.yml", "tab-list.header", Arrays.asList("", "&6&lAlley Network", "")),
+    TAB_LIST_FOOTER("providers/tab-list.yml", "tab-list.footer", Arrays.asList("", "&fPlaying with &6&lAlley &fdeveloped by &6&lEmmy &f& &6&lRemi", "")),
+
+    TITLE_JOIN_MESSAGE_ENABLED("providers/visuals.yml", "titles.join-message.enabled", true),
+    TITLE_JOIN_MESSAGE_HEADER("providers/visuals.yml", "titles.join-message.header", "&6&lWelcome to Alley Practice"),
+    TITLE_JOIN_MESSAGE_SUBHEADER("providers/visuals.yml", "titles.join-message.subheader", "&fMade by &6Emmy &f& &6Remi"),
+    TITLE_JOIN_MESSAGE_FADE_IN("providers/visuals.yml", "titles.join-message.fade-in", 10),
+    TITLE_JOIN_MESSAGE_STAY("providers/visuals.yml", "titles.join-message.stay", 40),
+    TITLE_JOIN_MESSAGE_FADE_OUT("providers/visuals.yml", "titles.join-message.fade-out", 10),
+    
     TITLE_MATCH_STARTING_HEADER("providers/visuals.yml", "titles.match-starting.header", "&a&l{stage}"),
     TITLE_MATCH_STARTING_FOOTER("providers/visuals.yml", "titles.match-starting.footer", ""),
     TITLE_MATCH_STARTING_FADE_IN("providers/visuals.yml", "titles.match-starting.fade-in", 0),
@@ -31,8 +51,8 @@ public enum VisualLocaleImpl implements LocaleEntry {
     TITLE_MATCH_STARTED_STAY("providers/visuals.yml", "titles.match-started.stay", 40),
     TITLE_MATCH_STARTED_FADEOUT("providers/visuals.yml", "titles.match-started.fade-out", 20),
 
-    TITLE_MATCH_RESPAWNING_HEADER("providers/visuals.yml", "titles.match-respawning.header", "&6&lRespawn"),
-    TITLE_MATCH_RESPAWNING_FOOTER("providers/visuals.yml", "titles.match-respawning.footer", "&fRespawning in &6{seconds}s"),
+    TITLE_MATCH_RESPAWNING_HEADER("providers/visuals.yml", "titles.match-respawning.header", "&c&lYou Died!"),
+    TITLE_MATCH_RESPAWNING_FOOTER("providers/visuals.yml", "titles.match-respawning.footer", "&c{seconds}..."),
     TITLE_MATCH_RESPAWNING_FADE_IN("providers/visuals.yml", "titles.match-respawning.fade-in", 0),
     TITLE_MATCH_RESPAWNING_STAY("providers/visuals.yml", "titles.match-respawning.stay", 23),
     TITLE_MATCH_RESPAWNING_FADEOUT("providers/visuals.yml", "titles.match-respawning.fade-out", 20),
@@ -85,35 +105,21 @@ public enum VisualLocaleImpl implements LocaleEntry {
     TITLE_CAMP_PROTECTION_TAKING_DAMAGE_STAY("providers/visuals.yml", "titles.camp-protection-taking-damage.stay", 23),
     TITLE_CAMP_PROTECTION_TAKING_DAMAGE_FADEOUT("providers/visuals.yml", "titles.camp-protection-taking-damage.fade-out", 20),
 
+    //TODO: title for leaving a party
+
     TITLE_PARTY_DISBANDED_HEADER("providers/visuals.yml", "titles.party-disbanded.header", "&c&l✖ Party Disbanded"),
     TITLE_PARTY_DISBANDED_FOOTER("providers/visuals.yml", "titles.party-disbanded.footer", "&7You've removed your party."),
-    TITLE_PARTY_DISBANDED_FADE_IN("providers/visuals.yml", "titles.party-disbanded.fade-in", 10),
+    TITLE_PARTY_DISBANDED_FADE_IN("providers/visuals.yml", "titles.party-disbanded.fade-in", 5),
     TITLE_PARTY_DISBANDED_STAY("providers/visuals.yml", "titles.party-disbanded.stay", 15),
-    TITLE_PARTY_DISBANDED_FADEOUT("providers/visuals.yml", "titles.party-disbanded.fade-out", 10),
+    TITLE_PARTY_DISBANDED_FADEOUT("providers/visuals.yml", "titles.party-disbanded.fade-out", 5),
 
     TITLE_PARTY_CREATED_HEADER("providers/visuals.yml", "titles.party-created.header", "&a&l" + Symbol.CROSSED_SWORDS + " Party Created"),
     TITLE_PARTY_CREATED_FOOTER("providers/visuals.yml", "titles.party-created.footer", "&7Type /p for help."),
-    TITLE_PARTY_CREATED_FADE_IN("providers/visuals.yml", "titles.party-created.fade-in", 10),
+    TITLE_PARTY_CREATED_FADE_IN("providers/visuals.yml", "titles.party-created.fade-in", 5),
     TITLE_PARTY_CREATED_STAY("providers/visuals.yml", "titles.party-created.stay", 15),
-    TITLE_PARTY_CREATED_FADEOUT("providers/visuals.yml", "titles.party-created.fade-out", 10),
+    TITLE_PARTY_CREATED_FADEOUT("providers/visuals.yml", "titles.party-created.fade-out", 5),
 
-    ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.health-indicator.message-format", "{name-color}{target} {health-bar}"),
-    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE("providers/visuals.yml", "action-bars.health-indicator.symbol.appearance", "❤"),
-    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL("providers/visuals.yml", "action-bars.health-indicator.symbol.color.full", "&4&l"),
-    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF("providers/visuals.yml", "action-bars.health-indicator.symbol.color.half", "&c&l"),
-    ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY("providers/visuals.yml", "action-bars.health-indicator.symbol.color.empty", "&7&l"),
-
-    TAB_BOOLEAN("providers/tablist.yml", "tablist.enabled", true),
-    TAB_HEADER("providers/tablist.yml", "tablist.header", Arrays.asList(
-            "",
-            "&6&lAlley Network",
-            ""
-    )),
-    TAB_FOOTER("providers/tablist.yml", "tablist.footer", Arrays.asList(
-            "",
-            "&fPlaying with &6&lAlley &fdeveloped by &6&lEmmy &f& &6&lRemi",
-            ""
-    ));
+    ;
 
     private final String configName;
     private final String configPath;
@@ -126,7 +132,7 @@ public enum VisualLocaleImpl implements LocaleEntry {
      * @param configPath   The path within the configuration file.
      * @param defaultValue The default value if not set in the configuration.
      */
-    VisualLocaleImpl(String configName, String configPath, Object defaultValue) {
+    VisualsLocaleImpl(String configName, String configPath, Object defaultValue) {
         this.configName = configName;
         this.configPath = configPath;
         this.defaultValue = defaultValue;

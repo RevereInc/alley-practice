@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.item.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.item.ItemService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -37,7 +36,7 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER));
             return;
         }
 
@@ -50,13 +49,13 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         ItemService itemService = this.plugin.getService(ItemService.class);
         ItemStack goldenHead = itemService.getGoldenHead();
         if (goldenHead == null) {
-            player.sendMessage(this.getMessage(ServerLocaleImpl.ITEM_NOT_CONFIGURED).replace("{item-name}", "Custom Golden Head"));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ITEM_NOT_CONFIGURED).replace("{item-name}", "Custom Golden Head"));
             return;
         }
 
         goldenHead.setAmount(amount);
         player.getInventory().addItem(goldenHead);
-        player.sendMessage(this.getMessage(ServerLocaleImpl.GIVEN_ITEM)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ITEM_GIVEN)
                 .replace("{item-name}", "Custom Golden Head" + (amount > 1 ? "s" : ""))
                 .replace("{amount}", String.valueOf(amount))
         );

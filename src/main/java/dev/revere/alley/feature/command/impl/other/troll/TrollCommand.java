@@ -2,7 +2,7 @@ package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -37,7 +37,7 @@ public class TrollCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

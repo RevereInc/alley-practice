@@ -3,8 +3,7 @@ package dev.revere.alley.feature.cosmetic.command.impl.admin;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.CosmeticLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.cosmetic.CosmeticService;
@@ -41,7 +40,7 @@ public class CosmeticSetCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -58,18 +57,18 @@ public class CosmeticSetCommand extends BaseCommand {
 
         BaseCosmeticRepository<?> repository = this.plugin.getService(CosmeticService.class).getRepository(cosmeticType);
         if (repository == null) {
-            player.sendMessage(this.getMessage(CosmeticLocaleImpl.COSMETIC_TYPE_NOT_SUPPORTED).replace("{type}", typeName));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.COSMETIC_TYPE_NOT_SUPPORTED).replace("{type}", typeName));
             return;
         }
 
         BaseCosmetic cosmetic = repository.getCosmetic(cosmeticName);
         if (cosmetic == null) {
-            player.sendMessage(this.getMessage(CosmeticLocaleImpl.COSMETIC_NOT_FOUND).replace("{input}", cosmeticName));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.COSMETIC_NOT_FOUND).replace("{input}", cosmeticName));
             return;
         }
 
         profile.getProfileData().getCosmeticData().setSelected(cosmetic);
-        player.sendMessage(this.getMessage(CosmeticLocaleImpl.SET_COSMETIC)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.COSMETIC_SET_FOR_PLAYER)
                 .replace("{type}", StringUtil.formatEnumName(cosmeticType))
                 .replace("{cosmetic}", cosmetic.getName())
                 .replace("{player}", target.getName())

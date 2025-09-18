@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.DivisionLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -36,7 +36,7 @@ public class DivisionViewCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(this.getMessage(DivisionLocaleImpl.NOT_FOUND).replace("{division-name}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 

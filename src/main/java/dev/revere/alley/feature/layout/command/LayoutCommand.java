@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.layout.command;
 
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -30,7 +30,7 @@ public class LayoutCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() != ProfileState.LOBBY && profile.getState() != ProfileState.WAITING) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
             return;
         }
 

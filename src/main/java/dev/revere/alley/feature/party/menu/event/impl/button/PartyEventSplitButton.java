@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
@@ -54,7 +54,7 @@ public class PartyEventSplitButton extends Button {
         Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
         if (party == null) {
             player.closeInventory();
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             return;
         }
 

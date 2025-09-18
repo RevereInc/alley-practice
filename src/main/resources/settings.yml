@@ -1,48 +1,59 @@
 plugin:
   auto-update: true
 
-server:
-  chat-format:
-    party: '&7[&6Party&7] &6{player}&7: &f{message}'
-  locations:
-    spawn: world:0.5:73.0:0.5:90.0:0.0
-  essentials:
-    emoji-feature: true
-
 crafting-operations:
   blocked-items: [ ]
 
-profanity-filter:
-  add-default-words: true
-  staff-notification-format: '&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f:
-    &7{message}'
-  filtered-words:
-    - shit
-    - fuck
-    - bitch
-
 commands:
-  grant-cosmetic-permission: permission set {player} {permission}
   anti-syntax-message: '&cYou cannot execute {argument}.'
+  grant-cosmetic-permission: permission set {player} {permission}
 
-permissions:
-  syntax-bypass-permission: alley.syntax.bypass
+configuration:
+  arena-default-display-name:
+    ffa: '&6{arena-name}'
+    shared: '&6{arena-name}'
+    standalone: '&6{arena-name}'
+  default-kit-values:
+    description: ''
+    disclaimer: '&7{kit-name} kit disclaimer.'
+    display-name: '&6{kit-name}'
+    menu-title: '&6&l{kit-name}'
 
 explosive:
   enabled: true
   values:
     fireball:
       explosion-range: 3.0
-      vertical-kb: 2.2
       horizontal-kb: 2.5
       throw-speed: 0.7
+      vertical-kb: 2.2
     tnt:
       explosion-range: 3.0
       fuse-ticks: 60
 
 game:
+  portal-radius: 5
   blocked-commands:
     - kill
     - tp
   lives-per-game: 3
-  portal-radius: 5
+
+permissions:
+  syntax-bypass-permission: alley.syntax.bypass
+
+profanity-filter:
+  add-default-words: true
+  filtered-words:
+    - shit
+    - fuck
+    - bitch
+  staff-notification-format: '&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f:
+    &7{message}'
+
+server:
+  chat-format:
+    party: '&7[&6Party&7] &6{player}&7: &f{message}'
+  essentials:
+    emoji-feature: true
+  locations:
+    spawn: world:0.5:73.0:0.5:90.0:0.0

@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.player.setting.worldtime;
 
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -26,6 +26,6 @@ public class ResetTimeCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
 
         profile.getProfileData().getSettingData().setTimeDefault(player);
-        player.sendMessage(this.getMessage(ProfileLocaleImpl.WORLD_TIME_RESET));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_RESET));
     }
 }

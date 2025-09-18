@@ -7,7 +7,7 @@ import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.spawn.SpawnService;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -40,7 +40,7 @@ public class SpawnServiceImpl implements SpawnService {
     }
 
     private void loadSpawnLocation() {
-        Location location = Serializer.deserializeLocation(this.localeService.getMessage(ServerLocaleImpl.LOCATION_SPAWN));
+        Location location = Serializer.deserializeLocation(this.localeService.getMessage(SettingsLocaleImpl.SERVER_SPAWN_LOCATION));
         if (location == null) {
             Logger.error("Spawn location is null.");
             return;
@@ -54,7 +54,7 @@ public class SpawnServiceImpl implements SpawnService {
         if (location == null) return;
 
         this.location = location;
-        this.localeService.setMessage(ServerLocaleImpl.LOCATION_SPAWN, Serializer.serializeLocation(location));
+        this.localeService.setMessage(SettingsLocaleImpl.SERVER_SPAWN_LOCATION, Serializer.serializeLocation(location));
     }
 
     @Override

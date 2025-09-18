@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.party.command.impl.leader;
 
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -29,12 +28,12 @@ public class PartyEventMenuCommand extends BaseCommand {
         Profile profile = plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
 
         if (profile.getParty() == null) {
-            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             return;
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
             return;
         }
 

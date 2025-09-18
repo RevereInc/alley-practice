@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.duel.command;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.duel.DuelRequest;
@@ -36,20 +35,20 @@ public class AcceptCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER).replace("{input}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER).replace("{input}", args[0]));
             return;
         }
 
         DuelRequestService duelRequestService = this.plugin.getService(DuelRequestService.class);
         DuelRequest duelRequest = duelRequestService.getDuelRequest(player, target);
         if (duelRequest == null) {
-            player.sendMessage(this.getMessage(ProfileLocaleImpl.NO_PENDING_DUEL_REQUEST));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_INVALID_FROM_PLAYER));
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (targetProfile.isBusy()) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.IS_BUSY)
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_IS_BUSY)
                     .replace("{color}", String.valueOf(targetProfile.getNameColor()))
                     .replace("{player}", target.getName())
             );
@@ -57,7 +56,7 @@ public class AcceptCommand extends BaseCommand {
         }
 
         duelRequestService.acceptPendingRequest(duelRequest);
-        player.sendMessage(this.getMessage(ProfileLocaleImpl.ACCEPTED_DUEL_REQUEST)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_ACCEPTED)
                 .replace("{color}", String.valueOf(targetProfile.getNameColor()))
                 .replace("{player}", target.getName())
         );

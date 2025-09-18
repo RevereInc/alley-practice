@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.visual.tablist.TablistAdapter;
 import net.minecraft.server.v1_8_R3.ChatComponentText;
@@ -35,12 +35,12 @@ public class TablistImpl implements TablistAdapter {
 
     @Override
     public List<String> getHeader(Player player) {
-        return this.plugin.getService(LocaleService.class).getMessageList(VisualLocaleImpl.TAB_HEADER);
+        return this.plugin.getService(LocaleService.class).getMessageList(VisualsLocaleImpl.TAB_LIST_HEADER);
     }
 
     @Override
     public List<String> getFooter(Player player) {
-        return this.plugin.getService(LocaleService.class).getMessageList(VisualLocaleImpl.TAB_FOOTER);
+        return this.plugin.getService(LocaleService.class).getMessageList(VisualsLocaleImpl.TAB_LIST_FOOTER);
     }
 
     @Override

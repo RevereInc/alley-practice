@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.ffa.FFAMatch;
 import dev.revere.alley.feature.ffa.FFAService;
@@ -35,18 +34,18 @@ public class FFAKickCommand extends BaseCommand {
 
         Player targetPlayer = player.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(targetPlayer);
         if (match == null) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.PLAYER_NOT_IN_FFA));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PLAYER_NOT_IN_FFA));
             return;
         }
 
         match.leave(targetPlayer);
-        player.sendMessage(this.getMessage(FFALocaleImpl.KICKED_PLAYER)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_KICKED_PLAYER)
                 .replace("{player}", targetPlayer.getName())
                 .replace("{ffa-name}", match.getName())
                 .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))

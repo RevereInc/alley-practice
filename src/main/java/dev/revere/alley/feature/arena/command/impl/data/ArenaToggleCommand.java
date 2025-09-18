@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -51,12 +51,12 @@ public class ArenaToggleCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getType() == ArenaType.FFA) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.CANNOT_TOGGLE_FFA));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CANNOT_TOGGLE_FFA));
             return;
         }
 
@@ -73,7 +73,7 @@ public class ArenaToggleCommand extends BaseCommand {
         arena.setEnabled(!arena.isEnabled());
         arenaService.saveArena(arena);
 
-        player.sendMessage(this.getMessage(ArenaLocaleImpl.TOGGLED)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_TOGGLED)
                 .replace("{arena-name}", arena.getName())
                 .replace("{status}", arena.isEnabled() ? "enabled" : "disabled")
         );

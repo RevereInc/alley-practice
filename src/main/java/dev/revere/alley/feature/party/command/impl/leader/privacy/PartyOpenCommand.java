@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.party.command.impl.leader.privacy;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -34,7 +34,7 @@ public class PartyOpenCommand extends BaseCommand {
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
             return;
         }
 

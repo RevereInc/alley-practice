@@ -5,8 +5,8 @@ import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.model.GameParticipant;
@@ -117,11 +117,11 @@ public class BedMatch extends DefaultMatch {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
         TitleReflectionServiceImpl titleService = this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
 
-        String bedDestroyedHeader = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_BED_DESTROYED_HEADER);
-        String bedDestroyedFooter = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_BED_DESTROYED_FOOTER);
-        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADE_IN);
-        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_BED_DESTROYED_STAY);
-        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADEOUT);
+        String bedDestroyedHeader = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_HEADER);
+        String bedDestroyedFooter = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FOOTER);
+        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADE_IN);
+        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_STAY);
+        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADEOUT);
 
         opponentParticipant.getPlayers().forEach(matchGamePlayer -> {
             Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
@@ -133,7 +133,7 @@ public class BedMatch extends DefaultMatch {
         GameParticipant<MatchGamePlayer> breakerParticipant = this.getParticipant(breaker);
         this.playSound(breakerParticipant, Sound.ENDERDRAGON_GROWL);
 
-        boolean messageEnabled = localeService.getBoolean(GameLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_ENABLED_BOOLEAN);
+        boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_ENABLED_BOOLEAN);
         if (messageEnabled) {
             String destroyedBedName;
             String destroyedBedColor;
@@ -148,7 +148,7 @@ public class BedMatch extends DefaultMatch {
                 breakerTeamColor = "&9";
             }
 
-            List<String> message = localeService.getMessageList(GameLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_FORMAT);
+            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_FORMAT);
             message.forEach(line -> {
                 String formattedLine = line
                         .replace("{bed-color}", destroyedBedColor)

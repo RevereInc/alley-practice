@@ -7,7 +7,7 @@ import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import io.github.classgraph.ClassInfo;
@@ -289,7 +289,7 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
         String label = args.getLabel();
         String[] parts = label.split(":");
 
-        if (args.getSender().hasPermission(this.localeService.getMessage(ServerLocaleImpl.COMMAND_SYNTAX_BYPASS_PERMISSION))) {
+        if (args.getSender().hasPermission(this.localeService.getMessage(SettingsLocaleImpl.PERMISSION_COMMAND_SYNTAX_BYPASS))) {
             if (parts.length > 1) {
                 String commandToExecute = parts[1];
 
@@ -308,7 +308,7 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
                 args.getSender().sendMessage(CC.translate("&cMissing arguments / Wrong format or Internal error."));
             }
         } else {
-            args.getSender().sendMessage(this.localeService.getMessage(ServerLocaleImpl.COMMAND_ANTI_SYNTAX_MESSAGE).replace("{argument}", args.getLabel()));
+            args.getSender().sendMessage(this.localeService.getMessage(SettingsLocaleImpl.COMMAND_ANTI_SYNTAX_MESSAGE).replace("{argument}", args.getLabel()));
         }
     }
 }

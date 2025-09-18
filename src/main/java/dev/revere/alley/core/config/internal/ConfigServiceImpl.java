@@ -28,7 +28,7 @@ public class ConfigServiceImpl implements ConfigService {
     private final Map<String, FileConfiguration> fileConfigurations = new HashMap<>();
     private final Map<String, File> configFiles = new HashMap<>();
 
-    private FileConfiguration settingsConfig, messagesConfig, databaseConfig, kitsConfig, arenasConfig,
+    private FileConfiguration settingsConfig, globalMessagesConfig, gameMessagesConfig, databaseConfig, kitsConfig, arenasConfig,
             scoreboardConfig, tabListConfig, divisionsConfig, menusConfig, titlesConfig, levelsConfig,
             pearlConfig, abilityConfig, visualsConfig, saltyMessagesConfig, yeetMessagesConfig,
             nerdMessagesConfig, spigotCommunityMessagesConfig, texturesConfig, hotbarConfig;
@@ -36,11 +36,12 @@ public class ConfigServiceImpl implements ConfigService {
     private final String[] configFileNames = {
             "database/database.yml",
 
-            "settings.yml", "messages.yml", "menus.yml",
+            "messages/global-messages.yml", "messages/game-messages.yml",
+            "settings.yml", "menus.yml",
 
             "storage/kits.yml", "storage/arenas.yml", "storage/divisions.yml", "storage/titles.yml", "storage/levels.yml",
 
-            "providers/scoreboard.yml", "providers/tablist.yml", "providers/textures.yml", "providers/hotbar.yml",
+            "providers/scoreboard.yml", "providers/tab-list.yml", "providers/textures.yml", "storage/hotbar.yml",
             "providers/pearls.yml", "providers/abilities.yml", "providers/visuals.yml",
 
             "cosmetics/messages/salty_messages.yml", "cosmetics/messages/yeet_messages.yml",
@@ -157,17 +158,18 @@ public class ConfigServiceImpl implements ConfigService {
         this.abilityConfig = this.getConfig("providers/abilities.yml");
         this.visualsConfig = this.getConfig("providers/visuals.yml");
         this.settingsConfig = this.getConfig("settings.yml");
-        this.messagesConfig = this.getConfig("messages.yml");
+        this.globalMessagesConfig = this.getConfig("messages/global-messages.yml");
+        this.gameMessagesConfig = this.getConfig("messages/game-messages.yml");
         this.databaseConfig = this.getConfig("database/database.yml");
         this.kitsConfig = this.getConfig("storage/kits.yml");
         this.arenasConfig = this.getConfig("storage/arenas.yml");
         this.titlesConfig = this.getConfig("storage/titles.yml");
         this.levelsConfig = this.getConfig("storage/levels.yml");
         this.divisionsConfig = this.getConfig("storage/divisions.yml");
-        this.tabListConfig = this.getConfig("providers/tablist.yml");
+        this.tabListConfig = this.getConfig("providers/tab-list.yml");
         this.texturesConfig = this.getConfig("providers/textures.yml");
         this.scoreboardConfig = this.getConfig("providers/scoreboard.yml");
-        this.hotbarConfig = this.getConfig("providers/hotbar.yml");
+        this.hotbarConfig = this.getConfig("storage/hotbar.yml");
         this.saltyMessagesConfig = this.getConfig("cosmetics/messages/salty_messages.yml");
         this.yeetMessagesConfig = this.getConfig("cosmetics/messages/yeet_messages.yml");
         this.nerdMessagesConfig = this.getConfig("cosmetics/messages/nerd_messages.yml");

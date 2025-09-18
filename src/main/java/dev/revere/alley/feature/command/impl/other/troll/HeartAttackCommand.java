@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -32,7 +32,7 @@ public class HeartAttackCommand extends BaseCommand {
         String targetName = args[0];
         Player target = player.getServer().getPlayer(targetName);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

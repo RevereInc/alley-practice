@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
@@ -73,7 +73,7 @@ public class ShopItemButton extends Button {
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
-        String command = localeService.getMessage(ServerLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
+        String command = localeService.getMessage(SettingsLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
                 .replace("{player}", player.getName())
                 .replace("{permission}", cosmetic.getPermission());
 

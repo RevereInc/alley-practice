@@ -10,7 +10,7 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.core.database.MongoService;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import lombok.Getter;
 
 /**
@@ -37,8 +37,8 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public void initialize(AlleyContext context) {
-        String uri = this.localeService.getMessage(ServerLocaleImpl.MONGO_CREDENTIALS_URI);
-        String databaseName = this.localeService.getMessage(ServerLocaleImpl.MONGO_CREDENTIALS_DATABASE);
+        String uri = this.localeService.getMessage(SettingsLocaleImpl.MONGO_CREDENTIALS_URI);
+        String databaseName = this.localeService.getMessage(SettingsLocaleImpl.MONGO_CREDENTIALS_DATABASE);
 
         if (uri == null || uri.isEmpty() || databaseName == null || databaseName.isEmpty()) {
             Logger.error("MongoDB URI or database name is not configured in database.yml.");

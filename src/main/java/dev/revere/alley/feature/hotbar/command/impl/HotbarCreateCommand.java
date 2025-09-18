@@ -2,12 +2,12 @@ package dev.revere.alley.feature.hotbar.command.impl;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
-import dev.revere.alley.core.locale.internal.impl.command.HotbarLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -43,7 +43,7 @@ public class HotbarCreateCommand extends BaseCommand {
         }
 
         this.plugin.getService(HotbarService.class).createHotbarItem(name, type);
-        player.sendMessage(this.getMessage(HotbarLocaleImpl.CREATED_ITEM)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.HOTBAR_CREATED_ITEM)
                 .replace("{name}", name)
                 .replace("{type}", type.name())
         );

@@ -4,8 +4,8 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.kit.Kit;
@@ -219,13 +219,13 @@ public class RoundsMatch extends DefaultMatch {
     public void broadcastPlayerScoreMessage(GameParticipant<MatchGamePlayer> winner, GameParticipant<MatchGamePlayer> loser, String scorer) {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        boolean messageEnabled = localeService.getBoolean(GameLocaleImpl.MATCH_SCORED_MESSAGE_ENABLED_BOOLEAN);
+        boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_ENABLED_BOOLEAN);
         if (messageEnabled) {
             List<String> message;
             if (this.isTeamMatch()) {
-                message = localeService.getMessageList(GameLocaleImpl.MATCH_SCORED_MESSAGE_SOLO_FORMAT);
+                message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_SOLO_FORMAT);
             } else {
-                message = localeService.getMessageList(GameLocaleImpl.MATCH_SCORED_MESSAGE_TEAM_FORMAT);
+                message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_TEAM_FORMAT);
             }
 
             message.forEach(line -> this.notifyAll(line
@@ -241,13 +241,13 @@ public class RoundsMatch extends DefaultMatch {
             ));
         }
 
-        String header = localeService.getMessage(VisualLocaleImpl.TITLE_TEAM_SCORED_HEADER).replace("{scorer}", scorer);
-        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_TEAM_SCORED_FOOTER)
+        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_TEAM_SCORED_HEADER).replace("{scorer}", scorer);
+        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_TEAM_SCORED_FOOTER)
                 .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
                 .replace("{max-rounds}", String.valueOf(this.rounds));
-        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_TEAM_SCORED_FADE_IN);
-        int stay = localeService.getInt(VisualLocaleImpl.TITLE_TEAM_SCORED_STAY);
-        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_TEAM_SCORED_FADEOUT);
+        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADE_IN);
+        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_STAY);
+        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADEOUT);
 
         this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
     }

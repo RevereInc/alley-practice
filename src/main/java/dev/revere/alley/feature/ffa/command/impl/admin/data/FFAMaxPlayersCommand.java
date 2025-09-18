@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
 import dev.revere.alley.feature.ffa.FFAMatch;
 import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -36,12 +36,12 @@ public class FFAMaxPlayersCommand extends BaseCommand {
 
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.NOT_FOUND).replace("{ffa-name}", kitName));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", kitName));
             return;
         }
 
         match.setMaxPlayers(maxPlayers);
-        player.sendMessage(this.getMessage(FFALocaleImpl.MAX_PLAYERS_SET)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_MAX_PLAYERS_SET)
                 .replace("{kit-name}", kitName)
                 .replace("{max-players}", String.valueOf(maxPlayers))
         );

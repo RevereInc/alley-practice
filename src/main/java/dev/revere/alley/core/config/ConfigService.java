@@ -44,7 +44,7 @@ public interface ConfigService extends Service {
 
     FileConfiguration getHotbarConfig();
 
-    FileConfiguration getMessagesConfig();
+    FileConfiguration getGlobalMessagesConfig();
 
     FileConfiguration getDatabaseConfig();
 

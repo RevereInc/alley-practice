@@ -2,7 +2,7 @@ package dev.revere.alley.feature.tip;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class Tip {
 
     public Tip() {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
-        List<String> loadedTips = localeService.getListRaw(ServerLocaleImpl.TIPS_LIST);
+        List<String> loadedTips = localeService.getListRaw(GlobalMessagesLocaleImpl.TIPS_LIST);
         this.tips.addAll(loadedTips);
     }
 

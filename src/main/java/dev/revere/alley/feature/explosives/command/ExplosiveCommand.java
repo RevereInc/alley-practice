@@ -2,8 +2,7 @@ package dev.revere.alley.feature.explosives.command;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.explosives.ExplosiveService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -44,7 +43,7 @@ public class ExplosiveCommand extends BaseCommand {
         try {
             value = Double.parseDouble(valueStr);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
@@ -77,7 +76,7 @@ public class ExplosiveCommand extends BaseCommand {
         explosiveService.save();
 
         LocaleService localeService = this.plugin.getService(LocaleService.class);
-        sender.sendMessage(localeService.getMessage(ServerLocaleImpl.EXPLOSIVE_SETTING_UPDATED)
+        sender.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.EXPLOSIVE_SETTING_UPDATED)
                 .replace("{setting-name}", settingName)
                 .replace("{setting-value}", String.valueOf(value))
         );

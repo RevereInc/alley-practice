@@ -2,7 +2,7 @@ package dev.revere.alley.feature.kit.command.helper.impl;
 
 import dev.revere.alley.common.item.EnchantUtil;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -44,13 +44,13 @@ public class EnchantCommand extends BaseCommand {
         try {
             level = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER));
             return;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
             return;
         }
 

@@ -4,7 +4,7 @@ import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.kit.Kit;
@@ -132,11 +132,11 @@ public class HideAndSeekMatch extends DefaultMatch {
         this.seekerReleaseTask = plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
             LocaleService localeService = plugin.getService(LocaleService.class);
 
-            String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_HEADER);
-            String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FOOTER);
-            int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADE_IN);
-            int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_STAY);
-            int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADEOUT);
+            String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_HEADER);
+            String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FOOTER);
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADEOUT);
 
             this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
 

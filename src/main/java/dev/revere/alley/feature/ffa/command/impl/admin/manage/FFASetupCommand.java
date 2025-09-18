@@ -1,10 +1,7 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -41,23 +38,23 @@ public class FFASetupCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
         if (kit.isFfaEnabled()) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.ALREADY_EXISTS).replace("{ffa-name}", kit.getName()));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_ALREADY_EXISTS).replace("{ffa-name}", kit.getName()));
             return;
         }
 
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(args[1]);
         if (arena == null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[1]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[1]));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
@@ -65,7 +62,7 @@ public class FFASetupCommand extends BaseCommand {
         try {
             maxPlayers = Integer.parseInt(args[2]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
@@ -73,13 +70,13 @@ public class FFASetupCommand extends BaseCommand {
         try {
             menuSlot = Integer.parseInt(args[3]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.KIT_NOT_ELIGIBLE));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_KIT_NOT_ELIGIBLE));
             return;
         }
 
@@ -90,7 +87,7 @@ public class FFASetupCommand extends BaseCommand {
         ffaService.createFFAMatch(arena, kit, maxPlayers);
         kitService.saveKit(kit);
 
-        player.sendMessage(this.getMessage(FFALocaleImpl.MATCH_CREATED)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_MATCH_CREATED)
                 .replace("kit-name", kit.getName())
                 .replace("arena-name", arena.getName())
                 .replace("max-players", String.valueOf(maxPlayers))

@@ -5,7 +5,7 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
@@ -142,7 +142,7 @@ public class MatchServiceImpl implements MatchService {
     }
 
     private void loadBlockedCommands() {
-        List<String> blockedCommands = this.localeService.getListRaw(ServerLocaleImpl.GAME_BLOCKED_COMMANDS_DURING_MATCH_LIST);
+        List<String> blockedCommands = this.localeService.getListRaw(SettingsLocaleImpl.GAME_BLOCKED_COMMANDS_DURING_MATCH_LIST);
         if (blockedCommands.isEmpty()) {
             Logger.info("No blocked commands found in the configuration. Please check your settings.yml file.");
             return;

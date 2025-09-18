@@ -2,12 +2,12 @@ package dev.revere.alley.feature.kit.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -35,7 +35,7 @@ public class KitViewCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.NOT_FOUND)));
+            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 

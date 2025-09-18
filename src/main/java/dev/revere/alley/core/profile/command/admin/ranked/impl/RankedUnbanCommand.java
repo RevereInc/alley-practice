@@ -2,7 +2,7 @@ package dev.revere.alley.core.profile.command.admin.ranked.impl;
 
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -40,7 +40,7 @@ public class RankedUnbanCommand extends BaseCommand {
         String targetName = args[0];
         OfflinePlayer target = PlayerUtil.getOfflinePlayerByName(targetName);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

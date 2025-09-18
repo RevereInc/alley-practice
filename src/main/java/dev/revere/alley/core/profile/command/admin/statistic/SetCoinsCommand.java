@@ -1,7 +1,7 @@
 package dev.revere.alley.core.profile.command.admin.statistic;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -36,7 +36,7 @@ public class SetCoinsCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -47,7 +47,7 @@ public class SetCoinsCommand extends BaseCommand {
             profile.getProfileData().setCoins(amount);
             player.sendMessage(CC.translate("&aSuccessfully set " + target.getName() + "'s coins to " + amount + "."));
         } catch (NumberFormatException e) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[1]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
         }
     }
 }

@@ -5,8 +5,8 @@ import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
 import org.bukkit.entity.Player;
@@ -52,11 +52,11 @@ public class MatchRespawnTask extends BukkitRunnable {
 
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_HEADER).replace("{seconds}", String.valueOf(this.count));
-        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FOOTER).replace("{seconds}", String.valueOf(this.count));
-        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FADE_IN);
-        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_STAY);
-        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_RESPAWNING_FADEOUT);
+        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_HEADER).replace("{seconds}", String.valueOf(this.count));
+        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FOOTER).replace("{seconds}", String.valueOf(this.count));
+        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FADE_IN);
+        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_STAY);
+        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FADEOUT);
 
         AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
@@ -65,8 +65,8 @@ public class MatchRespawnTask extends BukkitRunnable {
                 fadeIn, stay, fadeOut
         );
 
-        boolean messageEnabled = localeService.getBoolean(GameLocaleImpl.MATCH_RESPAWNING_MESSAGE_ENABLED_BOOLEAN);
-        List<String> messageFormat = localeService.getMessageList(GameLocaleImpl.MATCH_RESPAWNING_MESSAGE_FORMAT);
+        boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_RESPAWNING_MESSAGE_ENABLED_BOOLEAN);
+        List<String> messageFormat = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_RESPAWNING_MESSAGE_FORMAT);
         if (messageEnabled) {
             messageFormat.forEach(message -> this.player.sendMessage(CC.translate(message.replace("{seconds}", String.valueOf(this.count)))));
         }

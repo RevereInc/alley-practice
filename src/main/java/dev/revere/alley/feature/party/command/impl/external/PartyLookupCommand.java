@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.party.command.impl.external;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -36,7 +35,7 @@ public class PartyLookupCommand extends BaseCommand {
 
         Player target = this.plugin.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -46,7 +45,7 @@ public class PartyLookupCommand extends BaseCommand {
             return;
         }
 
-        List<String> message = this.getMessageList(PartyLocaleImpl.PARTY_LOOKUP);
+        List<String> message = this.getMessageList(GlobalMessagesLocaleImpl.PARTY_LOOKUP);
         message.replaceAll(line -> line
                 .replace("{leader}", party.getLeader().getName())
                 .replace("{members}", String.valueOf(party.getMembers().size()))

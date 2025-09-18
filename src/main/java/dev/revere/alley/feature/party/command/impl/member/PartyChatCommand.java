@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ChatChannel;
@@ -9,6 +8,7 @@ import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -47,12 +47,12 @@ public class PartyChatCommand extends BaseCommand {
         }
 
         if (profile.getParty() == null) {
-            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             return;
         }
 
         if (!profile.getProfileData().getSettingData().isPartyMessagesEnabled()) {
-            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.DISABLED_PARTY_CHAT)));
+            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_CHAT_DISABLED)));
             return;
         }
 

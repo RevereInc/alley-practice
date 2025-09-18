@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -53,7 +53,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -69,7 +69,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                     return;
                 }
                 arena.setPos1(player.getLocation());
-                player.sendMessage(this.getMessage(ArenaLocaleImpl.SPAWN_SET)
+                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_SPAWN_SET)
                         .replace("{arena-name}", arenaName)
                         .replace("{position}", "blue")
                 );
@@ -80,15 +80,15 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                     return;
                 }
                 arena.setPos1(player.getLocation());
-                player.sendMessage(this.getMessage(ArenaLocaleImpl.FFA_SPAWN_SET).replace("{arena-name}", arenaName));
+                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_FFA_SPAWN_SET).replace("{arena-name}", arenaName));
                 break;
             default:
                 if (arena.getType() == ArenaType.FFA) {
-                    player.sendMessage(this.getMessage(ArenaLocaleImpl.FFA_ARENAS_NO_SPAWNS));
+                    player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_FFA_ARENAS_NO_SPAWNS));
                     return;
                 }
                 arena.setPos2(player.getLocation());
-                player.sendMessage(this.getMessage(ArenaLocaleImpl.SPAWN_SET)
+                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_SPAWN_SET)
                         .replace("{arena-name}", arenaName)
                         .replace("{position}", "red")
                 );

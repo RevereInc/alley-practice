@@ -1,14 +1,13 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -36,16 +35,16 @@ public class FFASetSpawnCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            player.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
         arena.setPos1(player.getLocation());
-        player.sendMessage(this.getMessage(FFALocaleImpl.SPAWN_SET).replace("{arena-name}", arena.getName()));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_SPAWN_SET).replace("{arena-name}", arena.getName()));
     }
 }

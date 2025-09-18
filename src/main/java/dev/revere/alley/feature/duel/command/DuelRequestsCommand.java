@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.duel.command;
 
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.duel.menu.DuelRequestsMenu;
 import dev.revere.alley.feature.server.ServerService;
@@ -27,13 +26,13 @@ public class DuelRequestsCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-            player.sendMessage(this.getMessage(ProfileLocaleImpl.ALREADY_IN_MATCH));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.MATCH_ALREADY_IN));
             return;
         }
 
         ServerService serverService = this.plugin.getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

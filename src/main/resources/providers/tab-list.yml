@@ -1,4 +1,4 @@
-tablist:
+tab-list:
   enabled: true
   header:
     - ''

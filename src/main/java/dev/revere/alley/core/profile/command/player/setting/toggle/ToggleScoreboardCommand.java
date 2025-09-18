@@ -1,7 +1,7 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -28,7 +28,7 @@ public class ToggleScoreboardCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setScoreboardEnabled(!profile.getProfileData().getSettingData().isScoreboardEnabled());
 
-        player.sendMessage(CC.translate(this.getMessage(ProfileLocaleImpl.TOGGLED_SCOREBOARD)
+        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_SCOREBOARD)
                 .replace("{status}", profile.getProfileData().getSettingData().isScoreboardEnabled() ? "&aenabled" : "&cdisabled"))
         );
     }

@@ -192,8 +192,9 @@ public abstract class FFAMatch {
      * @param player The player who reached the killstreak.
      */
     public void sendKillstreakAlertMessage(Player player) {
+        //TODO: Locale
         ConfigService configService = this.plugin.getService(ConfigService.class);
-        FileConfiguration config = configService.getMessagesConfig();
+        FileConfiguration config = configService.getGlobalMessagesConfig();
         if (!config.getBoolean("ffa.killstreak-alert.enabled")) {
             return;
         }

@@ -6,7 +6,7 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.filter.FilterService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -48,15 +48,15 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public void initialize(AlleyContext context) {
-        this.notificationMessage = this.localeService.getMessage(ServerLocaleImpl.PROFANITY_FILTER_STAFF_NOTIFICATION_FORMAT);
+        this.notificationMessage = this.localeService.getMessage(SettingsLocaleImpl.PROFANITY_FILTER_STAFF_NOTIFICATION_FORMAT);
         this.loadFilteredWords();
     }
 
     private void loadFilteredWords() {
-        List<String> words = this.localeService.getListRaw(ServerLocaleImpl.PROFANITY_FILTER_FILTERED_WORDS_LIST);
+        List<String> words = this.localeService.getListRaw(SettingsLocaleImpl.PROFANITY_FILTER_FILTERED_WORDS_LIST);
         this.filteredWords.addAll(words);
 
-        if (this.localeService.getBoolean(ServerLocaleImpl.PROFANITY_FILTER_ADD_DEFAULT_WORDS_BOOLEAN)) {
+        if (this.localeService.getBoolean(SettingsLocaleImpl.PROFANITY_FILTER_ADD_DEFAULT_WORDS_BOOLEAN)) {
             this.filteredWords.addAll(this.getDefaultFilteredWords());
         }
     }

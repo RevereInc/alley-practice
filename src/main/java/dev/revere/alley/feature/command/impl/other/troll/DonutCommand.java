@@ -2,7 +2,7 @@ package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -49,7 +49,7 @@ public class DonutCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

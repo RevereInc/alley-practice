@@ -1,7 +1,7 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -37,7 +37,7 @@ public class MatchInfoCommand extends BaseCommand {
         String playerName = args[0];
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
-            sender.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

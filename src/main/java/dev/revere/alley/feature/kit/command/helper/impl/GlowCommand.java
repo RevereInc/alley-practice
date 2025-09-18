@@ -2,7 +2,7 @@ package dev.revere.alley.feature.kit.command.helper.impl;
 
 import dev.revere.alley.common.reflect.utility.ReflectionUtility;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -34,7 +34,7 @@ public class GlowCommand extends BaseCommand {
 
         ItemStack item = player.getItemInHand();
         if (item == null || item.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
             return;
         }
 

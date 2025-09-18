@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.WorldTime;
@@ -111,25 +111,25 @@ public class PracticeSettingsButton extends Button {
         switch (newTime) {
             case DEFAULT:
                 profile.getProfileData().getSettingData().setTimeDefault(player);
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case DAY:
                 profile.getProfileData().getSettingData().setTimeDay(player);
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case SUNSET:
                 profile.getProfileData().getSettingData().setTimeSunset(player);
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case NIGHT:
                 profile.getProfileData().getSettingData().setTimeNight(player);
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.WORLD_TIME_SET)
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;

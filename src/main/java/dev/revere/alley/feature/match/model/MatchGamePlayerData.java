@@ -2,7 +2,7 @@ package dev.revere.alley.feature.match.model;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,7 +34,7 @@ public class MatchGamePlayerData {
     private BaseRaiderRole role;
 
     public MatchGamePlayerData() {
-        this.lives = AlleyPlugin.getInstance().getService(LocaleService.class).getInt(ServerLocaleImpl.GAME_LIVES_PER_MATCH);
+        this.lives = AlleyPlugin.getInstance().getService(LocaleService.class).getInt(SettingsLocaleImpl.GAME_LIVES_PER_MATCH);
         this.score = 0;
     }
 

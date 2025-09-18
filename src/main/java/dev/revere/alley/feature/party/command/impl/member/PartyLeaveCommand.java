@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -36,10 +36,10 @@ public class PartyLeaveCommand extends BaseCommand {
 
         if (partyService.getPartyByMember(playerUUID) != null) {
             partyService.leaveParty(player);
-            player.sendMessage(CC.translate(this.getMessage(PartyLocaleImpl.PARTY_LEFT)));
+            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_LEFT)));
             return;
         }
 
-        player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
     }
 }

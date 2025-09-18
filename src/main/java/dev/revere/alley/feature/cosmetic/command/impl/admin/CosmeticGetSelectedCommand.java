@@ -2,7 +2,7 @@ package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
@@ -38,7 +38,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

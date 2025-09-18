@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -37,7 +37,7 @@ public class ArenaViewCommand extends BaseCommand {
 
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            sender.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", args[0]));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
 

@@ -1,4 +1,21 @@
+action-bars:
+  health-indicator:
+    message-format: '{name-color}{target} {health-bar}'
+    symbol:
+      appearance: ❤
+      color:
+        full: '&4&l'
+        half: '&c&l'
+        empty: '&7&l'
+
 titles:
+  join-message:
+    enabled: true
+    header: '&6&lWelcome to Alley Practice'
+    subheader: '&fMade by &6Emmy &f& &6Remi'
+    fade-in: 10
+    stay: 40
+    fade-out: 10
   match-starting:
     header: '&a&l{stage}'
     footer: ''
@@ -18,8 +35,8 @@ titles:
     stay: 40
     fade-out: 20
   match-respawning:
-    header: '&6&lRespawn'
-    footer: '&fRespawning in &6{seconds}s'
+    header: '&c&lYou Died!'
+    footer: '&c{seconds}...'
     fade-in: 0
     stay: 23
     fade-out: 20
@@ -74,26 +91,12 @@ titles:
   party-disbanded:
     header: '&c&l✖ Party Disbanded'
     footer: '&7You''ve removed your party.'
-    fade-in: 10
+    fade-in: 5
     stay: 15
-    fade-out: 10
+    fade-out: 5
   party-created:
     header: '&a&l⚔ Party Created'
     footer: '&7Type /p for help.'
-    fade-in: 10
+    fade-in: 5
     stay: 15
-    fade-out: 10
-
-action-bars:
-  health-indicator:
-    # Placeholders:
-    # {name-color} color of the players rank
-    # {target} Target player's name
-    # {health-bar} Health bar made of symbols (2,5 hearts = &4&l❤ &4&l❤ &c&l❤ &7&l❤❤❤❤❤❤❤)
-    message-format: '{name-color}{target} {health-bar}'
-    symbol:
-      appearance: ❤
-      color:
-        full: '&4&l'
-        half: '&c&l'
-        empty: '&7&l'
+    fade-out: 5

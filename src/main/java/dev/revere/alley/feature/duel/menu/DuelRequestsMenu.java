@@ -4,8 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.duel.DuelRequest;
 import dev.revere.alley.feature.duel.DuelRequestService;
@@ -84,26 +83,26 @@ public class DuelRequestsMenu extends PaginatedMenu {
             LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
             if (this.duelRequest.hasExpired()) {
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.DUEL_REQUEST_EXPIRED));
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_EXPIRED));
                 new DuelRequestsMenu().openMenu(player);
                 return;
             }
 
             if (this.duelRequest.getArena() == null) {
-                player.sendMessage(localeService.getMessage(ProfileLocaleImpl.DUEL_REQUEST_NO_ARENA));
+                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_NO_ARENA));
                 player.sendMessage(CC.translate("&cThis duel request has no setup arena."));
                 new DuelRequestsMenu().openMenu(player);
                 return;
             }
 
             if (AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-                player.sendMessage(this.plugin.getService(LocaleService.class).getMessage(ProfileLocaleImpl.ALREADY_IN_MATCH));
+                player.sendMessage(this.plugin.getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.MATCH_ALREADY_IN));
                 return;
             }
 
             ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
             if (!serverService.isQueueingAllowed()) {
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ServerLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
                 player.closeInventory();
                 return;
             }

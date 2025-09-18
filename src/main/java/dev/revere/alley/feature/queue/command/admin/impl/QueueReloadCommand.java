@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.queue.command.admin.impl;
 
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.queue.QueueService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -25,6 +25,6 @@ public class QueueReloadCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         this.plugin.getService(QueueService.class).reloadQueues();
-        player.sendMessage(this.getMessage(ServerLocaleImpl.QUEUE_RELOADED));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.QUEUE_RELOADED));
     }
 }

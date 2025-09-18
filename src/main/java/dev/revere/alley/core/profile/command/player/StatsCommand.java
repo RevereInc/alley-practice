@@ -1,7 +1,7 @@
 package dev.revere.alley.core.profile.command.player;
 
 import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.menu.statistic.StatisticsMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -35,7 +35,7 @@ public class StatsCommand extends BaseCommand {
         Player onlineTarget = Bukkit.getPlayerExact(args[0]);
         OfflinePlayer target = onlineTarget != null ? onlineTarget : PlayerUtil.getOfflinePlayerByName(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

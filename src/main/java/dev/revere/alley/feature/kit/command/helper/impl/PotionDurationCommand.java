@@ -2,7 +2,7 @@ package dev.revere.alley.feature.kit.command.helper.impl;
 
 import dev.revere.alley.common.PotionUtil;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -67,7 +67,7 @@ public class PotionDurationCommand extends BaseCommand {
         try {
             duration = Integer.parseInt(args[0]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER));
             return;
         }
 

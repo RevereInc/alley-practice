@@ -3,7 +3,7 @@ package dev.revere.alley.feature.emoji.internal;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.emoji.EmojiService;
 import dev.revere.alley.feature.emoji.EmojiType;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class EmojiServiceImpl implements EmojiService {
 
     @Override
     public void initialize(AlleyContext context) {
-        this.enabled = this.localeService.getBoolean(ServerLocaleImpl.ESSENTIAL_EMOJI_FEATURE_BOOLEAN);
+        this.enabled = this.localeService.getBoolean(SettingsLocaleImpl.SERVER_ESSENTIAL_EMOJI_FEATURE_BOOLEAN);
         if (!enabled) return;
 
         for (EmojiType value : EmojiType.values()) {

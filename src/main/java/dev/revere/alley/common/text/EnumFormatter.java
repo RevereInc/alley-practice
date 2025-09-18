@@ -2,7 +2,7 @@ package dev.revere.alley.common.text;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import lombok.experimental.UtilityClass;
 
 import java.util.Arrays;
@@ -32,7 +32,7 @@ public class EnumFormatter {
         String availableTypes = String.join(", ", enumNames);
         String readableName = enumClassToReadable(enumClass);
 
-        String message = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.INVALID_TYPE)
+        String message = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_TYPE)
                 .replace("{type}", readableName)
                 .replace("{types}", availableTypes);
 

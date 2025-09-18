@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.HotbarLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarItem;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -31,7 +31,7 @@ public class HotbarListCommand extends BaseCommand {
         Collection<HotbarItem> hotbarItems = hotbarService.getHotbarItems();
 
         if (hotbarItems.isEmpty()) {
-            player.sendMessage(this.getMessage(HotbarLocaleImpl.NO_HOTBAR_ITEMS_CREATED));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.HOTBAR_NO_HOTBAR_ITEMS_CREATED));
             return;
         }
 

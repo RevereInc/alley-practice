@@ -5,7 +5,7 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -40,6 +40,7 @@ public class ServerServiceImpl implements ServerService {
 
     private boolean queueingAllowed = true;
 
+    //TODO: allow/disallow crafting recipes for specific match types, we shouldn't just ENTIRELY disable them, since some game-modes may want crafting enabled
     private final Set<Material> blockedCraftingItems = new HashSet<>();
 
     /**
@@ -149,7 +150,7 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public void loadBlockedCraftingItems() {
-        List<String> blocked = this.localeService.getListRaw(ServerLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST);
+        List<String> blocked = this.localeService.getListRaw(SettingsLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST);
 
         this.blockedCraftingItems.clear();
         for (String mat : blocked) {
@@ -165,7 +166,7 @@ public class ServerServiceImpl implements ServerService {
     @Override
     public void saveBlockedItems(Material material) {
         List<String> materialNames = this.blockedCraftingItems.stream().map(Material::name).collect(Collectors.toList());
-        this.localeService.setList(ServerLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST, materialNames);
+        this.localeService.setList(SettingsLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST, materialNames);
     }
 
     @Override

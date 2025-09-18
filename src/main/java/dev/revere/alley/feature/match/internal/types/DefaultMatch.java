@@ -12,8 +12,8 @@ import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.GameLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.progress.PlayerProgress;
@@ -252,12 +252,12 @@ public class DefaultMatch extends Match {
     private void sendVictory(GameParticipant<MatchGamePlayer> winner) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
-        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_VICTORY_HEADER).replace("{winner}", winner.getLeader().getUsername());
-        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_VICTORY_FOOTER).replace("{winner}", winner.getLeader().getUsername());
+        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_VICTORY_HEADER).replace("{winner}", winner.getLeader().getUsername());
+        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FOOTER).replace("{winner}", winner.getLeader().getUsername());
 
-        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_FADE_IN);
-        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_STAY);
-        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_VICTORY_FADEOUT);
+        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADE_IN);
+        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_STAY);
+        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADEOUT);
 
         winner.getPlayers().forEach(matchGamePlayer -> {
             Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
@@ -280,12 +280,12 @@ public class DefaultMatch extends Match {
     private void sendDefeat(GameParticipant<MatchGamePlayer> loser, GameParticipant<MatchGamePlayer> winner) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
-        String header = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_DEFEAT_HEADER).replace("{winner}", winner.getLeader().getUsername());
-        String footer = localeService.getMessage(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FOOTER).replace("{winner}", winner.getLeader().getUsername());
+        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_HEADER).replace("{winner}", winner.getLeader().getUsername());
+        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FOOTER).replace("{winner}", winner.getLeader().getUsername());
 
-        int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FADE_IN);
-        int stay = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_STAY);
-        int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_MATCH_DEFEAT_FADEOUT);
+        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADE_IN);
+        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_STAY);
+        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADEOUT);
 
         loser.getPlayers().forEach(matchGamePlayer -> {
             Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
@@ -312,8 +312,8 @@ public class DefaultMatch extends Match {
      */
     public void sendEloResult(String winnerName, String loserName, int oldEloWinner, int oldEloLoser, int newEloWinner, int newEloLoser) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
-        if (localeService.getBoolean(GameLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_ENABLED_BOOLEAN)) {
-            List<String> list = localeService.getMessageList(GameLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_FORMAT);
+        if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_ENABLED_BOOLEAN)) {
+            List<String> list = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_FORMAT);
 
             list.replaceAll(string -> string
                     .replace("{winner}", winnerName)

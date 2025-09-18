@@ -2,7 +2,6 @@ package dev.revere.alley.feature.spawn.command;
 
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -13,6 +12,7 @@ import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -68,6 +68,6 @@ public class SpawnCommand extends BaseCommand {
         this.plugin.getService(SpawnService.class).teleportToSpawn(player);
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);
 
-        player.sendMessage(this.getMessage(ServerLocaleImpl.SPAWN_TELEPORTED));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.SPAWN_TELEPORTED));
     }
 }

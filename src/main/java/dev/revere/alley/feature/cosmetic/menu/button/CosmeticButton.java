@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ProfileLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
@@ -66,13 +66,13 @@ public class CosmeticButton extends Button {
         ProfileCosmeticData cosmeticData = profile.getProfileData().getCosmeticData();
 
         if (cosmeticData.isSelected(cosmetic)) {
-            player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_ALREADY_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
 
         if (!player.hasPermission(cosmetic.getPermission())) {
-            player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_NOT_OWNED).replace("{cosmetic-name}", cosmetic.getName()));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_NOT_OWNED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
@@ -82,6 +82,6 @@ public class CosmeticButton extends Button {
         cosmeticData.setSelected(cosmetic);
 
         this.playSuccess(player);
-        player.sendMessage(localeService.getMessage(ProfileLocaleImpl.COSMETIC_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
+        player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
     }
 }

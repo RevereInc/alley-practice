@@ -10,10 +10,9 @@ import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;
 import dev.revere.alley.common.text.Symbol;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -93,7 +92,7 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     public void initialize(AlleyContext context) {
-        this.chatFormat = this.localeService.getMessage(ServerLocaleImpl.CHAT_FORMAT_PARTY);
+        this.chatFormat = this.localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_PARTY);
     }
 
     @Override
@@ -155,12 +154,12 @@ public class PartyServiceImpl implements PartyService {
 
         this.hotbarService.applyHotbarItems(player);
 
-        String header = this.localeService.getMessage(VisualLocaleImpl.TITLE_PARTY_CREATED_HEADER);
-        String footer = this.localeService.getMessage(VisualLocaleImpl.TITLE_PARTY_CREATED_FOOTER);
+        String header = this.localeService.getMessage(VisualsLocaleImpl.TITLE_PARTY_CREATED_HEADER);
+        String footer = this.localeService.getMessage(VisualsLocaleImpl.TITLE_PARTY_CREATED_FOOTER);
 
-        int fadeIn = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_CREATED_FADE_IN);
-        int stay = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_CREATED_STAY);
-        int fadeOut = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_CREATED_FADEOUT);
+        int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_FADE_IN);
+        int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_STAY);
+        int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_FADEOUT);
 
         this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 player,
@@ -171,7 +170,7 @@ public class PartyServiceImpl implements PartyService {
 
         SoundUtil.playCustomSound(player, Sound.FIREWORK_TWINKLE, 1.0F, 1.0F);
 
-        List<String> createPartyMessage = this.localeService.getMessageList(PartyLocaleImpl.PARTY_CREATED);
+        List<String> createPartyMessage = this.localeService.getMessageList(GlobalMessagesLocaleImpl.PARTY_CREATED);
         createPartyMessage.forEach(player::sendMessage);
     }
 
@@ -179,7 +178,7 @@ public class PartyServiceImpl implements PartyService {
     public void disbandParty(Player leader) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             return;
         }
 
@@ -208,12 +207,12 @@ public class PartyServiceImpl implements PartyService {
             cooldown.resetCooldown();
         }
 
-        String header = this.localeService.getMessage(VisualLocaleImpl.TITLE_PARTY_DISBANDED_HEADER);
-        String footer = this.localeService.getMessage(VisualLocaleImpl.TITLE_PARTY_DISBANDED_FOOTER);
+        String header = this.localeService.getMessage(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_HEADER);
+        String footer = this.localeService.getMessage(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FOOTER);
 
-        int fadeIn = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_DISBANDED_FADE_IN);
-        int stay = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_DISBANDED_STAY);
-        int fadeOut = this.localeService.getInt(VisualLocaleImpl.TITLE_PARTY_DISBANDED_FADEOUT);
+        int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FADE_IN);
+        int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_STAY);
+        int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FADEOUT);
 
         this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                 leader,
@@ -230,7 +229,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = this.getPartyByMember(player.getUniqueId());
         if (party == null) {
             if (player.isOnline()) {
-                player.sendMessage(this.localeService.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+                player.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             }
             return;
         }
@@ -253,7 +252,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
 
-            leader.sendMessage(this.localeService.getMessage(PartyLocaleImpl.NOT_LEADER));
+            leader.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_LEADER));
             return;
         }
 
@@ -336,7 +335,7 @@ public class PartyServiceImpl implements PartyService {
     public void joinParty(Player player, Player leader) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.MUST_BE_IN_LOBBY));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
             return;
         }
         Party party = this.getPartyByLeader(leader);
@@ -377,7 +376,7 @@ public class PartyServiceImpl implements PartyService {
         party.getMembers().add(player.getUniqueId());
         party.notifyParty("&a" + player.getName() + " has joined the party.");
 
-        player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.JOINED_PARTY).replace("{player}", leader.getName())));
+        player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_JOINED).replace("{player}", leader.getName())));
 
         this.setupProfile(player, true);
     }

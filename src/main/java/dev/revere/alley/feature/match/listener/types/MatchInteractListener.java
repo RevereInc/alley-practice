@@ -5,7 +5,7 @@ import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.VisualLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -64,14 +64,14 @@ public class MatchInteractListener implements Listener {
 
                 LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-                String header = localeService.getMessage(VisualLocaleImpl.TITLE_CHECKPOINT_HEADER);
-                String footer = localeService.getMessage(VisualLocaleImpl.TITLE_CHECKPOINT_FOOTER)
+                String header = localeService.getMessage(VisualsLocaleImpl.TITLE_CHECKPOINT_HEADER);
+                String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_CHECKPOINT_FOOTER)
                         .replace("{x}", String.valueOf(player.getLocation().getBlockX()))
                         .replace("{y}", String.valueOf(player.getLocation().getBlockY()))
                         .replace("{z}", String.valueOf(player.getLocation().getBlockZ()));
-                int fadeIn = localeService.getInt(VisualLocaleImpl.TITLE_CHECKPOINT_FADE_IN);
-                int stay = localeService.getInt(VisualLocaleImpl.TITLE_CHECKPOINT_STAY);
-                int fadeOut = localeService.getInt(VisualLocaleImpl.TITLE_CHECKPOINT_FADEOUT);
+                int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADE_IN);
+                int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_STAY);
+                int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADEOUT);
 
                 AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
                         player,

@@ -5,7 +5,7 @@ import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.hotbar.HotbarService;
@@ -83,7 +83,7 @@ public class RankedButton extends Button {
 
         ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ServerLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

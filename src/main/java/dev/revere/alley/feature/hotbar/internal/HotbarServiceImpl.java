@@ -218,7 +218,7 @@ public class HotbarServiceImpl implements HotbarService {
     @Override
     public void deleteHotbarItem(HotbarItem hotbarItem) {
         FileConfiguration hotbarConfig = this.configService.getHotbarConfig();
-        File hotbarFile = this.configService.getConfigFile("providers/hotbar.yml");
+        File hotbarFile = this.configService.getConfigFile("storage/hotbar.yml");
 
         ConfigurationSection hotbarSection = hotbarConfig.getConfigurationSection("hotbar-items");
         if (hotbarSection != null) {
@@ -235,7 +235,7 @@ public class HotbarServiceImpl implements HotbarService {
     @Override
     public void saveToConfig(HotbarItem hotbarItem) {
         FileConfiguration hotbarConfig = this.configService.getHotbarConfig();
-        File hotbarFile = this.configService.getConfigFile("providers/hotbar.yml");
+        File hotbarFile = this.configService.getConfigFile("storage/hotbar.yml");
 
         ConfigurationSection hotbarSection = hotbarConfig.getConfigurationSection("hotbar-items");
         if (hotbarSection == null) {

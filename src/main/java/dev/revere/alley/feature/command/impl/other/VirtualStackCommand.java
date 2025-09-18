@@ -4,7 +4,7 @@ import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.VirtualStackReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -44,7 +44,7 @@ public class VirtualStackCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[0]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[0]));
             return;
         }
 

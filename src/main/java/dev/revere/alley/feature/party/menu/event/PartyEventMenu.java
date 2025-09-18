@@ -4,7 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.menu.event.impl.PartyEventFFAMenu;
@@ -111,12 +111,12 @@ public class PartyEventMenu extends Menu {
 
             Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
             if (party == null) {
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
                 return;
             }
 
             if (party.getLeader() != player) {
-                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(PartyLocaleImpl.NOT_LEADER)));
+                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_LEADER)));
                 return;
             }
 

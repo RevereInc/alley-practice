@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.PartyLocaleImpl;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class PartyInfoCommand extends BaseCommand {
         Party party = partyService.getPartyByMember(player.getUniqueId());
 
         if (party == null) {
-            player.sendMessage(this.getMessage(PartyLocaleImpl.NOT_IN_PARTY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
             return;
         }
 
@@ -47,8 +47,8 @@ public class PartyInfoCommand extends BaseCommand {
                 .map(Player::getName)
                 .collect(Collectors.joining(", "));
 
-        List<String> info = this.getMessageList(PartyLocaleImpl.PARTY_INFO);
-        String noMembersFormat = this.getMessage(PartyLocaleImpl.PARTY_INFO_NO_MEMBERS_FORMAT);
+        List<String> info = this.getMessageList(GlobalMessagesLocaleImpl.PARTY_INFO);
+        String noMembersFormat = this.getMessage(GlobalMessagesLocaleImpl.PARTY_INFO_NO_MEMBERS_FORMAT);
         for (String line : info) {
             player.sendMessage(CC.translate(line)
                     .replace("{leader}", this.plugin.getServer().getPlayer(leaderUUID).getName())

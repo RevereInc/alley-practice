@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.server.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ServerLocaleImpl;
 import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +30,7 @@ public class ServiceToggleCraftingCommand extends BaseCommand {
 
         ServerService serverService = this.plugin.getService(ServerService.class);
         if (itemType == null || itemType == Material.AIR || !serverService.isCraftable(itemType)) {
-            player.sendMessage(this.getMessage(ServerLocaleImpl.MUST_HOLD_CRAFTABLE_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.CRAFTING_MUST_HOLD_CRAFTABLE_ITEM));
             return;
         }
 
@@ -41,7 +41,7 @@ public class ServiceToggleCraftingCommand extends BaseCommand {
         }
 
         serverService.saveBlockedItems(itemType);
-        player.sendMessage(this.getMessage(ServerLocaleImpl.CRAFTING_TOGGLED)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.CRAFTING_TOGGLED)
                 .replace("{item}", itemType.name())
                 .replace("{status}", serverService.getBlockedCraftingItems().contains(itemType) ? CC.translate("&cDisabled") : CC.translate("&aEnabled"))
         );

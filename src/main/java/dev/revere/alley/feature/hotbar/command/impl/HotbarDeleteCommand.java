@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.HotbarLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarItem;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -37,11 +37,11 @@ public class HotbarDeleteCommand extends BaseCommand {
 
         HotbarItem hotbarItem = hotbarService.getHotbarItem(name);
         if (hotbarItem == null) {
-            player.sendMessage(this.getMessage(HotbarLocaleImpl.NOT_FOUND).replace("{hotbar-name}", name));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.HOTBAR_NOT_FOUND).replace("{hotbar-name}", name));
             return;
         }
 
         hotbarService.deleteHotbarItem(hotbarItem);
-        player.sendMessage(this.getMessage(HotbarLocaleImpl.DELETED_ITEM).replace("{hotbar-name}", name));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.HOTBAR_DELETED_ITEM).replace("{hotbar-name}", name));
     }
 }

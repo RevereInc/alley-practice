@@ -1,8 +1,7 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.DivisionLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
@@ -54,13 +53,13 @@ public class DivisionSetWinsCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(this.getMessage(DivisionLocaleImpl.NOT_FOUND).replace("{division-name}", args[0]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         String tier = args[1];
         if (division.getTier(tier) == null) {
-            player.sendMessage(this.getMessage(DivisionLocaleImpl.TIER_NOT_FOUND)
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_TIER_NOT_FOUND)
                     .replace("{division-name}", division.getDisplayName())
                     .replace("{tier-name}", tier)
             );
@@ -71,7 +70,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         try {
             wins = Integer.parseInt(args[2]);
         } catch (NumberFormatException e) {
-            player.sendMessage(this.getMessage(ErrorLocaleImpl.INVALID_NUMBER).replace("{input}", args[2]));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
@@ -83,7 +82,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
 
         division.getTier(tier).setRequiredWins(wins);
         divisionService.saveDivision(division);
-        player.sendMessage(this.getMessage(DivisionLocaleImpl.WINS_SET)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_WINS_SET)
                 .replace("{division-name}", division.getName())
                 .replace("{tier-name}", tier)
                 .replace("{required-wins}", String.valueOf(wins))

@@ -3,7 +3,7 @@ package dev.revere.alley.feature.queue;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.ErrorLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -126,7 +126,7 @@ public class Queue {
                 }
             } else {
                 if (profile.getState() != ProfileState.LOBBY) {
-                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                     return;
                 }
 
@@ -136,7 +136,7 @@ public class Queue {
             }
         } else {
             if (profile.getState() != ProfileState.LOBBY) {
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(ErrorLocaleImpl.INVALID_PLAYER));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                 return;
             }
         }

@@ -4,11 +4,11 @@ import dev.revere.alley.common.InventoryUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +38,7 @@ public class KitCreateCommand extends BaseCommand {
         String kitName = args[0];
         KitService kitService = this.plugin.getService(KitService.class);
         if (kitService.getKit(kitName) != null) {
-            player.sendMessage(this.getMessage(KitLocaleImpl.ALREADY_EXISTS));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_ALREADY_EXISTS));
             return;
         }
 
@@ -52,7 +52,7 @@ public class KitCreateCommand extends BaseCommand {
 
         kitService.createKit(kitName, inventory, armor, icon);
 
-        String message = this.getMessage(KitLocaleImpl.CREATED).replace("{kit-name}", kitName);
+        String message = this.getMessage(GlobalMessagesLocaleImpl.KIT_CREATED).replace("{kit-name}", kitName);
 
         player.sendMessage(message);
         this.plugin.getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, message, 5);

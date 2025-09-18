@@ -6,7 +6,7 @@ import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.serializer.Serializer;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitCategory;
 import dev.revere.alley.feature.kit.KitService;
@@ -146,10 +146,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public void createKit(String kitName, ItemStack[] inventory, ItemStack[] armor, Material icon) {
-        String defaultDisplayName = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DISPLAYNAME).replace("{kit}", kitName);
-        String defaultDescription = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DESCRIPTION).replace("{kit}", kitName);
-        String defaultDisclaimer = this.localeService.getMessage(KitLocaleImpl.DEFAULT_DISCLAIMER).replace("{kit}", kitName);
-        String defaultMenuTitle = this.localeService.getMessage(KitLocaleImpl.DEFAULT_MENU_TITLE).replace("{kit}", kitName);
+        String defaultDisplayName = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISPLAYNAME).replace("{kit}", kitName);
+        String defaultDescription = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DESCRIPTION).replace("{kit}", kitName);
+        String defaultDisclaimer = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISCLAIMER).replace("{kit}", kitName);
+        String defaultMenuTitle = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_MENU_TITLE).replace("{kit}", kitName);
 
         Kit kit = new Kit(
                 kitName,

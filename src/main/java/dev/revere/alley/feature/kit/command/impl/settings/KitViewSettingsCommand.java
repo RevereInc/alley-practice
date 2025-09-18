@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.kit.command.impl.settings;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -34,7 +34,7 @@ public class KitViewSettingsCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(CC.translate(this.getMessage(KitLocaleImpl.NOT_FOUND)));
+            sender.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 

@@ -1,9 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.FFALocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.command.KitLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -13,6 +10,7 @@ import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -41,7 +39,7 @@ public class FFASetArenaCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(this.getMessage(KitLocaleImpl.NOT_FOUND));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
@@ -49,24 +47,24 @@ public class FFASetArenaCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            sender.sendMessage(this.getMessage(ArenaLocaleImpl.NOT_FOUND).replace("{arena-name}", arenaName));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getType() != ArenaType.FFA) {
-            sender.sendMessage(this.getMessage(FFALocaleImpl.CAN_ONLY_SETUP_IN_FFA_ARENA));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
         if (!kit.isFfaEnabled()) {
-            sender.sendMessage(this.getMessage(FFALocaleImpl.DISABLED).replace("{kit-name}", kit.getName()));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_DISABLED).replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaArenaName(arena.getName());
         kitService.saveKit(kit);
         this.plugin.getService(FFAService.class).reloadFFAKits();
-        sender.sendMessage(this.getMessage(FFALocaleImpl.ARENA_SET)
+        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_ARENA_SET)
                 .replace("{kit-name}", kit.getName())
                 .replace("{arena-name}", arena.getName())
         );

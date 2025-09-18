@@ -8,8 +8,8 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleEntry;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.*;
-import dev.revere.alley.core.locale.internal.impl.command.*;
-import dev.revere.alley.core.locale.internal.impl.provider.ScoreboardLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
@@ -39,16 +39,10 @@ public class LocaleServiceImpl implements LocaleService {
     @Override
     public void initialize(AlleyContext context) {
         List<Class<? extends LocaleEntry>> localeEntries = Arrays.asList(
-                GameLocaleImpl.class, ProfileLocaleImpl.class, ServerLocaleImpl.class,
-
-                ErrorLocaleImpl.class,
-
-                ArenaLocaleImpl.class, CosmeticLocaleImpl.class, DivisionLocaleImpl.class, FFALocaleImpl.class,
-                HotbarLocaleImpl.class, KitLocaleImpl.class, PartyLocaleImpl.class,
-
-                ScoreboardLocaleImpl.class,
-
-                VisualLocaleImpl.class
+                GlobalMessagesLocaleImpl.class,
+                GameMessagesLocaleImpl.class,
+                SettingsLocaleImpl.class,
+                VisualsLocaleImpl.class
         );
 
         Logger.infoNoPrefix("");

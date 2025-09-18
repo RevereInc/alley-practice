@@ -3,7 +3,8 @@ package dev.revere.alley.feature.arena.command.impl.manage;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.command.ArenaLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -53,13 +54,13 @@ public class ArenaCreateCommand extends BaseCommand {
         }
 
         if (this.plugin.getService(ArenaService.class).getArenaByName(arenaName) != null) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.ALREADY_EXISTS));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_ALREADY_EXISTS));
             return;
         }
 
         ArenaSelection arenaSelection = ArenaSelection.createSelection(player);
         if (!arenaSelection.hasSelection()) {
-            player.sendMessage(this.getMessage(ArenaLocaleImpl.NO_SELECTION));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NO_SELECTION));
             return;
         }
 
@@ -81,7 +82,7 @@ public class ArenaCreateCommand extends BaseCommand {
         arena.setDisplayName(Objects.requireNonNull(this.getDefaultDisplayName(arenaType)).replace("{arena-name}", arenaName));
 
         arena.createArena();
-        player.sendMessage(this.getMessage(ArenaLocaleImpl.CREATED)
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CREATED)
                 .replace("{arena-name}", arenaName)
                 .replace("{arena-type}", arenaType.name())
         );
@@ -98,11 +99,11 @@ public class ArenaCreateCommand extends BaseCommand {
 
         switch (arenaType) {
             case SHARED:
-                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_SHARED);
+                return localeService.getMessage(SettingsLocaleImpl.CONFIG_ARENA_DEFAULT_DISPLAY_NAME_SHARED);
             case STANDALONE:
-                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_STANDALONE);
+                return localeService.getMessage(SettingsLocaleImpl.CONFIG_ARENA_DEFAULT_DISPLAY_NAME_STANDALONE);
             case FFA:
-                return localeService.getMessage(ArenaLocaleImpl.DEFAULT_DISPLAY_NAME_FFA);
+                return localeService.getMessage(SettingsLocaleImpl.CONFIG_ARENA_DEFAULT_DISPLAY_NAME_FFA);
         }
 
         return null;
