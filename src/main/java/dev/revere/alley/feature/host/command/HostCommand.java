@@ -28,7 +28,7 @@ public class HostCommand extends BaseCommand {
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 

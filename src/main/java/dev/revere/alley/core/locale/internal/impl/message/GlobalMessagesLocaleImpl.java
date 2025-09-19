@@ -26,6 +26,12 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ARENA_FFA_ARENAS_NO_SPAWNS("messages/global-messages.yml", "arena.error.ffa-arenas-no-spawns", "&cFFA Arenas do not need spawn positions. Use &4/ffa setspawn&c."),
     ARENA_CANNOT_TOGGLE_FFA("messages/global-messages.yml", "arena.error.cannot-toggle-ffa", "&cYou cannot toggle Free-For-All arenas!"),
     ARENA_CANNOT_ADD_KITS_TO_FFA("messages/global-messages.yml", "arena.error.cannot-add-kits-to-ffa", "&cYou cannot add kits to Free-For-All arenas!"),
+    ARENA_SPAWN_NOT_SET("messages/global-messages.yml", "arena.error.spawn-not-set", "&cYou must set both spawn positions! (/arena setspawn)"),
+    ARENA_CENTER_NOT_SET("messages/global-messages.yml", "arena.error.center-not-set", "&cYou must set the center! (/arena setcenter)"),
+    ARENA_MUST_ADD_KIT("messages/global-messages.yml", "arena.error.must-add-kit", "&cYou must add at least one kit! (/arena addkit)"),
+    ARENA_ASSIGNED_KIT_NULL("messages/global-messages.yml", "arena.error.assigned-kit-null", "&cThe kit &6{kit-name} &cis assigned to this arena but does not exist!"),
+    ARENA_STANDALONE_PORTALS_NOT_SET("messages/global-messages.yml", "arena.error.standalone-portals-not-set", "&cYou must set both team portals! (/arena setportal)"),
+    ARENA_IS_NOT_FFA("messages/global-messages.yml", "arena.error.is-not-ffa", "&cThis is not a Free-For-All arena!"),
 
     ARENA_SELECTION_TOOL_ADDED("messages/global-messages.yml", "arena.command.selection-tool.added", "&aSuccessfully added the selection tool to your inventory!"),
     ARENA_SELECTION_TOOL_REMOVED("messages/global-messages.yml", "arena.command.selection-tool.removed", "&cSuccessfully removed the selection tool from your inventory!"),
@@ -72,41 +78,56 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     DIVISION_CREATED("messages/global-messages.yml", "division.command.created", "&aSuccessfully created a new division named &6{division-name} &awith &6{required-wins} &awins!"),
     DIVISION_DELETED("messages/global-messages.yml", "division.command.deleted", "&cSuccessfully deleted the division named &6{division-name}&c!"),
 
-    DUEL_REQUEST_ACCEPTED("messages/global-messages.yml", "duel-requests.accepted", "&aYou have accepted the duel request from &6{color}{player}&a!"),
+    DUEL_REQUEST_ACCEPTED("messages/global-messages.yml", "duel-requests.accepted", "&aYou have accepted the duel request from &6{name-color}{player}&a!"),
     DUEL_REQUEST_EXPIRED("messages/global-messages.yml", "duel-requests.error.expired", "&cThat duel request has expired."),
     DUEL_REQUEST_NO_ARENA("messages/global-messages.yml", "duel-requests.error.no-arenas", "&cThere is no available arena for that kit."),
     DUEL_REQUEST_CANT_DUEL_SELF("messages/global-messages.yml", "duel-requests.error.cant-duel-self", "&cYou can't duel yourself!"),
     DUEL_REQUEST_ALREADY_PENDING("messages/global-messages.yml", "duel-requests.error.already-pending", "&cYou already have a pending duel request from that player."),
+    DUEL_REQUEST_ALREADY_PENDING_PARTY("messages/global-messages.yml", "duel-requests.error.already-pending-party", "&cYou already have a pending duel request from that player or their party."),
     DUEL_REQUEST_INVALID_FROM_PLAYER("messages/global-messages.yml", "duel-requests.error.no-pending-request", "&cYou do not have a pending duel request from that player."),
-    DUEL_REQUEST_REQUESTS_DISABLED_PLAYER("messages/global-messages.yml", "duel-requests.error.player-requests-disabled", "&c{color}{player} has duel requests disabled."),
+    DUEL_REQUEST_REQUESTS_DISABLED_PLAYER("messages/global-messages.yml", "duel-requests.error.player-requests-disabled", "&c{name-color}{player} has duel requests disabled."),
 
     EXPLOSIVE_SETTING_UPDATED("messages/global-messages.yml", "explosive.command.setting-updated", "&aSuccessfully set the explosive {setting-name} value to &6{setting-value}&a."),
 
-    ERROR_MUST_LEAVE_PARTY("messages/global-messages.yml", "error-messages.must-leave-party", "&cYou must leave your party before doing that!"),
-    ERROR_MUST_BE_IN_LOBBY("messages/global-messages.yml", "error-messages.must-be-in-lobby", "&cYou must be in the lobby to do that!"),
-    ERROR_MUST_HOLD_ITEM("messages/global-messages.yml", "error-messages.must-hold-item", "&cYou need to be holding an item!"),
+    ERROR_AMOUNT_MUST_BE_GREATER_THAN_ZERO("messages/global-messages.yml", "error-messages.amount-must-be-greater-than-zero", "&cThe amount must be greater than zero!"),
 
     ERROR_INVALID_NUMBER("messages/global-messages.yml", "error-messages.invalid.number", "&c'{input}' is not a valid number! Please enter a valid number."),
     ERROR_INVALID_PLAYER("messages/global-messages.yml", "error-messages.invalid.player", "&cThat player could not be found!"),
     ERROR_INVALID_TYPE("messages/global-messages.yml", "error-messages.invalid.type", "&cInvalid {type}. Available types: &6{types}&c."),
 
-    ERROR_PLAYER_IS_BUSY("messages/global-messages.yml", "error-messages.player.is-busy", "&6{color}{player} &cis busy."),
+    ERROR_PLAYER_IS_BUSY("messages/global-messages.yml", "error-messages.player.is-busy", "&6{name-color}{player} &cis busy."),
+    ERROR_PLAYER_NOT_PLAYING_MATCH("messages/global-messages.yml", "error-messages.player.not-playing-match", "&c{name-color}{player} &cis not in a match."),
+    ERROR_PLAYER_NOT_PLAYING_FFA("messages/global-messages.yml", "error-messages.player.not-playing-ffa", "&c{name-color}{player} &cis not in an FFA Match!"),
+    ERROR_PLAYER_PARTY_INVITES_DISABLED("messages/global-messages.yml", "error-messages.player.party-invites-disabled", "&c{name-color}{player} &chas party invites disabled."),
 
-    FFA_ADDED_PLAYER("messages/global-messages.yml", "ffa.added-player", "&a&lADDED! &6{player-color}{player} &7&l» &6FFA {ffa-name}"),
-    FFA_KICKED_PLAYER("messages/global-messages.yml", "ffa.kicked-player", "&c&lKICKED! &6{player-color}{player} &7&l» &6FFA {ffa-name}"),
+    ERROR_YOU_MUST_LEAVE_PARTY("messages/global-messages.yml", "error-messages.you.must-leave-party", "&cYou must leave your party before doing that!"),
+    ERROR_YOU_MUST_BE_IN_LOBBY("messages/global-messages.yml", "error-messages.you.must-be-in-lobby", "&cYou must be in the lobby to do that!"),
+    ERROR_YOU_MUST_HOLD_ITEM("messages/global-messages.yml", "error-messages.you.must-hold-item", "&cYou need to be holding an item!"),
+    ERROR_YOU_NOT_PLAYING_FFA("messages/global-messages.yml", "error-messages.you.not-playing-ffa", "&cYou are not in an FFA match!"),
+    ERROR_YOU_NOT_SPECTATING_FFA("messages/global-messages.yml", "error-messages.you.not-spectating-ffa", "&cYou are not spectating an FFA match!"),
+    ERROR_YOU_ALREADY_SPECTATING_FFA("messages/global-messages.yml", "error-messages.you.already-spectating-ffa", "&cYou are already spectating FFA!"),
+    ERROR_YOU_NOT_PLAYING_MATCH("messages/global-messages.yml", "error-messages.you.not-playing-match", "&cYou are not in a match!"),
+    ERROR_YOU_ALREADY_PLAYING_MATCH("messages/global-messages.yml", "error-messages.you.already-playing-match", "&cYou are already in a match!"),
+    ERROR_YOU_NOT_SPECTATING_MATCH("messages/global-messages.yml", "error-messages.you.not-spectating-match", "&cYou are not spectating a match!"),
+    ERROR_YOU_ALREADY_SPECTATING_MATCH("messages/global-messages.yml", "error-messages.you.already-spectating-match", "&cYou are already spectating a match!"),
+
+    ERROR_YOU_NOT_IN_PARTY("messages/global-messages.yml", "error-messages.you..not-in-party", "&cYou are not in a party."),
+    ERROR_YOU_NOT_PARTY_LEADER("messages/global-messages.yml", "error-messages.you.not-party-leader", "&cYou are not the leader of the party."),
+    ERROR_YOU_ALREADY_IN_PARTY("messages/global-messages.yml", "error-messages.you.already-in-party", "&cYou are already in a party."),
+    ERROR_YOU_PARTY_CHAT_DISABLED("messages/global-messages.yml", "error-messages.you.party-chat-disabled", "&cYou have party messages disabled. &7(To enable: /togglepartymessages)"),
+    ERROR_YOU_NO_PARTY_INVITE_FROM_PLAYER("messages/global-messages.yml", "error-messages.you.no-party-invite-from-player", "&cYou do not have a party invitation from &6{name-color}{player}&c."),
+
+    FFA_ADDED_PLAYER("messages/global-messages.yml", "ffa.added-player", "&a&lADDED! &6{name-color}{player} &7&l» &6FFA {ffa-name}"),
+    FFA_KICKED_PLAYER("messages/global-messages.yml", "ffa.kicked-player", "&c&lKICKED! &6{name-color}{player} &7&l» &6FFA {ffa-name}"),
     FFA_SPAWN_ENTERED("messages/global-messages.yml", "ffa.entered-spawn", "&aYou have entered the FFA spawn."),
     FFA_SPAWN_LEFT("messages/global-messages.yml", "ffa.left-spawn", "&aYou have left the FFA spawn."),
-    FFA_NOT_IN_A_MATCH("messages/global-messages.yml", "ffa.not-in-match", "&cYou are not in an FFA match!"),
-    FFA_ALREADY_SPECTATING("messages/global-messages.yml", "ffa.already-spectating", "&cYou are already spectating FFA!"),
 
     FFA_ALREADY_EXISTS("messages/global-messages.yml", "ffa.error.already-exists", "&cAn FFA Match named &6{ffa-name} &calready exists!"),
     FFA_NOT_FOUND("messages/global-messages.yml", "ffa.error.not-found", "&cAn FFA Match named &6{ffa-name} &cdoes not exist!"),
     FFA_DISABLED("messages/global-messages.yml", "ffa.error.disabled", "&cFFA mode is disabled for the kit &6{kit-name}&c!"),
     FFA_KIT_NOT_ELIGIBLE("messages/global-messages.yml", "ffa.error.kit-not-eligible", "&cThis kit is not eligible for FFA matches! Please disable the &6BUILD/BOXING SETTINGS &cand try again."),
-    FFA_PLAYER_NOT_IN_MATCH("messages/global-messages.yml", "ffa.error.player-not-in-match", "&cThat player is not in an FFA Match!"),
     FFA_CAN_ONLY_SETUP_IN_FFA_ARENA("messages/global-messages.yml", "ffa.error.can-only-setup-in-ffa-arena", "&cYou can only setup FFA matches in FFA arenas!"),
     FFA_FULL("messages/global-messages.yml", "ffa.error.ffa-full", "&cThis FFA Match is full!"),
-    PLAYER_NOT_IN_FFA("messages/global-messages.yml", "ffa.error.player-not-in-ffa", "&cThat player is not in an FFA Match!"),
     FFA_INVALID_SPAWN_TYPE("messages/global-messages.yml", "ffa.error.invalid-spawn-type", "&cInvalid spawn type! Valid types: pos1, pos2"),
 
     FFA_MATCH_CREATED("messages/global-messages.yml", "ffa.command.created", "&aSuccessfully created a new FFA Match for the kit &6{kit-name}&a!"),
@@ -139,9 +160,11 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
-    KIT_NOT_FOUND("messages/global-messages.yml", "kit.error.not-found", "&cThere is no kit with that name!"),
-    KIT_ALREADY_EXISTS("messages/global-messages.yml", "kit.error.already-exists", "&cA kit with that name already exists!"),
+    KIT_NOT_FOUND("messages/global-messages.yml", "kit.error.not-found", "&cThere is no kit with that name!"), //TODO: add {kit-name} placeholder
+    KIT_ALREADY_EXISTS("messages/global-messages.yml", "kit.error.already-exists", "&cA kit with that name already exists!"), //TODO: add {kit-name} placeholder
     KIT_SLOT_MUST_BE_NUMBER("messages/global-messages.yml", "kit.error.slot-must-be-number", "&cThe slot must be a number!"),
+
+    KIT_POTION_EFFECT_REMOVED("messages/global-messages.yml", "kit.command.potion-effect-removed", "&cYou have removed the potion effect: &6{potion-effect} &cfrom the kit: &6{kit-name}&c."),
 
     KIT_INVENTORY_GIVEN("messages/global-messages.yml", "kit.command.inventory-given", "&aSuccessfully retrieved the inventory of the &6{kit-name} &akit!"),
     KIT_INVENTORY_SET("messages/global-messages.yml", "kit.command.inventory-set", "&aSuccessfully set the inventory of the &6{kit-name} &akit!"),
@@ -157,17 +180,31 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
 
     KIT_POTION_EFFECTS_SET("messages/global-messages.yml", "kit.command.potion-effects-set", "&aSuccessfully set the potion effects of the &6{kit-name} &akit!"),
     KIT_POTION_EFFECTS_CLEARED("messages/global-messages.yml", "kit.command.potion-effects-cleared", "&aSuccessfully cleared the potion effects of the &6{kit-name} &akit!"),
-
     KIT_CREATED("messages/global-messages.yml", "kit.command.created", "&aSuccessfully created a new kit named &6{kit-name}&a!"),
     KIT_DELETED("messages/global-messages.yml", "kit.command.deleted", "&cSuccessfully deleted the kit named &6{kit-name}&c!"),
-
     KIT_SETTING_SET("messages/global-messages.yml", "kit.command.setting-set", "&aSuccessfully set the setting &6{setting-name} &ato &6{enabled} &afor the kit &6{kit-name}&a."),
-
     KIT_SAVED("messages/global-messages.yml", "kit.command.saved", "&aSuccessfully saved the &6{kit-name} &akit!"),
     KIT_SAVED_ALL("messages/global-messages.yml", "kit.command.saved-all", "&aSuccessfully saved all kits!"),
 
-    MATCH_ALREADY_IN("messages/global-messages.yml", "match.already-in", "&cYou are already in a match!"),
+    LEVEL_NOT_FOUND("messages/global-messages.yml", "level.error.not-found", "&cA level named &6{level-name} &cdoes not exist!"),
+    LEVEL_ALREADY_EXISTS("messages/global-messages.yml", "level.error.already-exists", "&cA level named &6{level-name} &calready exists!"),
+    LEVEL_MAX_ELO_MUST_BE_GREATER_THAN_MIN("messages/global-messages.yml", "level.error.max-elo-must-be-greater-than-min", "&cMaximum Elo must be greater than minimum Elo! (Minimum: &6{min-elo}&c)"),
+    LEVEL_MINIMUM_ELO_CANNOT_BE_NEGATIVE("messages/global-messages.yml", "level.error.min-elo-cannot-be-negative", "&cMinimum Elo cannot be negative!"),
+    LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM("messages/global-messages.yml", "level.error.min-elo-must-be-less-than-maximum", "&cMinimum Elo must be less than the maximum Elo! (Maximum: &6{max-elo}&c)"),
 
+    LEVEL_DISPLAY_NAME_SET("messages/global-messages.yml", "level.command.display-name-set", "&aSuccessfully set the display name of the &6{level-name} &alevel to &r{display-name}&a!"),
+    LEVEL_ICON_SET("messages/global-messages.yml", "level.command.icon-set", "&aSuccessfully set the icon for the level &6{level-name} &ato &6{icon-material}&a!"),
+    LEVEL_MINIMUM_ELO_SET("messages/global-messages.yml", "level.command.min-elo-set", "&aSuccessfully set the minimum Elo of the &6{level-name} &alevel to &6{min-elo}&a!"),
+    LEVEL_MAX_ELO_SET("messages/global-messages.yml", "level.command.max-elo-set", "&aSuccessfully set the maximum Elo of the &6{level-name} &alevel to &6{max-elo}&a!"),
+    LEVEL_CREATED("messages/global-messages.yml", "level.command.created", "&aSuccessfully created a new level named &6{level-name} &awith min Elo &6{min-elo} &aand max Elo &6{max-elo}&a!"),
+    LEVEL_DELETED("messages/global-messages.yml", "level.command.deleted", "&cSuccessfully deleted the level named &6{level-name}&c!"),
+
+    MATCH_CANCELLED_FOR_PLAYER("messages/global-messages.yml", "match.cancelled", "&aYou have ended the match for &6{name-color}{player}&a."),
+
+    OTHER_SUDO_ALL_PLAYERS("messages/global-messages.yml", "other.sudo.all-players", "&aYou have sudo-ed all players to say: &r{message}"),
+
+    PARTY_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
+    PARTY_JOINED("messages/global-messages.yml", "party.joined", "&aYou have joined &6{player}&a's party."),
     PARTY_CREATED("messages/global-messages.yml", "party.created",
             Arrays.asList(
                     "",
@@ -195,15 +232,6 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
             "  &6&l│ &rSize: &6{size}",
             ""
     )),
-    PARTY_DISBANDED("messages/global-messages.yml", "party.disbanded", "&cYour party has been disbanded!"),
-    PARTY_NOT_IN("messages/global-messages.yml", "party.not-in-party", "&cYou are not in a party."),
-    PARTY_NOT_LEADER("messages/global-messages.yml", "party.not-leader", "&cYou are not the leader of the party."),
-    PARTY_ALREADY_IN("messages/global-messages.yml", "party.already-in", "&cYou are already in a party."),
-    PARTY_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
-    PLAYER_DISABLED_PARTY_INVITES("messages/global-messages.yml", "party.target-disabled-invites", "&c{player} has party invites disabled."),
-    PARTY_CHAT_DISABLED("messages/global-messages.yml", "party.chat-disabled", "&cYou have party messages disabled. &7(To enable: /togglepartymessages)"),
-    PARTY_NO_INVITE("messages/global-messages.yml", "party.no-invite", "&cYou do not have a party invitation from &6{player}&c."),
-    PARTY_JOINED("messages/global-messages.yml", "party.joined", "&aYou have joined &6{player}&a's party."),
 
     PROFILE_TOGGLED_PARTY_INVITES("messages/global-messages.yml", "profile-messages.player-settings.party-invites", "&aYou've {status} &aparty invites."),
     PROFILE_TOGGLED_PARTY_MESSAGES("messages/global-messages.yml", "profile-messages.player-settings.party-messages", "&aYou've {status} &aparty messages."),
@@ -232,6 +260,14 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
             "&6Tip: &fKeep your crosshair at head level... unless you like tickling toes.",
             "&6Tip: &fPractice spacing — or just hug them and pray."
     )),
+
+    TROLL_PLAYER_DONUTED("messages/global-messages.yml", "troll.player-donuted", "&aYou have successfully donut'd &6{name-color}{player}&a!"),
+    TROLL_PLAYER_FAKE_EXPLODED("messages/global-messages.yml", "troll.player-fake-exploded", "&aYou have fake exploded &6{name-color}{player}&a!"),
+    TROLL_PLAYER_GIVEN_HEART_ATTACK("messages/global-messages.yml", "troll.player-given-heart-attack", "&aYou have given &6{name-color}{player} &aa heart attack!"),
+    TROLL_PLAYER_LAUNCHED("messages/global-messages.yml", "troll.player-launched", "&aYou have launched &6{name-color}{player}&a into the sky!"),
+    TROLL_PLAYER_PUSHED("messages/global-messages.yml", "troll.player-pushed", "&aYou have pushed &6{name-color}{player}&a!"),
+    TROLL_PLAYER_STRUCK_BY_LIGHTNING("messages/global-messages.yml", "troll.player-struck-by-lightning", "&aYou have struck &6{name-color}{player} &awith lightning!"),
+    TROLL_PLAYER_DEMO_MENU_OPENED("messages/global-messages.yml", "troll.player-demo-menu-opened", "&aYou have opened the demo menu for &6{name-color}{player}&a!"),
 
     ;
 

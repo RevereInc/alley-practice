@@ -15,6 +15,9 @@ import org.bukkit.inventory.ItemStack;
  * @date 28/10/2024 - 08:50
  */
 public class MoreCommand extends BaseCommand {
+
+    //TODO: Locale
+
     @CommandData(
             name = "more",
             isAdminOnly = true,

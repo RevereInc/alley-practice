@@ -65,7 +65,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
         switch (spawnType.toLowerCase()) {
             case "blue":
                 if (arena.getType() == ArenaType.FFA) {
-                    player.sendMessage(CC.translate("&cFFA Arenas do not need a spawn position!"));
+                    this.getMessage(GlobalMessagesLocaleImpl.ARENA_FFA_ARENAS_NO_SPAWNS);
                     return;
                 }
                 arena.setPos1(player.getLocation());
@@ -76,7 +76,7 @@ public class ArenaSetSpawnCommand extends BaseCommand {
                 break;
             case "ffa":
                 if (arena.getType() != ArenaType.FFA) {
-                    player.sendMessage(CC.translate("&cThis arena is not an FFA arena!"));
+                    this.getMessage(GlobalMessagesLocaleImpl.ARENA_IS_NOT_FFA);
                     return;
                 }
                 arena.setPos1(player.getLocation());

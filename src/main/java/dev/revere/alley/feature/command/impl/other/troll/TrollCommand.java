@@ -60,6 +60,9 @@ public class TrollCommand extends BaseCommand {
             Logger.error("An error occurred while trying to troll " + targetPlayer.getName() + ": " + ex.getMessage());
         }
 
-        sender.sendMessage(CC.translate("&eYou have trolled &d" + targetPlayer.getName() + "&e."));
+        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_DEMO_MENU_OPENED)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

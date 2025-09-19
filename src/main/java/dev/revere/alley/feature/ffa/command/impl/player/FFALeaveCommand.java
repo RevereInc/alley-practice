@@ -28,7 +28,7 @@ public class FFALeaveCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getFfaMatch() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_NOT_IN_A_MATCH));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PLAYING_FFA));
             return;
         }
 

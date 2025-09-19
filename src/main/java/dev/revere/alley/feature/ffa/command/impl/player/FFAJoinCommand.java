@@ -44,12 +44,12 @@ public class FFAJoinCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getParty() != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_LEAVE_PARTY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_LEAVE_PARTY));
             return;
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 

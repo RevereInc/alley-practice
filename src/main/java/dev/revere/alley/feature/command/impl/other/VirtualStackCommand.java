@@ -17,6 +17,9 @@ import org.bukkit.entity.Player;
  * @date 14/07/2025
  */
 public class VirtualStackCommand extends BaseCommand {
+
+    //TODO: Locale
+
     @CommandData(
             name = "virtualstack",
             isAdminOnly = true,
@@ -36,7 +39,7 @@ public class VirtualStackCommand extends BaseCommand {
         }
 
         if (player.getInventory().getItemInHand() == null || player.getInventory().getItemInHand().getType() == Material.AIR) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to set its virtual stack amount."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

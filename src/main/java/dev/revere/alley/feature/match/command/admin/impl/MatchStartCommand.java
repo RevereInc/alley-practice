@@ -86,13 +86,13 @@ public class MatchStartCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(CC.translate("&cKit not found."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(CC.translate("&cArena not found."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", kitName));
             return;
         }
 

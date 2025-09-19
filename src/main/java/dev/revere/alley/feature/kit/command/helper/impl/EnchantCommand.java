@@ -44,13 +44,13 @@ public class EnchantCommand extends BaseCommand {
         try {
             level = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

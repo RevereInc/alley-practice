@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.item.command.impl;
 
+import com.boydti.fawe.util.chat.Message;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.item.ItemService;
@@ -36,13 +37,13 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[0]);
         } catch (NumberFormatException e) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[0]));
             return;
         }
 
         if (amount <= 0) {
             //TODO: Locale
-            player.sendMessage(CC.translate("&cAmount must be greater than zero."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_AMOUNT_MUST_BE_GREATER_THAN_ZERO));
             return;
         }
 

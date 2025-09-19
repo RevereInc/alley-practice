@@ -62,7 +62,7 @@ public class FFAAddCommand extends BaseCommand {
         player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_ADDED_PLAYER)
                 .replace("{player}", targetPlayer.getName())
                 .replace("{ffa-name}", match.getName())
-                .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
         );
     }
 }

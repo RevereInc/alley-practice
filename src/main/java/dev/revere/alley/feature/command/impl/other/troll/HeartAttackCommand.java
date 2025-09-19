@@ -30,13 +30,16 @@ public class HeartAttackCommand extends BaseCommand {
         }
 
         String targetName = args[0];
-        Player target = player.getServer().getPlayer(targetName);
-        if (target == null) {
+        Player targetPlayer = player.getServer().getPlayer(targetName);
+        if (targetPlayer == null) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
-        target.setHealth(0.5D);
-        player.sendMessage(CC.translate("&fYou've given &6" + target.getName() + " &fa heart attack."));
+        targetPlayer.setHealth(0.5D);
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_GIVEN_HEART_ATTACK)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.kit.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.feature.kit.KitService;
@@ -80,7 +82,13 @@ public class KitPotionListMenu extends PaginatedMenu {
 
             this.kit.getPotionEffects().remove(this.potionEffect);
             AlleyPlugin.getInstance().getService(KitService.class).saveKit(this.kit);
-            player.sendMessage(CC.translate("&cYou have removed the potion effect: &6" + this.potionEffect.getType().getName() + "&c from the kit: &6" + this.kit.getDisplayName() + "&c."));
+
+            LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+            player.sendMessage(CC.translate(localeService.getMessage(GlobalMessagesLocaleImpl.KIT_POTION_EFFECT_REMOVED)
+                    .replace("{potion-effect}", this.potionEffect.getType().getName())
+                    .replace("{kit-name}", this.kit.getName()))
+            );
+
             new KitPotionListMenu(this.kit).openMenu(player);
         }
     }

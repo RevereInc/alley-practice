@@ -47,12 +47,12 @@ public class PartyChatCommand extends BaseCommand {
         }
 
         if (profile.getParty() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
         if (!profile.getProfileData().getSettingData().isPartyMessagesEnabled()) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_CHAT_DISABLED)));
+            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_CHAT_DISABLED)));
             return;
         }
 

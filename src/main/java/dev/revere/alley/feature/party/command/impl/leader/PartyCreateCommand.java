@@ -40,7 +40,7 @@ public class PartyCreateCommand extends BaseCommand {
         }
 
         if (partyService.getPartyByLeader(player) != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_ALREADY_IN));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_PARTY));
             return;
         }
 

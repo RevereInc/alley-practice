@@ -39,7 +39,7 @@ public class DivisionSetIconCommand extends BaseCommand {
         }
 
         if (player.getItemInHand() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

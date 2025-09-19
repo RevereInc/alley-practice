@@ -37,13 +37,16 @@ public class LaunchCommand extends BaseCommand {
             return;
         }
 
-        Player target = player.getServer().getPlayer(args[0]);
-        if (target == null) {
+        Player targetPlayer = player.getServer().getPlayer(args[0]);
+        if (targetPlayer == null) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
-        target.setVelocity(new Vector(0, 1, 0).multiply(15));
-        player.sendMessage(CC.translate("&fYou've launched &6" + target.getName()));
+        targetPlayer.setVelocity(new Vector(0, 1, 0).multiply(15));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_LAUNCHED)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

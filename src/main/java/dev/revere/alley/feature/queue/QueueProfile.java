@@ -6,6 +6,9 @@ import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionService
 import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import lombok.Data;
 import org.bukkit.entity.Player;
 
@@ -51,9 +54,16 @@ public class QueueProfile {
         this.ticks++;
 
         if (player != null) {
-            String message = "&6" + this.queue.getQueueType() + " " + this.queue.getKit().getDisplayName() + " &7│ &f" + TimeUtil.getFormattedElapsedTime(getElapsedTime());
-            ReflectionService reflectionService = AlleyPlugin.getInstance().getService(ReflectionService.class);
-            reflectionService.getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, message);
+            LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+            if (localeService.getBoolean(VisualsLocaleImpl.ACTIONBAR_QUEUE_INDICATOR_ENABLED_BOOLEAN)) {
+                String message = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_QUEUE_INDICATOR_MESSAGE_FORMAT)
+                        .replace("{queue-type}", this.queue.getQueueType())
+                        .replace("{kit-name}", this.queue.getKit().getDisplayName())
+                        .replace("{elapsed-time}", TimeUtil.getFormattedElapsedTime(getElapsedTime()));
+                ReflectionService reflectionService = AlleyPlugin.getInstance().getService(ReflectionService.class);
+                reflectionService.getReflectionService(ActionBarReflectionServiceImpl.class).sendMessage(player, message);
+            }
         }
 
         if (this.ticks % this.TICK_THRESHOLD != 0) {

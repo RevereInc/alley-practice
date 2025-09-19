@@ -40,7 +40,9 @@ public class FFAKickCommand extends BaseCommand {
 
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(targetPlayer);
         if (match == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PLAYER_NOT_IN_FFA));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_FFA)
+                    .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                    .replace("{player}", targetPlayer.getName()));
             return;
         }
 
@@ -48,7 +50,7 @@ public class FFAKickCommand extends BaseCommand {
         player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_KICKED_PLAYER)
                 .replace("{player}", targetPlayer.getName())
                 .replace("{ffa-name}", match.getName())
-                .replace("{player-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{name-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
         );
     }
 }

@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.library.command.BaseCommand;
@@ -35,11 +36,11 @@ public class LevelAdminDeleteCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
-            sender.sendMessage(CC.translate("&cA level with that name does not exist!"));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
             return;
         }
 
         levelService.deleteLevel(level);
-        sender.sendMessage(CC.translate("&cSuccessfully deleted level &6" + levelName + "&c!"));
+        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_DELETED).replace("{level-name}", levelName));
     }
 }

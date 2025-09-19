@@ -26,7 +26,7 @@ public class DuelRequestsCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.MATCH_ALREADY_IN));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_PLAYING_MATCH));
             return;
         }
 

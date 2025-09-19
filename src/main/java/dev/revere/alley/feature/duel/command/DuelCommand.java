@@ -60,7 +60,7 @@ public class DuelCommand extends BaseCommand {
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (!targetProfile.getProfileData().getSettingData().isReceiveDuelRequestsEnabled()) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_REQUESTS_DISABLED_PLAYER)
-                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{name-color}", String.valueOf(targetProfile.getNameColor()))
                     .replace("{player}", target.getName())
             );
             return;
@@ -68,7 +68,7 @@ public class DuelCommand extends BaseCommand {
 
         if (targetProfile.isBusy()) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_IS_BUSY)
-                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{name-color}", String.valueOf(targetProfile.getNameColor()))
                     .replace("{player}", target.getName())
             );
             return;

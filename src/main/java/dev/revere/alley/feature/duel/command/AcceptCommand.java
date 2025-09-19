@@ -49,7 +49,7 @@ public class AcceptCommand extends BaseCommand {
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (targetProfile.isBusy()) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_IS_BUSY)
-                    .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{name-color}", String.valueOf(targetProfile.getNameColor()))
                     .replace("{player}", target.getName())
             );
             return;
@@ -57,7 +57,7 @@ public class AcceptCommand extends BaseCommand {
 
         duelRequestService.acceptPendingRequest(duelRequest);
         player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_ACCEPTED)
-                .replace("{color}", String.valueOf(targetProfile.getNameColor()))
+                .replace("{name-color}", String.valueOf(targetProfile.getNameColor()))
                 .replace("{player}", target.getName())
         );
     }

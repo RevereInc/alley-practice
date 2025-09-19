@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.command.impl.other;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -33,6 +34,6 @@ public class SudoAllCommand extends BaseCommand {
             onlinePlayer.chat(message);
         }
 
-        player.sendMessage(CC.translate("&aSuccessfully sent message to all players: " + message));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.OTHER_SUDO_ALL_PLAYERS).replace("{message}", message));
     }
 }

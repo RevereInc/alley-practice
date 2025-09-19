@@ -25,7 +25,7 @@ public class RemoveEnchantsCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (player.getInventory().getItemInHand() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

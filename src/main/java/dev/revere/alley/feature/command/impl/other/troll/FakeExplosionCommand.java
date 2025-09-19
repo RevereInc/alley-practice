@@ -37,6 +37,9 @@ public class FakeExplosionCommand extends BaseCommand {
         }
 
         targetPlayer.getWorld().createExplosion(targetPlayer.getLocation(), 0.0F, false);
-        player.sendMessage(CC.translate("&6You've fake exploded &7" + targetPlayer.getName()));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_FAKE_EXPLODED)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

@@ -96,7 +96,7 @@ public class DuelRequestsMenu extends PaginatedMenu {
             }
 
             if (AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-                player.sendMessage(this.plugin.getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.MATCH_ALREADY_IN));
+                player.sendMessage(this.plugin.getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_PLAYING_MATCH));
                 return;
             }
 

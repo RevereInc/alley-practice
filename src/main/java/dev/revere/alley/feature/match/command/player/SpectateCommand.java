@@ -35,14 +35,14 @@ public class SpectateCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cThat player is not online."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
@@ -53,7 +53,9 @@ public class SpectateCommand extends BaseCommand {
         }
 
         if (targetProfile.getState() != ProfileState.PLAYING) {
-            player.sendMessage(CC.translate("&cYou are unable to spectate that player."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+                    .replace("{name-color}", String.valueOf(targetProfile.getNameColor()))
+                    .replace("{player}", target.getName()));
             return;
         }
 

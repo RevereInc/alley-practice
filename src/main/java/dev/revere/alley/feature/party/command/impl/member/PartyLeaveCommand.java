@@ -40,6 +40,6 @@ public class PartyLeaveCommand extends BaseCommand {
             return;
         }
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
     }
 }

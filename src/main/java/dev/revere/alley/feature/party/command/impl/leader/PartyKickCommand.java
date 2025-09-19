@@ -41,7 +41,7 @@ public class PartyKickCommand extends BaseCommand {
         PartyService partyService = this.plugin.getService(PartyService.class);
         Party party = partyService.getPartyByLeader(player);
         if (party == null) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN)));
+            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY)));
             return;
         }
 

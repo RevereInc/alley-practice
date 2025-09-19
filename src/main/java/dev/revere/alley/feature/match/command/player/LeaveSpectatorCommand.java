@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.match.command.player;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -28,11 +28,11 @@ public class LeaveSpectatorCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.SPECTATING) {
-            player.sendMessage(CC.translate("&cYou are not spectating a match."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_SPECTATING_MATCH));
             return;
         }
 
-        if (profile.getFfaMatch() != null) {
+        if (profile.getFfaMatch() != null && profile.getMatch() == null) {
             profile.getFfaMatch().removeSpectator(player);
             return;
         }

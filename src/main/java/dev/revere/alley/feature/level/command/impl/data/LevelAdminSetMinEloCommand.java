@@ -36,7 +36,7 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
-            sender.sendMessage(CC.translate("&cA level with that name does not exist!"));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
             return;
         }
 
@@ -49,12 +49,21 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         }
 
         if (minElo < 0) {
-            sender.sendMessage(CC.translate("&cMinimum Elo cannot be negative!"));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_CANNOT_BE_NEGATIVE));
+            return;
+        }
+
+        if (minElo >= level.getMaxElo()) {
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM));
             return;
         }
 
         level.setMinElo(minElo);
         levelService.saveLevel(level);
-        sender.sendMessage(CC.translate("&aMinimum Elo for level &6" + levelName + " &aset to &6" + minElo + "&a!"));
+
+        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_SET)
+                .replace("{level-name}", levelName)
+                .replace("{min-elo}", String.valueOf(minElo))
+        );
     }
 }

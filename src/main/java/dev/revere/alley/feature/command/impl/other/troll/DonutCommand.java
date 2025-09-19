@@ -54,7 +54,10 @@ public class DonutCommand extends BaseCommand {
         }
 
         spawnDonut(target);
-        player.sendMessage(CC.translate("&aYou have successfully donut'd " + target.getName() + "!"));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_DONUTED)
+                .replace("{name-color}", String.valueOf(target.getDisplayName()))
+                .replace("{player}", target.getName())
+        );
     }
 
     private void spawnDonut(Player target) {

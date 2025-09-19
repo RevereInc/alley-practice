@@ -31,9 +31,9 @@ public class PushCommand extends BaseCommand {
         }
 
         String targetName = args[0];
-        Player target = player.getServer().getPlayer(targetName);
+        Player targetPlayer = player.getServer().getPlayer(targetName);
 
-        if (target == null) {
+        if (targetPlayer == null) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
@@ -52,9 +52,11 @@ public class PushCommand extends BaseCommand {
             return;
         }
 
-        target.setVelocity(player.getLocation().getDirection().multiply(value));
+        targetPlayer.setVelocity(player.getLocation().getDirection().multiply(value));
 
-        player.sendMessage(CC.translate("&fYou've pushed &6" + target.getName()));
-        target.sendMessage(CC.translate("&fYou've been pushed by &6" + player.getName()));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_PUSHED)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

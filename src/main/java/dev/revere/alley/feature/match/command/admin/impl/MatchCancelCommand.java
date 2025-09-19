@@ -40,9 +40,10 @@ public class MatchCancelCommand extends BaseCommand {
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
-
         if (profile.getState() != ProfileState.PLAYING || profile.getMatch() == null) {
-            player.sendMessage(CC.translate("&cThat player is not in a match."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+                            .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                            .replace("{player}", target.getName()));
             return;
         }
 
@@ -50,6 +51,9 @@ public class MatchCancelCommand extends BaseCommand {
         profile.getMatch().setState(MatchState.ENDING_MATCH);
         profile.getMatch().getRunnable().setStage(4);
 
-        player.sendMessage(CC.translate("&aYou have ended the match for &6" + target.getName() + "&a."));
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.MATCH_CANCELLED_FOR_PLAYER)
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{player}", target.getName())
+        );
     }
 }

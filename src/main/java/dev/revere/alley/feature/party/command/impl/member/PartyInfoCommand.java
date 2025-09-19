@@ -34,7 +34,7 @@ public class PartyInfoCommand extends BaseCommand {
         Party party = partyService.getPartyByMember(player.getUniqueId());
 
         if (party == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 

@@ -1,6 +1,7 @@
 package dev.revere.alley.core.profile;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
@@ -75,6 +76,31 @@ public class Profile {
 
         this.abilityCooldowns = new HashMap<>();
         this.globalCooldowns = new EnumMap<>(GlobalCooldown.class);
+    }
+
+    /**
+     * Advanced method to retrieve the player's current color.
+     * Before accessing, check if the cached color is up to date. If not, re-assign it using the CoreAdapter.
+     * Logic is in place to avoid unnecessary calls to the CoreAdapter.
+     *
+     * @return The ChatColor representing the player's name color.
+     */
+    public ChatColor getNameColor() {
+        CoreAdapter adapter = AlleyPlugin.getInstance().getService(CoreAdapter.class);
+        if (adapter == null) {
+            return this.nameColor;
+        }
+
+        ChatColor upToDateColor = adapter.getCore().getPlayerColor(AlleyPlugin.getInstance().getServer().getPlayer(this.uuid));
+        if (upToDateColor == null) {
+            upToDateColor = this.nameColor;
+        }
+
+        if (this.nameColor != upToDateColor) {
+            this.nameColor = upToDateColor;
+        }
+
+        return this.nameColor;
     }
 
     /**

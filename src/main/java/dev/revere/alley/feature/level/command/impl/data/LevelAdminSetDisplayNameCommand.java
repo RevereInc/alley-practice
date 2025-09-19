@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.level.LevelService;
+import dev.revere.alley.feature.level.data.LevelData;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.level.LevelService;
-import dev.revere.alley.feature.level.data.LevelData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -37,13 +38,17 @@ public class LevelAdminSetDisplayNameCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
-            sender.sendMessage(CC.translate("&cA level with that name does not exist!"));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
             return;
         }
 
         String displayName = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         level.setDisplayName(displayName);
         levelService.saveLevel(level);
-        sender.sendMessage(CC.translate("&aDisplay name for level &6" + levelName + " &aset to &6" + displayName + "&a!"));
+
+        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_DISPLAY_NAME_SET)
+                .replace("{level-name}", levelName)
+                .replace("{display-name}", displayName)
+        );
     }
 }

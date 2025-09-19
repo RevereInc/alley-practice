@@ -48,7 +48,7 @@ public class PartyEventSplitArenaSelectorButton extends Button {
         Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
         if (party == null) {
             player.closeInventory();
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 

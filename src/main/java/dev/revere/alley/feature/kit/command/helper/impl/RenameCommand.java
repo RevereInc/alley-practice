@@ -38,7 +38,7 @@ public class RenameCommand extends BaseCommand {
 
         ItemStack itemStack = player.getItemInHand();
         if (itemStack == null || itemStack.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_HOLD_ITEM));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

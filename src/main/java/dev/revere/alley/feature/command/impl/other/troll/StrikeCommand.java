@@ -31,14 +31,17 @@ public class StrikeCommand extends BaseCommand {
         }
 
         String targetName = args[0];
-        Player target = player.getServer().getPlayer(targetName);
+        Player targetPlayer = player.getServer().getPlayer(targetName);
 
-        if (target == null) {
+        if (targetPlayer == null) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
-        target.getWorld().strikeLightning(target.getLocation());
-        player.sendMessage(CC.translate("&fYou've struck &6" + target.getName()));
+        targetPlayer.getWorld().strikeLightning(targetPlayer.getLocation());
+        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_STRUCK_BY_LIGHTNING)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

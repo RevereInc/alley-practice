@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.match.command.player;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
@@ -28,7 +29,7 @@ public class ViewPlayersCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.SPECTATING) {
-            player.sendMessage(CC.translate("&cYou cannot do this in your current state."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_SPECTATING_MATCH));
             return;
         }
 

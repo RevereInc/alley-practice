@@ -38,7 +38,7 @@ public class FFASpectateCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
@@ -71,7 +71,7 @@ public class FFASpectateCommand extends BaseCommand {
         }
 
         if (match.getSpectators().contains(player.getUniqueId())) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_ALREADY_SPECTATING));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_SPECTATING_FFA));
             return;
         }
 

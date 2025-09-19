@@ -43,9 +43,13 @@ public class MatchInfoCommand extends BaseCommand {
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile.getMatch() == null) {
-            sender.sendMessage(CC.translate("&cThis player is not in a match."));
+            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+                    .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                    .replace("{player}", target.getName()));
             return;
         }
+
+        //TODO: Add more match info
 
         sender.sendMessage(CC.translate("&c&lMatch Information"));
         sender.sendMessage(CC.translate(" &f&l● &fPlayers:"));

@@ -178,7 +178,7 @@ public class PartyServiceImpl implements PartyService {
     public void disbandParty(Player leader) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
@@ -229,7 +229,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = this.getPartyByMember(player.getUniqueId());
         if (party == null) {
             if (player.isOnline()) {
-                player.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+                player.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             }
             return;
         }
@@ -252,7 +252,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
 
-            leader.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_LEADER));
+            leader.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
             return;
         }
 
@@ -335,7 +335,7 @@ public class PartyServiceImpl implements PartyService {
     public void joinParty(Player player, Player leader) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
         Party party = this.getPartyByLeader(leader);

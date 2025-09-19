@@ -26,7 +26,7 @@ public class ToggleLobbyMusicCommand extends BaseCommand {
         Player player = command.getPlayer();
         Profile profile = this.getProfile(player.getUniqueId());
         if (profile.isBusy()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 

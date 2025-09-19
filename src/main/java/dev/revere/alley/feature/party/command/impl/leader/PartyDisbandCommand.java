@@ -31,6 +31,6 @@ public class PartyDisbandCommand extends BaseCommand {
             return;
         }
 
-        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_LEADER)));
+        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER)));
     }
 }

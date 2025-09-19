@@ -22,6 +22,9 @@ public enum VisualsLocaleImpl implements LocaleEntry {
     ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF("providers/visuals.yml", "action-bars.health-indicator.symbol.color.half", "&c&l"),
     ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY("providers/visuals.yml", "action-bars.health-indicator.symbol.color.empty", "&7&l"),
 
+    ACTIONBAR_QUEUE_INDICATOR_ENABLED_BOOLEAN("providers/visuals.yml", "action-bars.queue-indicator.enabled", true),
+    ACTIONBAR_QUEUE_INDICATOR_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.queue-indicator.message-format", "&6{queue-type} {kit-name} &7│ &f{elapsed-time}"),
+
     TAB_LIST_ENABLED_BOOLEAN("providers/tab-list.yml", "tab-list.enabled", true),
     TAB_LIST_HEADER("providers/tab-list.yml", "tab-list.header", Arrays.asList("", "&6&lAlley Network", "")),
     TAB_LIST_FOOTER("providers/tab-list.yml", "tab-list.footer", Arrays.asList("", "&fPlaying with &6&lAlley &fdeveloped by &6&lEmmy &f& &6&lRemi", "")),

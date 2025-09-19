@@ -111,12 +111,12 @@ public class PartyEventMenu extends Menu {
 
             Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
             if (party == null) {
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_IN));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
                 return;
             }
 
             if (party.getLeader() != player) {
-                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.PARTY_NOT_LEADER)));
+                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER)));
                 return;
             }
 

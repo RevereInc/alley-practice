@@ -1,5 +1,6 @@
 package dev.revere.alley.core.locale.internal.impl.message;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
@@ -13,6 +14,15 @@ import java.util.Collections;
  */
 @Getter
 public enum GameMessagesLocaleImpl implements LocaleEntry {
+    DUEL_REQUEST_SENT("messages/game-messages.yml", "duel.request.sent", Arrays.asList(
+            "",
+            "&6&l{type} Request",
+            " &6&l│ &fTarget: &e{target}",
+            " &6&l│ &fKit: &e{kit}",
+            " &6&l│ &fArena: &e{arena}",
+            ""
+    )),
+
     MATCH_STARTED_DISCLAIMER_ENABLED_BOOLEAN("messages/game-messages.yml", "match.started.kit-disclaimer.enabled", true),
     MATCH_STARTED_DISCLAIMER_FORMAT("messages/game-messages.yml", "match.started.kit-disclaimer.format", Arrays.asList(
             "",
@@ -74,6 +84,9 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             " &6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})",
             ""
     )),
+
+    MATCH_BLOCKS_RESET_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.blocks-reset.enabled", true),
+    MATCH_BLOCKS_RESET_MESSAGE_FORMAT("messages/game-messages.yml", "match.blocks-reset.format", Collections.singletonList("&4{name-color}{player} &ffelt like being a nerd and reset the blocks!")),
 
     ;
 
