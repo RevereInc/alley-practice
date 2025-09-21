@@ -7,6 +7,9 @@ action-bars:
         full: '&4&l'
         half: '&c&l'
         empty: '&7&l'
+  queue-indicator:
+    enabled: true
+    message-format: '&6{queue-type} {kit-name} &7│ &f{elapsed-time}'
 
 titles:
   join-message:

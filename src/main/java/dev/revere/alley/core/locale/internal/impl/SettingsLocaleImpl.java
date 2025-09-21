@@ -45,7 +45,13 @@ public enum SettingsLocaleImpl implements LocaleEntry {
     MONGO_CREDENTIALS_DATABASE("database/database.yml", "mongo.database", "A" + "l" + "l" + "e" + "y"),
     MONGO_CREDENTIALS_URI("database/database.yml", "mongo.uri", "mongodb://localhost:27017"),
 
+    PERMISSION_USE_OF_COLOR_CODES_IN_CHAT("settings.yml", "permissions.color-code-usage-permission", "alley.chat.color"),
     PERMISSION_COMMAND_SYNTAX_BYPASS("settings.yml", "permissions.syntax-bypass-permission", "alley.syntax.bypass"),
+
+    PERMISSION_DONATOR_PARTY_ARENA_SELECTOR("settings.yml", "permissions.donators.party-arena-selector", "alley.donator.duel.arena.selector"),
+    PERMISSION_DONATOR_DUEL_ARENA_SELECTOR("settings.yml", "permissions.donators.duel-arena-selector", "alley.donator.duel.arena.selector"),
+    PERMISSION_DONATOR_LOBBY_FLIGHT_BYPASS("settings.yml", "permissions.donators.lobby-flight-bypass", "alley.donator.lobby.flight"),
+    PERMISSION_DONATOR_EMOJI_USAGE("settings.yml", "permissions.donators.emoji-usage-permission", "alley.donator.chat.emoji"),
 
     PROFANITY_FILTER_ADD_DEFAULT_WORDS_BOOLEAN("settings.yml", "profanity-filter.add-default-words", true),
     PROFANITY_FILTER_FILTERED_WORDS_LIST("settings.yml", "profanity-filter.filtered-words", Arrays.asList("shit", "fuck", "bitch")),

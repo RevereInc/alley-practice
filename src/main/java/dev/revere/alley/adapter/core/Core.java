@@ -3,7 +3,6 @@ package dev.revere.alley.adapter.core;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.text.CC;
@@ -108,7 +107,7 @@ public interface Core {
                 .replace("{tag-color}", String.valueOf(tagColor))
                 .replace("{tag-prefix}", CC.translate(tagPrefix));
 
-        if (player.hasPermission("alley.donator.chat.color")) {
+        if (player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
             eventMessage = CC.translate(eventMessage);
         }
 

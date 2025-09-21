@@ -1,3 +1,13 @@
+duel:
+  request:
+    sent:
+      - ''
+      - '&6&l{type} Request'
+      - ' &6&l│ &fTarget: &e{target}'
+      - ' &6&l│ &fKit: &e{kit}'
+      - ' &6&l│ &fArena: &e{arena}'
+      - ''
+
 match:
   started:
     kit-disclaimer:
@@ -67,6 +77,37 @@ match:
       enabled: true
       format:
         - '&6&lElo Changes'
-        - '&6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
-        - '&6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
+        - ' &6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
+        - ' &6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
         - ''
+    division-progress:
+      enabled: true
+      format:
+        ongoing:
+          - ''
+          - '&6&lProgress'
+          - ' &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!'
+          - '  &7({progress-bar}&7) {progress-percentage}'
+          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
+          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
+          - ''
+        reached:
+          - ''
+          - '&a&lCONGRATULATIONS!'
+          - ' &6&l│ &fReached: &6{reached-new-division}'
+          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
+          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
+          - ''
+  blocks-reset:
+    enabled: true
+    format:
+      - '&4{name-color}{player} &ffelt like being a nerd and reset the blocks!'
+
+ffa:
+  killstreak-alert:
+    enabled: true
+    interval: 5
+    message:
+      - ''
+      - '&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
+      - ''

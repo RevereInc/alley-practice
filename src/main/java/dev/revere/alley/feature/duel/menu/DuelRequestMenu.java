@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.duel.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.feature.kit.Kit;
@@ -76,7 +78,7 @@ public class DuelRequestMenu extends Menu {
         public void clicked(Player player, ClickType clickType) {
             if (clickType != ClickType.LEFT) return;
 
-            if (player.hasPermission("alley.duel.arena.selector")) {
+            if (player.hasPermission(this.plugin.getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_DONATOR_DUEL_ARENA_SELECTOR))) {
                 new DuelArenaSelectorMenu(this.targetPlayer, this.kit).openMenu(player);
                 return;
             }

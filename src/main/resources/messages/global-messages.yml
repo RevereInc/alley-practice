@@ -2,10 +2,13 @@ arena:
   error:
     not-found: '&cAn arena named &6{arena-name} &cdoes not exist!'
     already-exists: '&cAn arena with that name already exists!'
-    no-selection: '&cYou don''t have the bounds selected for the arena! Use &b/arena wand&c!'
-    kit-already-added-to-arena: '&cThe kit &6{kit-name} &cis already added to the arena &6{arena-name}&c!'
+    no-selection: '&cYou don''t have the bounds selected for the arena! Use &b/arena
+      wand&c!'
+    kit-already-added-to-arena: '&cThe kit &6{kit-name} &cis already added to the
+      arena &6{arena-name}&c!'
     arena-does-not-have-kit: '&cThe arena &6{arena-name} &cdoes not have the kit &6{kit-name}&c!'
-    cannot-set-cuboid-ffa: '&cYou cannot set cuboids for Free-For-All arenas! You must use: &4/arena setsafezone pos1/pos2&c.'
+    cannot-set-cuboid-ffa: '&cYou cannot set cuboids for Free-For-All arenas! You
+      must use: &4/arena setsafezone pos1/pos2&c.'
     must-be-standalone: '&cThe arena &6{arena-name} &cmust be standalone to do this!'
     invalid-portal: '&cInvalid portal. Please use ''red'' or ''blue''.'
     height-limit-out-of-bounds: '&cHeight limit must be between 0 and 256!'
@@ -13,23 +16,34 @@ arena:
     ffa-arenas-no-spawns: '&cFFA Arenas do not need spawn positions. Use &4/ffa setspawn&c.'
     cannot-toggle-ffa: '&cYou cannot toggle Free-For-All arenas!'
     cannot-add-kits-to-ffa: '&cYou cannot add kits to Free-For-All arenas!'
+    spawn-not-set: '&cYou must set both spawn positions! (/arena setspawn)'
+    center-not-set: '&cYou must set the center! (/arena setcenter)'
+    must-add-kit: '&cYou must add at least one kit! (/arena addkit)'
+    assigned-kit-null: '&cThe kit &6{kit-name} &cis assigned to this arena but does
+      not exist!'
+    standalone-portals-not-set: '&cYou must set both team portals! (/arena setportal)'
+    is-not-ffa: '&cThis is not a Free-For-All arena!'
   command:
     selection-tool:
       added: '&aSuccessfully added the selection tool to your inventory!'
       removed: '&cSuccessfully removed the selection tool from your inventory!'
     selected-boundary: '&aSet &6{boundary-type} &aboundary to &6{x}, &6{y}, &6{z}&a!'
-    displayname-set: '&aSuccessfully set the display name of the arena &6{arena-name} &ato &r{display-name}&a!'
+    displayname-set: '&aSuccessfully set the display name of the arena &6{arena-name}
+      &ato &r{display-name}&a!'
     center-set: '&aSuccessfully set the center of the arena &6{arena-name}&a!'
     cuboid-set: '&aSuccessfully set the geom of the arena &6{arena-name}&a!'
-    height-limit-set: '&aSuccessfully set the height limit of the arena &6{arena-name}&a to &6{height-limit}&a!'
+    height-limit-set: '&aSuccessfully set the height limit of the arena &6{arena-name}&a
+      to &6{height-limit}&a!'
     portal-set: '&aSuccessfully set portal &b{portal} &aof arena &6{arena-name}&a!'
-    void-level-set: '&aSuccessfully set the void level of arena &6{arena-name}&a to &6{void-level}&a!'
+    void-level-set: '&aSuccessfully set the void level of arena &6{arena-name}&a to
+      &6{void-level}&a!'
     toggled: '&aSuccessfully toggled the arena &6{arena-name}&a to &6{status}&a!'
     spawn-set: '&aSuccessfully set the &6{position} &fspawn of arena &6{arena-name}&a!'
     ffa-spawn-set: '&aSuccessfully set the FFA spawn of arena &6{arena-name}&a!'
     kit-added: '&aSuccessfully added the kit &6{kit-name}&a to arena &6{arena-name}&a!'
     kit-removed: '&cSuccessfully removed the kit &6{kit-name}&c from arena &6{arena-name}&c!'
-    created: '&aSuccessfully created a new arena named &6{arena-name}&a with type &6{arena-type}&a!'
+    created: '&aSuccessfully created a new arena named &6{arena-name}&a with type
+      &6{arena-type}&a!'
     deleted: '&cSuccessfully deleted the arena named &6{arena-name}&c!'
     saved: '&aSuccessfully saved the arena &6{arena-name}&a!'
     saved-all: '&aSuccessfully saved all arenas!'
@@ -38,7 +52,8 @@ cooldown:
   error:
     not-found: '&cNo cooldown found for &6{player-name} &cof type &6{cooldown-type}&c.'
   command:
-    reset: '&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been reset.'
+    reset: '&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been
+      reset.'
 
 cosmetics:
   not-owned: '&cYou do not own the &6{cosmetic-name}&c cosmetic!'
@@ -55,69 +70,113 @@ crafting-operations:
   command:
     toggled: '&aCrafting operations for &6{item} &aare now &6{status}&a.'
   error:
-    must-hold-craftable-item: '&cYou must be holding a craftable item to manage crafting operations.'
+    must-hold-craftable-item: '&cYou must be holding a craftable item to manage crafting
+      operations.'
 
 division:
   error:
     not-found: '&cA division named &6{division-name} &cdoes not exist!'
-    tier-not-found: '&cA tier named &6{tier-name} &cdoes not exist in the &6{division-name} &cdivision!'
+    tier-not-found: '&cA tier named &6{tier-name} &cdoes not exist in the &6{division-name}
+      &cdivision!'
     already-exists: '&cThe name &6{division-name} &cis already taken by another division!'
   command:
-    description-set: '&aSuccessfully set the description of the &6{division-name} &adivision to &r{description}&a!'
-    display-name-set: '&aSuccessfully set the display name of the &6{division-name} &adivision to &r{display-name}&a!'
-    icon-set: '&aSuccessfully set the icon for the division &6{division-name} &ato &6{item-type}:{item-durability}&a!'
-    wins-set: '&aSuccessfully set the required wins for the &6{division-name} &adivision''s &6{tier-name} &atier to &6{required-wins}&a!'
-    created: '&aSuccessfully created a new division named &6{division-name} &awith &6{required-wins} &awins!'
+    description-set: '&aSuccessfully set the description of the &6{division-name}
+      &adivision to &r{description}&a!'
+    display-name-set: '&aSuccessfully set the display name of the &6{division-name}
+      &adivision to &r{display-name}&a!'
+    icon-set: '&aSuccessfully set the icon for the division &6{division-name} &ato
+      &6{item-type}:{item-durability}&a!'
+    wins-set: '&aSuccessfully set the required wins for the &6{division-name} &adivision''s
+      &6{tier-name} &atier to &6{required-wins}&a!'
+    created: '&aSuccessfully created a new division named &6{division-name} &awith
+      &6{required-wins} &awins!'
     deleted: '&cSuccessfully deleted the division named &6{division-name}&c!'
 
 duel-requests:
-  accepted: '&aYou have accepted the duel request from &6{color}{player}&a!'
+  accepted: '&aYou have accepted the duel request from &6{name-color}{player}&a!'
   error:
     expired: '&cThat duel request has expired.'
     no-arenas: '&cThere is no available arena for that kit.'
     cant-duel-self: '&cYou can''t duel yourself!'
     already-pending: '&cYou already have a pending duel request from that player.'
+    already-pending-party: '&cYou already have a pending duel request from that player
+      or their party.'
     no-pending-request: '&cYou do not have a pending duel request from that player.'
-    player-requests-disabled: '&c{color}{player} has duel requests disabled.'
+    player-requests-disabled: '&c{name-color}{player} has duel requests disabled.'
 
 explosive:
   command:
     setting-updated: '&aSuccessfully set the explosive {setting-name} value to &6{setting-value}&a.'
 
 error-messages:
-  must-leave-party: '&cYou must leave your party before doing that!'
-  must-be-in-lobby: '&cYou must be in the lobby to do that!'
-  must-hold-item: '&cYou need to be holding an item!'
+  amount-must-be-greater-than-zero: '&cThe amount must be greater than zero!'
   invalid:
     number: '&c''{input}'' is not a valid number! Please enter a valid number.'
     player: '&cThat player could not be found!'
     type: '&cInvalid {type}. Available types: &6{types}&c.'
   player:
-    is-busy: '&6{color}{player} &cis busy.'
+    is-busy: '&6{name-color}{player} &cis busy.'
+    not-playing-match: '&c{name-color}{player} &cis not in a match.'
+    not-playing-ffa: '&c{name-color}{player} &cis not in an FFA Match!'
+    party-invites-disabled: '&c{name-color}{player} &chas party invites disabled.'
+  you:
+    must-leave-party: '&cYou must leave your party before doing that!'
+    must-be-in-lobby: '&cYou must be in the lobby to do that!'
+    must-hold-item: '&cYou need to be holding an item!'
+    not-playing-ffa: '&cYou are not in an FFA match!'
+    not-spectating-ffa: '&cYou are not spectating an FFA match!'
+    already-spectating-ffa: '&cYou are already spectating FFA!'
+    not-playing-match: '&cYou are not in a match!'
+    already-playing-match: '&cYou are already in a match!'
+    not-spectating-match: '&cYou are not spectating a match!'
+    already-spectating-match: '&cYou are already spectating a match!'
+    not-in-party: '&cYou are not in a party.'
+    not-party-leader: '&cYou are not the leader of the party.'
+    already-in-party: '&cYou are already in a party.'
+    party-chat-disabled: '&cYou have party messages disabled. &7(To enable: /togglepartymessages)'
+    no-party-invite-from-player: '&cYou do not have a party invitation from &6{name-color}{player}&c.'
+
+profile-messages:
+  error:
+    must-select-music-before-toggle: '&cYou must at least select one music disc before
+      you can toggle them!'
+  player-settings:
+    party-invites: '&aYou''ve {status} &aparty invites.'
+    party-messages: '&aYou''ve {status} &aparty messages.'
+    scoreboard: '&aYou''ve {status} &athe scoreboard.'
+    scoreboard-lines: '&aYou''ve {status} &athe scoreboard lines.'
+    tab-list: '&aYou''ve {status} &athe tablist.'
+    profanity-filter: '&aYou''ve {status} &athe profanity filter.'
+    duel-requests: '&aYou''ve {status} &areceiving duel requests.'
+    lobby-music: '&aYou''ve {status} &alobby music.'
+    server-titles: '&aYou''ve {status} &aserver titles.'
+  world-time-set: '&aSuccessfully set your personal world time to &6{time}&a.'
+  world-time-reset: '&aSuccessfully reset your personal world time to the server''s
+    time.'
 
 ffa:
-  added-player: '&a&lADDED! &6{player-color}{player} &7&l» &6FFA {ffa-name}'
-  kicked-player: '&c&lKICKED! &6{player-color}{player} &7&l» &6FFA {ffa-name}'
+  added-player: '&a&lADDED! &6{name-color}{player} &7&l» &6FFA {ffa-name}'
+  kicked-player: '&c&lKICKED! &6{name-color}{player} &7&l» &6FFA {ffa-name}'
   entered-spawn: '&aYou have entered the FFA spawn.'
   left-spawn: '&aYou have left the FFA spawn.'
-  not-in-match: '&cYou are not in an FFA match!'
-  already-spectating: '&cYou are already spectating FFA!'
   error:
     already-exists: '&cAn FFA Match named &6{ffa-name} &calready exists!'
     not-found: '&cAn FFA Match named &6{ffa-name} &cdoes not exist!'
     disabled: '&cFFA mode is disabled for the kit &6{kit-name}&c!'
-    kit-not-eligible: '&cThis kit is not eligible for FFA matches! Please disable the &6BUILD/BOXING SETTINGS &cand try again.'
-    player-not-in-match: '&cThat player is not in an FFA Match!'
+    kit-not-eligible: '&cThis kit is not eligible for FFA matches! Please disable
+      the &6BUILD/BOXING SETTINGS &cand try again.'
     can-only-setup-in-ffa-arena: '&cYou can only setup FFA matches in FFA arenas!'
     ffa-full: '&cThis FFA Match is full!'
-    player-not-in-ffa: '&cThat player is not in an FFA Match!'
     invalid-spawn-type: '&cInvalid spawn type! Valid types: pos1, pos2'
   command:
     created: '&aSuccessfully created a new FFA Match for the kit &6{kit-name}&a!'
     toggled: '&aFFA mode has been &6{status} &afor kit &6{kit-name}&a!'
-    arena-set: '&aSuccessfully set the arena of the FFA Match for kit &6{kit-name} &ato &6{arena-name}&a!'
-    safe-zone-set: '&aSuccessfully set the &6{pos} &asafezone of the FFA Match for kit &6{kit-name}&a!'
-    max-players-set: '&aSuccessfully set the max players of the FFA Match for kit &6{kit-name} &ato &6{max-players}&a!'
+    arena-set: '&aSuccessfully set the arena of the FFA Match for kit &6{kit-name}
+      &ato &6{arena-name}&a!'
+    safe-zone-set: '&aSuccessfully set the &6{pos} &asafezone of the FFA Match for
+      kit &6{kit-name}&a!'
+    max-players-set: '&aSuccessfully set the max players of the FFA Match for kit
+      &6{kit-name} &ato &6{max-players}&a!'
     spawn-set: '&aFFA spawn position has been set for &6{arena-name}&a!'
     kits-reloaded: '&aSuccessfully reloaded all FFA kits!'
 
@@ -153,29 +212,73 @@ kit:
     already-exists: '&cA kit with that name already exists!'
     slot-must-be-number: '&cThe slot must be a number!'
   command:
+    potion-effect-removed: '&cYou have removed the potion effect: &6{potion-effect}
+      &cfrom the kit: &6{kit-name}&c.'
     inventory-given: '&aSuccessfully retrieved the inventory of the &6{kit-name} &akit!'
     inventory-set: '&aSuccessfully set the inventory of the &6{kit-name} &akit!'
     ffaslot-set: '&aSuccessfully set the FFA slot of the &6{kit-name} &akit to &6{slot}&a!'
-    description-set: '&aSuccessfully set the description of the &6{kit-name} &akit: &r{description}'
-    description-cleared: '&aSuccessfully cleared the description of the &6{kit-name} &akit!'
-    disclaimer-set: '&aSuccessfully set the disclaimer of the &6{kit-name} &akit: &r{disclaimer}'
-    displayname-set: '&aSuccessfully set the display name of the &6{kit-name} &akit: &r{display-name}'
+    description-set: '&aSuccessfully set the description of the &6{kit-name} &akit:
+      &r{description}'
+    description-cleared: '&aSuccessfully cleared the description of the &6{kit-name}
+      &akit!'
+    disclaimer-set: '&aSuccessfully set the disclaimer of the &6{kit-name} &akit:
+      &r{disclaimer}'
+    displayname-set: '&aSuccessfully set the display name of the &6{kit-name} &akit:
+      &r{display-name}'
     icon-set: '&aSuccessfully set the icon of the &6{kit-name} &akit to &6{icon}&a!'
     category-set: '&aSuccessfully set the category of the &6{kit-name} &akit to &6{category}&a!'
-    menu-title-set: '&aSuccessfully set the menu title of the &6{kit-name} &akit: &r{title}'
-    set-editable: '&aSuccessfully set the editable status of the &6{kit-name} &akit to &6{editable}&a!'
-    potion-effects-set: '&aSuccessfully set the potion effects of the &6{kit-name} &akit!'
-    potion-effects-cleared: '&aSuccessfully cleared the potion effects of the &6{kit-name} &akit!'
+    menu-title-set: '&aSuccessfully set the menu title of the &6{kit-name} &akit:
+      &r{title}'
+    set-editable: '&aSuccessfully set the editable status of the &6{kit-name} &akit
+      to &6{editable}&a!'
+    potion-effects-set: '&aSuccessfully set the potion effects of the &6{kit-name}
+      &akit!'
+    potion-effects-cleared: '&aSuccessfully cleared the potion effects of the &6{kit-name}
+      &akit!'
     created: '&aSuccessfully created a new kit named &6{kit-name}&a!'
     deleted: '&cSuccessfully deleted the kit named &6{kit-name}&c!'
-    setting-set: '&aSuccessfully set the setting &6{setting-name} &ato &6{enabled} &afor the kit &6{kit-name}&a.'
+    setting-set: '&aSuccessfully set the setting &6{setting-name} &ato &6{enabled}
+      &afor the kit &6{kit-name}&a.'
     saved: '&aSuccessfully saved the &6{kit-name} &akit!'
     saved-all: '&aSuccessfully saved all kits!'
 
+level:
+  error:
+    not-found: '&cA level named &6{level-name} &cdoes not exist!'
+    already-exists: '&cA level named &6{level-name} &calready exists!'
+    max-elo-must-be-greater-than-min: '&cMaximum Elo must be greater than minimum
+      Elo! (Minimum: &6{min-elo}&c)'
+    min-elo-cannot-be-negative: '&cMinimum Elo cannot be negative!'
+    min-elo-must-be-less-than-maximum: '&cMinimum Elo must be less than the maximum
+      Elo! (Maximum: &6{max-elo}&c)'
+  command:
+    display-name-set: '&aSuccessfully set the display name of the &6{level-name} &alevel
+      to &r{display-name}&a!'
+    icon-set: '&aSuccessfully set the icon for the level &6{level-name} &ato &6{icon-material}&a!'
+    min-elo-set: '&aSuccessfully set the minimum Elo of the &6{level-name} &alevel
+      to &6{min-elo}&a!'
+    max-elo-set: '&aSuccessfully set the maximum Elo of the &6{level-name} &alevel
+      to &6{max-elo}&a!'
+    created: '&aSuccessfully created a new level named &6{level-name} &awith min Elo
+      &6{min-elo} &aand max Elo &6{max-elo}&a!'
+    deleted: '&cSuccessfully deleted the level named &6{level-name}&c!'
+
 match:
-  already-in: '&cYou are already in a match!'
+  cancelled: '&aYou have ended the match for &6{name-color}{player}&a.'
+
+music-disc:
+  deselected: '&cYou have removed &6{disc} &cfrom your music selection.'
+  selected: '&aYou have added &6{disc} &ato your music selection.'
+  now-playing:
+    - '&7[&6♬&7] &fNow playing: &6{disc} &7({duration})'
+
+other:
+  sudo:
+    all-players: '&aYou have sudo-ed all players to say: &r{message}'
 
 party:
+  left: '&cYou''ve left the party!'
+  joined: '&aYou have joined &6{player}&a''s party.'
   created:
     - ''
     - '&6&lParty Created &a✔'
@@ -199,29 +302,6 @@ party:
       - '  &6&l│ &rPrivacy: &6{privacy}'
       - '  &6&l│ &rSize: &6{size}'
       - ''
-  disbanded: '&cYour party has been disbanded!'
-  not-in-party: '&cYou are not in a party.'
-  not-leader: '&cYou are not the leader of the party.'
-  already-in: '&cYou are already in a party.'
-  left: '&cYou''ve left the party!'
-  target-disabled-invites: '&c{player} has party invites disabled.'
-  chat-disabled: '&cYou have party messages disabled. &7(To enable: /togglepartymessages)'
-  no-invite: '&cYou do not have a party invitation from &6{player}&c.'
-  joined: '&aYou have joined &6{player}&a''s party.'
-
-profile-messages:
-  player-settings:
-    party-invites: '&aYou''ve {status} &aparty invites.'
-    party-messages: '&aYou''ve {status} &aparty messages.'
-    scoreboard: '&aYou''ve {status} &athe scoreboard.'
-    scoreboard-lines: '&aYou''ve {status} &athe scoreboard lines.'
-    tab-list: '&aYou''ve {status} &athe tablist.'
-    profanity-filter: '&aYou''ve {status} &athe profanity filter.'
-    duel-requests: '&aYou''ve {status} &areceiving duel requests.'
-    lobby-music: '&aYou''ve {status} &alobby music.'
-    server-titles: '&aYou''ve {status} &aserver titles.'
-  world-time-set: '&aSuccessfully set your personal world time to &6{time}&a.'
-  world-time-reset: '&aSuccessfully reset your personal world time to the server''s time.'
 
 queue:
   error:
@@ -230,6 +310,81 @@ queue:
     toggled: '&aYou''ve temporarily {status} &aqueueing for all players.'
     reloaded: '&aSuccessfully reloaded all queues!'
     forced-player: '&aSuccessfully forced &6{player} &ainto the &6{ranked} {kit} &aqueue!'
+  joined:
+    progressing:
+      unranked:
+        enabled: true
+        format:
+          - ''
+          - '&6&l{kit}'
+          - ' &6&l│ &fPing Range: &6N/A'
+          - '  &7&oSearching for match...'
+          - ''
+      ranked:
+        enabled: true
+        format:
+          - ''
+          - '&6&l{kit} &6&l✫Ranked'
+          - ' &6&l│ &fELO Range: &6{min-elo} &7&l» &6{max-elo}'
+          - ' &6&l│ &fPing Range: &6N/A'
+          - '  &7&oSearching for match...'
+          - ''
+        limit-reached:
+          enabled: true
+          format:
+            - ''
+            - '&6&l{kit} &6&l✫Ranked'
+            - ' &6&l│ &fPing Range: &6N/A'
+            - '  &c&lRANGE LIMIT REACHED...'
+            - ''
+  join-message:
+    enabled: true
+    format:
+      - ''
+      - '&6&lQUEUE JOINED &a✔'
+      - ' &6&l│ &rKit: &6{kit}'
+      - ' &6&l│ &rType: &6{queue-type}'
+      - '  &7&oType /leavequeue to leave.'
+      - ''
+  leave-message:
+    enabled: true
+    format:
+      - ''
+      - '&6&lQUEUE LEFT &c✘'
+      - ' &6&l│ &rYou left the &6{queue-type} &6{kit} &fqueue.'
+      - ''
+
+ranked:
+  error:
+    player-not-banned: '&c{name-color}{player} &cis not banned from ranked matches!'
+    player-already-banned: '&c{name-color}{player} &cis already banned from ranked
+      matches!'
+  ban-broadcast:
+    enabled: true
+    format:
+      - '&c&l{name-color}{player} &7has been banned from ranked matches.'
+  ban-message-notice:
+    enabled: true
+    format:
+      - ''
+      - '&c&lRANKED BANNED'
+      - ' &c&l│ &fReason: &c{reason}'
+      - ' &c&l│ &fDuration: &c{duration}'
+      - ' &c&l│ &fBan ID: &c{ban-id}'
+      - ''
+  unban-broadcast:
+    enabled: true
+    format:
+      - '&a&l{name-color}{player} &7has been unbanned from ranked matches.'
+  unban-message-notice:
+    enabled: true
+    format:
+      - ''
+      - '&a&lRANKED UNBANNED'
+      - ' &a&l│ &fReason: &a{reason}'
+      - ' &a&l│ &fBan ID: &a{ban-id}'
+      - ' &a(You can queue ranked again)'
+      - ''
 
 spawn:
   command:
@@ -238,7 +393,17 @@ spawn:
     items-given: '&aSuccessfully received the spawn items!'
 
 tips:
+  # /tip command
   - '&6Tip: &fUse F5 to look at your opponent one last time before they end you.'
   - '&6Tip: &fW-tap like your life depends on it. It kinda does.'
   - '&6Tip: &fKeep your crosshair at head level... unless you like tickling toes.'
   - '&6Tip: &fPractice spacing — or just hug them and pray.'
+
+troll:
+  player-donuted: '&aYou have successfully donut''d &6{name-color}{player}&a!'
+  player-fake-exploded: '&aYou have fake exploded &6{name-color}{player}&a!'
+  player-given-heart-attack: '&aYou have given &6{name-color}{player} &aa heart attack!'
+  player-launched: '&aYou have launched &6{name-color}{player}&a into the sky!'
+  player-pushed: '&aYou have pushed &6{name-color}{player}&a!'
+  player-struck-by-lightning: '&aYou have struck &6{name-color}{player} &awith lightning!'
+  player-demo-menu-opened: '&aYou have opened the demo menu for &6{name-color}{player}&a!'

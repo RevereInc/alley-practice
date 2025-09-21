@@ -99,6 +99,8 @@ public class AquaCoreImpl implements Core {
     @Override
     public String getChatFormat(Player player, String eventMessage, String separator) {
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
         Profile profile = profileService.getProfile(player.getUniqueId());
         String prefix = CC.translate(this.getRankPrefix(player));
         String suffix = CC.translate(this.getRankSuffix(player));
@@ -107,15 +109,15 @@ public class AquaCoreImpl implements Core {
         String selectedTitle = CC.translate(profile.getProfileData().getSelectedTitle());
         String level = CC.translate(AlleyPlugin.getInstance().getService(LevelService.class).getLevel(profile.getProfileData().getGlobalLevel()).getDisplayName());
 
-        String tagAppearanceFormat = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
+        String tagAppearanceFormat = localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
                 .replace("{tag-color}", String.valueOf(this.getTagColor(player)))
                 .replace("{tag-prefix}", CC.translate(this.getTagPrefix(player)));
 
-        if (player.hasPermission("alley.donator.chat.color")) {
+        if (player.hasPermission(localeService.getMessage(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
             eventMessage = CC.translate(eventMessage);
         }
 
-        return AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
+        return localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
                 .replace("{prefix}", prefix)
                 .replace("{rank-color}", String.valueOf(this.getRankColor(player)))
                 .replace("{name-color}", String.valueOf(nameColor))

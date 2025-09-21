@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.emoji.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.emoji.EmojiService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -20,7 +22,7 @@ public class EmojiListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (!player.hasPermission("alley.donator.chat.symbol")) {
+        if (!player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_DONATOR_EMOJI_USAGE))) {
             return;
         }
 
