@@ -3,7 +3,9 @@ package dev.revere.alley.feature.ffa.listener;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.InventoryUtil;
 import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -35,18 +37,18 @@ import java.util.Optional;
  */
 public class FFAListener implements Listener {
 
-    //TODO: Locale
-
     @EventHandler
     private void onPlayerDropItem(PlayerDropItemEvent event) {
-        Player player = event.getPlayer();
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        Player player = event.getPlayer();
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.FFA) return;
 
         if (ListenerUtil.isSword(event.getItemDrop().getItemStack().getType())) {
             event.setCancelled(true);
-            player.sendMessage(CC.translate("&cYou cannot drop your sword during this match."));
+            player.sendMessage(localeService.getMessage(GameMessagesLocaleImpl.GAME_CANNOT_DROP_SWORD));
             return;
         }
 
@@ -92,8 +94,10 @@ public class FFAListener implements Listener {
         if (!(event.getEntity() instanceof EnderPearl)) return;
         if (!(event.getEntity().getShooter() instanceof Player)) return;
 
-        Player player = (Player) event.getEntity().getShooter();
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        Player player = (Player) event.getEntity().getShooter();
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() != ProfileState.FFA) return;
@@ -102,7 +106,7 @@ public class FFAListener implements Listener {
             event.setCancelled(true);
             InventoryUtil.giveItem(player, Material.ENDER_PEARL, 1);
             player.updateInventory();
-            player.sendMessage(CC.translate("&cYou cannot use ender pearls at spawn."));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_CANNOT_USE_AT_FFA_SPAWN));
             return;
         }
 
@@ -113,12 +117,12 @@ public class FFAListener implements Listener {
             event.setCancelled(true);
             InventoryUtil.giveItem(player, Material.ENDER_PEARL, 1);
             player.updateInventory();
-            player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTime() + " seconds before using another ender pearl."));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_PEARL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTime())));
             return;
         }
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL, () -> player.sendMessage(CC.translate("&aYou can now use pearls again!")));
+            Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL, () -> player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_CAN_NOW_USE_PEARLS_AGAIN)));
             cooldownService.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
             return newCooldown;
         });

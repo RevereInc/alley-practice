@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.match.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.library.menu.Menu;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
@@ -41,9 +43,6 @@ import java.util.List;
  * @date 5/21/2024
  */
 public class MatchListener implements Listener {
-
-    //TODO: Locale
-
     @EventHandler
     private void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();
@@ -171,7 +170,7 @@ public class MatchListener implements Listener {
         if (profile.getState() == ProfileState.PLAYING) {
             if (ListenerUtil.isSword(event.getItemDrop().getItemStack().getType())) {
                 event.setCancelled(true);
-                player.sendMessage(CC.translate("&cYou cannot drop your sword during this match."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GameMessagesLocaleImpl.GAME_CANNOT_DROP_SWORD));
                 return;
             }
         }

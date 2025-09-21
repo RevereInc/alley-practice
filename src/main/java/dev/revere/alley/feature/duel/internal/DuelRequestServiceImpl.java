@@ -258,9 +258,6 @@ public class DuelRequestServiceImpl implements DuelRequestService {
      * @param arena  the arena
      */
     private void sendInvite(Player sender, Player target, Kit kit, Arena arena, boolean isParty) {
-
-        //TODO: Locale (after the todo at the top is made)
-
         String title = isParty ? "&6&lParty Duel Request" : "&6&lDuel Request";
         TextComponent fromComponent = new TextComponent();
         if (isParty) {
@@ -393,7 +390,6 @@ public class DuelRequestServiceImpl implements DuelRequestService {
      * @return the clickable component
      */
     private TextComponent getClickable(Player sender) {
-        //TODO: Locale
         return ClickableUtil.createComponent(
                 " &a(Click To Accept)",
                 "/accept " + sender.getName(),

@@ -5,6 +5,7 @@ import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
@@ -55,31 +56,30 @@ public class ShopItemButton extends Button {
     @Override
     public void clicked(Player player, ClickType clickType) {
         Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
-
-        //TODO: Locale
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (player.hasPermission(cosmetic.getPermission())) {
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_OWNED));
             player.sendMessage(CC.translate("&cYou already own this cosmetic."));
             this.playFail(player);
             return;
         }
 
         if (profile.getProfileData().getCoins() < cosmetic.getPrice()) {
-            player.sendMessage(CC.translate("&cYou don't have enough coins to purchase this."));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_INSUFFICIENT_FUNDS));
             this.playFail(player);
             return;
         }
 
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
-        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
         String command = localeService.getMessage(SettingsLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
                 .replace("{player}", player.getName())
                 .replace("{permission}", cosmetic.getPermission());
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 
-        player.sendMessage(CC.translate("&aSuccessfully purchased the &6" + cosmetic.getName() + " &acosmetic!"));
+        player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_SUCCESS).replace("{cosmetic}", cosmetic.getName()));
         this.playSuccess(player);
     }
 }

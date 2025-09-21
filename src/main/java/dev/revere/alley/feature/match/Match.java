@@ -11,6 +11,8 @@ import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionService
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.time.TimeUtil;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -1285,12 +1287,8 @@ public abstract class Match {
         this.placedBlocks.clear();
     }
 
-
     private void sendPlayerVersusPlayerMessage() {
-
-        //TODO: Locale
-
-        String prefix = CC.translate("&7[&6Match&7] &r");
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
 
         if (this.isTeamMatch()) {
             GameParticipant<MatchGamePlayer> participantA = this.getParticipants().get(0);
@@ -1299,16 +1297,29 @@ public abstract class Match {
             int teamSizeA = participantA.getPlayerSize();
             int teamSizeB = participantB.getPlayerSize();
 
-            String message = CC.translate(prefix + "&6" + participantA.getLeader().getUsername() + "'s Team &7(&a" + teamSizeA + "&7) &avs &6" + participantB.getLeader().getUsername() + "'s Team &7(&a" + teamSizeB + "&7)");
-            this.sendMessage(message);
+            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT);
+            for (String line : message) {
+                String formatted = line
+                        .replace("{teamA-leader}", participantA.getLeader().getUsername())
+                        .replace("{teamA-size}", String.valueOf(teamSizeA))
+                        .replace("{teamB-leader}", participantB.getLeader().getUsername())
+                        .replace("{teamB-size}", String.valueOf(teamSizeB));
+                this.sendMessage(formatted);
+            }
         } else {
             GameParticipant<MatchGamePlayer> participant = this.getParticipants().get(0);
             GameParticipant<MatchGamePlayer> opponent = this.getParticipants().get(1);
 
-            String message = CC.translate(prefix + "&6" + participant.getLeader().getUsername() + " &avs &6" + opponent.getLeader().getUsername());
-            this.sendMessage(message);
+            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT);
+            for (String line : message) {
+                String formatted = line
+                        .replace("{playerA}", participant.getLeader().getUsername())
+                        .replace("{playerB}", opponent.getLeader().getUsername());
+                this.sendMessage(formatted);
+            }
         }
     }
+
 
     private void handleMatchTasks() {
         this.runnable = new MatchTask(this);

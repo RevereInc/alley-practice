@@ -29,6 +29,9 @@ import java.util.*;
 @Getter
 @Service(provides = ProfileService.class, priority = 180)
 public class ProfileServiceImpl implements ProfileService {
+
+    //TODO: Locale
+
     private final Map<UUID, Profile> profiles = new HashMap<>();
     private final MongoService mongoService;
 
@@ -79,8 +82,6 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setProfileData(new ProfileData());
         profile.save();
 
-        //TODO: Locale
-
         Arrays.asList(
                 "",
                 "&c&lSTAT RESET ISSUED",
@@ -110,7 +111,6 @@ public class ProfileServiceImpl implements ProfileService {
             }
         });
 
-        //TODO: Locale
         Bukkit.broadcastMessage(CC.translate("&c&lLAYOUT RESET: &cThe layout for kit " + kit.getName() + " has been reset for all players."));
     }
 }

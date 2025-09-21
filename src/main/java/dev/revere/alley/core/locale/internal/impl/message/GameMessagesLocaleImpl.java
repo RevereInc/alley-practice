@@ -1,5 +1,6 @@
 package dev.revere.alley.core.locale.internal.impl.message;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
@@ -106,13 +107,43 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
     MATCH_BLOCKS_RESET_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.blocks-reset.enabled", true),
     MATCH_BLOCKS_RESET_MESSAGE_FORMAT("messages/game-messages.yml", "match.blocks-reset.format", Collections.singletonList("&4{name-color}{player} &ffelt like being a nerd and reset the blocks!")),
 
+    MATCH_PLATFORM_DECAY_WILL_NO_LONGER_DECAY("messages/game-messages.yml", "match.platform-decay.will-no-longer-decay", Collections.singletonList("&c&lThe platform will no longer decay!")),
+
+    MATCH_PLATFORM_DECAY_NOTIFICATION_75_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.75.format", Collections.singletonList("&6The arena has begun to crumble...")),
+    MATCH_PLATFORM_DECAY_NOTIFICATION_75_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.75.sound", "DIG_STONE"),
+    MATCH_PLATFORM_DECAY_NOTIFICATION_50_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.50.format", Collections.singletonList("&e&lWARNING! &eThe arena has shrunk by half!")),
+    MATCH_PLATFORM_DECAY_NOTIFICATION_50_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.50.sound", "WITHER_HURT"),
+    MATCH_PLATFORM_DECAY_NOTIFICATION_25_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.25.format", Collections.singletonList("&c&lDANGER! &cThe platform is collapsing fast!")),
+    MATCH_PLATFORM_DECAY_NOTIFICATION_25_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.25.sound", "ENDERDRAGON_GROWL"),
+
+    MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT("messages/game-messages.yml", "match.started.versus.solo.format", Collections.singletonList(
+            "&7[&6Match&7] &6{playerA} &avs &6{playerB}"
+    )),
+    MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT("messages/game-messages.yml", "match.started.versus.team.format", Collections.singletonList(
+            "&7[&6Match&7] &6{teamA-leader}'s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}'s Team &7(&a{teamB-size}&7)"
+    )),
+
     FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.killstreak-alert.enabled", true),
     FFA_KILLSTREAK_ALERT_INTERVAL("messages/game-messages.yml", "ffa.killstreak-alert.interval", 5),
     FFA_KILLSTREAK_ALERT_MESSAGE("messages/game-messages.yml", "ffa.killstreak-alert.message", Arrays.asList(
             "",
             "&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
             ""
-    ))
+    )),
+
+    FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-join.enabled", false),
+    FFA_PLAYER_JOIN_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-join.message", Collections.singletonList("&a{name-color}{player} &ahas joined the FFA match.")),
+
+    FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-left.enabled", false),
+    FFA_PLAYER_LEFT_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-left.message", Collections.singletonList("&c{name-color}{player} &chas left the FFA match.")),
+
+    FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-died.enabled", true),
+    FFA_PLAYER_DIED_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-died.message", Collections.singletonList("&c{name-color}{player} &fhas died!")),
+
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-killed-player.enabled", true),
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-killed-player.message", Collections.singletonList("&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!")),
+
+    GAME_CANNOT_DROP_SWORD("messages/game-messages.yml", "game.cannot-drop-sword", "&cYou cannot drop your sword!"),
 
     ;
 

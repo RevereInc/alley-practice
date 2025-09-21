@@ -23,9 +23,6 @@ import java.util.List;
  * @date 24/05/2024 - 18:45
  */
 public class PlaytimeCommand extends BaseCommand {
-
-    //TODO: Locale
-
     @CommandData(
             name = "playtime",
             isAdminOnly = true,

@@ -28,9 +28,6 @@ import java.util.stream.Collectors;
 @Getter
 @Service(provides = FFAService.class, priority = 130)
 public class FFAServiceImpl implements FFAService {
-
-    //TODO: Locale
-
     private final KitService kitService;
     private final ArenaService arenaService;
 

@@ -34,7 +34,6 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         try {
             allowQueue = Boolean.parseBoolean(args[0]);
         } catch (Exception e) {
-            //TODO: Locale
             player.sendMessage(CC.translate("&cInvalid parameter. Please use true or false."));
             return;
         }

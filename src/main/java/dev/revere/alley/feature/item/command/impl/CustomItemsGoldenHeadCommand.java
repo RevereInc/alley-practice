@@ -42,7 +42,6 @@ public class CustomItemsGoldenHeadCommand extends BaseCommand {
         }
 
         if (amount <= 0) {
-            //TODO: Locale
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_AMOUNT_MUST_BE_GREATER_THAN_ZERO));
             return;
         }

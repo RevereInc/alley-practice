@@ -56,6 +56,12 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     COOLDOWN_NOT_FOUND("messages/global-messages.yml", "cooldown.error.not-found", "&cNo cooldown found for &6{player-name} &cof type &6{cooldown-type}&c."),
     COOLDOWN_RESET("messages/global-messages.yml", "cooldown.command.reset", "&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been reset."),
 
+    COOLDOWN_PEARL_MUST_WAIT("messages/global-messages.yml", "cooldown.pearl.must-wait", "&cYou must wait &6{time} &cbefore you can throw another ender pearl!"),
+    COOLDOWN_CAN_NOW_USE_PEARLS_AGAIN("messages/global-messages.yml", "cooldown.pearl.can-now-use-pearls-again", "&aYou can now use ender pearls again!"),
+    COOLDOWN_CANNOT_USE_AT_FFA_SPAWN("messages/global-messages.yml", "cooldown.pearl.cannot-use-at-ffa-spawn", "&cYou cannot use ender pearls while in an FFA spawn!"),
+
+    COOLDOWN_FIREBALL_MUST_WAIT("messages/global-messages.yml", "cooldown.fireball.must-wait", "&cYou must wait &6{time} &cbefore you can throw another fireball!"),
+
     COSMETIC_NOT_OWNED("messages/global-messages.yml", "cosmetics.not-owned", "&cYou do not own the &6{cosmetic-name}&c cosmetic!"),
     COSMETIC_SELECTED("messages/global-messages.yml", "cosmetics.selected", "&aSuccessfully selected the &6{cosmetic-name} &acosmetic!"),
     COSMETIC_ALREADY_SELECTED("messages/global-messages.yml", "cosmetics.already-selected", "&cYou already selected the &6{cosmetic-name}&c cosmetic!"),
@@ -64,6 +70,10 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     COSMETICS_NONE_REGISTERED("messages/global-messages.yml", "cosmetics.error.none-registered", "&cThere are no cosmetics registered on the server!"),
     COSMETIC_TYPE_NOT_SUPPORTED("messages/global-messages.yml", "cosmetics.error.type-not-supported", "&cThe cosmetic type &6{type} &cis not supported!"),
     COSMETIC_NOT_FOUND("messages/global-messages.yml", "cosmetics.error.not-found", "&cA cosmetic named &6{input} &cdoes not exist!"),
+
+    COSMETIC_ALREADY_OWNED("messages/global-messages.yml", "cosmetics.error.already-owner", "&cYou already own this cosmetic."),
+    COSMETIC_PURCHASE_SUCCESS("messages/global-messages.yml", "cosmetics.purchase-success", "&aSuccessfully purchased the &6{cosmetic} &acosmetic!"),
+    COSMETIC_PURCHASE_INSUFFICIENT_FUNDS("messages/global-messages.yml", "cosmetics.error.purchase-insufficient-funds", "&cYou don't have enough coins to purchase this."),
 
     CRAFTING_TOGGLED("messages/global-messages.yml", "crafting-operations.command.toggled", "&aCrafting operations for &6{item} &aare now &6{status}&a."),
     CRAFTING_MUST_HOLD_CRAFTABLE_ITEM("messages/global-messages.yml", "crafting-operations.error.must-hold-craftable-item", "&cYou must be holding a craftable item to manage crafting operations."),
@@ -202,6 +212,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     LEVEL_DELETED("messages/global-messages.yml", "level.command.deleted", "&cSuccessfully deleted the level named &6{level-name}&c!"),
 
     MATCH_CANCELLED_FOR_PLAYER("messages/global-messages.yml", "match.cancelled", "&aYou have ended the match for &6{name-color}{player}&a."),
+    MATCH_COMMAND_BLOCKED("messages/global-messages.yml", "match.error.command-blocked", "&cYou cannot use that command whilst in a match!"),
 
     MUSIC_DISC_DESELECTED("messages/global-messages.yml", "music-disc.deselected", "&cYou have removed &6{disc} &cfrom your music selection."),
     MUSIC_DISC_SELECTED("messages/global-messages.yml", "music-disc.selected", "&aYou have added &6{disc} &ato your music selection."),

@@ -2,6 +2,8 @@ package dev.revere.alley.feature.explosives.listener;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -37,9 +39,6 @@ import java.util.Optional;
  * @since 24/06/2025
  */
 public class ExplosiveListener implements Listener {
-
-    //TODO: Locale
-
     private static final String PRACTICE_TNT_METADATA = "PRACTICE_TNT";
 
     @EventHandler
@@ -60,6 +59,8 @@ public class ExplosiveListener implements Listener {
     private void handleFireballUse(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
         Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
         if (profile == null) return;
         if (profile.getState() != ProfileState.PLAYING) return;
@@ -79,12 +80,12 @@ public class ExplosiveListener implements Listener {
         CooldownService cooldownService = AlleyPlugin.getInstance().getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTimeInMinutes() + " &cbefore using another fireball."));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
             return;
         }
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(cooldownType, () -> player.sendMessage(CC.translate("&cYou can now use fireballs again.")));
+            Cooldown newCooldown = new Cooldown(cooldownType, () -> {});
             cooldownService.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
             return newCooldown;
         });
@@ -96,8 +97,6 @@ public class ExplosiveListener implements Listener {
         fireball.setIsIncendiary(false);
         fireball.setYield(2.0F);
         fireball.setVelocity(player.getLocation().getDirection().normalize().multiply(explosiveService.getFireballThrowSpeed()));
-
-        //SoundUtil.playCustomSound(player, Sound.GHAST_FIREBALL, 1.0f, 1.0f);
 
         if (player.getGameMode() == GameMode.CREATIVE) return;
 

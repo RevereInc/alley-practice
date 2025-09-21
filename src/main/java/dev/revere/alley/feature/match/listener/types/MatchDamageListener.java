@@ -39,9 +39,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
  * @since 08/02/2025
  */
 public class MatchDamageListener implements Listener {
-
-    //TODO: Locale
-
     @EventHandler
     private void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player)) return;

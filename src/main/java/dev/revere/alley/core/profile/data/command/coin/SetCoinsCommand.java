@@ -15,9 +15,6 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class SetCoinsCommand extends BaseCommand {
-
-    //TODO: Locale
-
     @CommandData(
             name = "coins.set",
             isAdminOnly = true,

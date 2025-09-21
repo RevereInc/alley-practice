@@ -17,9 +17,6 @@ import org.bukkit.entity.Player;
  * @date 14/07/2025
  */
 public class VirtualStackCommand extends BaseCommand {
-
-    //TODO: Locale
-
     @CommandData(
             name = "virtualstack",
             isAdminOnly = true,

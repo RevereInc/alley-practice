@@ -1,15 +1,16 @@
 package dev.revere.alley.feature.match.task.mode;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 /**
@@ -18,10 +19,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class PlatformDecayTask extends BukkitRunnable {
-
-    //TODO: Locale
-
-    private final JavaPlugin plugin;
+    private final AlleyPlugin plugin;
     private final Match match;
     private final int initialRadius;
     private final int sideRadius;
@@ -79,12 +77,13 @@ public class PlatformDecayTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (match.getState() != MatchState.RUNNING) {
             return;
         }
 
         if (currentRadius <= 5) {
-            match.sendMessage(CC.translate("&c&lThe platform will no longer decay!"));
+            match.sendMessage(localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_WILL_NO_LONGER_DECAY));
             this.cancel();
             return;
         }
@@ -154,16 +153,23 @@ public class PlatformDecayTask extends BukkitRunnable {
     }
 
     private void handleNotifications() {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (initialRadius == 0) return;
         float remainingPercentage = ((float) currentRadius / initialRadius) * 100;
         if (remainingPercentage <= 25 && !notifiedAt25) {
-            sendMessageAndSound("&c&lDANGER! &cThe platform is collapsing fast!", Sound.ENDERDRAGON_GROWL);
+            String message = localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_25_FORMAT);
+            Sound sound = Sound.valueOf(localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_25_SOUND));
+            sendMessageAndSound(message, sound);
             notifiedAt25 = true;
         } else if (remainingPercentage <= 50 && !notifiedAt50) {
-            sendMessageAndSound("&e&lWARNING! &eThe arena has shrunk by half!", Sound.WITHER_HURT);
+            String message = localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_50_FORMAT);
+            Sound sound = Sound.valueOf(localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_50_SOUND));
+            sendMessageAndSound(message, sound);
             notifiedAt50 = true;
         } else if (remainingPercentage <= 75 && !notifiedAt75) {
-            sendMessageAndSound("&6The arena has begun to crumble...", Sound.DIG_STONE);
+            String message = localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_75_FORMAT);
+            Sound sound = Sound.valueOf(localeService.getMessage(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_75_SOUND));
+            sendMessageAndSound(message, sound);
             notifiedAt75 = true;
         }
     }

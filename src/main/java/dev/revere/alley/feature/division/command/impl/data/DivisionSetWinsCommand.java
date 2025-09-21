@@ -75,8 +75,7 @@ public class DivisionSetWinsCommand extends BaseCommand {
         }
 
         if (wins < 0) {
-            //TODO: Locale
-            player.sendMessage(CC.translate("&cThe number of wins can't be 0."));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_AMOUNT_MUST_BE_GREATER_THAN_ZERO));
             return;
         }
 
