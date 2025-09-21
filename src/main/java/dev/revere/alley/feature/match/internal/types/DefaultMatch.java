@@ -12,8 +12,8 @@ import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.progress.PlayerProgress;
@@ -183,7 +183,7 @@ public class DefaultMatch extends Match {
             return;
         }
 
-        handleMatchData(winner, loser);
+        handleMatchData(winner, loser); // 9 wins, increases to 10, as the player won
 
         if (!this.isRanked()) {
             this.sendProgressToWinner(winner.getLeader().getTeamPlayer());
@@ -338,8 +338,13 @@ public class DefaultMatch extends Match {
      * @param winner The winning player.
      */
     public void sendProgressToWinner(Player winner) {
-        Profile winnerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(winner.getUniqueId());
 
+        /*
+         * TODO: Fix this retarded calculation its pmo
+         *  "next thing i know half the core is f---ed" - Titanic Swim Team, Remi (13/07/2025 - 00:37)
+         */
+
+        Profile winnerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(winner.getUniqueId());
         PlayerProgress progress = AlleyPlugin.getInstance().getService(ProgressService.class).calculateProgress(winnerProfile, this.getKit().getName());
 
         String progressLine;
@@ -362,7 +367,47 @@ public class DefaultMatch extends Match {
                 " &6&l● &fWin Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
                 ""
         ).forEach(line -> winner.sendMessage(CC.translate(line)));
+
+//        LocaleService localeService = this.plugin.getService(LocaleService.class);
+//        if (!localeService.getBoolean(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN)) {
+//            return;
+//        }
+//
+//        Profile winnerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(winner.getUniqueId());
+//        PlayerProgress progress = AlleyPlugin.getInstance().getService(ProgressService.class).calculateProgress(winnerProfile, this.getKit().getName());
+//
+//        List<String> message;
+//
+//        DivisionTier reachedTier = AlleyPlugin.getInstance().getService(DivisionService.class).getDivisions().stream()
+//                .flatMap(div -> div.getTiers().stream())
+//                .filter(tier -> tier.getRequiredWins() == progress.getCurrentWins())
+//                .findFirst()
+//                .orElse(null);
+//
+//        if (reachedTier != null) {
+//            message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_REACHED_FORMAT)
+//                    .stream()
+//                    .map(line -> line.replace("{reached-new-division}", progress.getNextRankName() + " " + reachedTier.getName()))
+//                    .collect(Collectors.toList());
+//        } else {
+//            message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ONGOING_FORMAT);
+//        }
+//
+//        message.replaceAll(string -> string
+//                .replace("{next-division}", Objects.requireNonNull(reachedTier).getName())
+//                .replace("{wins-required}", String.valueOf(progress.getWinsRequired()))
+//                .replace("{win-or-wins}", progress.getWinOrWins())
+//                .replace("{progress-bar}", progress.getProgressBar(12, "■"))
+//                .replace("{progress-percentage}", progress.getProgressPercentage())
+//                .replace("{daily-streak}", "N/A")
+//                .replace("{best-daily-streak}", "N/A")
+//                .replace("{win-streak}", String.valueOf(winnerProfile.getProfileData().getUnrankedKitData().get(this.getKit().getName()).getWinstreak()))
+//                .replace("{best-win-streak}", "N/A")
+//        );
+//
+//        message.forEach(line -> winner.sendMessage(CC.translate(line)));
     }
+
 
     /**
      * Method to get the old elo result.

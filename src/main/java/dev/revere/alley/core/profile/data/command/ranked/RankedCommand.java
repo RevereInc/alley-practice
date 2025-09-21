@@ -1,4 +1,4 @@
-package dev.revere.alley.core.profile.command.admin.ranked;
+package dev.revere.alley.core.profile.data.command.ranked;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;

@@ -28,7 +28,7 @@ public class HotbarCreateCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/hotbar create &6<name> <type>"));
+            command.sendUsage();
             return;
         }
 

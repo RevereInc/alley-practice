@@ -34,7 +34,7 @@ public class CosmeticSetCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 3) {
-            player.sendMessage(CC.translate("&cUsage: /cosmetic set <player> <type> <cosmetic>"));
+            command.sendUsage();
             return;
         }
 

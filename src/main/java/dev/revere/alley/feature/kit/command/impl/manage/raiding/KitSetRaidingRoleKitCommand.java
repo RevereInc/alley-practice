@@ -31,7 +31,7 @@ public class KitSetRaidingRoleKitCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 3) {
-            sender.sendMessage(CC.translate("&6Usage: &e/kit setraidingrolekit &6<kitName> <role> <kitName>"));
+            command.sendUsage();
             return;
         }
 

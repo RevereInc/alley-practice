@@ -31,7 +31,7 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 3) {
-            sender.sendMessage(CC.translate("&6Usage: &e/kit removeraidingrolekit &6<kitName> <role> <kitName>"));
+            command.sendUsage();
             return;
         }
 

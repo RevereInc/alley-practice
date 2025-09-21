@@ -28,7 +28,7 @@ public class UnbreakableCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/unbreakable &6<true|false>"));
+            command.sendUsage();
             return;
         }
 

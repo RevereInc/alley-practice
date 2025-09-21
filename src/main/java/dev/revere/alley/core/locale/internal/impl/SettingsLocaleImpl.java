@@ -51,8 +51,13 @@ public enum SettingsLocaleImpl implements LocaleEntry {
     PROFANITY_FILTER_FILTERED_WORDS_LIST("settings.yml", "profanity-filter.filtered-words", Arrays.asList("shit", "fuck", "bitch")),
     PROFANITY_FILTER_STAFF_NOTIFICATION_FORMAT("settings.yml", "profanity-filter.staff-notification-format", "&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f: &7{message}"),
 
-    SERVER_CHAT_FORMAT_GLOBAL("settings.yml", "server.chat-format.global", null), //TODO
-    SERVER_CHAT_FORMAT_PARTY("settings.yml", "server.chat-format.party", "&7[&6Party&7] &6{player}&7: &f{message}"),
+    SERVER_CHAT_FORMAT_ENABLED_BOOLEAN("settings.yml", "server.chat-format.global.enabled", true),
+    SERVER_CHAT_FORMAT_GLOBAL("settings.yml", "server.chat-format.global.format", "&7[{level}&7]&r {prefix}{rank-color}{name-color}{player}{suffix}{tag}{separator}{message}"),
+    SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT("settings.yml", "server.chat-format.tag-appearance.format", " {tag-color}{tag-prefix}"),
+    SERVER_CHAT_FORMAT_SEPARATOR("settings.yml", "server.chat-format.global.separator", "&7: &f"),
+
+    SERVER_CHAT_FORMAT_PARTY("settings.yml", "server.chat-format.party.format", "&7[&6Party&7] &6{player}&7: &f{message}"),
+
     SERVER_ESSENTIAL_EMOJI_FEATURE_BOOLEAN("settings.yml", "server.essentials.emoji-feature", true),
     SERVER_SPAWN_LOCATION("settings.yml", "server.locations.spawn", "world:0.5:73.0:0.5:90.0:0.0"),
 

@@ -27,7 +27,7 @@ public class LaunchCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length == 0) {
-            player.sendMessage(CC.translate("&6Usage: &e/launch &6<player> &7| &6all"));
+            command.sendUsage();
             return;
         }
 

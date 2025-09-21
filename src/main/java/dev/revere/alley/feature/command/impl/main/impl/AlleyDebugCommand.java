@@ -30,8 +30,14 @@ import java.util.Locale;
  */
 public class AlleyDebugCommand extends BaseCommand {
 
+    @CommandData(
+            name = "alley.debug",
+            isAdminOnly = true,
+            usage = "alley debug <memory/instance/profile/profileData>",
+            description = "Displays debug information for development purposes."
+    )
+
     @Override
-    @CommandData(name = "alley.debug", isAdminOnly = true, usage = "alley debug <memory/instance/profile/profileData>", description = "Displays debug information for development purposes.")
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
@@ -39,7 +45,7 @@ public class AlleyDebugCommand extends BaseCommand {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/alley debug &6<memory/instance/profile/profiledata>"));
+            command.sendUsage();
             return;
         }
 
@@ -57,7 +63,7 @@ public class AlleyDebugCommand extends BaseCommand {
                 this.sendProfileData(profile, player);
                 break;
             default:
-                player.sendMessage(CC.translate("&6Usage: &e/alley debug &6<memory/instance/profile/profileData>"));
+                command.sendUsage();
                 break;
         }
     }

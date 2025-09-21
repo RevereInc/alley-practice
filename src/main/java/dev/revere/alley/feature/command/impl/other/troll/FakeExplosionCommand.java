@@ -26,7 +26,7 @@ public class FakeExplosionCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/fakeexplosion &6<player>"));
+            command.sendUsage();
             return;
         }
 

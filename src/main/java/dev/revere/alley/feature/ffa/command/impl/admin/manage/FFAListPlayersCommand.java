@@ -27,7 +27,7 @@ public class FFAListPlayersCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&cUsage: /ffa listplayers <kit>"));
+            command.sendUsage();
             return;
         }
 

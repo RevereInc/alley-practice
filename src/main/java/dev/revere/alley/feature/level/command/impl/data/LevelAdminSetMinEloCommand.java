@@ -28,7 +28,7 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin setminelo &6<levelName> <minElo>"));
+            command.sendUsage();
             return;
         }
 

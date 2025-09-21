@@ -3,6 +3,8 @@ package dev.revere.alley;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.cosmetic.task.CosmeticTask;
 import dev.revere.alley.visual.tablist.task.TablistUpdateTask;
 import dev.revere.alley.feature.match.task.other.ArrowRemovalTask;
@@ -112,7 +114,7 @@ public class AlleyPlugin extends JavaPlugin {
         tasks.put(ArrowRemovalTask.class.getSimpleName(), () -> new ArrowRemovalTask().runTaskTimer(this, 20L, 20L));
         tasks.put(CosmeticTask.class.getSimpleName(), () -> new CosmeticTask(this).runTaskTimerAsynchronously(this, 0L, 4L));
 
-        if (this.getService(ConfigService.class).getTabListConfig().getBoolean("tablist.enabled")) {
+        if (this.getService(LocaleService.class).getBoolean(VisualsLocaleImpl.TAB_LIST_ENABLED_BOOLEAN)) {
             tasks.put(TablistUpdateTask.class.getSimpleName(), () -> new TablistUpdateTask().runTaskTimer(this, 0L, 20L));
         }
 

@@ -30,14 +30,14 @@ public class FFAJoinCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/ffa join &6<kit>"));
+            command.sendUsage();
             return;
         }
 
         String kitName = args[0];
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage("Kit not found.");
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 

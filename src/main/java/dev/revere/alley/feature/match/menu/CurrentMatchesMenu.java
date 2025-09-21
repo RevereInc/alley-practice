@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.match.menu;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import dev.revere.alley.feature.match.Match;
@@ -108,7 +110,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
             if (clickType != ClickType.LEFT) return;
 
             if (AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-                player.sendMessage(CC.translate("&cYou can't spectate a match in your current state."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_SPECTATING_MATCH));
                 return;
             }
 

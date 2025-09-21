@@ -26,7 +26,7 @@ public class PushCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/push &6<player> <value>"));
+            command.sendUsage();
             return;
         }
 

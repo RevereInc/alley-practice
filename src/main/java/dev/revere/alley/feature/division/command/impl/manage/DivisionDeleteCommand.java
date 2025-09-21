@@ -27,7 +27,7 @@ public class DivisionDeleteCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/division delete &6<name>"));
+            command.sendUsage();
             return;
         }
 

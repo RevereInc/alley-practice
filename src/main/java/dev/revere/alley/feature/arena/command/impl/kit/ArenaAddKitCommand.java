@@ -45,7 +45,7 @@ public class ArenaAddKitCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena addkit &6<arenaName> <kitName>"));
+            command.sendUsage();
             return;
         }
 

@@ -24,7 +24,7 @@ public @interface CommandData {
 
     String description();
 
-    String usage();
+    String usage() default "";
 
     boolean inGameOnly() default true;
 

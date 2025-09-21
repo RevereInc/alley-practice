@@ -31,6 +31,9 @@ import java.util.*;
  */
 @AllArgsConstructor
 public class SpectatorTeleportMenu extends PaginatedMenu {
+
+    //TODO: Locale
+
     private final FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMenusConfig();
     private final String path = "menus.spectator-teleport";
 

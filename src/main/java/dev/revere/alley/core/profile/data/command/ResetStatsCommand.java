@@ -1,4 +1,4 @@
-package dev.revere.alley.core.profile.command.admin.statistic;
+package dev.revere.alley.core.profile.data.command;
 
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
@@ -34,7 +34,7 @@ public class ResetStatsCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/resetstats &6<player>"));
+            command.sendUsage();
             return;
         }
 

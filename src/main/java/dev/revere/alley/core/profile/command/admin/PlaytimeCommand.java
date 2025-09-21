@@ -39,7 +39,7 @@ public class PlaytimeCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            sender.sendMessage(CC.translate("&cUsage: /playtime <player>"));
+            command.sendUsage();
             return;
         }
 

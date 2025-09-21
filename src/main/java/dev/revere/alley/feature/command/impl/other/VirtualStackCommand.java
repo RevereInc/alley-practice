@@ -32,7 +32,7 @@ public class VirtualStackCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/virtualstack &6<amount> &7[bypassLimit]"));
+            command.sendUsage();
             player.sendMessage(CC.translate("&7Example: /virtualstack 127"));
             player.sendMessage(CC.translate("&7To bypass stack size limits, use: '/virtualstack 130 true'"));
             return;

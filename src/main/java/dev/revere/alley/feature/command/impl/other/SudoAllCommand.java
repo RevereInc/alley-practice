@@ -25,7 +25,7 @@ public class SudoAllCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&cUsage: /sudoall <message>"));
+            command.sendUsage();
             return;
         }
 

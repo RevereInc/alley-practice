@@ -27,7 +27,7 @@ public class DivisionCreateCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/division create &6<name> <requiredWins>"));
+            command.sendUsage();
             return;
         }
 

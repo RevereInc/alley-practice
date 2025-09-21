@@ -18,6 +18,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
  * @since 08/02/2025
  */
 public class MatchDisconnectListener implements Listener {
+
+    //TODO: Locale
+
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();

@@ -30,7 +30,7 @@ public class KitDeleteCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit delete &6<kitName>"));
+            command.sendUsage();
             return;
         }
 

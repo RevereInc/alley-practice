@@ -30,7 +30,7 @@ public class MoreCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/more &6<soup/potion> <amount>"));
+            command.sendUsage();
             return;
         }
 

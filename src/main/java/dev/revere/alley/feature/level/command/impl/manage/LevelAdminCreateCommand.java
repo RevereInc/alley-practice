@@ -28,7 +28,7 @@ public class LevelAdminCreateCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 3) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin create &6<levelName> <minElo> <maxElo>"));
+            command.sendUsage();
             return;
         }
 

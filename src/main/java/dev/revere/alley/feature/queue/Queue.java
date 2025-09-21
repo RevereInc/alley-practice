@@ -18,6 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -63,7 +64,7 @@ public class Queue {
      * @return The queue type.
      */
     public String getQueueType() {
-        return (this.ranked ? "Ranked" : "Unranked") + (this.duos ? " Duos" : " Solo");
+        return (this.ranked ? "Ranked" : "Unranked") + (this.duos ? " Duos" : "");
     }
 
     /**
@@ -168,7 +169,16 @@ public class Queue {
             }
         }
 
-        player.sendMessage(CC.translate("&aYou've joined the &6" + queueProfile.getQueue().getKit().getDisplayName() + " &aqueue."));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_JOINED_BOOLEAN)) {
+            List<String> joinMessage = localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_JOINED);
+            for (String line : joinMessage) {
+                line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
+                line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());
+                player.sendMessage(CC.translate(line));
+            }
+        }
 
         hotbarService.applyHotbarItems(player);
     }
@@ -212,7 +222,16 @@ public class Queue {
 
             if (playerToRemove != null) {
                 hotbarService.applyHotbarItems(playerToRemove);
-                playerToRemove.sendMessage(CC.translate("&cYou've left the queue."));
+                LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+                if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_LEFT_BOOLEAN)) {
+                    List<String> joinMessage = localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_LEFT);
+                    for (String line : joinMessage) {
+                        line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
+                        line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());
+                        playerToRemove.sendMessage(CC.translate(line));
+                    }
+                }
             }
         }
     }

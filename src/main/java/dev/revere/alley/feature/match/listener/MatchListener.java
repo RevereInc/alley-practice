@@ -41,6 +41,9 @@ import java.util.List;
  * @date 5/21/2024
  */
 public class MatchListener implements Listener {
+
+    //TODO: Locale
+
     @EventHandler
     private void onTeleport(PlayerTeleportEvent event) {
         Player player = event.getPlayer();

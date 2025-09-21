@@ -19,7 +19,6 @@ import java.util.List;
 public class PartyLookupCommand extends BaseCommand {
     @CommandData(
             name = "party.lookup",
-            aliases = {"pl"},
             usage = "party lookup <player>",
             description = "Sends info about a specific party"
     )
@@ -29,7 +28,7 @@ public class PartyLookupCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/party lookup &6<player>"));
+            command.sendUsage();
             return;
         }
 

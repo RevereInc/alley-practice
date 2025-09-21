@@ -34,7 +34,7 @@ public class ViewErrorCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(CC.translate("&cUsage: /viewerror <error>"));
+            command.sendUsage();
             return;
         }
 

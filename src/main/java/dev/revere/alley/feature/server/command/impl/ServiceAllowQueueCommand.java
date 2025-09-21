@@ -26,7 +26,7 @@ public class ServiceAllowQueueCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/service allowqueue &6<true/false>"));
+            command.sendUsage();
             return;
         }
 

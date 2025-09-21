@@ -29,7 +29,7 @@ public class MatchCancelCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/match cancel &6<player>"));
+            command.sendUsage();
             return;
         }
 
@@ -43,7 +43,8 @@ public class MatchCancelCommand extends BaseCommand {
         if (profile.getState() != ProfileState.PLAYING || profile.getMatch() == null) {
             player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
                             .replace("{name-color}", String.valueOf(profile.getNameColor()))
-                            .replace("{player}", target.getName()));
+                            .replace("{player}", target.getName())
+            );
             return;
         }
 

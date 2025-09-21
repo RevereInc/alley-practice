@@ -28,7 +28,7 @@ public class ArenaSaveCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/arena save &6<name>"));
+            command.sendUsage();
             return;
         }
 

@@ -31,7 +31,7 @@ public class FFASetupCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 4) {
-            player.sendMessage(CC.translate("&6Usage: &e/ffa setup &6<kitName> <arenaName> <maxPlayers> <menu-slot>"));
+            command.sendUsage();
             return;
         }
 

@@ -1,4 +1,4 @@
-package dev.revere.alley.core.profile.command.admin.statistic;
+package dev.revere.alley.core.profile.data.command.coin;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -30,7 +30,7 @@ public class SetCoinsCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 2) {
-            player.sendMessage(CC.translate("&cUsage: /coins set <player> <amount>"));
+            command.sendUsage();
             return;
         }
 

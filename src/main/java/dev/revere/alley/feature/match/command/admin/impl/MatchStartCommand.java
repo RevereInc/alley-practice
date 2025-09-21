@@ -70,7 +70,7 @@ public class MatchStartCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 4) {
-            player.sendMessage(CC.translate("&6Usage: &e/match start &6<player1> <player2> <kit> <arena>"));
+            command.sendUsage();
             return;
         }
 

@@ -30,7 +30,7 @@ public class LevelAdminViewCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin view &6<levelName>"));
+            command.sendUsage();
             return;
         }
 

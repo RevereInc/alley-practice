@@ -220,8 +220,7 @@ public class QueueTask implements Runnable {
      * @param secondProfile Second player's profile
      * @return true if match was successfully created
      */
-    private boolean createSoloMatch(Queue queue, Player firstPlayer, Player secondPlayer,
-                                    QueueProfile firstProfile, QueueProfile secondProfile) {
+    private boolean createSoloMatch(Queue queue, Player firstPlayer, Player secondPlayer, QueueProfile firstProfile, QueueProfile secondProfile) {
         GamePlayerList gamePlayerList = getGamePlayerList(firstPlayer, secondPlayer, firstProfile, secondProfile);
         GameParticipantList gameParticipantList = getSoloGameParticipantList(gamePlayerList);
 
@@ -379,14 +378,14 @@ public class QueueTask implements Runnable {
      */
     private boolean validatePotentialPlayers(QueueProfile[] potentialPlayers, List<Player> onlinePlayers, List<QueueProfile> validQueueProfiles) {
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
-        for (QueueProfile qp : potentialPlayers) {
-            Player p = Bukkit.getPlayer(qp.getUuid());
-            if (p == null || !p.isOnline() || !profileService.getProfile(p.getUniqueId()).getState().equals(ProfileState.WAITING)) {
-                Logger.info("One of the potential players is not ready: " + qp.getUuid());
+        for (QueueProfile queueProfile : potentialPlayers) {
+            Player player = Bukkit.getPlayer(queueProfile.getUuid());
+            if (player == null || !player.isOnline() || !profileService.getProfile(player.getUniqueId()).getState().equals(ProfileState.WAITING)) {
+                Logger.info("One of the potential players is not ready: " + queueProfile.getUuid());
                 return false;
             }
-            onlinePlayers.add(p);
-            validQueueProfiles.add(qp);
+            onlinePlayers.add(player);
+            validQueueProfiles.add(queueProfile);
         }
         return true;
     }
@@ -451,9 +450,7 @@ public class QueueTask implements Runnable {
      * @param allMatchPlayers Current match players list
      * @param team2StartIndex Index where team 2 starts
      */
-    private void addRemainingSoloPlayers(List<Player> onlinePlayers,
-                                         List<Player> allMatchPlayers,
-                                         int team2StartIndex) {
+    private void addRemainingSoloPlayers(List<Player> onlinePlayers, List<Player> allMatchPlayers, int team2StartIndex) {
         for (int i = 1; i < onlinePlayers.size(); i++) {
             if (i == team2StartIndex) continue;
 
@@ -474,10 +471,7 @@ public class QueueTask implements Runnable {
      * @param potentialPlayerCount Number of potential players
      * @return true if match was successfully created
      */
-    private boolean createDuosMatch(Queue queue, List<Player> allMatchPlayers,
-                                    List<QueueProfile> validQueueProfiles,
-                                    List<Player> onlinePlayers,
-                                    int potentialPlayerCount) {
+    private boolean createDuosMatch(Queue queue, List<Player> allMatchPlayers, List<QueueProfile> validQueueProfiles, List<Player> onlinePlayers, int potentialPlayerCount) {
         int team2StartIndex = (potentialPlayerCount == 2) ? 1 : 2;
         Player team1Leader = onlinePlayers.get(0);
         Player team2Leader = onlinePlayers.get(team2StartIndex);
@@ -538,11 +532,7 @@ public class QueueTask implements Runnable {
      * @param participantA       Team A participant
      * @param participantB       Team B participant
      */
-    private void assignPlayersToTeams(List<Player> allMatchPlayers,
-                                      List<QueueProfile> validQueueProfiles,
-                                      Player team1Leader, Player team2Leader,
-                                      GameParticipant<MatchGamePlayer> participantA,
-                                      GameParticipant<MatchGamePlayer> participantB) {
+    private void assignPlayersToTeams(List<Player> allMatchPlayers, List<QueueProfile> validQueueProfiles, Player team1Leader, Player team2Leader, GameParticipant<MatchGamePlayer> participantA, GameParticipant<MatchGamePlayer> participantB) {
         PartyService partyService = AlleyPlugin.getInstance().getService(PartyService.class);
         Party team1Party = partyService.getPartyByLeader(team1Leader);
         Party team2Party = partyService.getPartyByLeader(team2Leader);
@@ -584,10 +574,7 @@ public class QueueTask implements Runnable {
      * @param participantA Team A participant
      * @param participantB Team B participant
      */
-    private void assignPlayerToTeam(Player player, MatchGamePlayer gamePlayer,
-                                    Party team1Party, Party team2Party,
-                                    GameParticipant<MatchGamePlayer> participantA,
-                                    GameParticipant<MatchGamePlayer> participantB) {
+    private void assignPlayerToTeam(Player player, MatchGamePlayer gamePlayer, Party team1Party, Party team2Party, GameParticipant<MatchGamePlayer> participantA, GameParticipant<MatchGamePlayer> participantB) {
         if (team1Party != null && team1Party.getMembers().contains(player.getUniqueId())) {
             participantA.addPlayer(gamePlayer);
         } else if (team2Party != null && team2Party.getMembers().contains(player.getUniqueId())) {
@@ -740,8 +727,7 @@ public class QueueTask implements Runnable {
      * @param secondProfile The second player's queue profile
      * @return Game player list containing both match game players
      */
-    private @NotNull GamePlayerList getGamePlayerList(Player firstPlayer, Player secondPlayer,
-                                                      QueueProfile firstProfile, QueueProfile secondProfile) {
+    private @NotNull GamePlayerList getGamePlayerList(Player firstPlayer, Player secondPlayer, QueueProfile firstProfile, QueueProfile secondProfile) {
         return new GamePlayerList(
                 new MatchGamePlayer(firstPlayer.getUniqueId(), firstPlayer.getName(), firstProfile.getElo()),
                 new MatchGamePlayer(secondPlayer.getUniqueId(), secondPlayer.getName(), secondProfile.getElo())

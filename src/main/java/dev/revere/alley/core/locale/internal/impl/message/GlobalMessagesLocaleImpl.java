@@ -5,6 +5,7 @@ import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * @author Emmy
@@ -100,6 +101,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ERROR_PLAYER_NOT_PLAYING_FFA("messages/global-messages.yml", "error-messages.player.not-playing-ffa", "&c{name-color}{player} &cis not in an FFA Match!"),
     ERROR_PLAYER_PARTY_INVITES_DISABLED("messages/global-messages.yml", "error-messages.player.party-invites-disabled", "&c{name-color}{player} &chas party invites disabled."),
 
+    ERROR_MUST_SELECT_MUSIC("messages/global-messages.yml", "profile-messages.error.must-select-music-before-toggle", "&cYou must at least select one music disc before you can toggle them!"),
     ERROR_YOU_MUST_LEAVE_PARTY("messages/global-messages.yml", "error-messages.you.must-leave-party", "&cYou must leave your party before doing that!"),
     ERROR_YOU_MUST_BE_IN_LOBBY("messages/global-messages.yml", "error-messages.you.must-be-in-lobby", "&cYou must be in the lobby to do that!"),
     ERROR_YOU_MUST_HOLD_ITEM("messages/global-messages.yml", "error-messages.you.must-hold-item", "&cYou need to be holding an item!"),
@@ -201,6 +203,10 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
 
     MATCH_CANCELLED_FOR_PLAYER("messages/global-messages.yml", "match.cancelled", "&aYou have ended the match for &6{name-color}{player}&a."),
 
+    MUSIC_DISC_DESELECTED("messages/global-messages.yml", "music-disc.deselected", "&cYou have removed &6{disc} &cfrom your music selection."),
+    MUSIC_DISC_SELECTED("messages/global-messages.yml", "music-disc.selected", "&aYou have added &6{disc} &ato your music selection."),
+    MUSIC_DISC_NOW_PLAYING("messages/global-messages.yml", "music-disc.now-playing", Collections.singletonList("&7[&6♬&7] &fNow playing: &6{disc} &7({duration})")),
+
     OTHER_SUDO_ALL_PLAYERS("messages/global-messages.yml", "other.sudo.all-players", "&aYou have sudo-ed all players to say: &r{message}"),
 
     PARTY_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
@@ -249,6 +255,81 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     QUEUE_TOGGLED("messages/global-messages.yml", "queue.command.toggled", "&aYou've temporarily {status} &aqueueing for all players."),
     QUEUE_RELOADED("messages/global-messages.yml", "queue.command.reloaded", "&aSuccessfully reloaded all queues!"),
     QUEUE_FORCED_PLAYER("messages/global-messages.yml", "queue.command.forced-player", "&aSuccessfully forced &6{player} &ainto the &6{ranked} {kit} &aqueue!"),
+
+    QUEUE_PROGRESSING_UNRANKED_BOOLEAN("messages/global-messages.yml", "queue.joined.progressing.unranked.enabled", true),
+    QUEUE_PROGRESSING_UNRANKED("messages/global-messages.yml", "queue.joined.progressing.unranked.format", Arrays.asList(
+            "",
+            "&6&l{kit}",
+            " &6&l│ &fPing Range: &6N/A",
+            "  &7&oSearching for match...",
+            ""
+    )),
+
+    QUEUE_PROGRESSING_RANKED_BOOLEAN("messages/global-messages.yml", "queue.joined.progressing.ranked.enabled", true),
+    QUEUE_PROGRESSING_RANKED("messages/global-messages.yml", "queue.joined.progressing.ranked.format", Arrays.asList(
+            "",
+            "&6&l{kit} &6&l" + Symbol.RANKED_STAR + "Ranked",
+            " &6&l│ &fELO Range: &6{min-elo} &7&l" + Symbol.ARROW_R + " &6{max-elo}",
+            " &6&l│ &fPing Range: &6N/A",
+            "  &7&oSearching for match...",
+            ""
+    )),
+
+    QUEUE_PROGRESSING_RANKED_LIMIT_REACHED_BOOLEAN("messages/global-messages.yml", "queue.joined.progressing.ranked.limit-reached.enabled", true),
+    QUEUE_PROGRESSING_RANKED_LIMIT_REACHED("messages/global-messages.yml", "queue.joined.progressing.ranked.limit-reached.format", Arrays.asList(
+            "",
+            "&6&l{kit} &6&l" + Symbol.RANKED_STAR + "Ranked",
+            " &6&l│ &fPing Range: &6N/A",
+            "  &c&lRANGE LIMIT REACHED...",
+            ""
+    )),
+
+    QUEUE_JOINED_BOOLEAN("messages/global-messages.yml", "queue.join-message.enabled", true),
+    QUEUE_JOINED("messages/global-messages.yml", "queue.join-message.format", Arrays.asList(
+            "",
+            "&6&lQUEUE JOINED &a" + Symbol.TICK,
+            " &6&l│ &rKit: &6{kit}",
+            " &6&l│ &rType: &6{queue-type}",
+            "  &7&oType /leavequeue to leave.",
+            ""
+    )),
+
+    QUEUE_LEFT_BOOLEAN("messages/global-messages.yml", "queue.leave-message.enabled", true),
+    QUEUE_LEFT("messages/global-messages.yml", "queue.leave-message.format", Arrays.asList(
+            "",
+            "&6&lQUEUE LEFT &c" + Symbol.CROSS,
+            " &6&l│ &rYou left the &6{queue-type} &6{kit} &fqueue.",
+            ""
+    )),
+
+    RANKED_PLAYER_NOT_BANNED("messages/global-messages.yml", "ranked.error.player-not-banned", "&c{name-color}{player} &cis not banned from ranked matches!"),
+    RANKED_PLAYER_ALREADY_BANNED("messages/global-messages.yml", "ranked.error.player-already-banned", "&c{name-color}{player} &cis already banned from ranked matches!"),
+
+    RANKED_PLAYER_BAN_BROADCAST_BOOLEAN("messages/global-messages.yml", "ranked.ban-broadcast.enabled", true),
+    RANKED_PLAYER_BAN_BROADCAST("messages/global-messages.yml", "ranked.ban-broadcast.format", Collections.singletonList("&c&l{name-color}{player} &7has been banned from ranked matches.")),
+
+    RANKED_BAN_MESSAGE_NOTICE_BOOLEAN("messages/global-messages.yml", "ranked.ban-message-notice.enabled", true),
+    RANKED_BAN_MESSAGE_NOTICE("messages/global-messages.yml", "ranked.ban-message-notice.format", Arrays.asList(
+            "",
+            "&c&lRANKED BANNED",
+            " &c&l│ &fReason: &c{reason}",
+            " &c&l│ &fDuration: &c{duration}",
+            " &c&l│ &fBan ID: &c{ban-id}",
+            ""
+    )),
+
+    RANKED_PLAYER_UNBAN_BROADCAST_BOOLEAN("messages/global-messages.yml", "ranked.unban-broadcast.enabled", true),
+    RANKED_PLAYER_UNBAN_BROADCAST("messages/global-messages.yml", "ranked.unban-broadcast.format", Collections.singletonList("&a&l{name-color}{player} &7has been unbanned from ranked matches.")),
+
+    RANKED_UNBAN_MESSAGE_NOTICE_BOOLEAN("messages/global-messages.yml", "ranked.unban-message-notice.enabled", true),
+    RANKED_UNBAN_MESSAGE_NOTICE("messages/global-messages.yml", "ranked.unban-message-notice.format", Arrays.asList(
+            "",
+            "&a&lRANKED UNBANNED",
+            " &a&l│ &fReason: &a{reason}",
+            " &a&l│ &fBan ID: &a{ban-id}",
+            " &a(You can queue ranked again)",
+            ""
+    )),
 
     SPAWN_SET("messages/global-messages.yml", "spawn.command.set", "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"),
     SPAWN_TELEPORTED("messages/global-messages.yml", "spawn.command.teleported", "&6Teleported you to spawn!"),

@@ -110,16 +110,46 @@ public abstract class Match {
         this.ranked = ranked;
     }
 
+    /**
+     * Retrieves the list of participants in the match.
+     *
+     * @return A list of GameParticipant objects representing the players.
+     */
     public abstract List<GameParticipant<MatchGamePlayer>> getParticipants();
 
+    /**
+     * Retrieves the GameParticipant associated with a given player.
+     *
+     * @param player The player whose participant is to be retrieved.
+     */
     public abstract void handleDisconnect(Player player);
 
+    /**
+     * Handles the respawn of a player based on the specific match type and its conditions.
+     *
+     * @param player The player to respawn.
+     */
     public abstract void handleRespawn(Player player);
 
+    /**
+     * Determines if the round can start based on the specific match type and its conditions.
+     *
+     * @return True if the round can start, false otherwise.
+     */
     public abstract boolean canStartRound();
 
+    /**
+     * Determines if the round can end based on the specific match type and its conditions.
+     *
+     * @return True if the round can end, false otherwise.
+     */
     public abstract boolean canEndRound();
 
+    /**
+     * Determines if the match can end based on the specific match type and its conditions.
+     *
+     * @return True if the match can end, false otherwise.
+     */
     public abstract boolean canEndMatch();
 
     /**
@@ -1209,7 +1239,6 @@ public abstract class Match {
 
     @SuppressWarnings("deprecation")
     public void resetBlockChanges() {
-
         if (this.getKit().isSettingEnabled(KitSettingRaiding.class)) {
             Arena arena = this.getArena();
             Location pos1 = arena.getPos1();
@@ -1232,7 +1261,6 @@ public abstract class Match {
                 }
             }
         }
-
 
         this.removePlacedBlocks();
 
@@ -1259,6 +1287,9 @@ public abstract class Match {
 
 
     private void sendPlayerVersusPlayerMessage() {
+
+        //TODO: Locale
+
         String prefix = CC.translate("&7[&6Match&7] &r");
 
         if (this.isTeamMatch()) {

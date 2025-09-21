@@ -33,7 +33,7 @@ public class PartyInviteCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /party invite <player>"));
+            command.sendUsage();
             return;
         }
 

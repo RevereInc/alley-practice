@@ -1,6 +1,8 @@
 package dev.revere.alley.feature.music.internal;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.music.MusicDisc;
 import dev.revere.alley.feature.music.MusicService;
 import dev.revere.alley.feature.music.MusicSession;
@@ -69,8 +71,15 @@ public class MusicServiceImpl implements MusicService {
         sendPlaySoundPacket(player, disc, jukeboxLocation);
 
         String formattedDuration = TimeUtil.formatTimeFromSeconds(disc.getDuration());
-        String message = CC.translate("&7[&6♬&7] &fNow playing: &6" + disc.getTitle() + " &7(" + formattedDuration + ")");
-        player.sendMessage(message);
+
+        List<String> message = AlleyPlugin.getInstance().getService(LocaleService.class).getMessageList(GlobalMessagesLocaleImpl.MUSIC_DISC_NOW_PLAYING);
+        for (String string : message) {
+            string = string
+                    .replace("{disc}", disc.getTitle())
+                    .replace("{duration}", formattedDuration)
+            ;
+            player.sendMessage(CC.translate(string));
+        }
 
         MusicSession session = new MusicSession(disc, jukeboxLocation);
         MusicTask task = new MusicTask(player, this, profileService);

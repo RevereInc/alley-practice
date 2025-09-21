@@ -25,7 +25,7 @@ public class ChatCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/chat &6<chatChannel>"));
+            command.sendUsage();
             player.sendMessage(CC.translate("&cAvailable chat channels: " + ChatChannel.getChatChannelsSorted()));
             return;
         }

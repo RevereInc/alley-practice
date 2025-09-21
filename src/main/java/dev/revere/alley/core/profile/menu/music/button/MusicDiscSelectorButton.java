@@ -1,8 +1,11 @@
 package dev.revere.alley.core.profile.menu.music.button;
 
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.data.types.ProfileMusicData;
 import dev.revere.alley.feature.music.MusicDisc;
@@ -40,21 +43,20 @@ public class MusicDiscSelectorButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        //TODO: Locale
-
         ProfileMusicData musicData = this.profile.getProfileData().getMusicData();
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (musicData.getSelectedDiscs().isEmpty()) {
-            player.sendMessage(CC.translate("&cYou must at least select one music disc before you can toggle them!"));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_SELECT_MUSIC));
             return;
         }
 
         if (musicData.isDiscSelected(this.disc.name())) {
             musicData.removeDisc(this.disc.name());
-            player.sendMessage(CC.translate("&cYou have removed &6" + this.disc.getTitle() + "&c from your music selection."));
+            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.MUSIC_DISC_DESELECTED).replace("{disc}", this.disc.getTitle()));
         } else {
             musicData.addDisc(this.disc.name());
-            player.sendMessage(CC.translate("&aYou have added &6" + this.disc.getTitle() + "&a to your music selection."));
+           player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.MUSIC_DISC_SELECTED).replace("{disc}", this.disc.getTitle()));
         }
 
         this.playNeutral(player);

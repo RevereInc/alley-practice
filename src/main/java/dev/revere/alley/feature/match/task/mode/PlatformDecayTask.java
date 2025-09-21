@@ -18,6 +18,9 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class PlatformDecayTask extends BukkitRunnable {
+
+    //TODO: Locale
+
     private final JavaPlugin plugin;
     private final Match match;
     private final int initialRadius;

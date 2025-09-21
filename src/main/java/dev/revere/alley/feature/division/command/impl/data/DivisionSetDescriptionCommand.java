@@ -29,7 +29,7 @@ public class DivisionSetDescriptionCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/division setdescription &6<name> <description>"));
+            command.sendUsage();
             return;
         }
 

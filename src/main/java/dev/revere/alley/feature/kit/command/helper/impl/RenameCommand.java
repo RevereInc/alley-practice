@@ -30,7 +30,7 @@ public class RenameCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (command.getArgs().length == 0) {
-            player.sendMessage(CC.translate("&cUsage: /rename <name>"));
+            command.sendUsage();
             return;
         }
 

@@ -30,7 +30,7 @@ public class LevelAdminSetDisplayNameCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin setdisplayname &6<levelName> <displayName>"));
+            command.sendUsage();
             return;
         }
 

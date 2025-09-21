@@ -1,6 +1,5 @@
 package dev.revere.alley.core.locale.internal.impl.message;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
@@ -85,8 +84,35 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
+    MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN("messages/game-messages.yml", "match.ended.division-progress.enabled", true),
+    MATCH_DIVISION_PROGRESS_ONGOING_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.ongoing", Arrays.asList(
+            "",
+            "&6&lProgress",
+            " &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!",
+            "  &7({progress-bar}&7) {progress-percentage}",
+            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
+            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
+            ""
+    )),
+    MATCH_DIVISION_PROGRESS_REACHED_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.reached", Arrays.asList(
+            "",
+            "&a&lCONGRATULATIONS!",
+            " &6&l│ &fReached: &6{reached-new-division}",
+            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
+            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
+            ""
+    )),
+
     MATCH_BLOCKS_RESET_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.blocks-reset.enabled", true),
     MATCH_BLOCKS_RESET_MESSAGE_FORMAT("messages/game-messages.yml", "match.blocks-reset.format", Collections.singletonList("&4{name-color}{player} &ffelt like being a nerd and reset the blocks!")),
+
+    FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.killstreak-alert.enabled", true),
+    FFA_KILLSTREAK_ALERT_INTERVAL("messages/game-messages.yml", "ffa.killstreak-alert.interval", 5),
+    FFA_KILLSTREAK_ALERT_MESSAGE("messages/game-messages.yml", "ffa.killstreak-alert.message", Arrays.asList(
+            "",
+            "&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
+            ""
+    ))
 
     ;
 

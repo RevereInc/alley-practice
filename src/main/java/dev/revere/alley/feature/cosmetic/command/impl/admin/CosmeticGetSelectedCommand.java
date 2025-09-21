@@ -32,7 +32,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&cUsage: /cosmetic get <player>"));
+            command.sendUsage();
             return;
         }
 

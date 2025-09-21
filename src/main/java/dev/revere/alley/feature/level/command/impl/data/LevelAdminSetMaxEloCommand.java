@@ -28,7 +28,7 @@ public class LevelAdminSetMaxEloCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin setmaxelo &6<levelName> <maxElo>"));
+            command.sendUsage();
             return;
         }
 

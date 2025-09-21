@@ -29,7 +29,7 @@ public class DivisionViewCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/division view &6<name>"));
+            command.sendUsage();
             return;
         }
 

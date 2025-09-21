@@ -26,7 +26,7 @@ public class StrikeCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/strike &6<player>"));
+            command.sendUsage();
             return;
         }
 

@@ -37,7 +37,7 @@ public class AbilityCommand extends BaseCommand {
         switch (args[0].toLowerCase()) {
             case "give":
                 if (args.length < 4) {
-                    CC.sender(player, "&cUsage: /" + "ability" + " give <player> <ability|all> <amount>");
+                    commandArgs.sendUsage();
                     return;
                 }
 

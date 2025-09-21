@@ -25,7 +25,7 @@ public class PartyBanCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/party ban &6<player>"));
+            command.sendUsage();
             return;
         }
 

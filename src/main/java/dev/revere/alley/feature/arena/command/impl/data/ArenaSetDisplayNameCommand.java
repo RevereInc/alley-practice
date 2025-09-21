@@ -30,7 +30,7 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/arena setdisplayname &6<arenaName> <displayName>"));
+            command.sendUsage();
             return;
         }
 

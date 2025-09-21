@@ -28,6 +28,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
  * @since 08/02/2025
  */
 public class MatchInteractListener implements Listener {
+
+    //TODO: Locale
+
     @EventHandler
     private void handleParkourInteraction(PlayerInteractEvent event) {
         Player player = event.getPlayer();

@@ -46,6 +46,9 @@ import java.util.stream.Collectors;
  * @since 08/02/2025
  */
 public class MatchBlockListener implements Listener {
+
+    //TODO: Locale
+
     @EventHandler()
     public void onBlockFromEvent(BlockFromToEvent event) {
 

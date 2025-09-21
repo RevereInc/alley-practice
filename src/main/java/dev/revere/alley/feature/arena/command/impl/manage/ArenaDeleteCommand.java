@@ -45,7 +45,7 @@ public class ArenaDeleteCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena delete &6<arenaName>"));
+            command.sendUsage();
             return;
         }
 

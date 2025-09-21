@@ -27,7 +27,7 @@ public class FFASetSlotCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (command.length() < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/ffa setslot &6<kitName> <slot>"));
+            command.sendUsage();
             return;
         }
 

@@ -28,7 +28,7 @@ public class KitToggleCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/kit toggle &6<kitName>"));
+            command.sendUsage();
             return;
         }
 

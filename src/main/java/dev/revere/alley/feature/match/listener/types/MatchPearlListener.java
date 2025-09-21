@@ -35,6 +35,9 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.Optional;
 
 public class MatchPearlListener implements Listener {
+
+    //TODO: Locale (im not touching pearls, thats on you mr insurant)
+
     @EventHandler
     public void onPearlLaunch(ProjectileLaunchEvent event) {
         if (!(event.getEntity() instanceof EnderPearl) || !(event.getEntity().getShooter() instanceof Player)) {

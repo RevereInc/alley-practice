@@ -27,7 +27,7 @@ public class KitClearPotionsCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/kit removepotion &6<kitName>"));
+            command.sendUsage();
             return;
         }
 

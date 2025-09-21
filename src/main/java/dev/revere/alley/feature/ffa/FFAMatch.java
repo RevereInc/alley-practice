@@ -1,23 +1,23 @@
 package dev.revere.alley.feature.ffa;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfileFFAData;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.combat.CombatService;
+import dev.revere.alley.feature.ffa.model.GameFFAPlayer;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.ffa.model.GameFFAPlayer;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfileFFAData;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -192,10 +192,8 @@ public abstract class FFAMatch {
      * @param player The player who reached the killstreak.
      */
     public void sendKillstreakAlertMessage(Player player) {
-        //TODO: Locale
-        ConfigService configService = this.plugin.getService(ConfigService.class);
-        FileConfiguration config = configService.getGlobalMessagesConfig();
-        if (!config.getBoolean("ffa.killstreak-alert.enabled")) {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        if (!localeService.getBoolean(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN)) {
             return;
         }
 
@@ -203,9 +201,8 @@ public abstract class FFAMatch {
         Profile profile = profileService.getProfile(player.getUniqueId());
         ProfileFFAData ffaData = profile.getProfileData().getFfaData().get(this.getKit().getName());
 
-        int interval = config.getInt("ffa.killstreak-alert.interval");
-        List<String> messages = config.getStringList("ffa.killstreak-alert.message");
-
+        int interval = localeService.getInt(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_INTERVAL);
+        List<String> messages = localeService.getMessageList(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_MESSAGE);
         if (ffaData.getKillstreak() % interval == 0) {
             this.getPlayers().forEach(ffaPlayer -> {
                 for (String message : messages) {

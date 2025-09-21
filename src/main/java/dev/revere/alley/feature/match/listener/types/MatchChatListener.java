@@ -18,6 +18,9 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  * @since 26/06/2025
  */
 public class MatchChatListener implements Listener {
+
+    //TODO: Locale
+
     @EventHandler
     private void onCommandPreProcess(PlayerCommandPreprocessEvent event) {
         Player player = event.getPlayer();

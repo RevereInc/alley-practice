@@ -28,7 +28,7 @@ public class LevelAdminDeleteCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/leveladmin delete &6<levelName>"));
+            command.sendUsage();
             return;
         }
 

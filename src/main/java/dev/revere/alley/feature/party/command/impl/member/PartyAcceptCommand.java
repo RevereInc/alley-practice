@@ -30,7 +30,7 @@ public class PartyAcceptCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /party accept <player>"));
+            command.sendUsage();
             return;
         }
 

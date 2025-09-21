@@ -28,7 +28,7 @@ public class PartyKickCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            player.sendMessage(CC.translate("&cUsage: /party kick (player)"));
+            command.sendUsage();
             return;
         }
 

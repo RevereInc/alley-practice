@@ -12,6 +12,7 @@ import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -27,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+@Getter
 @Service(provides = CommandFramework.class, priority = 40)
 public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
     private final Map<String, Map.Entry<Method, Object>> commandMap = new HashMap<>();

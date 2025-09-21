@@ -30,7 +30,7 @@ public class ArenaSetHeightLimitCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena setheightlimit &6<arenaName> <heightLimit>"));
+            command.sendUsage();
             return;
         }
 

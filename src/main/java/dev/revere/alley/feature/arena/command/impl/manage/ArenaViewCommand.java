@@ -29,7 +29,7 @@ public class ArenaViewCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/arena view &6<arenaName>"));
+            command.sendUsage();
             return;
         }
 

@@ -45,7 +45,7 @@ public class ArenaToggleCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena toggle &6<arenaName>"));
+            command.sendUsage();
             return;
         }
 

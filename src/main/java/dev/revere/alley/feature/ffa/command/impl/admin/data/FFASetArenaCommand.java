@@ -32,7 +32,7 @@ public class FFASetArenaCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/ffa setarena &6<kitName> <arenaName>"));
+            command.sendUsage();
             return;
         }
 

@@ -33,7 +33,7 @@ public class LayoutButton extends Button {
                 .durability(this.kit.getDurability())
                 .lore(
                         CC.MENU_BAR,
-                        "&7Shift-Click:",
+                        "&7Shift-Click: &c(Not implemented)",
                         " &7" + Symbol.SINGULAR_ARROW_R_2 + " More Layouts",
                         "",
                         "&aClick to edit.",
@@ -58,10 +58,7 @@ public class LayoutButton extends Button {
             }
 
             new LayoutEditorMenu(this.kit, layout).openMenu(player);
-            return;
-        }
-
-        if (clickType == ClickType.SHIFT_LEFT) {
+        } else if (clickType == ClickType.SHIFT_LEFT) {
             player.sendMessage(CC.translate("&c&lThis feature is not yet implemented!"));
         }
     }
