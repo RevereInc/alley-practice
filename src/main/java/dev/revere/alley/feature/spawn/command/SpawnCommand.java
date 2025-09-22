@@ -1,7 +1,9 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -12,7 +14,6 @@ import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -46,8 +47,7 @@ public class SpawnCommand extends BaseCommand {
                 }
                 break;
             case PLAYING:
-                player.sendMessage(CC.translate("&cYou cannot do this right now."));
-                break;
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             case SPECTATING:
                 profile.getMatch().removeSpectator(player, false);
                 break;

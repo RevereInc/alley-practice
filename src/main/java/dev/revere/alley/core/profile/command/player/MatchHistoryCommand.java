@@ -1,6 +1,5 @@
 package dev.revere.alley.core.profile.command.player;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.menu.match.MatchHistorySelectKitMenu;
@@ -31,7 +30,7 @@ public class MatchHistoryCommand extends BaseCommand {
         }
 
         if (profile.getProfileData().getPreviousMatches().isEmpty()) {
-            player.sendMessage(CC.translate("&cYou have no match history!"));
+            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NO_MATCH_HISTORY));
             return;
         }
 

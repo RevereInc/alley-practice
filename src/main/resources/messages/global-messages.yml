@@ -47,14 +47,20 @@ arena:
     deleted: '&cSuccessfully deleted the arena named &6{arena-name}&c!'
     saved: '&aSuccessfully saved the arena &6{arena-name}&a!'
     saved-all: '&aSuccessfully saved all arenas!'
-
 cooldown:
   error:
     not-found: '&cNo cooldown found for &6{player-name} &cof type &6{cooldown-type}&c.'
   command:
     reset: '&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been
       reset.'
-
+  pearl:
+    must-wait: '&cYou must wait &6{time} &cbefore you can throw another ender pearl!'
+    can-now-use-pearls-again: '&aYou can now use ender pearls again!'
+    cannot-use-at-ffa-spawn: '&cYou cannot use ender pearls while in an FFA spawn!'
+  fireball:
+    must-wait: '&cYou must wait &6{time} &cbefore you can throw another fireball!'
+  party-announce:
+    must-wait: '&cYou must wait &6{time} &cbefore you can announce your party again!'
 cosmetics:
   not-owned: '&cYou do not own the &6{cosmetic-name}&c cosmetic!'
   selected: '&aSuccessfully selected the &6{cosmetic-name} &acosmetic!'
@@ -65,14 +71,15 @@ cosmetics:
     none-registered: '&cThere are no cosmetics registered on the server!'
     type-not-supported: '&cThe cosmetic type &6{type} &cis not supported!'
     not-found: '&cA cosmetic named &6{input} &cdoes not exist!'
-
+    already-owner: '&cYou already own this cosmetic.'
+    purchase-insufficient-funds: '&cYou don''t have enough coins to purchase this.'
+  purchase-success: '&aSuccessfully purchased the &6{cosmetic} &acosmetic!'
 crafting-operations:
   command:
     toggled: '&aCrafting operations for &6{item} &aare now &6{status}&a.'
   error:
     must-hold-craftable-item: '&cYou must be holding a craftable item to manage crafting
       operations.'
-
 division:
   error:
     not-found: '&cA division named &6{division-name} &cdoes not exist!'
@@ -91,7 +98,6 @@ division:
     created: '&aSuccessfully created a new division named &6{division-name} &awith
       &6{required-wins} &awins!'
     deleted: '&cSuccessfully deleted the division named &6{division-name}&c!'
-
 duel-requests:
   accepted: '&aYou have accepted the duel request from &6{name-color}{player}&a!'
   error:
@@ -103,11 +109,9 @@ duel-requests:
       or their party.'
     no-pending-request: '&cYou do not have a pending duel request from that player.'
     player-requests-disabled: '&c{name-color}{player} has duel requests disabled.'
-
 explosive:
   command:
     setting-updated: '&aSuccessfully set the explosive {setting-name} value to &6{setting-value}&a.'
-
 error-messages:
   amount-must-be-greater-than-zero: '&cThe amount must be greater than zero!'
   invalid:
@@ -130,12 +134,16 @@ error-messages:
     already-playing-match: '&cYou are already in a match!'
     not-spectating-match: '&cYou are not spectating a match!'
     already-spectating-match: '&cYou are already spectating a match!'
+    no-match-history: '&cYou have no match history.'
+    party-not-public: '&cYour party is not open to the public to announce. Please
+      run the following command: &7/party open'
     not-in-party: '&cYou are not in a party.'
     not-party-leader: '&cYou are not the leader of the party.'
     already-in-party: '&cYou are already in a party.'
+    already-in-this-party: '&cYou are already in this party.'
     party-chat-disabled: '&cYou have party messages disabled. &7(To enable: /togglepartymessages)'
     no-party-invite-from-player: '&cYou do not have a party invitation from &6{name-color}{player}&c.'
-
+    banned-from-party: '&cYou are banned from &6{name-color}{player}''s &cparty.'
 profile-messages:
   error:
     must-select-music-before-toggle: '&cYou must at least select one music disc before
@@ -153,7 +161,6 @@ profile-messages:
   world-time-set: '&aSuccessfully set your personal world time to &6{time}&a.'
   world-time-reset: '&aSuccessfully reset your personal world time to the server''s
     time.'
-
 ffa:
   added-player: '&a&lADDED! &6{name-color}{player} &7&l» &6FFA {ffa-name}'
   kicked-player: '&c&lKICKED! &6{name-color}{player} &7&l» &6FFA {ffa-name}'
@@ -179,7 +186,6 @@ ffa:
       &6{kit-name} &ato &6{max-players}&a!'
     spawn-set: '&aFFA spawn position has been set for &6{arena-name}&a!'
     kits-reloaded: '&aSuccessfully reloaded all FFA kits!'
-
 hotbar:
   error:
     not-found: '&cThe hotbar item named &e{hotbar-name} &cdoes not exist.'
@@ -187,13 +193,11 @@ hotbar:
   command:
     created: '&aYou have created a new hotbar item named &e{hotbar-name}&a.'
     deleted: '&aYou have deleted the hotbar item named &e{hotbar-name}&a.'
-
 item:
   command:
     given-item: '&aYou have been given &6{amount} &a{item-name}&a.'
   error:
     item-not-configured: '&cThe item named &6{item-name} &cis not configured.'
-
 join-message:
   enabled: true
   message:
@@ -205,7 +209,6 @@ join-message:
     - ''
     - '&6&lMade by &f{author} &7(v{version})'
     - ''
-
 kit:
   error:
     not-found: '&cThere is no kit with that name!'
@@ -241,7 +244,6 @@ kit:
       &afor the kit &6{kit-name}&a.'
     saved: '&aSuccessfully saved the &6{kit-name} &akit!'
     saved-all: '&aSuccessfully saved all kits!'
-
 level:
   error:
     not-found: '&cA level named &6{level-name} &cdoes not exist!'
@@ -262,23 +264,26 @@ level:
     created: '&aSuccessfully created a new level named &6{level-name} &awith min Elo
       &6{min-elo} &aand max Elo &6{max-elo}&a!'
     deleted: '&cSuccessfully deleted the level named &6{level-name}&c!'
-
 match:
   cancelled: '&aYou have ended the match for &6{name-color}{player}&a.'
-
+  error:
+    command-blocked: '&cYou cannot use that command whilst in a match!'
 music-disc:
   deselected: '&cYou have removed &6{disc} &cfrom your music selection.'
   selected: '&aYou have added &6{disc} &ato your music selection.'
   now-playing:
     - '&7[&6♬&7] &fNow playing: &6{disc} &7({duration})'
-
 other:
   sudo:
     all-players: '&aYou have sudo-ed all players to say: &r{message}'
-
 party:
-  left: '&cYou''ve left the party!'
+  disbanded: '&6&lParty &7&l» &6{name-color}{player} &cdisbanded the party.'
   joined: '&aYou have joined &6{player}&a''s party.'
+  left: '&cYou''ve left the party!'
+  player-joined: '&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})'
+  player-left: '&6{name-color}{player} &cleft the party. &7({current-size}/{max-size})'
+  player-kicked: '&6{name-color}{player} &chas been kicked from the party. &7({current-size}/{max-size})'
+  player-banned: '&6{name-color}{player} &chas been banned from the party. &7({current-size}/{max-size})'
   created:
     - ''
     - '&6&lParty Created &a✔'
@@ -287,7 +292,7 @@ party:
   lookup:
     - ''
     - ' &6&l{leader}''s Party'
-    - '  &6&l│ &rLeader: &6{leader}'
+    - '  &6&l│ &rLeader: &6{name-color}{leader}'
     - '  &6&l│ &rMembers: &6{members}'
     - '  &6&l│ &rStatus: &6{status}'
     - '  &6&l│ &rPrivacy: &6{privacy}'
@@ -297,12 +302,11 @@ party:
     format:
       - ''
       - ' &6&lParty Info'
-      - '  &6&l│ &rLeader: &6{leader}'
+      - '  &6&l│ &rLeader: &6{name-color}{leader}'
       - '  &6&l│ &rMembers &7({members-amount}): &6{members}'
       - '  &6&l│ &rPrivacy: &6{privacy}'
       - '  &6&l│ &rSize: &6{size}'
       - ''
-
 queue:
   error:
     temporarily-disabled: '&cQueueing is temporarily disabled. Please try again later.'
@@ -353,7 +357,6 @@ queue:
       - '&6&lQUEUE LEFT &c✘'
       - ' &6&l│ &rYou left the &6{queue-type} &6{kit} &fqueue.'
       - ''
-
 ranked:
   error:
     player-not-banned: '&c{name-color}{player} &cis not banned from ranked matches!'
@@ -385,20 +388,17 @@ ranked:
       - ' &a&l│ &fBan ID: &a{ban-id}'
       - ' &a(You can queue ranked again)'
       - ''
-
 spawn:
   command:
-    set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
+    set: "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8-\
+      \ &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
     teleported: '&6Teleported you to spawn!'
     items-given: '&aSuccessfully received the spawn items!'
-
 tips:
-  # /tip command
   - '&6Tip: &fUse F5 to look at your opponent one last time before they end you.'
   - '&6Tip: &fW-tap like your life depends on it. It kinda does.'
   - '&6Tip: &fKeep your crosshair at head level... unless you like tickling toes.'
   - '&6Tip: &fPractice spacing — or just hug them and pray.'
-
 troll:
   player-donuted: '&aYou have successfully donut''d &6{name-color}{player}&a!'
   player-fake-exploded: '&aYou have fake exploded &6{name-color}{player}&a!'

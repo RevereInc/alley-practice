@@ -61,6 +61,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     COOLDOWN_CANNOT_USE_AT_FFA_SPAWN("messages/global-messages.yml", "cooldown.pearl.cannot-use-at-ffa-spawn", "&cYou cannot use ender pearls while in an FFA spawn!"),
 
     COOLDOWN_FIREBALL_MUST_WAIT("messages/global-messages.yml", "cooldown.fireball.must-wait", "&cYou must wait &6{time} &cbefore you can throw another fireball!"),
+    COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT("messages/global-messages.yml", "cooldown.party-announce.must-wait", "&cYou must wait &6{time} &cbefore you can announce your party again!"),
 
     COSMETIC_NOT_OWNED("messages/global-messages.yml", "cosmetics.not-owned", "&cYou do not own the &6{cosmetic-name}&c cosmetic!"),
     COSMETIC_SELECTED("messages/global-messages.yml", "cosmetics.selected", "&aSuccessfully selected the &6{cosmetic-name} &acosmetic!"),
@@ -122,12 +123,17 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ERROR_YOU_ALREADY_PLAYING_MATCH("messages/global-messages.yml", "error-messages.you.already-playing-match", "&cYou are already in a match!"),
     ERROR_YOU_NOT_SPECTATING_MATCH("messages/global-messages.yml", "error-messages.you.not-spectating-match", "&cYou are not spectating a match!"),
     ERROR_YOU_ALREADY_SPECTATING_MATCH("messages/global-messages.yml", "error-messages.you.already-spectating-match", "&cYou are already spectating a match!"),
+    ERROR_YOU_NO_MATCH_HISTORY("messages/global-messages.yml", "error-messages.you.no-match-history", "&cYou have no match history."),
+    ERROR_YOU_PARTY_NOT_PUBLIC("messages/global-messages.yml", "error-messages.you.party-not-public", "&cYour party is not open to the public to announce. Please run the following command: &7/party open"),
 
     ERROR_YOU_NOT_IN_PARTY("messages/global-messages.yml", "error-messages.you..not-in-party", "&cYou are not in a party."),
     ERROR_YOU_NOT_PARTY_LEADER("messages/global-messages.yml", "error-messages.you.not-party-leader", "&cYou are not the leader of the party."),
     ERROR_YOU_ALREADY_IN_PARTY("messages/global-messages.yml", "error-messages.you.already-in-party", "&cYou are already in a party."),
+    ERROR_YOU_ALREADY_IN_THIS_PARTY("messages/global-messages.yml", "error-messages.you.already-in-this-party", "&cYou are already in this party."),
     ERROR_YOU_PARTY_CHAT_DISABLED("messages/global-messages.yml", "error-messages.you.party-chat-disabled", "&cYou have party messages disabled. &7(To enable: /togglepartymessages)"),
     ERROR_YOU_NO_PARTY_INVITE_FROM_PLAYER("messages/global-messages.yml", "error-messages.you.no-party-invite-from-player", "&cYou do not have a party invitation from &6{name-color}{player}&c."),
+
+    ERROR_YOU_BANNED_FROM_PARTY("messages/global-messages.yml", "error-messages.you.banned-from-party", "&cYou are banned from &6{name-color}{player}'s &cparty."),
 
     FFA_ADDED_PLAYER("messages/global-messages.yml", "ffa.added-player", "&a&lADDED! &6{name-color}{player} &7&l» &6FFA {ffa-name}"),
     FFA_KICKED_PLAYER("messages/global-messages.yml", "ffa.kicked-player", "&c&lKICKED! &6{name-color}{player} &7&l» &6FFA {ffa-name}"),
@@ -220,8 +226,16 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
 
     OTHER_SUDO_ALL_PLAYERS("messages/global-messages.yml", "other.sudo.all-players", "&aYou have sudo-ed all players to say: &r{message}"),
 
-    PARTY_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
-    PARTY_JOINED("messages/global-messages.yml", "party.joined", "&aYou have joined &6{player}&a's party."),
+    PARTY_DISBANDED("messages/global-messages.yml", "party.disbanded", "&6&lParty &7&l" + Symbol.ARROW_R + " &6{name-color}{player} &cdisbanded the party."),
+    PARTY_YOU_JOINED("messages/global-messages.yml", "party.joined", "&aYou have joined &6{player}&a's party."),
+    PARTY_YOU_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
+
+    PARTY_PLAYER_JOINED("messages/global-messages.yml", "party.player-joined", "&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})"),
+    PARTY_PLAYER_LEFT("messages/global-messages.yml", "party.player-left", "&6{name-color}{player} &cleft the party. &7({current-size}/{max-size})"),
+
+    PARTY_PLAYER_KICKED("messages/global-messages.yml", "party.player-kicked", "&6{name-color}{player} &chas been kicked from the party. &7({current-size}/{max-size})"),
+    PARTY_PLAYER_BANNED("messages/global-messages.yml", "party.player-banned", "&6{name-color}{player} &chas been banned from the party. &7({current-size}/{max-size})"),
+
     PARTY_CREATED("messages/global-messages.yml", "party.created",
             Arrays.asList(
                     "",
@@ -233,7 +247,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     PARTY_LOOKUP("messages/global-messages.yml", "party.lookup", Arrays.asList(
             "",
             " &6&l{leader}'s Party",
-            "  &6&l│ &rLeader: &6{leader}",
+            "  &6&l│ &rLeader: &6{name-color}{leader}",
             "  &6&l│ &rMembers: &6{members}",
             "  &6&l│ &rStatus: &6{status}",
             "  &6&l│ &rPrivacy: &6{privacy}",
@@ -243,7 +257,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     PARTY_INFO("messages/global-messages.yml", "party.info.format", Arrays.asList(
             "",
             " &6&lParty Info",
-            "  &6&l│ &rLeader: &6{leader}",
+            "  &6&l│ &rLeader: &6{name-color}{leader}",
             "  &6&l│ &rMembers &7({members-amount}): &6{members}",
             "  &6&l│ &rPrivacy: &6{privacy}",
             "  &6&l│ &rSize: &6{size}",

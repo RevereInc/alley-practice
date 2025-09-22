@@ -1,6 +1,5 @@
 package dev.revere.alley.core.locale.internal.impl.message;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
@@ -14,14 +13,77 @@ import java.util.Collections;
  */
 @Getter
 public enum GameMessagesLocaleImpl implements LocaleEntry {
-    DUEL_REQUEST_SENT("messages/game-messages.yml", "duel.request.sent", Arrays.asList(
+    DUEL_REQUEST_SENT_SOLO("messages/game-messages.yml", "duel.request.sent.solo.format", Arrays.asList(
             "",
-            "&6&l{type} Request",
-            " &6&l│ &fTarget: &e{target}",
-            " &6&l│ &fKit: &e{kit}",
-            " &6&l│ &fArena: &e{arena}",
+            "&6&lDuel Request",
+            " &6&l│ &fTarget: &6{name-color}{target}",
+            " &6&l│ &fKit: &6{kit}",
+            " &6&l│ &fArena: &6{arena}",
             ""
     )),
+    DUEL_REQUEST_SENT_PARTY("messages/game-messages.yml", "duel.request.sent.party.format", Arrays.asList(
+            "",
+            "&6&lParty Duel Request",
+            " &6&l│ &fTarget: &6{name-color}{target}&f's Party &6(&a{party-size}&6)",
+            " &6&l│ &fKit: &6{kit}",
+            " &6&l│ &fArena: &6{arena}",
+            ""
+    )),
+
+    DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_FORMAT("messages/game-messages.yml", "duel.request.received.solo.clickable.format", " &a(Click To Accept)"),
+    DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_COMMAND("messages/game-messages.yml", "duel.request.received.solo.clickable.command", "/accept {sender}"),
+    DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_HOVER("messages/game-messages.yml", "duel.request.received.solo.clickable.hover", "&aClick to accept &6{sender}&a's duel request."),
+    DUEL_REQUEST_RECEIVED_SOLO("messages/game-messages.yml", "duel.request.received.solo.format", Arrays.asList(
+            "",
+            "&6&lDuel Request",
+            " &6&l│ &fFrom: &6{name-color}{sender}",
+            " &6&l│ &fArena: &6{arena}",
+            " &6&l│ &fKit: &6{kit}",
+            "{clickable}",
+            ""
+    )),
+
+    DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_FORMAT("messages/game-messages.yml", "duel.request.received.party.clickable.format", " &a(Click To Accept)"),
+    DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_COMMAND("messages/game-messages.yml", "duel.request.received.party.clickable.command", "/accept {sender}"),
+    DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_HOVER("messages/game-messages.yml", "duel.request.received.party.clickable.hover", "&aClick to accept &6{sender}&a's party duel request."),
+    DUEL_REQUEST_RECEIVED_PARTY("messages/game-messages.yml", "duel.request.received.party.format", Arrays.asList(
+            "",
+            "&6&lParty Duel Request",
+            " &6&l│ &fFrom: &6{name-color}{sender}&f's Party &6(&a{party-size}&6)",
+            " &6&l│ &fArena: &6{arena}",
+            " &6&l│ &fKit: &6{kit}",
+            "{clickable}",
+            ""
+    )),
+
+//    DUEL_REQUEST_EXPIRED("messages/game-messages.yml", "duel.request.expired", Arrays.asList(
+//            "",
+//            "&c&lDuel Request Expired",
+//            " &c&l│ &fYour duel request to &6{target} &fhas expired.",
+//            ""
+//    )),
+
+    FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.killstreak-alert.enabled", true),
+    FFA_KILLSTREAK_ALERT_INTERVAL("messages/game-messages.yml", "ffa.killstreak-alert.interval", 5),
+    FFA_KILLSTREAK_ALERT_MESSAGE("messages/game-messages.yml", "ffa.killstreak-alert.message", Arrays.asList(
+            "",
+            "&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
+            ""
+    )),
+
+    FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-join.enabled", false),
+    FFA_PLAYER_JOIN_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-join.message", Collections.singletonList("&a{name-color}{player} &ahas joined the FFA match.")),
+
+    FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-left.enabled", false),
+    FFA_PLAYER_LEFT_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-left.message", Collections.singletonList("&c{name-color}{player} &chas left the FFA match.")),
+
+    FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-died.enabled", true),
+    FFA_PLAYER_DIED_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-died.message", Collections.singletonList("&c{name-color}{player} &fhas died!")),
+
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-killed-player.enabled", true),
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-killed-player.message", Collections.singletonList("&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!")),
+
+    GAME_CANNOT_DROP_SWORD("messages/game-messages.yml", "game.cannot-drop-sword", "&cYou cannot drop your sword!"),
 
     MATCH_STARTED_DISCLAIMER_ENABLED_BOOLEAN("messages/game-messages.yml", "match.started.kit-disclaimer.enabled", true),
     MATCH_STARTED_DISCLAIMER_FORMAT("messages/game-messages.yml", "match.started.kit-disclaimer.format", Arrays.asList(
@@ -123,27 +185,36 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             "&7[&6Match&7] &6{teamA-leader}'s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}'s Team &7(&a{teamB-size}&7)"
     )),
 
-    FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.killstreak-alert.enabled", true),
-    FFA_KILLSTREAK_ALERT_INTERVAL("messages/game-messages.yml", "ffa.killstreak-alert.interval", 5),
-    FFA_KILLSTREAK_ALERT_MESSAGE("messages/game-messages.yml", "ffa.killstreak-alert.message", Arrays.asList(
+    PARTY_INVITATION_RECEIVED_CLICKABLE_FORMAT("messages/game-messages.yml", "party.invitation.received.clickable.format", " &a(Click To Accept)"),
+    PARTY_INVITATION_RECEIVED_CLICKABLE_COMMAND("messages/game-messages.yml", "party.invitation.received.clickable.command", "/party accept {sender}"),
+    PARTY_INVITATION_RECEIVED_CLICKABLE_HOVER("messages/game-messages.yml", "party.invitation.received.clickable.hover", "&aClick to accept &6{sender}&a's party invitation."),
+    PARTY_INVITATION_RECEIVED("messages/game-messages.yml", "party.invitation.received.format", Arrays.asList(
             "",
-            "&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
+            "&6&lParty Invitation",
+            " &6&l│ &fFrom: &6{name-color}{sender}",
+            " &6&l│ &fPlayers: &6{party-size}&f/&6N/A",
+            "{clickable}",
             ""
     )),
 
-    FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-join.enabled", false),
-    FFA_PLAYER_JOIN_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-join.message", Collections.singletonList("&a{name-color}{player} &ahas joined the FFA match.")),
+    PARTY_INVITATION_SENT("messages/game-messages.yml", "party.invitation.sent.format", Arrays.asList(
+            "",
+            "&6&lParty Invitation Sent",
+            " &6&l│ &fTarget: &6{name-color}{target}",
+            ""
+    )),
 
-    FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-left.enabled", false),
-    FFA_PLAYER_LEFT_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-left.message", Collections.singletonList("&c{name-color}{player} &chas left the FFA match.")),
-
-    FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-died.enabled", true),
-    FFA_PLAYER_DIED_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-died.message", Collections.singletonList("&c{name-color}{player} &fhas died!")),
-
-    FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-killed-player.enabled", true),
-    FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-killed-player.message", Collections.singletonList("&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!")),
-
-    GAME_CANNOT_DROP_SWORD("messages/game-messages.yml", "game.cannot-drop-sword", "&cYou cannot drop your sword!"),
+    PARTY_ANNOUNCEMENT_CLICKABLE_FORMAT("messages/game-messages.yml", "party.announcement.clickable.format", " &a(Click To Join)"),
+    PARTY_ANNOUNCEMENT_CLICKABLE_COMMAND("messages/game-messages.yml", "party.announcement.clickable.command", "/party join {leader}"),
+    PARTY_ANNOUNCEMENT_CLICKABLE_HOVER("messages/game-messages.yml", "party.announcement.clickable.hover", "&aClick to join &6{leader}&a's party."),
+    PARTY_ANNOUNCEMENT("messages/game-messages.yml", "party.announcement.format", Arrays.asList(
+            "",
+            "&6&lPublic Party Invite",
+            " &6&l│ &fLeader: &6{name-color}{leader}",
+            " &6&l│ &fPlayers: &6{party-size}&f/&6N/A",
+            "{clickable}",
+            ""
+    )),
 
     ;
 

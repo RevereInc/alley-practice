@@ -23,11 +23,8 @@ import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.server.ServerService;
 import lombok.Getter;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
@@ -107,15 +104,26 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         DuelRequest duelRequest = new DuelRequest(sender, finalTarget, kit, finalArena, isPartyDuel);
         this.addDuelRequest(duelRequest);
 
-        List<String> messages = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT);
-        messages.forEach(message -> sender.sendMessage(CC.translate(message
-                .replace("{target}", finalTarget.getName())
-                .replace("{kit}", kit.getName())
-                .replace("{arena}", Objects.requireNonNull(arena).getDisplayName())
-                .replace("{type}", isPartyDuel ? "Party Duel" : "Duel")
-        )));
+        if (isPartyDuel) {
+            List<String> messages = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_PARTY);
+            messages.forEach(message -> sender.sendMessage(CC.translate(message
+                    .replace("{name-color}", String.valueOf(initialTargetProfile.getNameColor()))
+                    .replace("{target}", Objects.requireNonNull(targetParty).getLeader().getName())
+                    .replace("{kit}", kit.getName())
+                    .replace("{arena}", Objects.requireNonNull(arena).getDisplayName())
+                    .replace("{party-size}", String.valueOf(senderParty.getMembers().size()))
+            )));
+        } else {
+            List<String> messages = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_SOLO);
+            messages.forEach(message -> sender.sendMessage(CC.translate(message
+                    .replace("{name-color}", String.valueOf(initialTargetProfile.getNameColor()))
+                    .replace("{target}", finalTarget.getName())
+                    .replace("{kit}", kit.getName())
+                    .replace("{arena}", Objects.requireNonNull(arena).getDisplayName())
+            )));
+        }
 
-        sendInvite(sender, finalTarget, kit, finalArena, isPartyDuel);
+        this.sendInvite(sender, finalTarget, kit, finalArena, isPartyDuel);
     }
 
     @Override
@@ -258,55 +266,43 @@ public class DuelRequestServiceImpl implements DuelRequestService {
      * @param arena  the arena
      */
     private void sendInvite(Player sender, Player target, Kit kit, Arena arena, boolean isParty) {
-        String title = isParty ? "&6&lParty Duel Request" : "&6&lDuel Request";
-        TextComponent fromComponent = new TextComponent();
+        List<String> message;
+        String command;
+        String hover;
+        String format;
+        TextComponent clickable;
+
         if (isParty) {
-            Party senderParty = this.profileService.getProfile(sender.getUniqueId()).getParty();
-            int partySize = (senderParty != null) ? senderParty.getMembers().size() : 1;
-
-            fromComponent.setText(CC.translate(String.format("&f&l ● &fFrom: &6%s's Party (&a%d&6)", sender.getName(), partySize)));
-
-            StringBuilder hoverText = new StringBuilder();
-            hoverText.append(CC.translate("&6&lParticipants:\n"));
-
-            if (senderParty != null) {
-                List<UUID> members = new ArrayList<>(senderParty.getMembers());
-                final int limit = 5;
-                int displayCount = Math.min(members.size(), limit);
-
-                for (int i = 0; i < displayCount; i++) {
-                    OfflinePlayer member = Bukkit.getOfflinePlayer(members.get(i));
-                    hoverText.append("&6").append(member.getName());
-
-                    if (i < displayCount - 1) {
-                        hoverText.append("&f, ");
-                    }
-                }
-
-                if (members.size() > limit) {
-                    hoverText.append("&f, ...");
-                }
-            }
-
-            HoverEvent hoverEvent = new HoverEvent(HoverEvent.Action.SHOW_TEXT, new BaseComponent[]{new TextComponent(CC.translate(hoverText.toString()))});
-            fromComponent.setHoverEvent(hoverEvent);
-
+            command = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
+            hover = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_HOVER).replace("{sender}", sender.getName());
+            format = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_FORMAT);
+            message = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY);
         } else {
-            fromComponent.setText(CC.translate("&f&l ● &fFrom: &6" + sender.getName()));
+            command = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
+            hover = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_HOVER).replace("{sender}", sender.getName());
+            format = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_FORMAT);
+            message = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO);
         }
 
-        TextComponent arenaComponent = new TextComponent(CC.translate("&f&l ● &fArena: &6" + arena.getDisplayName()));
-        TextComponent kitComponent = new TextComponent(CC.translate("&f&l ● &fKit: &6" + kit.getName()));
+        clickable = ClickableUtil.createComponent(
+                format,
+                command,
+                hover
+        );
 
-        TextComponent acceptComponent = getClickable(sender);
+        message.forEach(line -> {
+            line = line.replace("{sender}", sender.getName())
+                    .replace("{name-color}", String.valueOf(this.profileService.getProfile(sender.getUniqueId()).getNameColor()))
+                    .replace("{kit}", kit.getName())
+                    .replace("{arena}", arena.getDisplayName())
+                    .replace("{party-size}", isParty ? String.valueOf(Objects.requireNonNull(this.profileService.getProfile(sender.getUniqueId()).getParty()).getMembers().size()) : "1");
 
-        target.sendMessage("");
-        target.spigot().sendMessage(new TextComponent(CC.translate(title)));
-        target.spigot().sendMessage(fromComponent);
-        target.spigot().sendMessage(arenaComponent);
-        target.spigot().sendMessage(kitComponent);
-        target.spigot().sendMessage(acceptComponent);
-        target.sendMessage("");
+            if (line.contains("{clickable}")) {
+                target.spigot().sendMessage(clickable);
+            } else {
+                target.sendMessage(CC.translate(line));
+            }
+        });
     }
 
     /**
@@ -381,19 +377,5 @@ public class DuelRequestServiceImpl implements DuelRequestService {
      */
     public void removeDuelRequest(DuelRequest duelRequest) {
         this.duelRequests.remove(duelRequest);
-    }
-
-    /**
-     * Get the clickable component for the duel request.
-     *
-     * @param sender the sender
-     * @return the clickable component
-     */
-    private TextComponent getClickable(Player sender) {
-        return ClickableUtil.createComponent(
-                " &a(Click To Accept)",
-                "/accept " + sender.getName(),
-                "&aClick to accept &6" + sender.getName() + "&a's duel request."
-        );
     }
 }

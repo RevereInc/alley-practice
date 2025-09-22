@@ -4,8 +4,8 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.kit.Kit;
@@ -18,7 +18,6 @@ import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -231,10 +230,10 @@ public class RoundsMatch extends DefaultMatch {
             message.forEach(line -> this.notifyAll(line
                     .replace("{scorer}", scorer)
                     .replace("{winner}", winner.getLeader().getUsername())
-                    .replace("{winner-color}", ChatColor.stripColor(this.getTeamColor(winner).toString()))
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
                     .replace("{winner-goals}", String.valueOf(winner.getLeader().getData().getScore()))
                     .replace("{loser}", loser.getLeader().getUsername())
-                    .replace("{loser-color}", ChatColor.stripColor(this.getTeamColor(loser).toString()))
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
                     .replace("{loser-goals}", String.valueOf(loser.getLeader().getData().getScore()))
                     .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
                     .replace("{max-rounds}", String.valueOf(this.rounds))

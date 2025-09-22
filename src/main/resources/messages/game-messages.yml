@@ -1,13 +1,75 @@
 duel:
   request:
     sent:
+      solo:
+        format:
+          - ''
+          - '&6&lDuel Request'
+          - ' &6&l│ &fTarget: &6{name-color}{target}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ''
+      party:
+        format:
+          - ''
+          - '&6&lParty Duel Request'
+          - ' &6&l│ &fTarget: &6{name-color}{target}&f''s Party &6(&a{party-size}&6)'
+          - ' &6&l│ &fKit: &6{kit}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ''
+    received:
+      solo:
+        clickable:
+          format: ' &a(Click To Accept)'
+          command: /accept {sender}
+          hover: '&aClick to accept &6{sender}&a''s duel request.'
+        format:
+          - ''
+          - '&6&lDuel Request'
+          - ' &6&l│ &fFrom: &6{name-color}{sender}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - '{clickable}'
+          - ''
+      party:
+        clickable:
+          format: ' &a(Click To Accept)'
+          command: /accept {sender}
+          hover: '&aClick to accept &6{sender}&a''s party duel request.'
+        format:
+          - ''
+          - '&6&lParty Duel Request'
+          - ' &6&l│ &fFrom: &6{name-color}{sender}&f''s Party &6(&a{party-size}&6)'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - '{clickable}'
+          - ''
+ffa:
+  killstreak-alert:
+    enabled: true
+    interval: 5
+    message:
       - ''
-      - '&6&l{type} Request'
-      - ' &6&l│ &fTarget: &e{target}'
-      - ' &6&l│ &fKit: &e{kit}'
-      - ' &6&l│ &fArena: &e{arena}'
+      - '&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
       - ''
-
+  player-join:
+    enabled: false
+    message:
+      - '&a{name-color}{player} &ahas joined the FFA match.'
+  player-left:
+    enabled: false
+    message:
+      - '&c{name-color}{player} &chas left the FFA match.'
+  player-died:
+    enabled: true
+    message:
+      - '&c{name-color}{player} &fhas died!'
+  player-killed-player:
+    enabled: true
+    message:
+      - '&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!'
+game:
+  cannot-drop-sword: '&cYou cannot drop your sword!'
 match:
   started:
     kit-disclaimer:
@@ -26,6 +88,14 @@ match:
         enabled: true
         format:
           - '&fRound {current-round} has started.'
+    versus:
+      solo:
+        format:
+          - '&7[&6Match&7] &6{playerA} &avs &6{playerB}'
+      team:
+        format:
+          - '&7[&6Match&7] &6{teamA-leader}''s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}''s
+          Team &7(&a{teamB-size}&7)'
   starting:
     message:
       enabled: true
@@ -102,12 +172,51 @@ match:
     enabled: true
     format:
       - '&4{name-color}{player} &ffelt like being a nerd and reset the blocks!'
-
-ffa:
-  killstreak-alert:
-    enabled: true
-    interval: 5
-    message:
+  platform-decay:
+    will-no-longer-decay:
+      - '&c&lThe platform will no longer decay!'
+    notifications:
+      '75':
+        format:
+          - '&6The arena has begun to crumble...'
+        sound: DIG_STONE
+      '50':
+        format:
+          - '&e&lWARNING! &eThe arena has shrunk by half!'
+        sound: WITHER_HURT
+      '25':
+        format:
+          - '&c&lDANGER! &cThe platform is collapsing fast!'
+        sound: ENDERDRAGON_GROWL
+party:
+  invitation:
+    received:
+      clickable:
+        format: ' &a(Click To Accept)'
+        command: /party accept {sender}
+        hover: '&aClick to accept &6{sender}&a''s party invitation.'
+      format:
+        - ''
+        - '&6&lParty Invitation'
+        - ' &6&l│ &fFrom: &6{name-color}{sender}'
+        - ' &6&l│ &fPlayers: &6{party-size}&f/&6N/A'
+        - '{clickable}'
+        - ''
+    sent:
+      format:
+        - ''
+        - '&6&lParty Invitation Sent'
+        - ' &6&l│ &fTarget: &6{name-color}{target}'
+        - ''
+  announcement:
+    clickable:
+      format: ' &a(Click To Join)'
+      command: /party join {leader}
+      hover: '&aClick to join &6{leader}&a''s party.'
+    format:
       - ''
-      - '&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
+      - '&6&lPublic Party Invite'
+      - ' &6&l│ &fLeader: &6{name-color}{leader}'
+      - ' &6&l│ &fPlayers: &6{party-size}&f/&6N/A'
+      - '{clickable}'
       - ''

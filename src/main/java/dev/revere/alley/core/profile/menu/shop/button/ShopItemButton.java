@@ -60,7 +60,6 @@ public class ShopItemButton extends Button {
 
         if (player.hasPermission(cosmetic.getPermission())) {
             player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_OWNED));
-            player.sendMessage(CC.translate("&cYou already own this cosmetic."));
             this.playFail(player);
             return;
         }

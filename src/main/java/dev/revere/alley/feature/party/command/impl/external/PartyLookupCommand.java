@@ -46,10 +46,12 @@ public class PartyLookupCommand extends BaseCommand {
 
         List<String> message = this.getMessageList(GlobalMessagesLocaleImpl.PARTY_LOOKUP);
         message.replaceAll(line -> line
+                .replace("{name-color}", String.valueOf(this.getProfile(party.getLeader().getUniqueId()).getNameColor()))
                 .replace("{leader}", party.getLeader().getName())
                 .replace("{members}", String.valueOf(party.getMembers().size()))
                 .replace("{status}", party.getState().getName())
-                .replace("{privacy}", party.getState().getDescription())
+                .replace("{privacy-desc}", party.getState().getDescription())
+                .replace("{privacy}", party.getState().getName())
         );
 
         message.forEach(line -> player.sendMessage(CC.translate(line)));
