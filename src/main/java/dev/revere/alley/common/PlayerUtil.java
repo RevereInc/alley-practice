@@ -3,8 +3,8 @@ package dev.revere.alley.common;
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.cosmetic.CosmeticService;
 import dev.revere.alley.feature.cosmetic.internal.repository.SuitRepository;
@@ -79,7 +79,7 @@ public class PlayerUtil {
      * @param player the player to start flying.
      */
     public boolean canFly(Player player) {
-        return inLobby(player) && player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_DONATOR_LOBBY_FLIGHT_BYPASS));
+        return inLobby(player) && player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.PERMISSION_DONATOR_LOBBY_FLIGHT_BYPASS));
     }
 
     /**

@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -37,7 +36,7 @@ public class TrollCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -60,7 +59,7 @@ public class TrollCommand extends BaseCommand {
             Logger.error("An error occurred while trying to troll " + targetPlayer.getName() + ": " + ex.getMessage());
         }
 
-        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_DEMO_MENU_OPENED)
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_DEMO_MENU_OPENED)
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
                 .replace("{player}", targetPlayer.getName())
         );

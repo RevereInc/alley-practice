@@ -38,19 +38,19 @@ public class LevelAdminViewCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
             return;
         }
 
         Arrays.asList(
                 "",
                 "&6&lLevel Information:",
-                " &f● &6Name: &e" + level.getName(),
-                " &f● &6Display Name: &e" + level.getDisplayName(),
-                " &f● &6Minimum Elo: &e" + level.getMinElo(),
-                " &f● &6Maximum Elo: &e" + level.getMaxElo(),
-                " &f● &6Material: &e" + level.getMaterial().name(),
-                " &f● &6Durability: &e" + level.getDurability(),
+                " &f◆ &6Name: &e" + level.getName(),
+                " &f◆ &6Display Name: &e" + level.getDisplayName(),
+                " &f◆ &6Minimum Elo: &e" + level.getMinElo(),
+                " &f◆ &6Maximum Elo: &e" + level.getMaxElo(),
+                " &f◆ &6Material: &e" + level.getMaterial().name(),
+                " &f◆ &6Durability: &e" + level.getDurability(),
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
     }

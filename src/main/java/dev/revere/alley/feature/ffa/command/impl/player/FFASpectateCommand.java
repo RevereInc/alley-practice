@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
@@ -38,7 +37,7 @@ public class FFASpectateCommand extends BaseCommand {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
@@ -50,13 +49,13 @@ public class FFASpectateCommand extends BaseCommand {
                 .orElse(null);
 
         if (ffaKit == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", ffaKitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", ffaKitName));
             return;
         }
 
         if (!ffaKit.isFfaEnabled()) {
             //should never happen, but just in case
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_DISABLED));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_DISABLED));
             return;
         }
 
@@ -66,12 +65,12 @@ public class FFASpectateCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", ffaKitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", ffaKitName));
             return;
         }
 
         if (match.getSpectators().contains(player.getUniqueId())) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_SPECTATING_FFA));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_SPECTATING_FFA));
             return;
         }
 

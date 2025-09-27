@@ -25,7 +25,7 @@ public class NightCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
 
         profile.getProfileData().getSettingData().setTimeNight(player);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                 .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
         );
     }

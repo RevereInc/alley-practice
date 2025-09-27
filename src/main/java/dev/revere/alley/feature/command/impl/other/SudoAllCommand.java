@@ -4,7 +4,6 @@ import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleIm
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -34,6 +33,6 @@ public class SudoAllCommand extends BaseCommand {
             onlinePlayer.chat(message);
         }
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.OTHER_SUDO_ALL_PLAYERS).replace("{message}", message));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.OTHER_SUDO_ALL_PLAYERS).replace("{message}", message));
     }
 }

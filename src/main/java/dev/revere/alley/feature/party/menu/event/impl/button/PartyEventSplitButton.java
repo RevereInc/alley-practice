@@ -47,7 +47,7 @@ public class PartyEventSplitButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        if (player.hasPermission(this.plugin.getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_DONATOR_PARTY_ARENA_SELECTOR))) {
+        if (player.hasPermission(this.plugin.getService(LocaleService.class).getString(SettingsLocaleImpl.PERMISSION_DONATOR_PARTY_ARENA_SELECTOR))) {
             new PartyEventSplitArenaSelectorMenu(this.kit).openMenu(player);
             return;
         }
@@ -55,7 +55,7 @@ public class PartyEventSplitButton extends Button {
         Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
         if (party == null) {
             player.closeInventory();
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 

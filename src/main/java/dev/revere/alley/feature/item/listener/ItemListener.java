@@ -1,13 +1,14 @@
 package dev.revere.alley.feature.item.listener;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.cooldown.Cooldown;
 import dev.revere.alley.feature.cooldown.CooldownService;
 import dev.revere.alley.feature.cooldown.CooldownType;
 import dev.revere.alley.feature.item.ItemService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +43,7 @@ public class ItemListener implements Listener {
         if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK) {
             return;
         }
-        
+
         ItemService itemService = AlleyPlugin.getInstance().getService(ItemService.class);
         if (item.isSimilar(itemService.getGoldenHead())) {
             event.setCancelled(true);
@@ -60,16 +61,19 @@ public class ItemListener implements Listener {
      * @return true if the player is on cooldown, false otherwise.
      */
     private boolean isOnHeadCooldown(Player player) {
-        CooldownType cooldownType = CooldownType.GOLDEN_HEAD_CONSUME;
         CooldownService cooldownService = AlleyPlugin.getInstance().getService(CooldownService.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        CooldownType cooldownType = CooldownType.GOLDEN_HEAD_CONSUME;
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(CC.translate("&cYou must wait " + optionalCooldown.get().remainingTimeInMinutes() + " &cbefore consuming another &6&lGolden Head&c."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT));
             return true;
         }
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(cooldownType, () -> player.sendMessage(CC.translate("&aYou can now use &6&lGolden Head&a's again.")));
+            Cooldown newCooldown = new Cooldown(cooldownType, () -> {
+            });
             cooldownService.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
             return newCooldown;
         });

@@ -7,7 +7,8 @@ import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.core.locale.LocaleEntry;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.*;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -82,7 +83,7 @@ public class LocaleServiceImpl implements LocaleService {
     }
 
     @Override
-    public String getMessage(LocaleEntry entry) {
+    public String getString(LocaleEntry entry) {
         FileConfiguration config = this.configService.getConfig(entry.getConfigName());
         if (config.contains(entry.getConfigPath())) {
             return CC.translate(config.getString(entry.getConfigPath()));
@@ -94,7 +95,7 @@ public class LocaleServiceImpl implements LocaleService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<String> getMessageList(LocaleEntry entry) {
+    public List<String> getStringList(LocaleEntry entry) {
         FileConfiguration config = this.configService.getConfig(entry.getConfigName());
         if (config.contains(entry.getConfigPath())) {
             return CC.translateList(config.getStringList(entry.getConfigPath()));
@@ -106,7 +107,7 @@ public class LocaleServiceImpl implements LocaleService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<String> getListRaw(LocaleEntry entry) {
+    public List<String> getStringListRaw(LocaleEntry entry) {
         FileConfiguration config = this.configService.getConfig(entry.getConfigName());
         if (config.contains(entry.getConfigPath())) {
             return config.getStringList(entry.getConfigPath());
@@ -150,7 +151,7 @@ public class LocaleServiceImpl implements LocaleService {
     }
 
     @Override
-    public void setMessage(LocaleEntry entry, String message) {
+    public void setString(LocaleEntry entry, String message) {
         FileConfiguration config = this.configService.getConfig(entry.getConfigName());
         config.set(entry.getConfigPath(), message);
         File file = this.configService.getConfigFile(entry.getConfigName());

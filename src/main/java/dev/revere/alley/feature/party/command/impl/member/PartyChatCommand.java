@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ChatChannel;
@@ -8,7 +9,6 @@ import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -47,12 +47,12 @@ public class PartyChatCommand extends BaseCommand {
         }
 
         if (profile.getParty() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
         if (!profile.getProfileData().getSettingData().isPartyMessagesEnabled()) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_CHAT_DISABLED)));
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_CHAT_DISABLED)));
             return;
         }
 

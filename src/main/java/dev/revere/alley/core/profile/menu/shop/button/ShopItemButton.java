@@ -59,26 +59,26 @@ public class ShopItemButton extends Button {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (player.hasPermission(cosmetic.getPermission())) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_OWNED));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_OWNED));
             this.playFail(player);
             return;
         }
 
         if (profile.getProfileData().getCoins() < cosmetic.getPrice()) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_INSUFFICIENT_FUNDS));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_INSUFFICIENT_FUNDS));
             this.playFail(player);
             return;
         }
 
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
-        String command = localeService.getMessage(SettingsLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
+        String command = localeService.getString(SettingsLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
                 .replace("{player}", player.getName())
                 .replace("{permission}", cosmetic.getPermission());
 
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
 
-        player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_SUCCESS).replace("{cosmetic}", cosmetic.getName()));
+        player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_SUCCESS).replace("{cosmetic}", cosmetic.getName()));
         this.playSuccess(player);
     }
 }

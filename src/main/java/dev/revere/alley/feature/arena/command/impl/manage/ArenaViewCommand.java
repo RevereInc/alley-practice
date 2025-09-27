@@ -1,14 +1,19 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.arena.internal.types.FreeForAllArena;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+
+import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author Emmy
@@ -37,7 +42,7 @@ public class ArenaViewCommand extends BaseCommand {
 
         Arena arena = arenaService.getArenaByName(args[0]);
         if (arena == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[0]));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", args[0]));
             return;
         }
 
@@ -45,29 +50,60 @@ public class ArenaViewCommand extends BaseCommand {
 
         sender.sendMessage("");
         sender.sendMessage(CC.translate("&6&lArena " + arena.getName() + " &f(" + (arena.isEnabled() ? "&aEnabled" : "&cDisabled") + "&f)"));
-        sender.sendMessage(CC.translate(" &f● &6Display Name: &f" + arena.getDisplayName()));
-        sender.sendMessage(CC.translate(" &f● &6Name: &f" + arena.getName()));
-        sender.sendMessage(CC.translate(" &f● &6Type: &f" + arena.getType()));
-        sender.sendMessage(CC.translate("    &6&lData: &f"));
-        sender.sendMessage(CC.translate("    &f• &6Center: &f" + (arena.getCenter() != null ? arena.getCenter().getX() + ", " + arena.getCenter().getY() + ", " + arena.getCenter().getZ() + ", &7" + arena.getCenter().getPitch() + ", " + arena.getCenter().getYaw() + " &7[" + arena.getCenter().getWorld().getName() + "]" : "&cNull")));
-        sender.sendMessage(CC.translate("    &f• &6Pos1: &f" + (arena.getPos1() != null ? arena.getPos1().getX() + ", " + arena.getPos1().getY() + ", " + arena.getPos1().getZ() + ", &7" + arena.getPos1().getPitch() + ", " + arena.getPos1().getYaw() + " &7[" + arena.getPos1().getWorld().getName() + "]" : "&cNull")));
-        sender.sendMessage(CC.translate("    &f• &6Pos2: &f" + (arena.getPos2() != null ? arena.getPos2().getX() + ", " + arena.getPos2().getY() + ", " + arena.getPos2().getZ() + ", &7" + arena.getPos2().getPitch() + ", " + arena.getPos2().getYaw() + " &7[" + arena.getPos2().getWorld().getName() + "]" : "&cNull")));
+        sender.sendMessage(CC.translate(" &6&l│ &rDisplay Name: &6" + arena.getDisplayName()));
+        sender.sendMessage(CC.translate(" &6&l│ &rType: &6" + arena.getType()));
+        sender.sendMessage(CC.translate(" &6&l│ &rKits: &6" + (arena.getKits().isEmpty() ? "None" : String.join(", ", arena.getKits()))));
+        if (arena instanceof FreeForAllArena) {
+            FreeForAllArena ffaArena = (FreeForAllArena) arena;
+            sender.sendMessage(CC.translate(" &6&l│ &rSafe Zones:"));
+            sender.sendMessage(CC.translate("   &6&l◆ &fPos1 &7(Minimum)&f: &6" + (ffaArena.getMinimum() != null ? this.formatBlockLocation(ffaArena.getMinimum()) : "Not Set")));
+            sender.sendMessage(CC.translate("   &6&l◆ &fPos2 &7(Maximum)&f: &6" + (ffaArena.getMaximum() != null ? this.formatBlockLocation(ffaArena.getMaximum()) : "Not Set")));
+            sender.sendMessage(CC.translate(" &6&l│ &rPositions:"));
+            sender.sendMessage(CC.translate("   &6&l◆ &fCenter &7(Spectator)&f: &6" + (ffaArena.getCenter() != null ? formatFullLocation(ffaArena.getCenter()) : "&cNull")));
+            sender.sendMessage(CC.translate("   &6&l◆ &fPos1: &6" + (ffaArena.getPos1() != null ? this.formatFullLocation(ffaArena.getPos1()) : "&cNull")));
+        } else {
+            sender.sendMessage(CC.translate(" &6&l│ &rMinimum: &6" + (arena.getMinimum() != null ? this.formatBlockLocation(arena.getMinimum()) : "Not Set")));
+            sender.sendMessage(CC.translate(" &6&l│ &rMaximum: &6" + (arena.getMaximum() != null ? this.formatBlockLocation(arena.getMaximum()) : "Not Set")));
+            sender.sendMessage(CC.translate(" &6&l│ &rPositions:"));
+            sender.sendMessage(CC.translate("   &6&l◆ &fCenter &7(Spectator)&f: &6" + (arena.getCenter() != null ? this.formatFullLocation(arena.getCenter()) : "&cNull")));
+            sender.sendMessage(CC.translate("   &6&l◆ &fBlue: &6" + (arena.getPos1() != null ? this.formatFullLocation(arena.getPos1()) : "&cNull")));
+            sender.sendMessage(CC.translate("   &6&l◆ &fRed: &6" + (arena.getPos2() != null ? this.formatFullLocation(arena.getPos2()) : "&cNull")));
+        }
 
         if (arena instanceof StandAloneArena) {
-            StandAloneArena standAloneArena = (StandAloneArena) arena;
-            sender.sendMessage(CC.translate("    &f• &6Portal 1: &f" + (standAloneArena.getTeam1Portal() != null ? standAloneArena.getTeam1Portal().getX() + ", " + standAloneArena.getTeam1Portal().getY() + ", " + standAloneArena.getTeam1Portal().getZ() + " &7[" + standAloneArena.getTeam1Portal().getWorld().getName() + "]" : "&cNull")));
-            sender.sendMessage(CC.translate("    &f• &6Portal 2: &f" + (standAloneArena.getTeam2Portal() != null ? standAloneArena.getTeam2Portal().getX() + ", " + standAloneArena.getTeam2Portal().getY() + ", " + standAloneArena.getTeam2Portal().getZ() + " &7[" + standAloneArena.getTeam2Portal().getWorld().getName() + "]" : "&cNull")));
-            sender.sendMessage(CC.translate("    &f• &6Height Limit: &f" + standAloneArena.getHeightLimit()));
+            StandAloneArena standaloneArena = (StandAloneArena) arena;
+            sender.sendMessage(CC.translate(" &6&l│ &rTeam Portals:"));
+            sender.sendMessage(CC.translate("   &6&l◆ &fBlue: &6" + (standaloneArena.getTeam1Portal() != null ? this.formatBlockLocation(standaloneArena.getTeam1Portal()) : "&cNull")));
+            sender.sendMessage(CC.translate("   &6&l◆ &fRed: &6" + (standaloneArena.getTeam2Portal() != null ? this.formatBlockLocation(standaloneArena.getTeam2Portal()) : "&cNull")));
+            sender.sendMessage(CC.translate(" &6&l│ &rPortal Radius: &6" + standaloneArena.getPortalRadius()));
+            sender.sendMessage(CC.translate(" &6&l│ &rHeight Limit: &6" + standaloneArena.getHeightLimit()));
+            sender.sendMessage(CC.translate(" &6&l│ &rVoid Level: &6" + standaloneArena.getVoidLevel()));
         }
 
-        sender.sendMessage(CC.translate("    &f• &6Cuboid:"));
-        sender.sendMessage(CC.translate("     &f- &6Minimum: &f" + (arena.getMinimum() != null ? arena.getMinimum().getX() + ", " + arena.getMinimum().getY() + ", " + arena.getMinimum().getZ() + " &7[" + arena.getMinimum().getWorld().getName() + "]" : "&cNull")));
-        sender.sendMessage(CC.translate("     &f- &6Maximum: &f" + (arena.getMaximum() != null ? arena.getMaximum().getX() + ", " + arena.getMaximum().getY() + ", " + arena.getMaximum().getZ() + " &7[" + arena.getMaximum().getWorld().getName() + "]" : "&cNull")));
-        sender.sendMessage(CC.translate("   &f• &6Kits: &f(" + arena.getKits().size() + ")"));
-        if (arena.getKits().isEmpty()) {
-            sender.sendMessage(CC.translate("    &f- &cNo Kits added yet."));
-        } else {
-            arena.getKits().forEach(kit -> sender.sendMessage(CC.translate("    &f- &6" + kit)));
-        }
+        sender.sendMessage("");
+    }
+
+    private String formatBlockLocation(Location loc) {
+        if (loc == null) return "Not Set";
+
+        return String.format(Locale.ENGLISH, "%.1f, %.1f, %.1f &7[%s]",
+                loc.getX(),
+                loc.getY(),
+                loc.getZ(),
+                Objects.requireNonNull(loc.getWorld()).getName()
+        );
+    }
+
+    private String formatFullLocation(Location loc) {
+        if (loc == null) return "&cNull";
+
+        return String.format(Locale.ENGLISH, "%.1f, %.1f, %.1f, &7%.0f, %.0f &7[%s]",
+                loc.getX(),
+                loc.getY(),
+                loc.getZ(),
+                loc.getPitch(),
+                loc.getYaw(),
+                Objects.requireNonNull(loc.getWorld()).getName()
+        );
     }
 }

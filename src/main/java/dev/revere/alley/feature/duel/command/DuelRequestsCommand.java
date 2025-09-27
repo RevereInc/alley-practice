@@ -26,13 +26,13 @@ public class DuelRequestsCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         if (this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_PLAYING_MATCH));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_PLAYING_MATCH));
             return;
         }
 
         ServerService serverService = this.plugin.getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

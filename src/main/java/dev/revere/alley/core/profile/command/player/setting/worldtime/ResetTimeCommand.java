@@ -26,6 +26,6 @@ public class ResetTimeCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
 
         profile.getProfileData().getSettingData().setTimeDefault(player);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_RESET));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_RESET));
     }
 }

@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.kit.command.impl.settings;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.setting.KitSettingService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -35,7 +35,7 @@ public class KitSetSettingCommand extends BaseCommand {
 
         Kit kit = this.plugin.getService(KitService.class).getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
@@ -50,7 +50,7 @@ public class KitSetSettingCommand extends BaseCommand {
         kit.getKitSettings().stream().filter(setting -> setting.getName().equalsIgnoreCase(settingName)).findFirst().ifPresent(setting -> setting.setEnabled(enabled));
         this.plugin.getService(KitService.class).saveKit(kit);
 
-        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_SETTING_SET))
+        player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_SETTING_SET))
                 .replace("{setting-name}", settingName)
                 .replace("{enabled}", String.valueOf(enabled))
                 .replace("{kit-name}", kit.getName())

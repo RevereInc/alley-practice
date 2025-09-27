@@ -62,10 +62,10 @@ public class FFACuboidListener implements Listener {
         if (isInCuboid != wasInCuboid) {
             if (isInCuboid) {
                 if (combatService.isPlayerInCombat(playerId)) return;
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.FFA_SPAWN_ENTERED));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.FFA_SPAWN_ENTERED));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.SPAWN));
             } else {
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.FFA_SPAWN_LEFT));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.FFA_SPAWN_LEFT));
                 ffaService.getMatchByPlayer(player).ifPresent(match -> match.getGameFFAPlayer(player).setState(FFAState.FIGHTING));
             }
 

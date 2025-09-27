@@ -35,7 +35,7 @@ public class PartyInfoCommand extends BaseCommand {
         Party party = partyService.getPartyByMember(player.getUniqueId());
 
         if (party == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
@@ -48,8 +48,8 @@ public class PartyInfoCommand extends BaseCommand {
                 .map(Player::getName)
                 .collect(Collectors.joining(", "));
 
-        List<String> info = this.getMessageList(GlobalMessagesLocaleImpl.PARTY_INFO);
-        String noMembersFormat = this.getMessage(GlobalMessagesLocaleImpl.PARTY_INFO_NO_MEMBERS_FORMAT);
+        List<String> info = this.getStringList(GlobalMessagesLocaleImpl.PARTY_INFO);
+        String noMembersFormat = this.getString(GlobalMessagesLocaleImpl.PARTY_INFO_NO_MEMBERS_FORMAT);
         for (String line : info) {
             player.sendMessage(CC.translate(line)
                     .replace("{name-color}", String.valueOf(this.getProfile(leaderUUID).getNameColor()))

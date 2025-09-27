@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.ffa.command.impl.player;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
@@ -37,19 +36,19 @@ public class FFAJoinCommand extends BaseCommand {
         String kitName = args[0];
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getParty() != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_LEAVE_PARTY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_LEAVE_PARTY));
             return;
         }
 
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 

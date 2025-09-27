@@ -60,6 +60,7 @@ import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
@@ -278,6 +279,10 @@ public abstract class Match {
      * @param player The player to register the objective for.
      */
     private void registerHealthObjectiveForPlayer(Player player) {
+
+        //TODO: remi thought itd be a great idea to use the "HEALTH BAR" setting based on action bars for "HEALTH BELOW NAME"
+        // "make everything more generic" - remi 2025
+
         if (!this.getKit().isSettingEnabled(KitSettingHealthBar.class)) {
             return;
         }
@@ -294,7 +299,7 @@ public abstract class Match {
         }
 
         objective.setDisplaySlot(DisplaySlot.BELOW_NAME);
-        objective.setDisplayName(ChatColor.RED + "\u2764");
+        objective.setDisplayName(ChatColor.RED + "❤");
     }
 
     /**
@@ -365,8 +370,16 @@ public abstract class Match {
 
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getProfileData().getLayoutData().getLayouts().size() > 1) {
+            ItemStack[] itemsToGive;
+
             LayoutData kitLayout = profile.getProfileData().getLayoutData().getLayouts().get(kit.getName()).get(0);
-            player.getInventory().setContents(kitLayout.getItems());
+            if (kitLayout == null) {
+                itemsToGive = kit.getItems();
+            } else {
+                itemsToGive = kitLayout.getItems();
+            }
+
+            player.getInventory().setContents(itemsToGive);
         } else {
             layoutService.giveBooks(player, kit.getName());
         }
@@ -496,16 +509,27 @@ public abstract class Match {
         return kit.isSettingEnabled(KitSettingStickFight.class) || kit.isSettingEnabled(KitSettingRounds.class);
     }
 
+    /**
+     * This method checks for the presence of a killer and their selected kill message pack,
+     * and sends a customized death message if applicable. If no custom message is found,
+     * it falls back to default death messages.
+     *
+     * @param victim        The player who died.
+     * @param killer        The player who got the kill (can be null).
+     * @param victimProfile The profile of the victim.
+     * @param killerProfile The profile of the killer (can be null).
+     * @param cause         The cause of the damage that led to death.
+     */
     private void handleDeathMessages(Player victim, Player killer, Profile victimProfile, Profile killerProfile, EntityDamageEvent.DamageCause cause) {
         if (killer == null || killerProfile == null) {
-            handleDefaultDeathMessages(victim, null, victimProfile);
+            this.handleDefaultDeathMessages(victim, null, victimProfile);
             return;
         }
 
         String selectedPackName = killerProfile.getProfileData().getCosmeticData().getSelected(CosmeticType.KILL_MESSAGE);
 
         if (selectedPackName == null || selectedPackName.equalsIgnoreCase("None")) {
-            handleDefaultDeathMessages(victim, killer, victimProfile);
+            this.handleDefaultDeathMessages(victim, killer, victimProfile);
             return;
         }
 
@@ -514,7 +538,7 @@ public abstract class Match {
         KillMessagePack pack = (KillMessagePack) repository.getCosmetic(selectedPackName);
 
         if (pack == null) {
-            handleDefaultDeathMessages(victim, killer, victimProfile);
+            this.handleDefaultDeathMessages(victim, killer, victimProfile);
             return;
         }
 
@@ -524,24 +548,40 @@ public abstract class Match {
             String finalMessage = messageTemplate.replace("{victim}", victimProfile.getNameColor() + victim.getName() + "&f");
             finalMessage = finalMessage.replace("{killer}", killerProfile.getNameColor() + killer.getName() + "&f");
 
-            this.notifyAll(CC.translate("&c&lDEATH! " + finalMessage));
-            processKillerStatActions(killer);
+            this.notifyAll(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_DEATH_MESSAGE_CUSTOM).replace("{message}", CC.translate(finalMessage)));
+            this.processKillerStatActions(killer);
         } else {
-            handleDefaultDeathMessages(victim, killer, victimProfile);
+            this.handleDefaultDeathMessages(victim, killer, victimProfile);
         }
     }
 
+    /**
+     * Handles sending default death messages when no custom kill message is applicable.
+     *
+     * @param victim        The player who died.
+     * @param killer        The player who got the kill (can be null).
+     * @param victimProfile The profile of the victim.
+     */
     private void handleDefaultDeathMessages(Player victim, Player killer, Profile victimProfile) {
         if (killer == null) {
-            this.notifyAll("&c&lDEATH! &r&c" + victimProfile.getFancyName() + " &fdied.");
+            this.notifyAll(CC.translate(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_DEATH_MESSAGE_GENERIC)
+                    .replace("{player}", victimProfile.getName())
+                    .replace("{name-color}", String.valueOf(victimProfile.getNameColor())))
+            );
         } else {
-            processKillerActions(victim, killer, victimProfile);
+            this.processKillerActions(victim, killer, victimProfile);
         }
     }
 
+    /**
+     * Processes actions related to the killer when a player is killed.
+     *
+     * @param victim        The player who died.
+     * @param killer        The player who got the kill.
+     * @param victimProfile The profile of the victim.
+     */
     private void processKillerActions(Player victim, Player killer, Profile victimProfile) {
-        processKillerStatActions(killer);
-
+        this.processKillerStatActions(killer);
 
         ProfileService profileService = this.plugin.getService(ProfileService.class);
         ReflectionService reflectionService = this.plugin.getService(ReflectionService.class);
@@ -550,9 +590,19 @@ public abstract class Match {
 
         reflectionService.getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, victim);
 
-        this.notifyAll("&c&lDEATH! &r&c" + victimProfile.getNameColor() + victim.getName() + " &fwas slain by &c" + killerProfile.getNameColor() + killer.getName() + "&f.");
+        this.notifyAll(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_DEATH_MESSAGE_GENERIC_KILLER)
+                .replace("{victim}", victimProfile.getNameColor() + victim.getName() + "&f")
+                .replace("{killer}", killerProfile.getNameColor() + killer.getName() + "&f")
+                .replace("{name-color}", String.valueOf(victimProfile.getNameColor()))
+                .replace("{killer-name-color}", String.valueOf(killerProfile.getNameColor()))
+        );
     }
 
+    /**
+     * Processes stat actions for the killer when they get a kill.
+     *
+     * @param killer The player who got the kill.
+     */
     private void processKillerStatActions(Player killer) {
         GameParticipant<MatchGamePlayer> killerParticipant = getParticipant(killer);
         if (killerParticipant != null) {
@@ -894,8 +944,9 @@ public abstract class Match {
                 .skip(3)
                 .forEach(player -> remainingSpectators.add(player.getEntityId()));
 
-        this.sendMessage("&6&lSpectators: &f" + String.join(", ", firstThreeSpectatorNames) +
-                (remainingSpectators.isEmpty() ? "" : " &7(and &6" + remainingSpectators.size() + " &7more...)"));
+        this.notifyAll(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_ENDED_SPECTATORS_LIST)
+                .replace("{spectators}", String.join(", ", firstThreeSpectatorNames))
+                .replace("{more_count}", String.valueOf(remainingSpectators.size())));
 
         this.spectators.forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid);
@@ -1290,32 +1341,33 @@ public abstract class Match {
     private void sendPlayerVersusPlayerMessage() {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
+        GameParticipant<MatchGamePlayer> participantA = this.getParticipants().get(0);
+        GameParticipant<MatchGamePlayer> participantB = this.getParticipants().get(1);
+
         if (this.isTeamMatch()) {
-            GameParticipant<MatchGamePlayer> participantA = this.getParticipants().get(0);
-            GameParticipant<MatchGamePlayer> participantB = this.getParticipants().get(1);
+            if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_TEAM_ENABLED_BOOLEAN)) {
+                int teamSizeA = participantA.getPlayerSize();
+                int teamSizeB = participantB.getPlayerSize();
 
-            int teamSizeA = participantA.getPlayerSize();
-            int teamSizeB = participantB.getPlayerSize();
-
-            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT);
-            for (String line : message) {
-                String formatted = line
-                        .replace("{teamA-leader}", participantA.getLeader().getUsername())
-                        .replace("{teamA-size}", String.valueOf(teamSizeA))
-                        .replace("{teamB-leader}", participantB.getLeader().getUsername())
-                        .replace("{teamB-size}", String.valueOf(teamSizeB));
-                this.sendMessage(formatted);
+                List<String> message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT);
+                for (String line : message) {
+                    String formatted = line
+                            .replace("{teamA-leader}", participantA.getLeader().getUsername())
+                            .replace("{teamA-size}", String.valueOf(teamSizeA))
+                            .replace("{teamB-leader}", participantB.getLeader().getUsername())
+                            .replace("{teamB-size}", String.valueOf(teamSizeB));
+                    this.sendMessage(formatted);
+                }
             }
         } else {
-            GameParticipant<MatchGamePlayer> participant = this.getParticipants().get(0);
-            GameParticipant<MatchGamePlayer> opponent = this.getParticipants().get(1);
-
-            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT);
-            for (String line : message) {
-                String formatted = line
-                        .replace("{playerA}", participant.getLeader().getUsername())
-                        .replace("{playerB}", opponent.getLeader().getUsername());
-                this.sendMessage(formatted);
+            if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_SOLO_ENABLED_BOOLEAN)) {
+                List<String> message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT);
+                for (String line : message) {
+                    String formatted = line
+                            .replace("{playerA}", participantA.getLeader().getUsername())
+                            .replace("{playerB}", participantB.getLeader().getUsername());
+                    this.sendMessage(formatted);
+                }
             }
         }
     }

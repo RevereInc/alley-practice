@@ -64,21 +64,23 @@ public class MatchInteractListener implements Listener {
 
                 LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-                String header = localeService.getMessage(VisualsLocaleImpl.TITLE_CHECKPOINT_HEADER);
-                String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_CHECKPOINT_FOOTER)
-                        .replace("{x}", String.valueOf(player.getLocation().getBlockX()))
-                        .replace("{y}", String.valueOf(player.getLocation().getBlockY()))
-                        .replace("{z}", String.valueOf(player.getLocation().getBlockZ()));
-                int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADE_IN);
-                int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_STAY);
-                int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADEOUT);
+                if (localeService.getBoolean(VisualsLocaleImpl.TITLE_CHECKPOINT_ENABLED_BOOLEAN)) {
+                    String header = localeService.getString(VisualsLocaleImpl.TITLE_CHECKPOINT_HEADER);
+                    String footer = localeService.getString(VisualsLocaleImpl.TITLE_CHECKPOINT_FOOTER)
+                            .replace("{x}", String.valueOf(player.getLocation().getBlockX()))
+                            .replace("{y}", String.valueOf(player.getLocation().getBlockY()))
+                            .replace("{z}", String.valueOf(player.getLocation().getBlockZ()));
+                    int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADE_IN);
+                    int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_STAY);
+                    int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADEOUT);
 
-                AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                        player,
-                        header,
-                        footer,
-                        fadeIn, stay, fadeOut
-                );
+                    AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                            player,
+                            header,
+                            footer,
+                            fadeIn, stay, fadeOut
+                    );
+                }
             }
 
             return;

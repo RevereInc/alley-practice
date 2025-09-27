@@ -56,7 +56,7 @@ public class QueueProfile {
 
         if (player != null) {
             if (localeService.getBoolean(VisualsLocaleImpl.ACTIONBAR_QUEUE_INDICATOR_ENABLED_BOOLEAN)) {
-                String message = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_QUEUE_INDICATOR_MESSAGE_FORMAT)
+                String message = localeService.getString(VisualsLocaleImpl.ACTIONBAR_QUEUE_INDICATOR_MESSAGE_FORMAT)
                         .replace("{queue-type}", this.queue.getQueueType())
                         .replace("{kit-name}", this.queue.getKit().getDisplayName())
                         .replace("{elapsed-time}", TimeUtil.getFormattedElapsedTime(getElapsedTime()));
@@ -72,7 +72,7 @@ public class QueueProfile {
         if (!this.queue.isRanked()) {
             if (player != null) {
                 if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_UNRANKED_BOOLEAN)) {
-                    List<String> lines = localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_UNRANKED);
+                    List<String> lines = localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_UNRANKED);
                     lines.replaceAll(line -> line.replace("{kit}", this.queue.getKit().getDisplayName()));
                     lines.forEach(line -> player.sendMessage(CC.translate(line)));
                 }
@@ -91,7 +91,7 @@ public class QueueProfile {
             if (player != null) {
                 if (this.range == this.MAX_RANGE) {
                     if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED_LIMIT_REACHED_BOOLEAN)) {
-                        for (String line : localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED_LIMIT_REACHED)) {
+                        for (String line : localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED_LIMIT_REACHED)) {
                             line = line.replace("{kit}", this.queue.getKit().getDisplayName())
                                     .replace("{min-elo}", String.valueOf(this.getMinimumElo()))
                                     .replace("{max-elo}", String.valueOf(this.getMaximumElo()));
@@ -100,7 +100,7 @@ public class QueueProfile {
                     }
                 } else {
                     if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED_BOOLEAN)) {
-                        for (String line : localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED)) {
+                        for (String line : localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_PROGRESSING_RANKED)) {
                             line = line.replace("{kit}", this.queue.getKit().getDisplayName())
                                     .replace("{min-elo}", String.valueOf(this.getMinimumElo()))
                                     .replace("{max-elo}", String.valueOf(this.getMaximumElo()));

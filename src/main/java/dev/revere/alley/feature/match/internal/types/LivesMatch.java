@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.match.internal.types;
 
+import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.MatchGamePlayerData;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -20,9 +20,6 @@ import org.bukkit.entity.Player;
 public class LivesMatch extends DefaultMatch {
     private final GameParticipant<MatchGamePlayer> participantA;
     private final GameParticipant<MatchGamePlayer> participantB;
-
-    private GameParticipant<MatchGamePlayer> winner;
-    private GameParticipant<MatchGamePlayer> loser;
 
     /**
      * Constructor for the MatchLivesImpl class.
@@ -65,7 +62,7 @@ public class LivesMatch extends DefaultMatch {
      * Reduces the life count of a player in the match.
      *
      * @param player The player whose life is to be reduced.
-     * @param data The MatchGamePlayerData of the player whose life is to be reduced.
+     * @param data   The MatchGamePlayerData of the player whose life is to be reduced.
      */
     public void reduceLife(Player player, MatchGamePlayerData data) {
         data.setLives(data.getLives() - 1);

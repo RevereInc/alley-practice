@@ -1,13 +1,15 @@
 package dev.revere.alley.core.database.task;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.duel.DuelRequest;
 import dev.revere.alley.feature.duel.DuelRequestService;
 import dev.revere.alley.feature.match.snapshot.SnapshotService;
-import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.PartyRequest;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -88,8 +90,25 @@ public class RepositoryCleanupTask extends BukkitRunnable {
                 return;
             }
 
-            duelRequest.getSender().sendMessage(CC.translate("&cYour duel request to " + duelRequest.getTarget().getName() + " has expired."));
-            duelRequest.getTarget().sendMessage(CC.translate("&cThe duel request from " + duelRequest.getSender().getName() + " has expired."));
+            LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+            if (localeService.getBoolean(GameMessagesLocaleImpl.DUEL_REQUEST_EXPIRED_ENABLED_BOOLEAN)) {
+                List<String> senderMessage = localeService.getStringList(GameMessagesLocaleImpl.ERROR_DUEL_REQUESTS_EXPIRED);
+                for (String line : senderMessage) {
+                    duelRequest.getSender().sendMessage(CC.translate(line
+                            .replace("{target}", duelRequest.getTarget().getName()))
+                    );
+                }
+            }
+
+            if (localeService.getBoolean(GameMessagesLocaleImpl.DUEL_REQUEST_EXPIRED_TARGET_ENABLED_BOOLEAN)) {
+                List<String> targetMessage = localeService.getStringList(GameMessagesLocaleImpl.DUEL_REQUEST_EXPIRED_TARGET);
+                for (String line : targetMessage) {
+                    duelRequest.getTarget().sendMessage(CC.translate(line
+                            .replace("{sender}", duelRequest.getSender().getName()))
+                    );
+                }
+            }
         });
     }
 
@@ -104,8 +123,25 @@ public class RepositoryCleanupTask extends BukkitRunnable {
                 return;
             }
 
-            partyRequest.getSender().sendMessage(CC.translate("&cYour party request to &6" + partyRequest.getSender().getName() + " &chas expired."));
-            partyRequest.getTarget().sendMessage(CC.translate("&cThe party request from &6" + partyRequest.getTarget().getName() + " &chas expired."));
+            LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+            if (localeService.getBoolean(GameMessagesLocaleImpl.PARTY_REQUEST_EXPIRED_ENABLED_BOOLEAN)) {
+                List<String> senderMessage = localeService.getStringList(GameMessagesLocaleImpl.PARTY_REQUEST_EXPIRED);
+                for (String line : senderMessage) {
+                    partyRequest.getSender().sendMessage(CC.translate(line
+                            .replace("{target}", partyRequest.getTarget().getName()))
+                    );
+                }
+            }
+
+            if (localeService.getBoolean(GameMessagesLocaleImpl.PARTY_REQUEST_EXPIRED_TARGET_ENABLED_BOOLEAN)) {
+                List<String> targetMessage = localeService.getStringList(GameMessagesLocaleImpl.PARTY_REQUEST_EXPIRED_TARGET);
+                for (String line : targetMessage) {
+                    partyRequest.getTarget().sendMessage(CC.translate(line
+                            .replace("{sender}", partyRequest.getSender().getName()))
+                    );
+                }
+            }
         });
     }
 }

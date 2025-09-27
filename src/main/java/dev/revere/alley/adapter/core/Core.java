@@ -1,11 +1,11 @@
 package dev.revere.alley.adapter.core;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.level.LevelService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -103,15 +103,15 @@ public interface Core {
         String selectedTitle = CC.translate(profile.getProfileData().getSelectedTitle());
         String level = CC.translate(AlleyPlugin.getInstance().getService(LevelService.class).getLevel(profile.getProfileData().getGlobalLevel()).getDisplayName());
 
-        String tagAppearanceFormat = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
+        String tagAppearanceFormat = AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
                 .replace("{tag-color}", String.valueOf(tagColor))
                 .replace("{tag-prefix}", CC.translate(tagPrefix));
 
-        if (player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
+        if (player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
             eventMessage = CC.translate(eventMessage);
         }
 
-        return AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
+        return AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
                 .replace("{prefix}", prefix)
                 .replace("{rank-color}", String.valueOf(rankColor))
                 .replace("{name-color}", String.valueOf(nameColor))

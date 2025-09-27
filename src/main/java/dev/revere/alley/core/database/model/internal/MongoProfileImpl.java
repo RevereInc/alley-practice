@@ -4,13 +4,14 @@ import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.database.MongoService;
-import dev.revere.alley.core.database.model.DatabaseProfile;
-import dev.revere.alley.core.database.internal.MongoUtility;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.time.DateFormatter;
 import dev.revere.alley.common.time.DateFormat;
+import dev.revere.alley.common.time.DateFormatter;
+import dev.revere.alley.core.database.MongoService;
+import dev.revere.alley.core.database.internal.MongoUtility;
+import dev.revere.alley.core.database.model.DatabaseProfile;
+import dev.revere.alley.core.database.model.DatabaseType;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import org.bson.Document;
 
 import java.util.UUID;
@@ -21,11 +22,11 @@ import java.util.UUID;
  * @date 5/22/2024
  */
 public class MongoProfileImpl implements DatabaseProfile {
-    /**
-     * Saves a profile to the database.
-     *
-     * @param profile The profile to save.
-     */
+    @Override
+    public DatabaseType getType() {
+        return DatabaseType.MONGO;
+    }
+
     @Override
     public void saveProfile(Profile profile) {
         Document document = MongoUtility.toDocument(profile);
@@ -34,11 +35,6 @@ public class MongoProfileImpl implements DatabaseProfile {
                 .replaceOne(Filters.eq("uuid", profile.getUuid().toString()), document, new ReplaceOptions().upsert(true));
     }
 
-    /**
-     * Loads a profile from the database.
-     *
-     * @param profile The profile to load.
-     */
     @Override
     public void loadProfile(Profile profile) {
         if (profile.getUuid() == null) return;
@@ -55,11 +51,6 @@ public class MongoProfileImpl implements DatabaseProfile {
         MongoUtility.updateProfileFromDocument(profile, document);
     }
 
-    /**
-     * Archives a profile in the database.
-     *
-     * @param profile The profile to archive.
-     */
     @Override
     public void archiveProfile(Profile profile) {
         Document archiveDocument = new Document();

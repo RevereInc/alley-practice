@@ -4,6 +4,7 @@ import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.time.DateFormat;
 import dev.revere.alley.common.time.DateFormatter;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
@@ -42,13 +43,13 @@ public class PlaytimeCommand extends BaseCommand {
 
         OfflinePlayer targetPlayer = PlayerUtil.getOfflinePlayerByName(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(CC.translate("&cThe player you are trying to check is not online."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId());
         if (targetProfile == null) {
-            sender.sendMessage(CC.translate("&cThe player profile could not be found."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

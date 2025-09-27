@@ -97,7 +97,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         }
 
         if (finalArena == null) {
-            sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_NO_ARENA));
+            sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_NO_ARENA));
             return;
         }
 
@@ -105,7 +105,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         this.addDuelRequest(duelRequest);
 
         if (isPartyDuel) {
-            List<String> messages = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_PARTY);
+            List<String> messages = this.localeService.getStringList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_PARTY);
             messages.forEach(message -> sender.sendMessage(CC.translate(message
                     .replace("{name-color}", String.valueOf(initialTargetProfile.getNameColor()))
                     .replace("{target}", Objects.requireNonNull(targetParty).getLeader().getName())
@@ -114,7 +114,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
                     .replace("{party-size}", String.valueOf(senderParty.getMembers().size()))
             )));
         } else {
-            List<String> messages = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_SOLO);
+            List<String> messages = this.localeService.getStringList(GameMessagesLocaleImpl.DUEL_REQUEST_SENT_SOLO);
             messages.forEach(message -> sender.sendMessage(CC.translate(message
                     .replace("{name-color}", String.valueOf(initialTargetProfile.getNameColor()))
                     .replace("{target}", finalTarget.getName())
@@ -210,23 +210,23 @@ public class DuelRequestServiceImpl implements DuelRequestService {
      */
     private boolean isRequestInvalid(Player sender, Profile senderProfile, Player finalTarget, boolean isPartyDuel) {
         if (finalTarget == null) {
-            sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return true;
         }
 
         if (sender.equals(finalTarget)) {
-            sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_CANT_DUEL_SELF));
+            sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_CANT_DUEL_SELF));
             return true;
         }
 
         if (senderProfile.getState() != ProfileState.LOBBY) {
-            sender.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            sender.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return true;
         }
 
         Profile finalTargetProfile = this.profileService.getProfile(finalTarget.getUniqueId());
         if (finalTargetProfile.getState() != ProfileState.LOBBY) {
-            sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_IS_BUSY)
+            sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_PLAYER_IS_BUSY)
                     .replace("{name-color}", String.valueOf(finalTargetProfile.getNameColor()))
                     .replace("{player}", finalTarget.getName())
             );
@@ -235,11 +235,11 @@ public class DuelRequestServiceImpl implements DuelRequestService {
 
         if (isPartyDuel) {
             if (!senderProfile.getParty().isLeader(sender)) {
-                sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
+                sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
                 return true;
             }
             if (senderProfile.getParty().equals(finalTargetProfile.getParty())) {
-                sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_CANT_DUEL_SELF));
+                sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_CANT_DUEL_SELF));
                 return true;
             }
         } else {
@@ -250,7 +250,7 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         }
 
         if (getDuelRequest(sender, finalTarget) != null) {
-            sender.sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.DUEL_REQUEST_ALREADY_PENDING_PARTY));
+            sender.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_ALREADY_PENDING_PARTY));
             return true;
         }
 
@@ -273,15 +273,15 @@ public class DuelRequestServiceImpl implements DuelRequestService {
         TextComponent clickable;
 
         if (isParty) {
-            command = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
-            hover = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_HOVER).replace("{sender}", sender.getName());
-            format = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_FORMAT);
-            message = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY);
+            command = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
+            hover = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_HOVER).replace("{sender}", sender.getName());
+            format = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY_CLICKABLE_FORMAT);
+            message = this.localeService.getStringList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_PARTY);
         } else {
-            command = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
-            hover = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_HOVER).replace("{sender}", sender.getName());
-            format = this.localeService.getMessage(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_FORMAT);
-            message = this.localeService.getMessageList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO);
+            command = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_COMMAND).replace("{sender}", sender.getName());
+            hover = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_HOVER).replace("{sender}", sender.getName());
+            format = this.localeService.getString(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO_CLICKABLE_FORMAT);
+            message = this.localeService.getStringList(GameMessagesLocaleImpl.DUEL_REQUEST_RECEIVED_SOLO);
         }
 
         clickable = ClickableUtil.createComponent(
@@ -324,12 +324,12 @@ public class DuelRequestServiceImpl implements DuelRequestService {
 
         Profile profile = this.profileService.getProfile(duelRequest.getSender().getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            duelRequest.getSender().sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            duelRequest.getSender().sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return false;
         }
 
         if (duelRequest.getTarget() == null) {
-            duelRequest.getSender().sendMessage(this.localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            duelRequest.getSender().sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return false;
         }
 

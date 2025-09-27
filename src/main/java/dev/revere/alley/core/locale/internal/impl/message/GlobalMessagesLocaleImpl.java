@@ -33,6 +33,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ARENA_ASSIGNED_KIT_NULL("messages/global-messages.yml", "arena.error.assigned-kit-null", "&cThe kit &6{kit-name} &cis assigned to this arena but does not exist!"),
     ARENA_STANDALONE_PORTALS_NOT_SET("messages/global-messages.yml", "arena.error.standalone-portals-not-set", "&cYou must set both team portals! (/arena setportal)"),
     ARENA_IS_NOT_FFA("messages/global-messages.yml", "arena.error.is-not-ffa", "&cThis is not a Free-For-All arena!"),
+    ARENA_INVALID_SPAWN_TYPE("messages/global-messages.yml", "arena.error.invalid-spawn-type", "&cInvalid spawn type! Valid types: blue, red, ffa"),
 
     ARENA_SELECTION_TOOL_ADDED("messages/global-messages.yml", "arena.command.selection-tool.added", "&aSuccessfully added the selection tool to your inventory!"),
     ARENA_SELECTION_TOOL_REMOVED("messages/global-messages.yml", "arena.command.selection-tool.removed", "&cSuccessfully removed the selection tool from your inventory!"),
@@ -62,6 +63,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
 
     COOLDOWN_FIREBALL_MUST_WAIT("messages/global-messages.yml", "cooldown.fireball.must-wait", "&cYou must wait &6{time} &cbefore you can throw another fireball!"),
     COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT("messages/global-messages.yml", "cooldown.party-announce.must-wait", "&cYou must wait &6{time} &cbefore you can announce your party again!"),
+    COOLDOWN_GOLDEN_HEAD_MUST_WAIT("messages/global-messages.yml", "cooldown.golden-head.must-wait", "&cYou must wait &6{time} &cbefore you can eat another golden head!"),
 
     COSMETIC_NOT_OWNED("messages/global-messages.yml", "cosmetics.not-owned", "&cYou do not own the &6{cosmetic-name}&c cosmetic!"),
     COSMETIC_SELECTED("messages/global-messages.yml", "cosmetics.selected", "&aSuccessfully selected the &6{cosmetic-name} &acosmetic!"),
@@ -75,6 +77,12 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     COSMETIC_ALREADY_OWNED("messages/global-messages.yml", "cosmetics.error.already-owner", "&cYou already own this cosmetic."),
     COSMETIC_PURCHASE_SUCCESS("messages/global-messages.yml", "cosmetics.purchase-success", "&aSuccessfully purchased the &6{cosmetic} &acosmetic!"),
     COSMETIC_PURCHASE_INSUFFICIENT_FUNDS("messages/global-messages.yml", "cosmetics.error.purchase-insufficient-funds", "&cYou don't have enough coins to purchase this."),
+
+    CHAT_CHANNEL_NOT_EXIST("messages/global-messages.yml", "chat.error.channel-not-exist", "&cThe chat channel &6{channel} &cdoes not exist."),
+    CHAT_CHANNEL_SET("messages/global-messages.yml", "chat.command.channel-set", "&aSet your chat channel to &6{channel}&a."),
+    CHAT_CHANNEL_ALREADY_IN("messages/global-messages.yml", "chat.error.already-in-channel", "&cYou're already in the &6{channel} &cchat channel."),
+
+    CHAT_CLEARED_BY_STAFF("messages/global-messages.yml", "chat.cleared-by-staff", "&c&lCHAT HAS BEEN CLEARED BY STAFF!"),
 
     CRAFTING_TOGGLED("messages/global-messages.yml", "crafting-operations.command.toggled", "&aCrafting operations for &6{item} &aare now &6{status}&a."),
     CRAFTING_MUST_HOLD_CRAFTABLE_ITEM("messages/global-messages.yml", "crafting-operations.error.must-hold-craftable-item", "&cYou must be holding a craftable item to manage crafting operations."),
@@ -90,22 +98,25 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     DIVISION_CREATED("messages/global-messages.yml", "division.command.created", "&aSuccessfully created a new division named &6{division-name} &awith &6{required-wins} &awins!"),
     DIVISION_DELETED("messages/global-messages.yml", "division.command.deleted", "&cSuccessfully deleted the division named &6{division-name}&c!"),
 
-    DUEL_REQUEST_ACCEPTED("messages/global-messages.yml", "duel-requests.accepted", "&aYou have accepted the duel request from &6{name-color}{player}&a!"),
-    DUEL_REQUEST_EXPIRED("messages/global-messages.yml", "duel-requests.error.expired", "&cThat duel request has expired."),
-    DUEL_REQUEST_NO_ARENA("messages/global-messages.yml", "duel-requests.error.no-arenas", "&cThere is no available arena for that kit."),
-    DUEL_REQUEST_CANT_DUEL_SELF("messages/global-messages.yml", "duel-requests.error.cant-duel-self", "&cYou can't duel yourself!"),
-    DUEL_REQUEST_ALREADY_PENDING("messages/global-messages.yml", "duel-requests.error.already-pending", "&cYou already have a pending duel request from that player."),
-    DUEL_REQUEST_ALREADY_PENDING_PARTY("messages/global-messages.yml", "duel-requests.error.already-pending-party", "&cYou already have a pending duel request from that player or their party."),
-    DUEL_REQUEST_INVALID_FROM_PLAYER("messages/global-messages.yml", "duel-requests.error.no-pending-request", "&cYou do not have a pending duel request from that player."),
-    DUEL_REQUEST_REQUESTS_DISABLED_PLAYER("messages/global-messages.yml", "duel-requests.error.player-requests-disabled", "&c{name-color}{player} has duel requests disabled."),
-
     EXPLOSIVE_SETTING_UPDATED("messages/global-messages.yml", "explosive.command.setting-updated", "&aSuccessfully set the explosive {setting-name} value to &6{setting-value}&a."),
 
     ERROR_AMOUNT_MUST_BE_GREATER_THAN_ZERO("messages/global-messages.yml", "error-messages.amount-must-be-greater-than-zero", "&cThe amount must be greater than zero!"),
 
+    ERROR_DUEL_REQUESTS_EXPIRED("messages/global-messages.yml", "error-messages.duel-requests.error.expired", "&cThat duel request has expired."),
+    ERROR_DUEL_REQUESTS_NO_ARENA("messages/global-messages.yml", "error-messages.duel-requests.error.no-arenas", "&cThere is no available arena for that kit."),
+    ERROR_DUEL_REQUESTS_CANT_DUEL_SELF("messages/global-messages.yml", "error-messages.duel-requests.error.cant-duel-self", "&cYou can't duel yourself!"),
+    ERROR_DUEL_REQUESTS_ALREADY_PENDING("messages/global-messages.yml", "error-messages.duel-requests.error.already-pending", "&cYou already have a pending duel request from that player."),
+    ERROR_DUEL_REQUESTS_ALREADY_PENDING_PARTY("messages/global-messages.yml", "error-messages.duel-requests.error.already-pending-party", "&cYou already have a pending duel request from that player or their party."),
+    ERROR_DUEL_REQUESTS_INVALID_FROM_PLAYER("messages/global-messages.yml", "error-messages.duel-requests.error.no-pending-request", "&cYou do not have a pending duel request from that player."),
+    ERROR_DUEL_REQUESTS_REQUESTS_DISABLED_PLAYER("messages/global-messages.yml", "error-messages.duel-requests.error.player-requests-disabled", "&c{name-color}{player} has duel requests disabled."),
+
+    ERROR_INVALID_PAGE_NUMBER("messages/global-messages.yml", "error-messages.invalid-page-number", "&c'{input}' is not a valid page number! Please enter a valid number."),
     ERROR_INVALID_NUMBER("messages/global-messages.yml", "error-messages.invalid.number", "&c'{input}' is not a valid number! Please enter a valid number."),
     ERROR_INVALID_PLAYER("messages/global-messages.yml", "error-messages.invalid.player", "&cThat player could not be found!"),
     ERROR_INVALID_TYPE("messages/global-messages.yml", "error-messages.invalid.type", "&cInvalid {type}. Available types: &6{types}&c."),
+    ERROR_INVALID_ITEM("messages/global-messages.yml", "error-messages.invalid.item", "&cInvalid Item!"),
+    ERROR_INVALID_BOOLEAN("messages/global-messages.yml", "error-messages.invalid-parameters", "&cInvalid parameters! Please use true or false."),
+    ERROR_NO_MORE_PAGES_AVAILABLE("messages/global-messages.yml", "error-messages.no-more-pages-available", "&c{input} is not a valid page number! There are only &6{max-pages} &cpages available."),
 
     ERROR_PLAYER_IS_BUSY("messages/global-messages.yml", "error-messages.player.is-busy", "&6{name-color}{player} &cis busy."),
     ERROR_PLAYER_NOT_PLAYING_MATCH("messages/global-messages.yml", "error-messages.player.not-playing-match", "&c{name-color}{player} &cis not in a match."),
@@ -132,6 +143,8 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ERROR_YOU_ALREADY_IN_THIS_PARTY("messages/global-messages.yml", "error-messages.you.already-in-this-party", "&cYou are already in this party."),
     ERROR_YOU_PARTY_CHAT_DISABLED("messages/global-messages.yml", "error-messages.you.party-chat-disabled", "&cYou have party messages disabled. &7(To enable: /togglepartymessages)"),
     ERROR_YOU_NO_PARTY_INVITE_FROM_PLAYER("messages/global-messages.yml", "error-messages.you.no-party-invite-from-player", "&cYou do not have a party invitation from &6{name-color}{player}&c."),
+    ERROR_YOU_PARTY_NEED_TWO_PLAYERS("messages/global-messages.yml", "error-messages.you.party-need-two-players", "&cYou need at least two players."),
+    ERROR_YOU_ARE_IN_COMBAT("messages/global-messages.yml", "error-messages.you.are-in-combat", "&cYou are in combat!"),
 
     ERROR_YOU_BANNED_FROM_PARTY("messages/global-messages.yml", "error-messages.you.banned-from-party", "&cYou are banned from &6{name-color}{player}'s &cparty."),
 
@@ -166,6 +179,8 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ITEM_GIVEN("messages/global-messages.yml", "item.command.given-item", "&aYou have been given &6{amount} &a{item-name}&a."),
     ITEM_NOT_CONFIGURED("messages/global-messages.yml", "item.error.item-not-configured", "&cThe item named &6{item-name} &cis not configured."),
 
+    ITEM_ENCHANTED("messages/global-messages.yml", "item.command.enchanted-item", "&aYou have enchanted your &6{item-name} &awith &6{enchantment} &alevel &6{level}&a."),
+
     JOIN_MESSAGE_CHAT_ENABLED("messages/global-messages.yml", "join-message.enabled", true),
     JOIN_MESSAGE_CHAT_MESSAGE_LIST("messages/global-messages.yml", "join-message.message", Arrays.asList(
             "",
@@ -183,6 +198,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     KIT_SLOT_MUST_BE_NUMBER("messages/global-messages.yml", "kit.error.slot-must-be-number", "&cThe slot must be a number!"),
 
     KIT_POTION_EFFECT_REMOVED("messages/global-messages.yml", "kit.command.potion-effect-removed", "&cYou have removed the potion effect: &6{potion-effect} &cfrom the kit: &6{kit-name}&c."),
+    KIT_RAIDING_ROLE_KIT_REMOVED("messages/global-messages.yml", "kit.command.raiding-role-kit-removed", "&aSuccessfully removed the &6{role} &araiding role kit from &6{role-kit-name}&a for the &6{kit-name} &akit."),
 
     KIT_INVENTORY_GIVEN("messages/global-messages.yml", "kit.command.inventory-given", "&aSuccessfully retrieved the inventory of the &6{kit-name} &akit!"),
     KIT_INVENTORY_SET("messages/global-messages.yml", "kit.command.inventory-set", "&aSuccessfully set the inventory of the &6{kit-name} &akit!"),
@@ -194,7 +210,14 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     KIT_ICON_SET("messages/global-messages.yml", "kit.command.icon-set", "&aSuccessfully set the icon of the &6{kit-name} &akit to &6{icon}&a!"),
     KIT_CATEGORY_SET("messages/global-messages.yml", "kit.command.category-set", "&aSuccessfully set the category of the &6{kit-name} &akit to &6{category}&a!"),
     KIT_MENU_TITLE_SET("messages/global-messages.yml", "kit.command.menu-title-set", "&aSuccessfully set the menu title of the &6{kit-name} &akit: &r{title}"),
+    KIT_KB_PROFILE_SET("messages/global-messages.yml", "kit.command.kb-profile-set", "&aSuccessfully set the knockback profile of the &6{kit-name} &akit to &6{kb-profile}&a!"),
     KIT_SET_EDITABLE("messages/global-messages.yml", "kit.command.set-editable", "&aSuccessfully set the editable status of the &6{kit-name} &akit to &6{editable}&a!"),
+    KIT_SET_RAIDING_ROLE_KIT("messages/global-messages.yml", "kit.command.set-raiding-role-kit", "&aSuccessfully set the &6{role} &araiding role kit to &6{role-kit} &afor the &6{kit-name} &akit."),
+    KIT_CANNOT_SET_ENABLED_AS_RAIDING_ROLE_KIT("messages/global-messages.yml", "kit.error.cannot-set-enabled-as-raiding-role-kit", "&cThe &6{role-kit} &ckit is currently enabled. Please disable it before setting it as a raiding role kit."),
+    KIT_NEED_TO_DISABLE_TO_SET_RAIDING_ROLE("messages/global-messages.yml", "kit.error.need-to-disable-to-set-raiding-role-kit", "&cYou need to disable the &6{kit-name} &ckit before setting a raiding role kit."),
+    KIT_RAIDING_ROLE_KIT_NOT_MAPPED("messages/global-messages.yml", "kit.error.raiding-role-kit-not-present", "&cThe &6{kit-name} &ckit does not have a raiding kit mapped for the &6{role} &crole."),
+
+    KIT_SETTING_NOT_ENABLED("messages/global-messages.yml", "kit.error.setting-not-enabled", "&cThe setting &6{setting-name} &cis not enabled for the kit &6{kit-name}&c."),
 
     KIT_POTION_EFFECTS_SET("messages/global-messages.yml", "kit.command.potion-effects-set", "&aSuccessfully set the potion effects of the &6{kit-name} &akit!"),
     KIT_POTION_EFFECTS_CLEARED("messages/global-messages.yml", "kit.command.potion-effects-cleared", "&aSuccessfully cleared the potion effects of the &6{kit-name} &akit!"),
@@ -227,7 +250,15 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     OTHER_SUDO_ALL_PLAYERS("messages/global-messages.yml", "other.sudo.all-players", "&aYou have sudo-ed all players to say: &r{message}"),
 
     PARTY_DISBANDED("messages/global-messages.yml", "party.disbanded", "&6&lParty &7&l" + Symbol.ARROW_R + " &6{name-color}{player} &cdisbanded the party."),
-    PARTY_YOU_JOINED("messages/global-messages.yml", "party.joined", "&aYou have joined &6{player}&a's party."),
+    PARTY_YOU_JOINED("messages/global-messages.yml", "party.joined",
+            Arrays.asList(
+                    "",
+                    "&6&lParty Joined &a" + Symbol.TICK,
+                    " &7You joined &6{name-color}{leader}'s &aparty.",
+                    " &7Type /p for help.",
+                    ""
+            )
+    ),
     PARTY_YOU_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
 
     PARTY_PLAYER_JOINED("messages/global-messages.yml", "party.player-joined", "&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})"),
@@ -258,7 +289,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
             "",
             " &6&lParty Info",
             "  &6&l│ &rLeader: &6{name-color}{leader}",
-            "  &6&l│ &rMembers &7({members-amount}): &6{members}",
+            "  &6&l│ &rMembers &7({members-amount})&f: &6{members}",
             "  &6&l│ &rPrivacy: &6{privacy}",
             "  &6&l│ &rSize: &6{size}",
             ""
@@ -359,6 +390,8 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     SPAWN_SET("messages/global-messages.yml", "spawn.command.set", "&aSuccessfully set the new spawn location of &6Alley Practice&a! \n &8- &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"),
     SPAWN_TELEPORTED("messages/global-messages.yml", "spawn.command.teleported", "&6Teleported you to spawn!"),
     SPAWN_ITEMS_GIVEN("messages/global-messages.yml", "spawn.command.items-given", "&aSuccessfully received the spawn items!"),
+
+    SNAPSHOT_INVENTORY_EXPIRED("messages/global-messages.yml", "snapshot.error.inventory-expired", "&cThis inventory has expired."),
 
     TIPS_LIST("messages/global-messages.yml", "tips", Arrays.asList(
             "&6Tip: &fUse F5 to look at your opponent one last time before they end you.",

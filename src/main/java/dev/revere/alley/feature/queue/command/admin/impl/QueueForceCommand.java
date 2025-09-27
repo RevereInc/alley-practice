@@ -45,7 +45,7 @@ public class QueueForceCommand extends BaseCommand {
         boolean ranked = Boolean.parseBoolean(args[2]);
 
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -63,7 +63,7 @@ public class QueueForceCommand extends BaseCommand {
                 SoundUtil.playBanHammer(target);
                 this.plugin.getService(HotbarService.class).applyHotbarItems(target);
 
-                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.QUEUE_FORCED_PLAYER)
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.QUEUE_FORCED_PLAYER)
                         .replace("{player}", target.getName())
                         .replace("{kit}", kit.getName())
                         .replace("{ranked}", ranked ? "ranked" : "unranked")

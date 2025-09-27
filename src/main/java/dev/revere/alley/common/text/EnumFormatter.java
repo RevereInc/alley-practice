@@ -32,7 +32,7 @@ public class EnumFormatter {
         String availableTypes = String.join(", ", enumNames);
         String readableName = enumClassToReadable(enumClass);
 
-        String message = AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_TYPE)
+        String message = AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_INVALID_TYPE)
                 .replace("{type}", readableName)
                 .replace("{types}", availableTypes);
 

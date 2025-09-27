@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.arena.command.impl.kit;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -50,16 +50,16 @@ public class ArenaKitListCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         player.sendMessage("");
         player.sendMessage(CC.translate("     &6&l" + arenaName + " Kit List &f(" + arena.getKits().size() + "&f)"));
         if (arena.getKits().isEmpty()) {
-            player.sendMessage(CC.translate("      &f● &cNo Arena Kits available."));
+            player.sendMessage(CC.translate("      &f◆ &cNo Arena Kits available."));
         }
-        arena.getKits().forEach(kit -> player.sendMessage(CC.translate("      &f● &6" + kit)));
+        arena.getKits().forEach(kit -> player.sendMessage(CC.translate("      &f◆ &6" + kit)));
         player.sendMessage("");
     }
 }

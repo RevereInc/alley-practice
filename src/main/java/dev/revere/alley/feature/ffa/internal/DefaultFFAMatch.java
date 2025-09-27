@@ -65,7 +65,7 @@ public class DefaultFFAMatch extends FFAMatch {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
         boolean ffaPlayerLeftMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN);
         if (ffaPlayerLeftMessageEnabled) {
-            List<String> ffaPlayerLeftMessageFormat = localeService.getMessageList(GameMessagesLocaleImpl.FFA_PLAYER_JOIN_MESSAGE_FORMAT);
+            List<String> ffaPlayerLeftMessageFormat = localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_JOIN_MESSAGE_FORMAT);
             for (String line : ffaPlayerLeftMessageFormat) {
                 this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
                         CC.translate(line
@@ -109,7 +109,7 @@ public class DefaultFFAMatch extends FFAMatch {
 
         boolean ffaPlayerLeftMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN);
         if (ffaPlayerLeftMessageEnabled) {
-            List<String> ffaPlayerLeftMessageFormat = localeService.getMessageList(GameMessagesLocaleImpl.FFA_PLAYER_LEFT_MESSAGE_FORMAT);
+            List<String> ffaPlayerLeftMessageFormat = localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_LEFT_MESSAGE_FORMAT);
             for (String line : ffaPlayerLeftMessageFormat) {
                 this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
                         CC.translate(line
@@ -205,7 +205,7 @@ public class DefaultFFAMatch extends FFAMatch {
 
             boolean suicideDeathMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN);
             if (suicideDeathMessageEnabled) {
-                for (String line : localeService.getMessageList(GameMessagesLocaleImpl.FFA_PLAYER_DIED_MESSAGE_FORMAT)) {
+                for (String line : localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_DIED_MESSAGE_FORMAT)) {
                     this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
                             CC.translate(line
                                     .replace("{name-color}", profile.getNameColor().toString())
@@ -236,7 +236,7 @@ public class DefaultFFAMatch extends FFAMatch {
 
         boolean killDeathMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN);
         if (killDeathMessageEnabled) {
-            for (String line : localeService.getMessageList(GameMessagesLocaleImpl.FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT)) {
+            for (String line : localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT)) {
                 this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
                         CC.translate(line
                                 .replace("{name-color}", profile.getNameColor().toString())

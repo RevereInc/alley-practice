@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.match.listener.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
@@ -40,7 +39,7 @@ public class MatchChatListener implements Listener {
 
         for (String blockedCommand : matchService.getBlockedCommands()) {
             if (commandInput.startsWith("/" + blockedCommand.toLowerCase())) {
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.MATCH_COMMAND_BLOCKED));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.MATCH_COMMAND_BLOCKED));
                 event.setCancelled(true);
                 return;
             }

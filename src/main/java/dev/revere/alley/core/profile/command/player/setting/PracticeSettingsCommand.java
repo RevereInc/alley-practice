@@ -1,9 +1,9 @@
 package dev.revere.alley.core.profile.command.player.setting;
 
+import dev.revere.alley.core.profile.menu.setting.PracticeSettingsMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.menu.setting.PracticeSettingsMenu;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 
 public class PracticeSettingsCommand extends BaseCommand {
     @CommandData(
-            name = "psettings",
+            name = "practicesettings",
             usage = "practicesettings",
             description = "Open the practice settings menu."
     )

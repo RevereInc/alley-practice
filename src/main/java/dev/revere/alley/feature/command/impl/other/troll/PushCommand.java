@@ -34,7 +34,7 @@ public class PushCommand extends BaseCommand {
         Player targetPlayer = player.getServer().getPlayer(targetName);
 
         if (targetPlayer == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -43,7 +43,7 @@ public class PushCommand extends BaseCommand {
         try {
             value = Double.parseDouble(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
@@ -54,7 +54,7 @@ public class PushCommand extends BaseCommand {
 
         targetPlayer.setVelocity(player.getLocation().getDirection().multiply(value));
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_PUSHED)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_PUSHED)
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
                 .replace("{player}", targetPlayer.getName())
         );

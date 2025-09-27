@@ -1,7 +1,6 @@
 package dev.revere.alley.core.profile.data.command;
 
 import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
@@ -43,13 +42,13 @@ public class ResetStatsCommand extends BaseCommand {
 
         UUID uuid = target.getUniqueId();
         if (uuid == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(uuid);
         if (profile == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

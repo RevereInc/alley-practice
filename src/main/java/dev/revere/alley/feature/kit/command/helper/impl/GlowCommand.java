@@ -34,7 +34,7 @@ public class GlowCommand extends BaseCommand {
 
         ItemStack item = player.getItemInHand();
         if (item == null || item.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

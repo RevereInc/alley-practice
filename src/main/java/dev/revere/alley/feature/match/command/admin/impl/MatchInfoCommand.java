@@ -37,13 +37,13 @@ public class MatchInfoCommand extends BaseCommand {
         String playerName = args[0];
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile.getMatch() == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
                     .replace("{name-color}", String.valueOf(profile.getNameColor()))
                     .replace("{player}", target.getName()));
             return;

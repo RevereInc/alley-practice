@@ -67,7 +67,12 @@ public enum SettingsLocaleImpl implements LocaleEntry {
     SERVER_ESSENTIAL_EMOJI_FEATURE_BOOLEAN("settings.yml", "server.essentials.emoji-feature", true),
     SERVER_SPAWN_LOCATION("settings.yml", "server.locations.spawn", "world:0.5:73.0:0.5:90.0:0.0"),
 
-    ;
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_50_ENABLED_BOOLEAN("settings.yml", "sounds.match.platform-decay-notifications.50.enabled", true),
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_50("settings.yml", "sounds.match.platform-decay-notifications.50.value", "WITHER_HURT"),
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_25_ENABLED_BOOLEAN("settings.yml", "sounds.match.platform-decay-notifications.25.enabled", true),
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_25("settings.yml", "sounds.match.platform-decay-notifications.25.value", "ENDERDRAGON_GROWL"),
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_75_ENABLED_BOOLEAN("settings.yml", "sounds.match.platform-decay-notifications.75.enabled", true),
+    SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_75("settings.yml", "sounds.match.platform-decay-notifications.75.value", "DIG_STONE");
 
     private final String configName;
     private final String configPath;

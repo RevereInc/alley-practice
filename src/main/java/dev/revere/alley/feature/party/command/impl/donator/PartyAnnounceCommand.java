@@ -39,24 +39,24 @@ public class PartyAnnounceCommand extends BaseCommand {
 
         Profile profile = profileService.getProfile(player.getUniqueId());
         if (profile.getParty() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
         if (profile.getParty().getState() != PartyState.PUBLIC) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_NOT_PUBLIC));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_NOT_PUBLIC));
             return;
         }
 
         CooldownService cooldownService = this.plugin.getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), CooldownType.PARTY_ANNOUNCE_COOLDOWN));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
             return;
         }
 

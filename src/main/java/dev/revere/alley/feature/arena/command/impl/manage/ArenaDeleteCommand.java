@@ -1,11 +1,10 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -51,11 +50,11 @@ public class ArenaDeleteCommand extends BaseCommand {
 
         String arenaName = args[0];
         if (arenaService.getArenaByName(arenaName) == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         arenaService.deleteArena(arenaService.getArenaByName(arenaName));
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_DELETED).replace("{arena-name}", arenaName));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_DELETED).replace("{arena-name}", arenaName));
     }
 }

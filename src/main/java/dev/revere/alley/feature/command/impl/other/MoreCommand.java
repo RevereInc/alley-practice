@@ -35,7 +35,7 @@ public class MoreCommand extends BaseCommand {
         try {
             amount = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
@@ -43,14 +43,20 @@ public class MoreCommand extends BaseCommand {
             for (int i = 0; i < amount; i++) {
                 player.getInventory().addItem(new ItemStack(Material.MUSHROOM_SOUP));
             }
-            player.sendMessage(CC.translate("&aYou've received &6" + amount + " &asoups."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ITEM_GIVEN)
+                    .replace("{item-name}", CC.translate("&6Mushroom Soup"))
+                    .replace("{amount}", String.valueOf(amount))
+            );
         } else if (args[0].equalsIgnoreCase("potion")) {
             for (int i = 0; i < amount; i++) {
                 player.getInventory().addItem(new ItemStack(Material.POTION, 1, (short) 16421));
             }
-            player.sendMessage(CC.translate("&aYou've received &6" + amount + " &apotions."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ITEM_GIVEN)
+                    .replace("{item-name}", CC.translate("&6Splash Potion of Healing"))
+                    .replace("{amount}", String.valueOf(amount))
+            );
         } else {
-            player.sendMessage(CC.translate("&cInvalid item."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_ITEM));
         }
     }
 }

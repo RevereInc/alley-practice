@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -36,14 +35,14 @@ public class DivisionSetDescriptionCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         String description = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         division.setDescription(description);
         divisionService.saveDivision(division);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_DESCRIPTION_SET)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.DIVISION_DESCRIPTION_SET)
                 .replace("{division-name}", division.getDisplayName())
                 .replace("{description}", description)
         );

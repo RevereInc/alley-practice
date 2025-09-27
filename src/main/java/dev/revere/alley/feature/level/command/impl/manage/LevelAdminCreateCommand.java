@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.level.command.impl.manage;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
@@ -36,7 +35,7 @@ public class LevelAdminCreateCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level != null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_ALREADY_EXISTS).replace("{level-name}", levelName));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_ALREADY_EXISTS).replace("{level-name}", levelName));
             return;
         }
 
@@ -44,7 +43,7 @@ public class LevelAdminCreateCommand extends BaseCommand {
         try {
             minElo = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
@@ -52,18 +51,18 @@ public class LevelAdminCreateCommand extends BaseCommand {
         try {
             maxElo = Integer.parseInt(args[2]);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[2]));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[2]));
             return;
         }
 
         if (minElo >= maxElo) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM));
             return;
         }
 
         levelService.createLevel(levelName, minElo, maxElo);
 
-        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_CREATED)
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_CREATED)
                 .replace("{level-name}", levelName)
                 .replace("{min-elo}", String.valueOf(minElo))
                 .replace("{max-elo}", String.valueOf(maxElo))

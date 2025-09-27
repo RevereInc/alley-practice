@@ -62,6 +62,10 @@ public class RoundsMatch extends DefaultMatch {
         this.participantB = participantB;
         this.rounds = rounds;
         this.scorer = "Unknown";
+
+        if (this.currentRound == 0) {
+            this.currentRound = 1;
+        }
     }
 
     @Override
@@ -69,6 +73,7 @@ public class RoundsMatch extends DefaultMatch {
         this.winner = this.participantA.isAllDead() ? this.participantB : this.participantA;
         this.winner.getLeader().getData().incrementScore();
         this.loser = this.participantA.isAllDead() ? this.participantA : this.participantB;
+
         this.currentRound++;
 
         this.broadcastPlayerScoreMessage(this.winner, this.loser, this.scorer);
@@ -222,9 +227,9 @@ public class RoundsMatch extends DefaultMatch {
         if (messageEnabled) {
             List<String> message;
             if (this.isTeamMatch()) {
-                message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_SOLO_FORMAT);
+                message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_SOLO_FORMAT);
             } else {
-                message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_TEAM_FORMAT);
+                message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_TEAM_FORMAT);
             }
 
             message.forEach(line -> this.notifyAll(line
@@ -240,14 +245,26 @@ public class RoundsMatch extends DefaultMatch {
             ));
         }
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_TEAM_SCORED_HEADER).replace("{scorer}", scorer);
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_TEAM_SCORED_FOOTER)
-                .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
-                .replace("{max-rounds}", String.valueOf(this.rounds));
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADEOUT);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_TEAM_SCORED_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_TEAM_SCORED_HEADER)
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
+                    .replace("{scorer}", scorer)
+                    .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{opponent-current-score}", String.valueOf(loser.getLeader().getData().getScore()))
+                    .replace("{max-rounds}", String.valueOf(this.rounds));
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_TEAM_SCORED_FOOTER)
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
+                    .replace("{scorer}", scorer)
+                    .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{opponent-current-score}", String.valueOf(loser.getLeader().getData().getScore()))
+                    .replace("{max-rounds}", String.valueOf(this.rounds));
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADEOUT);
 
-        this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
+            this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
+        }
     }
 }

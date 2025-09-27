@@ -23,6 +23,7 @@ arena:
       not exist!'
     standalone-portals-not-set: '&cYou must set both team portals! (/arena setportal)'
     is-not-ffa: '&cThis is not a Free-For-All arena!'
+    invalid-spawn-type: '&cInvalid spawn type! Valid types: blue, red, ffa'
   command:
     selection-tool:
       added: '&aSuccessfully added the selection tool to your inventory!'
@@ -61,6 +62,8 @@ cooldown:
     must-wait: '&cYou must wait &6{time} &cbefore you can throw another fireball!'
   party-announce:
     must-wait: '&cYou must wait &6{time} &cbefore you can announce your party again!'
+  golden-head:
+    must-wait: '&cYou must wait &6{time} &cbefore you can eat another golden head!'
 cosmetics:
   not-owned: '&cYou do not own the &6{cosmetic-name}&c cosmetic!'
   selected: '&aSuccessfully selected the &6{cosmetic-name} &acosmetic!'
@@ -74,6 +77,13 @@ cosmetics:
     already-owner: '&cYou already own this cosmetic.'
     purchase-insufficient-funds: '&cYou don''t have enough coins to purchase this.'
   purchase-success: '&aSuccessfully purchased the &6{cosmetic} &acosmetic!'
+chat:
+  error:
+    channel-not-exist: '&cThe chat channel &6{channel} &cdoes not exist.'
+    already-in-channel: '&cYou''re already in the &6{channel} &cchat channel.'
+  command:
+    channel-set: '&aSet your chat channel to &6{channel}&a.'
+  cleared-by-staff: '&c&lCHAT HAS BEEN CLEARED BY STAFF!'
 crafting-operations:
   command:
     toggled: '&aCrafting operations for &6{item} &aare now &6{status}&a.'
@@ -98,26 +108,31 @@ division:
     created: '&aSuccessfully created a new division named &6{division-name} &awith
       &6{required-wins} &awins!'
     deleted: '&cSuccessfully deleted the division named &6{division-name}&c!'
-duel-requests:
-  accepted: '&aYou have accepted the duel request from &6{name-color}{player}&a!'
-  error:
-    expired: '&cThat duel request has expired.'
-    no-arenas: '&cThere is no available arena for that kit.'
-    cant-duel-self: '&cYou can''t duel yourself!'
-    already-pending: '&cYou already have a pending duel request from that player.'
-    already-pending-party: '&cYou already have a pending duel request from that player
-      or their party.'
-    no-pending-request: '&cYou do not have a pending duel request from that player.'
-    player-requests-disabled: '&c{name-color}{player} has duel requests disabled.'
 explosive:
   command:
     setting-updated: '&aSuccessfully set the explosive {setting-name} value to &6{setting-value}&a.'
 error-messages:
   amount-must-be-greater-than-zero: '&cThe amount must be greater than zero!'
+  duel-requests:
+    error:
+      expired: '&cThat duel request has expired.'
+      no-arenas: '&cThere is no available arena for that kit.'
+      cant-duel-self: '&cYou can''t duel yourself!'
+      already-pending: '&cYou already have a pending duel request from that player.'
+      already-pending-party: '&cYou already have a pending duel request from that
+        player or their party.'
+      no-pending-request: '&cYou do not have a pending duel request from that player.'
+      player-requests-disabled: '&c{name-color}{player} has duel requests disabled.'
+  invalid-page-number: '&c''{input}'' is not a valid page number! Please enter a valid
+    number.'
   invalid:
     number: '&c''{input}'' is not a valid number! Please enter a valid number.'
     player: '&cThat player could not be found!'
     type: '&cInvalid {type}. Available types: &6{types}&c.'
+    item: '&cInvalid Item!'
+  invalid-parameters: '&cInvalid parameters! Please use true or false.'
+  no-more-pages-available: '&c{input} is not a valid page number! There are only &6{max-pages}
+    &cpages available.'
   player:
     is-busy: '&6{name-color}{player} &cis busy.'
     not-playing-match: '&c{name-color}{player} &cis not in a match.'
@@ -143,6 +158,8 @@ error-messages:
     already-in-this-party: '&cYou are already in this party.'
     party-chat-disabled: '&cYou have party messages disabled. &7(To enable: /togglepartymessages)'
     no-party-invite-from-player: '&cYou do not have a party invitation from &6{name-color}{player}&c.'
+    party-need-two-players: '&cYou need at least two players.'
+    are-in-combat: '&cYou are in combat!'
     banned-from-party: '&cYou are banned from &6{name-color}{player}''s &cparty.'
 profile-messages:
   error:
@@ -196,6 +213,8 @@ hotbar:
 item:
   command:
     given-item: '&aYou have been given &6{amount} &a{item-name}&a.'
+    enchanted-item: '&aYou have enchanted your &6{item-name} &awith &6{enchantment}
+      &alevel &6{level}&a.'
   error:
     item-not-configured: '&cThe item named &6{item-name} &cis not configured.'
 join-message:
@@ -214,9 +233,19 @@ kit:
     not-found: '&cThere is no kit with that name!'
     already-exists: '&cA kit with that name already exists!'
     slot-must-be-number: '&cThe slot must be a number!'
+    cannot-set-enabled-as-raiding-role-kit: '&cThe &6{role-kit} &ckit is currently
+      enabled. Please disable it before setting it as a raiding role kit.'
+    need-to-disable-to-set-raiding-role-kit: '&cYou need to disable the &6{kit-name}
+      &ckit before setting a raiding role kit.'
+    raiding-role-kit-not-present: '&cThe &6{kit-name} &ckit does not have a raiding
+      kit mapped for the &6{role} &crole.'
+    setting-not-enabled: '&cThe setting &6{setting-name} &cis not enabled for the
+      kit &6{kit-name}&c.'
   command:
     potion-effect-removed: '&cYou have removed the potion effect: &6{potion-effect}
       &cfrom the kit: &6{kit-name}&c.'
+    raiding-role-kit-removed: '&aSuccessfully removed the &6{role} &araiding role
+      kit from &6{role-kit-name}&a for the &6{kit-name} &akit.'
     inventory-given: '&aSuccessfully retrieved the inventory of the &6{kit-name} &akit!'
     inventory-set: '&aSuccessfully set the inventory of the &6{kit-name} &akit!'
     ffaslot-set: '&aSuccessfully set the FFA slot of the &6{kit-name} &akit to &6{slot}&a!'
@@ -232,8 +261,12 @@ kit:
     category-set: '&aSuccessfully set the category of the &6{kit-name} &akit to &6{category}&a!'
     menu-title-set: '&aSuccessfully set the menu title of the &6{kit-name} &akit:
       &r{title}'
+    kb-profile-set: '&aSuccessfully set the knockback profile of the &6{kit-name}
+      &akit to &6{kb-profile}&a!'
     set-editable: '&aSuccessfully set the editable status of the &6{kit-name} &akit
       to &6{editable}&a!'
+    set-raiding-role-kit: '&aSuccessfully set the &6{role} &araiding role kit to &6{role-kit}
+      &afor the &6{kit-name} &akit.'
     potion-effects-set: '&aSuccessfully set the potion effects of the &6{kit-name}
       &akit!'
     potion-effects-cleared: '&aSuccessfully cleared the potion effects of the &6{kit-name}
@@ -278,7 +311,12 @@ other:
     all-players: '&aYou have sudo-ed all players to say: &r{message}'
 party:
   disbanded: '&6&lParty &7&l» &6{name-color}{player} &cdisbanded the party.'
-  joined: '&aYou have joined &6{player}&a''s party.'
+  joined:
+    - ''
+    - '&6&lParty Joined &a✔'
+    - ' &7You joined &6{name-color}{leader}''s &aparty.'
+    - ' &7Type /p for help.'
+    - ''
   left: '&cYou''ve left the party!'
   player-joined: '&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})'
   player-left: '&6{name-color}{player} &cleft the party. &7({current-size}/{max-size})'
@@ -303,7 +341,7 @@ party:
       - ''
       - ' &6&lParty Info'
       - '  &6&l│ &rLeader: &6{name-color}{leader}'
-      - '  &6&l│ &rMembers &7({members-amount}): &6{members}'
+      - '  &6&l│ &rMembers &7({members-amount})&f: &6{members}'
       - '  &6&l│ &rPrivacy: &6{privacy}'
       - '  &6&l│ &rSize: &6{size}'
       - ''
@@ -394,6 +432,9 @@ spawn:
       \ &7{world}: {x}, {y}, {z} (Yaw: {yaw}, Pitch: {pitch})"
     teleported: '&6Teleported you to spawn!'
     items-given: '&aSuccessfully received the spawn items!'
+snapshot:
+  error:
+    inventory-expired: '&cThis inventory has expired.'
 tips:
   - '&6Tip: &fUse F5 to look at your opponent one last time before they end you.'
   - '&6Tip: &fW-tap like your life depends on it. It kinda does.'

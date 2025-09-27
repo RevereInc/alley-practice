@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -39,13 +39,13 @@ public class KitSetMenuTitleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
-            sender.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
+            sender.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
         String title = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
         kit.setMenuTitle(title);
         kitService.saveKit(kit);
-        sender.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_MENU_TITLE_SET).replace("{kit-name}", kit.getName()).replace("{title}", title)));
+        sender.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_MENU_TITLE_SET).replace("{kit-name}", kit.getName()).replace("{title}", title)));
     }
 }

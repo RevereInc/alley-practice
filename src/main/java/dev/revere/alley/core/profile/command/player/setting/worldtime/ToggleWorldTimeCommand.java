@@ -27,19 +27,19 @@ public class ToggleWorldTimeCommand extends BaseCommand {
         switch (profile.getProfileData().getSettingData().getWorldTime()) {
             case DEFAULT:
                 profile.getProfileData().getSettingData().setTimeDay(player);
-                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case DAY:
                 profile.getProfileData().getSettingData().setTimeSunset(player);
-                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case SUNSET:
                 profile.getProfileData().getSettingData().setTimeNight(player);
-                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case NIGHT:
                 profile.getProfileData().getSettingData().setTimeDefault(player);
-                player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
         }
     }

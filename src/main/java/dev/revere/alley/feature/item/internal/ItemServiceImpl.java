@@ -4,7 +4,6 @@ import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.constants.TexturesConstant;
 import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.item.ItemService;
 import lombok.Getter;
@@ -74,8 +73,6 @@ public class ItemServiceImpl implements ItemService {
                 new PotionEffect(PotionEffectType.SPEED, 20 * 10, 0),       // Speed I for 10 seconds
                 new PotionEffect(PotionEffectType.ABSORPTION, 20 * 120, 0)  // Absorption I for 2 minutes
         ).forEach(player::addPotionEffect);
-
-        player.sendMessage(CC.translate("&aYou've consumed a &6&lGolden Head&a!"));
 
         if (player.getGameMode() == GameMode.CREATIVE) {
             return;

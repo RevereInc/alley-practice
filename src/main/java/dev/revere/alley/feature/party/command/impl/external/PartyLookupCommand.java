@@ -20,7 +20,8 @@ public class PartyLookupCommand extends BaseCommand {
     @CommandData(
             name = "party.lookup",
             usage = "party lookup <player>",
-            description = "Sends info about a specific party"
+            description = "Sends info about a specific party",
+            cooldown = 1
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -34,7 +35,7 @@ public class PartyLookupCommand extends BaseCommand {
 
         Player target = this.plugin.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -44,7 +45,7 @@ public class PartyLookupCommand extends BaseCommand {
             return;
         }
 
-        List<String> message = this.getMessageList(GlobalMessagesLocaleImpl.PARTY_LOOKUP);
+        List<String> message = this.getStringList(GlobalMessagesLocaleImpl.PARTY_LOOKUP);
         message.replaceAll(line -> line
                 .replace("{name-color}", String.valueOf(this.getProfile(party.getLeader().getUniqueId()).getNameColor()))
                 .replace("{leader}", party.getLeader().getName())

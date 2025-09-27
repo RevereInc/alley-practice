@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.division.Division;
 import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -36,17 +36,17 @@ public class DivisionViewCommand extends BaseCommand {
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         Arrays.asList(
                 "",
                 "&6&lDivision &f(" + division.getDisplayName() + ")",
-                " &f● &6Name: &f" + division.getDisplayName(),
-                " &f● &6Tiers: &f" + division.getTiers().size(),
-                " &f● &6Description: &f" + division.getDescription(),
-                " &f● &6Required Wins: &f" + division.getTiers().get(0).getRequiredWins(),
+                " &f◆ &6Name: &f" + division.getDisplayName(),
+                " &f◆ &6Tiers: &f" + division.getTiers().size(),
+                " &f◆ &6Description: &f" + division.getDescription(),
+                " &f◆ &6Required Wins: &f" + division.getTiers().get(0).getRequiredWins(),
                 ""
         ).forEach(line -> player.sendMessage(CC.translate(line)));
     }

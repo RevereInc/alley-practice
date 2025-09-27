@@ -1,6 +1,7 @@
 package dev.revere.alley.feature.party.command.impl.leader;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.party.PartyService;
@@ -8,7 +9,6 @@ import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -40,7 +40,7 @@ public class PartyCreateCommand extends BaseCommand {
         }
 
         if (partyService.getPartyByLeader(player) != null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_PARTY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_PARTY));
             return;
         }
 

@@ -17,7 +17,7 @@ public interface LocaleService extends Service {
      * @param entry The locale entry containing the configuration name and string path.
      * @return The translated configuration string, or a default error message if not found.
      */
-    String getMessage(LocaleEntry entry);
+    String getString(LocaleEntry entry);
 
     /**
      * Method to retrieve and translate a list of strings from a specified configuration file.
@@ -25,7 +25,7 @@ public interface LocaleService extends Service {
      * @param entry The locale entry containing the configuration name and string path.
      * @return The translated list of configuration strings, or a default error message if not found or empty.
      */
-    List<String> getMessageList(LocaleEntry entry);
+    List<String> getStringList(LocaleEntry entry);
 
     /**
      * Method to retrieve a raw list of strings from a specified configuration file without translation.
@@ -33,7 +33,7 @@ public interface LocaleService extends Service {
      * @param entry The locale entry containing the configuration name and string path.
      * @return The raw list of configuration strings, or a default error message if not found or empty.
      */
-    List<String> getListRaw(LocaleEntry entry);
+    List<String> getStringListRaw(LocaleEntry entry);
 
     /**
      * Method to retrieve an integer value from a specified configuration file.
@@ -65,7 +65,7 @@ public interface LocaleService extends Service {
      * @param entry   The locale entry containing the configuration name and string path.
      * @param message The new message to set in the configuration.
      */
-    void setMessage(LocaleEntry entry, String message);
+    void setString(LocaleEntry entry, String message);
 
     /**
      * Method to set or update a list of messages in the specified configuration file.

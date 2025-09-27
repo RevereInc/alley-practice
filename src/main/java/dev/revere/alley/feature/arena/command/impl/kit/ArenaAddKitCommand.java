@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.kit;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -9,7 +9,6 @@ import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -55,23 +54,23 @@ public class ArenaAddKitCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getType() == ArenaType.FFA) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CANNOT_ADD_KITS_TO_FFA));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_CANNOT_ADD_KITS_TO_FFA));
             return;
         }
 
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         if (arena.getKits().contains(kit.getName())) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_KIT_ALREADY_ADDED)
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_KIT_ALREADY_ADDED)
                     .replace("{arena-name}", arenaName)
                     .replace("{kit-name}", kitName)
             );
@@ -80,7 +79,7 @@ public class ArenaAddKitCommand extends BaseCommand {
 
         arena.getKits().add(kit.getName());
         arenaService.saveArena(arena);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_KIT_ADDED)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_KIT_ADDED)
                 .replace("{arena-name}", arenaName)
                 .replace("{kit-name}", kitName)
         );

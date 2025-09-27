@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
@@ -35,15 +34,15 @@ public class MatchCancelCommand extends BaseCommand {
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile.getState() != ProfileState.PLAYING || profile.getMatch() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
-                            .replace("{name-color}", String.valueOf(profile.getNameColor()))
-                            .replace("{player}", target.getName())
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+                    .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                    .replace("{player}", target.getName())
             );
             return;
         }
@@ -52,7 +51,7 @@ public class MatchCancelCommand extends BaseCommand {
         profile.getMatch().setState(MatchState.ENDING_MATCH);
         profile.getMatch().getRunnable().setStage(4);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.MATCH_CANCELLED_FOR_PLAYER)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.MATCH_CANCELLED_FOR_PLAYER)
                 .replace("{name-color}", String.valueOf(profile.getNameColor()))
                 .replace("{player}", target.getName())
         );

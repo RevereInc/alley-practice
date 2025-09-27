@@ -13,6 +13,7 @@ import java.util.Collections;
  */
 @Getter
 public enum GameMessagesLocaleImpl implements LocaleEntry {
+    DUEL_REQUEST_ACCEPTED("messages/game-messages.yml", "duel-requests.accepted", "&aYou have accepted the duel request from &6{name-color}{player}&a!"),
     DUEL_REQUEST_SENT_SOLO("messages/game-messages.yml", "duel.request.sent.solo.format", Arrays.asList(
             "",
             "&6&lDuel Request",
@@ -56,34 +57,55 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
-//    DUEL_REQUEST_EXPIRED("messages/game-messages.yml", "duel.request.expired", Arrays.asList(
-//            "",
-//            "&c&lDuel Request Expired",
-//            " &c&l│ &fYour duel request to &6{target} &fhas expired.",
-//            ""
-//    )),
+    DUEL_REQUEST_EXPIRED_ENABLED_BOOLEAN("messages/game-messages.yml", "duel.request.expired.sender.enabled", true),
+    ERROR_DUEL_REQUESTS_EXPIRED("messages/game-messages.yml", "duel.request.expired.sender.format", Arrays.asList(
+            "",
+            "&c&lDuel Request Expired",
+            " &c&l│ &fYour duel request to &6{target} &fhas expired.",
+            ""
+    )),
+
+
+    DUEL_REQUEST_EXPIRED_TARGET_ENABLED_BOOLEAN("messages/game-messages.yml", "duel.request.expired.target.enabled", true),
+    DUEL_REQUEST_EXPIRED_TARGET("messages/game-messages.yml", "duel.request.expired.target.format", Arrays.asList(
+            "",
+            "&c&lDuel Request Expired",
+            " &c&l│ &fThe duel request from &6{sender} &fhas expired.",
+            ""
+    )),
 
     FFA_KILLSTREAK_ALERT_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.killstreak-alert.enabled", true),
     FFA_KILLSTREAK_ALERT_INTERVAL("messages/game-messages.yml", "ffa.killstreak-alert.interval", 5),
     FFA_KILLSTREAK_ALERT_MESSAGE("messages/game-messages.yml", "ffa.killstreak-alert.message", Arrays.asList(
             "",
-            "&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
+            "&6&lKill Streak",
+            " &6&l│ &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!",
             ""
     )),
 
-    FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-join.enabled", false),
-    FFA_PLAYER_JOIN_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-join.message", Collections.singletonList("&a{name-color}{player} &ahas joined the FFA match.")),
+    FFA_COMBAT_LOG_DEATH_MESSAGE("messages/game-messages.yml", "ffa.combat-log.death-message", "&7(Combat Log) &c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f."),
 
-    FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-left.enabled", false),
-    FFA_PLAYER_LEFT_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-left.message", Collections.singletonList("&c{name-color}{player} &chas left the FFA match.")),
+    FFA_TELEPORTED_TO_SAFE_ZONE("messages/game-messages.yml", "ffa.teleported-to-safe-zone", "&aYou have been teleported to the safe zone."),
 
-    FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-died.enabled", true),
-    FFA_PLAYER_DIED_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-died.message", Collections.singletonList("&c{name-color}{player} &fhas died!")),
+    FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player.join-message.enabled", false),
+    FFA_PLAYER_JOIN_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player.join-message.format", Collections.singletonList("&a{name-color}{player} &ahas joined the FFA match.")),
 
-    FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player-killed-player.enabled", true),
-    FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player-killed-player.message", Collections.singletonList("&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!")),
+    FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player.left-message.enabled", false),
+    FFA_PLAYER_LEFT_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player.left-message.format", Collections.singletonList("&c{name-color}{player} &chas left the FFA match.")),
+
+    FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player.death.no-killer-message.enabled", true),
+    FFA_PLAYER_DIED_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player.death.no-killer-message.format", Collections.singletonList("&c{name-color}{player} &fhas died!")),
+
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "ffa.player.death.killed-message.enabled", true),
+    FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT("messages/game-messages.yml", "ffa.player.death.killed-message.format", Collections.singletonList("&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!")),
 
     GAME_CANNOT_DROP_SWORD("messages/game-messages.yml", "game.cannot-drop-sword", "&cYou cannot drop your sword!"),
+
+    MATCH_DEATH_MESSAGE_GENERIC("messages/game-messages.yml", "match.death-message.generic", "&c&lDEATH! &f{name-color}{player} &fhas died."),
+    MATCH_DEATH_MESSAGE_GENERIC_KILLER("messages/game-messages.yml", "match.death-message.generic-killer", "&c&lDEATH! &f{name-color}{victim} &fwas killed by &c{killer-name-color}{killer}&f."),
+    MATCH_DEATH_MESSAGE_CUSTOM("messages/game-messages.yml", "match.death-message.custom", "&c&lDEATH! &f{message}"),
+
+    MATCH_SEEKER_RESPAWNED("messages/game-messages.yml", "match.seeker-respawned", "&c&lDEATH! &fSeeker &c{name-color}{player} &fhas respawned."),
 
     MATCH_STARTED_DISCLAIMER_ENABLED_BOOLEAN("messages/game-messages.yml", "match.started.kit-disclaimer.enabled", true),
     MATCH_STARTED_DISCLAIMER_FORMAT("messages/game-messages.yml", "match.started.kit-disclaimer.format", Arrays.asList(
@@ -93,14 +115,26 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
+    MATCH_ELEVATOR_NO_SAFE_SPOT_FOUND("messages/game-messages.yml", "match.elevator.no-safe-spot-found", "&cNo safe spot to teleport to!"),
+    MATCH_CANNOT_INTERACT_DURING_MATCH("messages/game-messages.yml", "match.cannot-interact-during-match", "&cYou cannot interact with that during a match!"),
+    MATCH_CANNOT_INTERACT_AS_RAIDER("messages/game-messages.yml", "match.cannot-interact-as-raider", "&cYou cannot interact with that as a raider!"),
+    MATCH_CANNOT_PLACE_BLOCKS_DURING_HIDING_PHASE("messages/game-messages.yml", "match.cannot-place-blocks-during-hiding-phase", "&cYou cannot place blocks during the hiding phase!"),
+    MATCH_CANNOT_PLACE_BLOCKS_ABOVE_HEIGHT_LIMIT("messages/game-messages.yml", "match.cannot-place-blocks-above-height-limit", "&cYou cannot place blocks above the height limit!"),
+    MATCH_CANNOT_BUILD_NEAR_PORTAL("messages/game-messages.yml", "match.cannot-build-near-portal", "&cYou cannot build near a portal!"),
+    MATCH_CANNOT_BREAK_BLOCKS_DURING_HIDING_PHASE("messages/game-messages.yml", "match.cannot-break-blocks-during-hiding-phase", "&cYou cannot break blocks during the hiding phase!"),
+    MATCH_CANNOT_BREAK_OWN_BED("messages/game-messages.yml", "match.cannot-break-own-bed", "&cYou cannot break your own bed!"),
+
     MATCH_STARTED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.started.message.regular.enabled", true),
-    MATCH_STARTED_MESSAGE_FORMAT("messages/game-messages.yml", "match.started.message.regular.format", Collections.singletonList("&fMatch has started.")),
+    MATCH_STARTED_MESSAGE_FORMAT("messages/game-messages.yml", "match.started.message.regular.format", Collections.singletonList("&aThe match has started!")),
 
     MATCH_ROUND_STARTED_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.started.message.round.enabled", true),
-    MATCH_ROUND_STARTED_MESSAGE_FORMAT("messages/game-messages.yml", "match.started.message.round.format", Collections.singletonList("&fRound {current-round} has started.")),
+    MATCH_ROUND_STARTED_MESSAGE_FORMAT("messages/game-messages.yml", "match.started.message.round.format", Collections.singletonList("&aRound &6{current-round} &ahas started.")),
 
     MATCH_STARTING_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.starting.message.enabled", true),
     MATCH_STARTING_MESSAGE_FORMAT("messages/game-messages.yml", "match.starting.message.format", Collections.singletonList("&a{stage}...")),
+
+    MATCH_ROUND_STARTING_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.round-starting.message.enabled", true),
+    MATCH_ROUND_STARTING_MESSAGE_FORMAT("messages/game-messages.yml", "match.round-starting.message.format", Collections.singletonList("&a{stage}...")),
 
     MATCH_RESPAWNING_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.respawning.message.enabled", true),
     MATCH_RESPAWNING_MESSAGE_FORMAT("messages/game-messages.yml", "match.respawning.message.format", Collections.singletonList("&a{seconds}...")),
@@ -128,6 +162,7 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
+    MATCH_ENDED_SPECTATORS_LIST("messages/game-messages.yml", "match.ended.spectators-list", Collections.singletonList("&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)")),
     MATCH_ENDED_MATCH_RESULT_REGULAR_FORMAT("messages/game-messages.yml", "match.ended.match-result.regular.format", Arrays.asList(
             "",
             "&6&lMatch Results: &7(click to view)",
@@ -147,24 +182,24 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
-    MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN("messages/game-messages.yml", "match.ended.division-progress.enabled", true),
-    MATCH_DIVISION_PROGRESS_ONGOING_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.ongoing", Arrays.asList(
-            "",
-            "&6&lProgress",
-            " &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!",
-            "  &7({progress-bar}&7) {progress-percentage}",
-            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
-            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
-            ""
-    )),
-    MATCH_DIVISION_PROGRESS_REACHED_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.reached", Arrays.asList(
-            "",
-            "&a&lCONGRATULATIONS!",
-            " &6&l│ &fReached: &6{reached-new-division}",
-            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
-            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
-            ""
-    )),
+//    MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN("messages/game-messages.yml", "match.ended.division-progress.enabled", true),
+//    MATCH_DIVISION_PROGRESS_ONGOING_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.ongoing", Arrays.asList(
+//            "",
+//            "&6&lProgress",
+//            " &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!",
+//            "  &7({progress-bar}&7) {progress-percentage}",
+//            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
+//            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
+//            ""
+//    )),
+//    MATCH_DIVISION_PROGRESS_REACHED_FORMAT("messages/game-messages.yml", "match.ended.division-progress.format.reached", Arrays.asList(
+//            "",
+//            "&a&lCONGRATULATIONS!",
+//            " &6&l│ &fReached: &6{reached-new-division}",
+//            " &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})",
+//            " &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})",
+//            ""
+//    )),
 
     MATCH_BLOCKS_RESET_MESSAGE_ENABLED_BOOLEAN("messages/game-messages.yml", "match.blocks-reset.enabled", true),
     MATCH_BLOCKS_RESET_MESSAGE_FORMAT("messages/game-messages.yml", "match.blocks-reset.format", Collections.singletonList("&4{name-color}{player} &ffelt like being a nerd and reset the blocks!")),
@@ -172,18 +207,14 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
     MATCH_PLATFORM_DECAY_WILL_NO_LONGER_DECAY("messages/game-messages.yml", "match.platform-decay.will-no-longer-decay", Collections.singletonList("&c&lThe platform will no longer decay!")),
 
     MATCH_PLATFORM_DECAY_NOTIFICATION_75_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.75.format", Collections.singletonList("&6The arena has begun to crumble...")),
-    MATCH_PLATFORM_DECAY_NOTIFICATION_75_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.75.sound", "DIG_STONE"),
     MATCH_PLATFORM_DECAY_NOTIFICATION_50_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.50.format", Collections.singletonList("&e&lWARNING! &eThe arena has shrunk by half!")),
-    MATCH_PLATFORM_DECAY_NOTIFICATION_50_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.50.sound", "WITHER_HURT"),
     MATCH_PLATFORM_DECAY_NOTIFICATION_25_FORMAT("messages/game-messages.yml", "match.platform-decay.notifications.25.format", Collections.singletonList("&c&lDANGER! &cThe platform is collapsing fast!")),
-    MATCH_PLATFORM_DECAY_NOTIFICATION_25_SOUND("messages/game-messages.yml", "match.platform-decay.notifications.25.sound", "ENDERDRAGON_GROWL"),
 
-    MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT("messages/game-messages.yml", "match.started.versus.solo.format", Collections.singletonList(
-            "&7[&6Match&7] &6{playerA} &avs &6{playerB}"
-    )),
-    MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT("messages/game-messages.yml", "match.started.versus.team.format", Collections.singletonList(
-            "&7[&6Match&7] &6{teamA-leader}'s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}'s Team &7(&a{teamB-size}&7)"
-    )),
+    MATCH_PLAYER_VS_PLAYER_SOLO_ENABLED_BOOLEAN("messages/game-messages.yml", "match.versus-message.solo.enabled", true),
+    MATCH_PLAYER_VS_PLAYER_SOLO_FORMAT("messages/game-messages.yml", "match.versus-message.solo.format", Collections.singletonList("&7[&6Match&7] &6{playerA} &avs &6{playerB}")),
+
+    MATCH_PLAYER_VS_PLAYER_TEAM_ENABLED_BOOLEAN("messages/game-messages.yml", "match.versus-message.team.enabled", true),
+    MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT("messages/game-messages.yml", "match.versus-message.team.format", Collections.singletonList("&7[&6Match&7] &6{teamA-leader}'s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}'s Team &7(&a{teamB-size}&7)")),
 
     PARTY_INVITATION_RECEIVED_CLICKABLE_FORMAT("messages/game-messages.yml", "party.invitation.received.clickable.format", " &a(Click To Accept)"),
     PARTY_INVITATION_RECEIVED_CLICKABLE_COMMAND("messages/game-messages.yml", "party.invitation.received.clickable.command", "/party accept {sender}"),
@@ -213,6 +244,21 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             " &6&l│ &fLeader: &6{name-color}{leader}",
             " &6&l│ &fPlayers: &6{party-size}&f/&6N/A",
             "{clickable}",
+            ""
+    )),
+
+    PARTY_REQUEST_EXPIRED_ENABLED_BOOLEAN("messages/game-messages.yml", "party.request.expired.sender.enabled", true),
+    PARTY_REQUEST_EXPIRED("messages/game-messages.yml", "party.request.expired.sender.format", Arrays.asList(
+            "",
+            "&c&lParty Request Expired",
+            " &c&l│ &fYour party request to &6{target} &fhas expired.",
+            ""
+    )),
+    PARTY_REQUEST_EXPIRED_TARGET_ENABLED_BOOLEAN("messages/game-messages.yml", "party.request.expired.target.enabled", true),
+    PARTY_REQUEST_EXPIRED_TARGET("messages/game-messages.yml", "party.request.expired.target.format", Arrays.asList(
+            "",
+            "&c&lParty Request Expired",
+            " &c&l│ &fThe party request from &6{sender} &fhas expired.",
             ""
     )),
 

@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.hotbar.command;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.common.text.CC;
 
 import java.util.Arrays;
 
@@ -19,9 +19,9 @@ public class HotbarCommand extends BaseCommand {
                 "&c&l[NOTE] &fThese commands are not implemented yet.",
                 "",
                 "&6&lHotbar Commands Help",
-                " &f● &6/hotbar create &8(&7name&8) &8(&7type&8) &7| Create a new hotbar item.",
-                " &f● &6/hotbar delete &8(&7name&8) &7| Delete a hotbar item.",
-                " &f● &6/hotbar list &7| List all hotbar items.",
+                " &f◆ &6/hotbar create &8(&7name&8) &8(&7type&8) &7| Create a new hotbar item.",
+                " &f◆ &6/hotbar delete &8(&7name&8) &7| Delete a hotbar item.",
+                " &f◆ &6/hotbar list &7| List all hotbar items.",
                 ""
         ).forEach(line -> command.getSender().sendMessage(CC.translate(line)));
 

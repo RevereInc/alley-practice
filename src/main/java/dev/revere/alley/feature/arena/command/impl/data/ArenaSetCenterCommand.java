@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -52,13 +51,13 @@ public class ArenaSetCenterCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         arena.setCenter(player.getLocation());
         arenaService.saveArena(arena);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CENTER_SET).replace("{arena-name}", arena.getName()));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_CENTER_SET).replace("{arena-name}", arena.getName()));
     }
 }

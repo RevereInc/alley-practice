@@ -26,7 +26,7 @@ public class ToggleServerTitlesCommand extends BaseCommand {
         Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setServerTitles(!profile.getProfileData().getSettingData().isServerTitles());
 
-        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_SERVER_TITLES)
+        player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_SERVER_TITLES)
                 .replace("{status}", profile.getProfileData().getSettingData().isServerTitles() ? "&aenabled" : "&cdisabled"))
         );
     }

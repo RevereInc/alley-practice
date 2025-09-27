@@ -10,7 +10,6 @@ import dev.revere.alley.common.elo.OldEloResult;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
@@ -252,24 +251,27 @@ public class DefaultMatch extends Match {
     private void sendVictory(GameParticipant<MatchGamePlayer> winner) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_VICTORY_HEADER).replace("{winner}", winner.getLeader().getUsername());
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FOOTER).replace("{winner}", winner.getLeader().getUsername());
 
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADEOUT);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_RESPAWNED_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_VICTORY_HEADER).replace("{winner}", winner.getLeader().getUsername());
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FOOTER).replace("{winner}", winner.getLeader().getUsername());
 
-        winner.getPlayers().forEach(matchGamePlayer -> {
-            Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
-            if (player != null && player.isOnline()) {
-                this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                        player,
-                        header,
-                        footer,
-                        fadeIn, stay, fadeOut
-                );
-            }
-        });
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_VICTORY_FADEOUT);
+
+            winner.getPlayers().forEach(matchGamePlayer -> {
+                Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
+                if (player != null && player.isOnline()) {
+                    this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                            player,
+                            header,
+                            footer,
+                            fadeIn, stay, fadeOut
+                    );
+                }
+            });
+        }
     }
 
     /**
@@ -280,24 +282,26 @@ public class DefaultMatch extends Match {
     private void sendDefeat(GameParticipant<MatchGamePlayer> loser, GameParticipant<MatchGamePlayer> winner) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_HEADER).replace("{winner}", winner.getLeader().getUsername());
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FOOTER).replace("{winner}", winner.getLeader().getUsername());
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_HEADER).replace("{winner}", winner.getLeader().getUsername());
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FOOTER).replace("{winner}", winner.getLeader().getUsername());
 
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADEOUT);
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_DEFEAT_FADEOUT);
 
-        loser.getPlayers().forEach(matchGamePlayer -> {
-            Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
-            if (player != null && player.isOnline()) {
-                this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                        player,
-                        header,
-                        footer,
-                        fadeIn, stay, fadeOut
-                );
-            }
-        });
+            loser.getPlayers().forEach(matchGamePlayer -> {
+                Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
+                if (player != null && player.isOnline()) {
+                    this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                            player,
+                            header,
+                            footer,
+                            fadeIn, stay, fadeOut
+                    );
+                }
+            });
+        }
     }
 
     /**
@@ -313,7 +317,7 @@ public class DefaultMatch extends Match {
     public void sendEloResult(String winnerName, String loserName, int oldEloWinner, int oldEloLoser, int newEloWinner, int newEloLoser) {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_ENABLED_BOOLEAN)) {
-            List<String> list = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_FORMAT);
+            List<String> list = localeService.getStringList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_ELO_CHANGES_FORMAT);
 
             list.replaceAll(string -> string
                     .replace("{winner}", winnerName)
@@ -359,14 +363,14 @@ public class DefaultMatch extends Match {
             );
         }
 
-        Arrays.asList(
-                "&6&lProgress",
-                progressLine,
-                "  &7(" + progress.getProgressBar(12, "■") + "&7) " + progress.getProgressPercentage(),
-                " &6&l● &fDaily Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
-                " &6&l● &fWin Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
-                ""
-        ).forEach(line -> winner.sendMessage(CC.translate(line)));
+//        Arrays.asList(
+//                "&6&lProgress",
+//                progressLine,
+//                "  &7(" + progress.getProgressBar(12, "■") + "&7) " + progress.getProgressPercentage(),
+//                " &6&l● &fDaily Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
+//                " &6&l● &fWin Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
+//                ""
+//        ).forEach(line -> winner.sendMessage(CC.translate(line)));
 
 //        LocaleService localeService = this.plugin.getService(LocaleService.class);
 //        if (!localeService.getBoolean(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN)) {

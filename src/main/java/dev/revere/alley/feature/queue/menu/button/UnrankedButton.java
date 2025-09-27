@@ -83,7 +83,7 @@ public class UnrankedButton extends Button {
 
         ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(this.plugin.getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+            player.sendMessage(this.plugin.getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

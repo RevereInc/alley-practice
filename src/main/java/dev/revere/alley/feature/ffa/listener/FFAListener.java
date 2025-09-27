@@ -48,7 +48,7 @@ public class FFAListener implements Listener {
 
         if (ListenerUtil.isSword(event.getItemDrop().getItemStack().getType())) {
             event.setCancelled(true);
-            player.sendMessage(localeService.getMessage(GameMessagesLocaleImpl.GAME_CANNOT_DROP_SWORD));
+            player.sendMessage(localeService.getString(GameMessagesLocaleImpl.GAME_CANNOT_DROP_SWORD));
             return;
         }
 
@@ -106,7 +106,7 @@ public class FFAListener implements Listener {
             event.setCancelled(true);
             InventoryUtil.giveItem(player, Material.ENDER_PEARL, 1);
             player.updateInventory();
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_CANNOT_USE_AT_FFA_SPAWN));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_CANNOT_USE_AT_FFA_SPAWN));
             return;
         }
 
@@ -117,12 +117,12 @@ public class FFAListener implements Listener {
             event.setCancelled(true);
             InventoryUtil.giveItem(player, Material.ENDER_PEARL, 1);
             player.updateInventory();
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_PEARL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTime())));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_PEARL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTime())));
             return;
         }
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL, () -> player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_CAN_NOW_USE_PEARLS_AGAIN)));
+            Cooldown newCooldown = new Cooldown(CooldownType.ENDER_PEARL, () -> player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_CAN_NOW_USE_PEARLS_AGAIN)));
             cooldownService.addCooldown(player.getUniqueId(), CooldownType.ENDER_PEARL, newCooldown);
             return newCooldown;
         });

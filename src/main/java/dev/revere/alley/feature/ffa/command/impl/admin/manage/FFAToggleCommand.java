@@ -1,13 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -35,13 +34,13 @@ public class FFAToggleCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", args[0]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", args[0]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_KIT_NOT_ELIGIBLE));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_KIT_NOT_ELIGIBLE));
             return;
         }
 
@@ -50,10 +49,10 @@ public class FFAToggleCommand extends BaseCommand {
 
         kitService.saveKit(kit);
         ffaService.reloadFFAKits();
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_TOGGLED)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_TOGGLED)
                 .replace("{kit-name}", kit.getName())
                 .replace("{status}", ffaEnabled ? "enabled" : "disabled")
         );
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_KITS_RELOADED));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_KITS_RELOADED));
     }
 }

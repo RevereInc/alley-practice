@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.match.snapshot.command;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.match.snapshot.Snapshot;
+import dev.revere.alley.feature.match.snapshot.SnapshotService;
+import dev.revere.alley.feature.match.snapshot.menu.SnapshotMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.match.snapshot.SnapshotService;
-import dev.revere.alley.feature.match.snapshot.Snapshot;
-import dev.revere.alley.feature.match.snapshot.menu.SnapshotMenu;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -45,7 +45,7 @@ public class InventoryCommand extends BaseCommand {
         }
 
         if (snapshot == null) {
-            player.sendMessage(CC.translate("&cThis inventory has expired."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.SNAPSHOT_INVENTORY_EXPIRED));
             return;
         }
 

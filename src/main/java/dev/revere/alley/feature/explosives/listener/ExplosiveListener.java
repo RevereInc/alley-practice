@@ -1,7 +1,6 @@
 package dev.revere.alley.feature.explosives.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
@@ -80,12 +79,13 @@ public class ExplosiveListener implements Listener {
         CooldownService cooldownService = AlleyPlugin.getInstance().getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
             return;
         }
 
         Cooldown cooldown = optionalCooldown.orElseGet(() -> {
-            Cooldown newCooldown = new Cooldown(cooldownType, () -> {});
+            Cooldown newCooldown = new Cooldown(cooldownType, () -> {
+            });
             cooldownService.addCooldown(player.getUniqueId(), cooldownType, newCooldown);
             return newCooldown;
         });

@@ -5,6 +5,8 @@ import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.BlockAnimationReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.enums.ProfileState;
@@ -46,9 +48,6 @@ import java.util.stream.Collectors;
  * @since 08/02/2025
  */
 public class MatchBlockListener implements Listener {
-
-    //TODO: Locale
-
     @EventHandler()
     public void onBlockFromEvent(BlockFromToEvent event) {
 
@@ -57,7 +56,9 @@ public class MatchBlockListener implements Listener {
     @EventHandler
     private void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
+
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         Match match = profile.getMatch();
@@ -95,7 +96,7 @@ public class MatchBlockListener implements Listener {
                         boolean isSeeker = seekers.containsPlayer(player.getUniqueId());
 
                         if (matchHideAndSeek.getGameEndTask() == null && isSeeker) {
-                            player.sendMessage(CC.translate("&cYou cannot break blocks during the hiding phase!"));
+                            player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_BREAK_BLOCKS_DURING_HIDING_PHASE));
                             event.setCancelled(true);
                             return;
                         }
@@ -125,7 +126,7 @@ public class MatchBlockListener implements Listener {
                         }
 
                         if (!arena.isEnemyBed(block, participant)) {
-                            player.sendMessage(CC.translate("&cYou cannot break your own bed!"));
+                            player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_BREAK_OWN_BED));
                             event.setCancelled(true);
                             return;
                         }
@@ -197,6 +198,7 @@ public class MatchBlockListener implements Listener {
         Player player = event.getPlayer();
         Block placedBlock = event.getBlockPlaced();
 
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
@@ -224,14 +226,15 @@ public class MatchBlockListener implements Listener {
                     Location blockLocation = placedBlock.getLocation();
 
                     if (blockLocation.getBlockY() > arena.getHeightLimit()) {
-                        player.sendMessage(CC.translate("&cYou cannot place blocks above the height limit!"));
+                        player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_PLACE_BLOCKS_ABOVE_HEIGHT_LIMIT));
                         event.setCancelled(true);
                         return;
                     }
 
+                    //TODO: make this check configurable in settings config
                     if ((arena.getTeam1Portal() != null && blockLocation.distance(arena.getTeam1Portal()) <= arena.getPortalRadius()) ||
                             (arena.getTeam2Portal() != null && blockLocation.distance(arena.getTeam2Portal()) <= arena.getPortalRadius())) {
-                        player.sendMessage(CC.translate("&cYou cannot build near a portal!"));
+                        player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_BUILD_NEAR_PORTAL));
                         event.setCancelled(true);
                         return;
                     }
@@ -255,7 +258,7 @@ public class MatchBlockListener implements Listener {
                         boolean isSeeker = seekers.containsPlayer(player.getUniqueId());
 
                         if (matchHideAndSeek.getGameEndTask() == null && isSeeker) {
-                            player.sendMessage(CC.translate("&cYou cannot place blocks during the hiding phase!"));
+                            player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_PLACE_BLOCKS_DURING_HIDING_PHASE));
                             event.setCancelled(true);
                             return;
                         }
@@ -319,6 +322,7 @@ public class MatchBlockListener implements Listener {
     @EventHandler
     private void onDoorOpen(PlayerInteractEvent event) {
         Player player = event.getPlayer();
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
@@ -340,7 +344,7 @@ public class MatchBlockListener implements Listener {
                         return;
                     }
                     event.setCancelled(true);
-                    player.sendMessage(CC.translate("&cYou cannot interact as a raider!"));
+                    player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_INTERACT_AS_RAIDER));
                 }
             }
         } else {
@@ -350,7 +354,7 @@ public class MatchBlockListener implements Listener {
 
             if (ListenerUtil.isInteractiveBlock(event.getClickedBlock().getType())) {
                 event.setCancelled(true);
-                player.sendMessage(CC.translate("&cYou cannot interact during a match!"));
+                player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_CANNOT_INTERACT_DURING_MATCH));
             }
         }
     }
@@ -409,8 +413,7 @@ public class MatchBlockListener implements Listener {
     }
 
     private boolean isValidDirection(String direction) {
-        return direction != null &&
-                (direction.equalsIgnoreCase("Up") || direction.equalsIgnoreCase("Down"));
+        return direction != null && (direction.equalsIgnoreCase("Up") || direction.equalsIgnoreCase("Down"));
     }
 
     private void breakSignAndNotifyPlayer(SignChangeEvent event) {
@@ -448,7 +451,8 @@ public class MatchBlockListener implements Listener {
             searchLocation.add(0.0, 1.0, 0.0);
         }
 
-        player.sendMessage(CC.translate("&cCould not teleport."));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+        player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_ELEVATOR_NO_SAFE_SPOT_FOUND));
     }
 
     private void teleportDown(Player player, Location signLocation) {
@@ -465,7 +469,8 @@ public class MatchBlockListener implements Listener {
             searchLocation.subtract(0.0, 1.0, 0.0);
         }
 
-        player.sendMessage(CC.translate("&cCould not teleport."));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+        player.sendMessage(localeService.getString(GameMessagesLocaleImpl.MATCH_ELEVATOR_NO_SAFE_SPOT_FOUND));
     }
 
     private Location findSafeSpotAbove(Location startLocation) {

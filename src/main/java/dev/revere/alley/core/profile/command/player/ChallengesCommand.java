@@ -1,6 +1,6 @@
 package dev.revere.alley.core.profile.command.player;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.constants.MessageConstant;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
@@ -24,10 +24,10 @@ public class ChallengesCommand extends BaseCommand {
         Player player = command.getPlayer();
         Profile profile = this.getProfile(player.getUniqueId());
         if (profile.isBusy()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
-        player.sendMessage(CC.translate("&cThis feature is not yet implemented."));
+        player.sendMessage(MessageConstant.IN_DEVELOPMENT);
     }
 }

@@ -1,8 +1,8 @@
 package dev.revere.alley.core.profile.menu.setting.button;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.constants.MessageConstant;
 import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
@@ -83,7 +83,7 @@ public class PracticeSettingsButton extends Button {
                 break;
             case MATCH_SETTINGS:
                 player.closeInventory();
-                player.sendMessage(CC.translate("&cThis feature is currently in development."));
+                player.sendMessage(MessageConstant.IN_DEVELOPMENT);
                 break;
             case COSMETICS:
                 new CosmeticsMenu().openMenu(player);
@@ -111,25 +111,25 @@ public class PracticeSettingsButton extends Button {
         switch (newTime) {
             case DEFAULT:
                 profile.getProfileData().getSettingData().setTimeDefault(player);
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case DAY:
                 profile.getProfileData().getSettingData().setTimeDay(player);
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case SUNSET:
                 profile.getProfileData().getSettingData().setTimeSunset(player);
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;
             case NIGHT:
                 profile.getProfileData().getSettingData().setTimeNight(player);
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET)
                         .replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase())
                 );
                 break;

@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
@@ -80,19 +79,19 @@ public class MatchStartCommand extends BaseCommand {
         String arenaName = args[3];
 
         if (player1 == null || player2 == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Kit kit = this.plugin.getService(KitService.class).getKit(kitName);
         if (kit == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", kitName));
             return;
         }
 

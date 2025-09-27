@@ -1,13 +1,13 @@
 package dev.revere.alley.adapter.core.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.adapter.core.Core;
 import dev.revere.alley.adapter.core.CoreType;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.level.LevelService;
 import me.activated.core.api.tags.Tag;
 import me.activated.core.plugin.AquaCoreAPI;
@@ -109,15 +109,15 @@ public class AquaCoreImpl implements Core {
         String selectedTitle = CC.translate(profile.getProfileData().getSelectedTitle());
         String level = CC.translate(AlleyPlugin.getInstance().getService(LevelService.class).getLevel(profile.getProfileData().getGlobalLevel()).getDisplayName());
 
-        String tagAppearanceFormat = localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
+        String tagAppearanceFormat = localeService.getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
                 .replace("{tag-color}", String.valueOf(this.getTagColor(player)))
                 .replace("{tag-prefix}", CC.translate(this.getTagPrefix(player)));
 
-        if (player.hasPermission(localeService.getMessage(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
+        if (player.hasPermission(localeService.getString(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
             eventMessage = CC.translate(eventMessage);
         }
 
-        return localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
+        return localeService.getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
                 .replace("{prefix}", prefix)
                 .replace("{rank-color}", String.valueOf(this.getRankColor(player)))
                 .replace("{name-color}", String.valueOf(nameColor))

@@ -1,5 +1,6 @@
 package dev.revere.alley.common;
 
+import dev.revere.alley.feature.match.Match;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -99,5 +100,22 @@ public class SoundUtil {
      */
     public void playBlast(Player player) {
         player.playSound(player.getLocation(), Sound.FIREWORK_BLAST, 20F, 15F);
+    }
+
+    /**
+     * Play a sound to all players in the match if enabled
+     *
+     * @param match   the match to play the sound in
+     * @param sound   the sound to play
+     * @param enabled whether the sound is enabled or not
+     */
+    private void playSoundIfEnabled(Match match, Sound sound, boolean enabled) {
+        if (match == null) {
+            throw new IllegalArgumentException("Match cannot be null");
+        }
+
+        if (enabled) {
+            match.playSound(sound);
+        }
     }
 }

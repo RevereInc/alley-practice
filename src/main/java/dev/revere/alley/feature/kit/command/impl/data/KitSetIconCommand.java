@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.kit.command.impl.data;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -34,14 +34,14 @@ public class KitSetIconCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND)));
             return;
         }
 
         kit.setIcon(player.getItemInHand().getType());
         kit.setDurability(player.getItemInHand().getDurability());
         kitService.saveKit(kit);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_ICON_SET)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_ICON_SET)
                 .replace("{kit-name}", kit.getName())
                 .replace("{icon}", player.getItemInHand().getType().name().toUpperCase() + ":" + player.getItemInHand().getDurability())
         );

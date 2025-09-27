@@ -28,22 +28,22 @@ public class ArenaValidator {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (arena.getMinimum() == null || arena.getMaximum() == null) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_NO_SELECTION));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_NO_SELECTION));
             return false;
         }
 
         if (arena.getPos1() == null || arena.getPos2() == null) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_SPAWN_NOT_SET));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_SPAWN_NOT_SET));
             return false;
         }
 
         if (arena.getCenter() == null) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_CENTER_NOT_SET));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_CENTER_NOT_SET));
             return false;
         }
 
         if (arena.getKits().isEmpty()) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_MUST_ADD_KIT));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_MUST_ADD_KIT));
             return false;
         }
 
@@ -51,14 +51,14 @@ public class ArenaValidator {
         for (String kitName : arena.getKits()) {
             Kit kit = kitService.getKit(kitName);
             if (kit == null) {
-                player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_ASSIGNED_KIT_NULL).replace("{kit-name}", kitName));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_ASSIGNED_KIT_NULL).replace("{kit-name}", kitName));
                 return false;
             }
 
             if (arena.getType() == ArenaType.STANDALONE) {
                 StandAloneArena standAloneArena = (StandAloneArena) arena;
                 if ((kit.isSettingEnabled(KitSettingRounds.class) || kit.isSettingEnabled(KitSettingBridges.class)) && (standAloneArena.getTeam1Portal() == null || standAloneArena.getTeam2Portal() == null)) {
-                    player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ARENA_STANDALONE_PORTALS_NOT_SET));
+                    player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ARENA_STANDALONE_PORTALS_NOT_SET));
                     return false;
                 }
             }

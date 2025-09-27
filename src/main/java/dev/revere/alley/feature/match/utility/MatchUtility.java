@@ -80,11 +80,11 @@ public class MatchUtility {
     public void sendMatchResult(Match match, String winnerName, String loserName, UUID winnerUuid, UUID loserUuid) {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        List<String> format = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_FORMAT);
-        String winnerCommand = localeService.getMessage(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_COMMAND).replace("{winner}", String.valueOf(winnerUuid));
-        String winnerHover = localeService.getMessage(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_HOVER).replace("{winner}", winnerName);
-        String loserCommand = localeService.getMessage(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_COMMAND).replace("{loser}", String.valueOf(loserUuid));
-        String loserHover = localeService.getMessage(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_HOVER).replace("{loser}", loserName);
+        List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_FORMAT);
+        String winnerCommand = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_COMMAND).replace("{winner}", String.valueOf(winnerUuid));
+        String winnerHover = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_HOVER).replace("{winner}", winnerName);
+        String loserCommand = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_COMMAND).replace("{loser}", String.valueOf(loserUuid));
+        String loserHover = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_HOVER).replace("{loser}", loserName);
 
         for (String line : format) {
             if (line.contains("{winner}") && line.contains("{loser}")) {

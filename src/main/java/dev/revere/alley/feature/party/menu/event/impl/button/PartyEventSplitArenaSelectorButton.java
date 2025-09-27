@@ -32,7 +32,7 @@ public class PartyEventSplitArenaSelectorButton extends Button {
         return new ItemBuilder(Material.PAPER)
                 .name("&6&l" + this.arena.getName())
                 .lore(
-                        " &f● &6Kit: &f" + this.kit.getDisplayName(),
+                        " &f◆ &6Kit: &f" + this.kit.getDisplayName(),
                         "",
                         "&aClick to select!"
                 )
@@ -48,7 +48,7 @@ public class PartyEventSplitArenaSelectorButton extends Button {
         Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
         if (party == null) {
             player.closeInventory();
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 

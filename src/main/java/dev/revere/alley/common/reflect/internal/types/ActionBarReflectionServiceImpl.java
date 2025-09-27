@@ -70,8 +70,19 @@ public class ActionBarReflectionServiceImpl implements Reflection {
      * @param victim The player who died.
      */
     public void sendDeathMessage(Player killer, Player victim) {
-        Profile victimProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(victim.getUniqueId());
-        this.sendMessage(killer, "&c&lKILL! &f" + victimProfile.getFancyName(), 3);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        if (localeService.getBoolean(VisualsLocaleImpl.ACTIONBAR_DEATH_MESSAGE_ENABLED_BOOLEAN)) {
+            Profile victimProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(victim.getUniqueId());
+            Profile killerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(killer.getUniqueId());
+
+            String deathMessage = localeService.getString(VisualsLocaleImpl.ACTIONBAR_DEATH_MESSAGE_FORMAT)
+                    .replace("{victim}", victim.getName())
+                    .replace("{killer}", killer.getName())
+                    .replace("{name-color}", String.valueOf(victimProfile.getNameColor()))
+                    .replace("{killer-name-color}", String.valueOf(killerProfile.getNameColor()));
+            this.sendMessage(killer, deathMessage, 3);
+        }
     }
 
     /**
@@ -83,14 +94,14 @@ public class ActionBarReflectionServiceImpl implements Reflection {
     public void visualizeTargetHealth(Player player, Player target) {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String message = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT)
+        String message = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT)
                 .replace("{target}", target.getName())
                 .replace("{name-color}", AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(target.getUniqueId()).getNameColor().toString());
 
-        String symbol = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE);
-        String fullColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL);
-        String halfColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF);
-        String emptyColor = localeService.getMessage(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY);
+        String symbol = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE);
+        String fullColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL);
+        String halfColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF);
+        String emptyColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY);
 
         int maxHealth = (int) target.getMaxHealth() / 2;
         double rawHealth = target.getHealth() / 2;

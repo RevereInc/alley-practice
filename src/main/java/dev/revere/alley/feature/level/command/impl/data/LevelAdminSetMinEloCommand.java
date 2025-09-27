@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.level.command.impl.data;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.level.LevelService;
 import dev.revere.alley.feature.level.data.LevelData;
@@ -36,7 +35,7 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         LevelService levelService = this.plugin.getService(LevelService.class);
         LevelData level = levelService.getLevel(levelName);
         if (level == null) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_NOT_FOUND).replace("{level-name}", levelName));
             return;
         }
 
@@ -44,24 +43,24 @@ public class LevelAdminSetMinEloCommand extends BaseCommand {
         try {
             minElo = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         if (minElo < 0) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_CANNOT_BE_NEGATIVE));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_CANNOT_BE_NEGATIVE));
             return;
         }
 
         if (minElo >= level.getMaxElo()) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_MUST_BE_LESS_THAN_MAXIMUM));
             return;
         }
 
         level.setMinElo(minElo);
         levelService.saveLevel(level);
 
-        sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_SET)
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.LEVEL_MINIMUM_ELO_SET)
                 .replace("{level-name}", levelName)
                 .replace("{min-elo}", String.valueOf(minElo))
         );

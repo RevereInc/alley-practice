@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -32,12 +31,12 @@ public class HeartAttackCommand extends BaseCommand {
         String targetName = args[0];
         Player targetPlayer = player.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         targetPlayer.setHealth(0.5D);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_GIVEN_HEART_ATTACK)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_GIVEN_HEART_ATTACK)
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
                 .replace("{player}", targetPlayer.getName())
         );

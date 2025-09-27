@@ -25,12 +25,12 @@ public class MatchHistoryCommand extends BaseCommand {
         Player player = command.getPlayer();
         Profile profile = this.getProfile(player.getUniqueId());
         if (profile.isBusy()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
         if (profile.getProfileData().getPreviousMatches().isEmpty()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NO_MATCH_HISTORY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NO_MATCH_HISTORY));
             return;
         }
 

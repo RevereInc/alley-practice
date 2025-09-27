@@ -38,18 +38,18 @@ public class RankedUnbanCommand extends BaseCommand {
         String targetName = args[0];
         OfflinePlayer target = PlayerUtil.getOfflinePlayerByName(targetName);
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile == null) {
-            player.sendMessage(CC.translate("&cProfile not found."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         if (!profile.getProfileData().isRankedBanned()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.RANKED_PLAYER_NOT_BANNED)
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.RANKED_PLAYER_NOT_BANNED)
                     .replace("{name-color}", String.valueOf(profile.getNameColor()))
                     .replace("{player}", target.getName())
             );
@@ -58,7 +58,7 @@ public class RankedUnbanCommand extends BaseCommand {
 
         profile.getProfileData().setRankedBanned(false);
         if (this.getBoolean(GlobalMessagesLocaleImpl.RANKED_PLAYER_UNBAN_BROADCAST_BOOLEAN)) {
-            List<String> message = this.getMessageList(GlobalMessagesLocaleImpl.RANKED_PLAYER_UNBAN_BROADCAST);
+            List<String> message = this.getStringList(GlobalMessagesLocaleImpl.RANKED_PLAYER_UNBAN_BROADCAST);
             for (String line : message) {
                 this.plugin.getServer().broadcastMessage(CC.translate(line
                         .replace("{name-color}", String.valueOf(profile.getNameColor()))
@@ -73,7 +73,7 @@ public class RankedUnbanCommand extends BaseCommand {
         if (this.getBoolean(GlobalMessagesLocaleImpl.RANKED_UNBAN_MESSAGE_NOTICE_BOOLEAN)) {
             if (target.isOnline()) {
                 Player targetPlayer = (Player) target;
-                List<String> message = this.getMessageList(GlobalMessagesLocaleImpl.RANKED_UNBAN_MESSAGE_NOTICE);
+                List<String> message = this.getStringList(GlobalMessagesLocaleImpl.RANKED_UNBAN_MESSAGE_NOTICE);
                 for (String line : message) {
                     targetPlayer.sendMessage(line
                             .replace("{name-color}", String.valueOf(profile.getNameColor()))

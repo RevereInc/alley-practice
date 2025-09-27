@@ -291,7 +291,7 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
         String label = args.getLabel();
         String[] parts = label.split(":");
 
-        if (args.getSender().hasPermission(this.localeService.getMessage(SettingsLocaleImpl.PERMISSION_COMMAND_SYNTAX_BYPASS))) {
+        if (args.getSender().hasPermission(this.localeService.getString(SettingsLocaleImpl.PERMISSION_COMMAND_SYNTAX_BYPASS))) {
             if (parts.length > 1) {
                 String commandToExecute = parts[1];
 
@@ -310,7 +310,7 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
                 args.getSender().sendMessage(CC.translate("&cMissing arguments / Wrong format or Internal error."));
             }
         } else {
-            args.getSender().sendMessage(this.localeService.getMessage(SettingsLocaleImpl.COMMAND_ANTI_SYNTAX_MESSAGE).replace("{argument}", args.getLabel()));
+            args.getSender().sendMessage(this.localeService.getString(SettingsLocaleImpl.COMMAND_ANTI_SYNTAX_MESSAGE).replace("{argument}", args.getLabel()));
         }
     }
 }

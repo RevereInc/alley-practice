@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
@@ -34,12 +33,12 @@ public class StrikeCommand extends BaseCommand {
         Player targetPlayer = player.getServer().getPlayer(targetName);
 
         if (targetPlayer == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         targetPlayer.getWorld().strikeLightning(targetPlayer.getLocation());
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.TROLL_PLAYER_STRUCK_BY_LIGHTNING)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_STRUCK_BY_LIGHTNING)
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
                 .replace("{player}", targetPlayer.getName())
         );

@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.spawn.command;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -29,7 +29,7 @@ public class SetSpawnCommand extends BaseCommand {
         Location location = player.getLocation();
         this.plugin.getService(SpawnService.class).updateSpawnLocation(location);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.SPAWN_SET)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.SPAWN_SET)
                 .replace("{world}", Objects.requireNonNull(location.getWorld()).getName())
                 .replace("{x}", String.format("%.2f", location.getX()))
                 .replace("{y}", String.format("%.2f", location.getY()))

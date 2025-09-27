@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -54,19 +53,13 @@ public class ArenaTeleportCommand extends BaseCommand {
         Arena arena = this.plugin.getService(ArenaService.class).getArenaByName(arenaName);
 
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getCenter() == null) {
-            player.sendMessage(CC.translate("&cThe arena does not have a defined center location."));
-            if (arena.getPos1() == null) {
-                return;
-            }
-
-            player.teleport(arena.getPos1());
-            player.sendMessage(CC.translate("&aYou have been teleported to position 1 instead."));
-            return;
+            //TODO: open menu to choose specific position to teleport to
+            throw new UnsupportedOperationException("Arena center is not set.");
         }
 
         player.teleport(arena.getCenter());

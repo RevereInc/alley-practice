@@ -127,7 +127,7 @@ public class Queue {
                 }
             } else {
                 if (profile.getState() != ProfileState.LOBBY) {
-                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                     return;
                 }
 
@@ -137,7 +137,7 @@ public class Queue {
             }
         } else {
             if (profile.getState() != ProfileState.LOBBY) {
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                 return;
             }
         }
@@ -172,7 +172,7 @@ public class Queue {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_JOINED_BOOLEAN)) {
-            List<String> joinMessage = localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_JOINED);
+            List<String> joinMessage = localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_JOINED);
             for (String line : joinMessage) {
                 line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
                 line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());
@@ -225,7 +225,7 @@ public class Queue {
                 LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
                 if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_LEFT_BOOLEAN)) {
-                    List<String> joinMessage = localeService.getMessageList(GlobalMessagesLocaleImpl.QUEUE_LEFT);
+                    List<String> joinMessage = localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_LEFT);
                     for (String line : joinMessage) {
                         line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
                         line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());

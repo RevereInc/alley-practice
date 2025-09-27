@@ -83,7 +83,7 @@ public class RankedButton extends Button {
 
         ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

@@ -146,10 +146,10 @@ public class KitServiceImpl implements KitService {
 
     @Override
     public void createKit(String kitName, ItemStack[] inventory, ItemStack[] armor, Material icon) {
-        String defaultDisplayName = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISPLAYNAME).replace("{kit}", kitName);
-        String defaultDescription = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DESCRIPTION).replace("{kit}", kitName);
-        String defaultDisclaimer = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISCLAIMER).replace("{kit}", kitName);
-        String defaultMenuTitle = this.localeService.getMessage(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_MENU_TITLE).replace("{kit}", kitName);
+        String defaultDisplayName = this.localeService.getString(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISPLAYNAME).replace("{kit-name}", kitName);
+        String defaultDescription = this.localeService.getString(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DESCRIPTION).replace("{kit-name}", kitName);
+        String defaultDisclaimer = this.localeService.getString(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_DISCLAIMER).replace("{kit-name}", kitName);
+        String defaultMenuTitle = this.localeService.getString(SettingsLocaleImpl.CONFIG_KIT_DEFAULT_MENU_TITLE).replace("{kit-name}", kitName);
 
         Kit kit = new Kit(
                 kitName,

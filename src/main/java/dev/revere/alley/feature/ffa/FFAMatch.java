@@ -4,6 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
@@ -163,7 +164,12 @@ public abstract class FFAMatch {
         killerFfaData.incrementKills();
         killerFfaData.incrementKillstreak();
 
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate("&7(Combat Log) &c" + player.getName() + " has been killed by " + killer.getName() + ".")));
+        String combatLogMessage = this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.FFA_COMBAT_LOG_DEATH_MESSAGE)
+                .replace("{player}", player.getName())
+                .replace("{killer}", killer.getName())
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{killer-name-color}", String.valueOf(killerProfile.getNameColor()));
+        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate(combatLogMessage)));
         this.sendKillstreakAlertMessage(killer);
 
         combatService.resetCombatLog(player);
@@ -176,14 +182,15 @@ public abstract class FFAMatch {
      */
     public void teleportToSafeZone(Player player) {
         CombatService combatService = this.plugin.getService(CombatService.class);
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (combatService.isPlayerInCombat(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou're still in combat!"));
+            player.sendMessage(CC.translate(localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ARE_IN_COMBAT)));
             return;
         }
 
         Location ffaSpawn = this.arena.getPos1();
         player.teleport(ffaSpawn);
-        player.sendMessage(CC.translate("&aTeleported to the safe zone!"));
+        player.sendMessage(CC.translate(localeService.getString(GameMessagesLocaleImpl.FFA_TELEPORTED_TO_SAFE_ZONE)));
     }
 
     /**
@@ -202,7 +209,7 @@ public abstract class FFAMatch {
         ProfileFFAData ffaData = profile.getProfileData().getFfaData().get(this.getKit().getName());
 
         int interval = localeService.getInt(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_INTERVAL);
-        List<String> messages = localeService.getMessageList(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_MESSAGE);
+        List<String> messages = localeService.getStringList(GameMessagesLocaleImpl.FFA_KILLSTREAK_ALERT_MESSAGE);
         if (ffaData.getKillstreak() % interval == 0) {
             this.getPlayers().forEach(ffaPlayer -> {
                 for (String message : messages) {

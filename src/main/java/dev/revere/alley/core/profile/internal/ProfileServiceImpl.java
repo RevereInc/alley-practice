@@ -29,9 +29,6 @@ import java.util.*;
 @Getter
 @Service(provides = ProfileService.class, priority = 180)
 public class ProfileServiceImpl implements ProfileService {
-
-    //TODO: Locale
-
     private final Map<UUID, Profile> profiles = new HashMap<>();
     private final MongoService mongoService;
 
@@ -103,6 +100,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public void resetLayoutForKit(Kit kit) {
+        //TODO: in DOCUMENT, not only loaded profiles
         this.profiles.values().forEach(profile -> {
             List<LayoutData> layouts = profile.getProfileData().getLayoutData().getLayouts().get(kit.getName());
             if (layouts != null) {

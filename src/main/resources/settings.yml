@@ -3,7 +3,7 @@ plugin:
   auto-update: true
 
 crafting-operations:
-  blocked-items: []
+  blocked-items: [ ]
 
 commands:
   anti-syntax-message: '&cYou cannot execute {argument}.'
@@ -88,3 +88,16 @@ server:
     emoji-feature: true
   locations:
     spawn: world:10.0:100.0:100.0:0.0:0.0
+
+sounds:
+  match:
+    platform-decay-notifications:
+      '50':
+        enabled: true
+        value: WITHER_HURT
+      '25':
+        enabled: true
+        value: ENDERDRAGON_GROWL
+      '75':
+        enabled: true
+        value: DIG_STONE

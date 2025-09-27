@@ -22,7 +22,7 @@ public class EmojiListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        if (!player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(SettingsLocaleImpl.PERMISSION_DONATOR_EMOJI_USAGE))) {
+        if (!player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.PERMISSION_DONATOR_EMOJI_USAGE))) {
             return;
         }
 

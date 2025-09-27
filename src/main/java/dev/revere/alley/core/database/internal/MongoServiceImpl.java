@@ -37,8 +37,8 @@ public class MongoServiceImpl implements MongoService {
 
     @Override
     public void initialize(AlleyContext context) {
-        String uri = this.localeService.getMessage(SettingsLocaleImpl.MONGO_CREDENTIALS_URI);
-        String databaseName = this.localeService.getMessage(SettingsLocaleImpl.MONGO_CREDENTIALS_DATABASE);
+        String uri = this.localeService.getString(SettingsLocaleImpl.MONGO_CREDENTIALS_URI);
+        String databaseName = this.localeService.getString(SettingsLocaleImpl.MONGO_CREDENTIALS_DATABASE);
 
         if (uri == null || uri.isEmpty() || databaseName == null || databaseName.isEmpty()) {
             Logger.error("MongoDB URI or database name is not configured in database.yml.");

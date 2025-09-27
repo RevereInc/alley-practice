@@ -47,16 +47,16 @@ public class MusicDiscSelectorButton extends Button {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (musicData.getSelectedDiscs().isEmpty()) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.ERROR_MUST_SELECT_MUSIC));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_MUST_SELECT_MUSIC));
             return;
         }
 
         if (musicData.isDiscSelected(this.disc.name())) {
             musicData.removeDisc(this.disc.name());
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.MUSIC_DISC_DESELECTED).replace("{disc}", this.disc.getTitle()));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.MUSIC_DISC_DESELECTED).replace("{disc}", this.disc.getTitle()));
         } else {
             musicData.addDisc(this.disc.name());
-           player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.MUSIC_DISC_SELECTED).replace("{disc}", this.disc.getTitle()));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.MUSIC_DISC_SELECTED).replace("{disc}", this.disc.getTitle()));
         }
 
         this.playNeutral(player);

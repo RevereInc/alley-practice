@@ -20,7 +20,7 @@ public class Tip {
 
     public Tip() {
         LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
-        List<String> loadedTips = localeService.getListRaw(GlobalMessagesLocaleImpl.TIPS_LIST);
+        List<String> loadedTips = localeService.getStringListRaw(GlobalMessagesLocaleImpl.TIPS_LIST);
         this.tips.addAll(loadedTips);
     }
 

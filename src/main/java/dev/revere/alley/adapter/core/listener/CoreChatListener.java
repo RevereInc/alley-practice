@@ -39,7 +39,7 @@ public class CoreChatListener implements Listener {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
         if (localeService.getBoolean(SettingsLocaleImpl.SERVER_CHAT_FORMAT_ENABLED_BOOLEAN)) {
-            String separator = localeService.getMessage(SettingsLocaleImpl.SERVER_CHAT_FORMAT_SEPARATOR);
+            String separator = localeService.getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_SEPARATOR);
             String format = core.getChatFormat(player, eventMessage, CC.translate(separator));
             String censoredFormat = core.getChatFormat(player, filterService.censorWords(eventMessage), CC.translate(separator));
 

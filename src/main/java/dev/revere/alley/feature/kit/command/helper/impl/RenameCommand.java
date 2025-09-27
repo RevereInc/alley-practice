@@ -38,7 +38,7 @@ public class RenameCommand extends BaseCommand {
 
         ItemStack itemStack = player.getItemInHand();
         if (itemStack == null || itemStack.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 
@@ -55,9 +55,6 @@ public class RenameCommand extends BaseCommand {
 
         player.updateInventory();
 
-//        String renameMessage = this.plugin.getService(ConfigService.class).getMessagesConfig().getString("rename-item.renamed")
-//                .replace("{item}", originalName)
-//                .replace("{renamed}", itemRename);
         player.sendMessage(CC.translate("&aRenamed &f" + originalName + " &ato &f" + itemRename));
     }
 

@@ -5,6 +5,8 @@ import net.md_5.bungee.api.chat.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 /**
  * @author Emmy
  * @project Alley
@@ -35,6 +37,49 @@ public class ClickableUtil {
 
         clickableMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent));
         return clickableMessage;
+    }
+
+    /**
+     * Create a link component with a URL and hover text.
+     *
+     * @param message   the message to be displayed.
+     * @param url       the URL to be opened when clicked.
+     * @param hoverText the text to be displayed when hovered over.
+     * @return a TextComponent that is a link and has hover text.
+     */
+    public @NotNull TextComponent createLinkComponent(String message, String url, String hoverText) {
+        TextComponent linkMessage = new TextComponent(CC.translate(message));
+        linkMessage.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, url));
+
+        String hover = CC.translate(hoverText);
+        BaseComponent[] hoverComponent = new ComponentBuilder(hover).create();
+
+        linkMessage.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverComponent));
+        return linkMessage;
+    }
+
+    /**
+     * Creates a chain of clickable links separated by a separator.
+     *
+     * @param components A list of individual link components.
+     * @param separator  The text to place between each component (e.g., " | ").
+     * @return A single TextComponent containing the chained links.
+     */
+    public TextComponent createComponentChain(List<TextComponent> components, String separator) {
+        if (components == null || components.isEmpty()) {
+            return new TextComponent("");
+        }
+
+        TextComponent finalComponent = components.get(0);
+
+        for (int i = 1; i < components.size(); i++) {
+            TextComponent separatorComponent = new TextComponent(CC.translate(separator));
+            finalComponent.addExtra(separatorComponent);
+
+            finalComponent.addExtra(components.get(i));
+        }
+
+        return finalComponent;
     }
 
     /**

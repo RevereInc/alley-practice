@@ -1,13 +1,12 @@
 package dev.revere.alley.feature.arena.command.impl.kit;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -53,17 +52,17 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena.getName() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (this.plugin.getService(KitService.class).getKit(kitName).getName() == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         if (!arena.getKits().contains(kitName)) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_ARENA_DOES_NOT_HAVE_KIT)
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_ARENA_DOES_NOT_HAVE_KIT)
                     .replace("{arena-name}", arenaName)
                     .replace("{kit-name}", kitName)
             );
@@ -73,7 +72,7 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         arena.getKits().remove(kitName);
         arenaService.saveArena(arena);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_KIT_REMOVED)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_KIT_REMOVED)
                 .replace("{arena-name}", arenaName)
                 .replace("{kit-name}", kitName)
         );

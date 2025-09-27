@@ -43,7 +43,7 @@ public class ExplosiveCommand extends BaseCommand {
         try {
             value = Double.parseDouble(valueStr);
         } catch (NumberFormatException exception) {
-            sender.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
@@ -76,7 +76,7 @@ public class ExplosiveCommand extends BaseCommand {
         explosiveService.save();
 
         LocaleService localeService = this.plugin.getService(LocaleService.class);
-        sender.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.EXPLOSIVE_SETTING_UPDATED)
+        sender.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.EXPLOSIVE_SETTING_UPDATED)
                 .replace("{setting-name}", settingName)
                 .replace("{setting-value}", String.valueOf(value))
         );
@@ -86,12 +86,12 @@ public class ExplosiveCommand extends BaseCommand {
         List<String> helpMessage = Arrays.asList(
                 "",
                 "&6&lExplosive Commands Help:",
-                " &f● &6/explosive explosion <value> &8- &7Set range of explosion blocks removal.",
-                " &f● &6/explosive range <value> &8- &7Set explosion range that affects players.",
-                " &f● &6/explosive horizontal <value> &8- &7Set horizontal knockback.",
-                " &f● &6/explosive vertical <value> &8- &7Set vertical knockback.",
-                " &f● &6/explosive speed <value> &8- &7Set fireball launch speed.",
-                " &f● &6/explosive fuse <value> &8- &7Set TNT fuse ticks.",
+                " &f◆ &6/explosive explosion <value> &8- &7Set range of explosion blocks removal.",
+                " &f◆ &6/explosive range <value> &8- &7Set explosion range that affects players.",
+                " &f◆ &6/explosive horizontal <value> &8- &7Set horizontal knockback.",
+                " &f◆ &6/explosive vertical <value> &8- &7Set vertical knockback.",
+                " &f◆ &6/explosive speed <value> &8- &7Set fireball launch speed.",
+                " &f◆ &6/explosive fuse <value> &8- &7Set TNT fuse ticks.",
                 ""
         );
 

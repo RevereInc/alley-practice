@@ -1,3 +1,5 @@
+duel-requests:
+  accepted: '&aYou have accepted the duel request from &6{name-color}{player}&a!'
 duel:
   request:
     sent:
@@ -44,33 +46,59 @@ duel:
           - ' &6&l│ &fKit: &6{kit}'
           - '{clickable}'
           - ''
+    expired:
+      sender:
+        enabled: true
+        format:
+          - ''
+          - '&c&lDuel Request Expired'
+          - ' &c&l│ &fYour duel request to &6{target} &fhas expired.'
+          - ''
+      target:
+        enabled: true
+        format:
+          - ''
+          - '&c&lDuel Request Expired'
+          - ' &c&l│ &fThe duel request from &6{sender} &fhas expired.'
+          - ''
 ffa:
   killstreak-alert:
     enabled: true
     interval: 5
     message:
       - ''
-      - '&6&lKILLSTREAK! &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
+      - '&6&lKill Streak'
+      - ' &6&l│ &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
       - ''
-  player-join:
-    enabled: false
-    message:
-      - '&a{name-color}{player} &ahas joined the FFA match.'
-  player-left:
-    enabled: false
-    message:
-      - '&c{name-color}{player} &chas left the FFA match.'
-  player-died:
-    enabled: true
-    message:
-      - '&c{name-color}{player} &fhas died!'
-  player-killed-player:
-    enabled: true
-    message:
-      - '&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!'
+  combat-log:
+    death-message: '&7(Combat Log) &c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f.'
+  teleported-to-safe-zone: '&aYou have been teleported to the safe zone.'
+  player:
+    join-message:
+      enabled: false
+      format:
+        - '&a{name-color}{player} &ahas joined the FFA match.'
+    left-message:
+      enabled: false
+      format:
+        - '&c{name-color}{player} &chas left the FFA match.'
+    death:
+      no-killer-message:
+        enabled: true
+        format:
+          - '&c{name-color}{player} &fhas died!'
+      killed-message:
+        enabled: true
+        format:
+          - '&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!'
 game:
   cannot-drop-sword: '&cYou cannot drop your sword!'
 match:
+  death-message:
+    generic: '&c&lDEATH! &f{name-color}{player} &fhas died.'
+    generic-killer: '&c&lDEATH! &f{name-color}{victim} &fwas killed by &c{killer-name-color}{killer}&f.'
+    custom: '&c&lDEATH! &f{message}'
+  seeker-respawned: '&c&lDEATH! &fSeeker &c{name-color}{player} &fhas respawned.'
   started:
     kit-disclaimer:
       enabled: true
@@ -83,20 +111,29 @@ match:
       regular:
         enabled: true
         format:
-          - '&fMatch has started.'
+          - '&aThe match has started!'
       round:
         enabled: true
         format:
-          - '&fRound {current-round} has started.'
-    versus:
-      solo:
-        format:
-          - '&7[&6Match&7] &6{playerA} &avs &6{playerB}'
-      team:
-        format:
-          - '&7[&6Match&7] &6{teamA-leader}''s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}''s
-          Team &7(&a{teamB-size}&7)'
+          - '&aRound &6{current-round} &ahas started.'
+  elevator:
+    no-safe-spot-found: '&cNo safe spot to teleport to!'
+  cannot-interact-during-match: '&cYou cannot interact with that during a match!'
+  cannot-interact-as-raider: '&cYou cannot interact with that as a raider!'
+  cannot-place-blocks-during-hiding-phase: '&cYou cannot place blocks during the hiding
+    phase!'
+  cannot-place-blocks-above-height-limit: '&cYou cannot place blocks above the height
+    limit!'
+  cannot-build-near-portal: '&cYou cannot build near a portal!'
+  cannot-break-blocks-during-hiding-phase: '&cYou cannot break blocks during the hiding
+    phase!'
+  cannot-break-own-bed: '&cYou cannot break your own bed!'
   starting:
+    message:
+      enabled: true
+      format:
+        - '&a{stage}...'
+  round-starting:
     message:
       enabled: true
       format:
@@ -130,6 +167,8 @@ match:
       - '&6&lBED DESTRUCTION! &6{bed-color}{bed} &fwas destroyed by &6{breaker-color}{breaker}&f!'
       - ''
   ended:
+    spectators-list:
+      - '&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)'
     match-result:
       regular:
         format:
@@ -150,24 +189,6 @@ match:
         - ' &6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
         - ' &6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
         - ''
-    division-progress:
-      enabled: true
-      format:
-        ongoing:
-          - ''
-          - '&6&lProgress'
-          - ' &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!'
-          - '  &7({progress-bar}&7) {progress-percentage}'
-          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
-          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
-          - ''
-        reached:
-          - ''
-          - '&a&lCONGRATULATIONS!'
-          - ' &6&l│ &fReached: &6{reached-new-division}'
-          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
-          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
-          - ''
   blocks-reset:
     enabled: true
     format:
@@ -179,15 +200,22 @@ match:
       '75':
         format:
           - '&6The arena has begun to crumble...'
-        sound: DIG_STONE
       '50':
         format:
           - '&e&lWARNING! &eThe arena has shrunk by half!'
-        sound: WITHER_HURT
       '25':
         format:
           - '&c&lDANGER! &cThe platform is collapsing fast!'
-        sound: ENDERDRAGON_GROWL
+  versus-message:
+    solo:
+      enabled: true
+      format:
+        - '&7[&6Match&7] &6{playerA} &avs &6{playerB}'
+    team:
+      enabled: true
+      format:
+        - '&7[&6Match&7] &6{teamA-leader}''s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}''s
+        Team &7(&a{teamB-size}&7)'
 party:
   invitation:
     received:
@@ -220,3 +248,19 @@ party:
       - ' &6&l│ &fPlayers: &6{party-size}&f/&6N/A'
       - '{clickable}'
       - ''
+  request:
+    expired:
+      sender:
+        enabled: true
+        format:
+          - ''
+          - '&c&lParty Request Expired'
+          - ' &c&l│ &fYour party request to &6{target} &fhas expired.'
+          - ''
+      target:
+        enabled: true
+        format:
+          - ''
+          - '&c&lParty Request Expired'
+          - ' &c&l│ &fThe party request from &6{sender} &fhas expired.'
+          - ''

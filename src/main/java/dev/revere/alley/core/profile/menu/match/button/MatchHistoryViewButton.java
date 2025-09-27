@@ -1,17 +1,17 @@
 package dev.revere.alley.core.profile.menu.match.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.common.constants.MessageConstant;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.time.DateFormat;
+import dev.revere.alley.common.time.DateFormatter;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.feature.match.data.MatchData;
 import dev.revere.alley.feature.match.data.types.MatchDataSolo;
-import dev.revere.alley.common.time.DateFormatter;
-import dev.revere.alley.common.time.DateFormat;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -83,7 +83,7 @@ public class MatchHistoryViewButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        player.sendMessage(CC.translate("&cThis is not yet implemented."));
+        player.sendMessage(MessageConstant.IN_DEVELOPMENT);
         player.closeInventory();
     }
 }

@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.arena.command.impl.storage;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -28,6 +28,6 @@ public class ArenaSaveAllCommand extends BaseCommand {
             this.plugin.getService(ArenaService.class).saveArena(arena);
         }
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_SAVED_ALL));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_SAVED_ALL));
     }
 }

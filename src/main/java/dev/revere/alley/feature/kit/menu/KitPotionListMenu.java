@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.kit.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -84,7 +84,7 @@ public class KitPotionListMenu extends PaginatedMenu {
             AlleyPlugin.getInstance().getService(KitService.class).saveKit(this.kit);
 
             LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
-            player.sendMessage(CC.translate(localeService.getMessage(GlobalMessagesLocaleImpl.KIT_POTION_EFFECT_REMOVED)
+            player.sendMessage(CC.translate(localeService.getString(GlobalMessagesLocaleImpl.KIT_POTION_EFFECT_REMOVED)
                     .replace("{potion-effect}", this.potionEffect.getType().getName())
                     .replace("{kit-name}", this.kit.getName()))
             );

@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.kit.command.impl.storage;
 
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import org.bukkit.entity.Player;
 
 /**
@@ -25,6 +25,6 @@ public class KitSaveAllCommand extends BaseCommand {
         Player player = command.getPlayer();
 
         this.plugin.getService(KitService.class).saveKits();
-        player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.KIT_SAVED_ALL)));
+        player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.KIT_SAVED_ALL)));
     }
 }

@@ -67,7 +67,7 @@ public class PotionDurationCommand extends BaseCommand {
         try {
             duration = Integer.parseInt(args[0]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[0]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[0]));
             return;
         }
 

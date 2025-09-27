@@ -1,15 +1,16 @@
 package dev.revere.alley.feature.kit.command.impl.manage.raiding;
 
 import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.kit.raiding.BaseRaidingService;
+import dev.revere.alley.feature.kit.setting.KitSettingService;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
+import dev.revere.alley.feature.match.model.BaseRaiderRole;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.kit.raiding.BaseRaidingService;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRaiding;
-import dev.revere.alley.feature.match.model.BaseRaiderRole;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -39,12 +40,14 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(kitName);
         if (kit == null) {
-            sender.sendMessage(CC.translate("&cThe &6" + kitName + " &ckit does not exist."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
         if (!kit.isSettingEnabled(KitSettingRaiding.class)) {
-            sender.sendMessage(CC.translate("&cThe &6" + kit.getName() + " &ckit does not have &6base raiding &csetting enabled."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_SETTING_NOT_ENABLED)
+                    .replace("{kit-name}", kit.getName())
+                    .replace("{setting-name}", plugin.getService(KitSettingService.class).getSettingByClass(KitSettingRaiding.class).getName()));
             return;
         }
 
@@ -60,23 +63,28 @@ public class KitRemoveRaidingRoleKitCommand extends BaseCommand {
         String roleKitName = args[2];
         Kit roleKit = kitService.getKit(roleKitName);
         if (roleKit == null) {
-            sender.sendMessage(CC.translate("&cThe &6" + roleKitName + " &ckit does not exist."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND));
             return;
         }
 
         if (roleKit.isEnabled()) {
-            sender.sendMessage(CC.translate("&cThe &6" + roleKitName + " &ckit is currently enabled. Please disable it before setting it as a raiding role kit."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NEED_TO_DISABLE_TO_SET_RAIDING_ROLE).replace("{kit-name}", roleKit.getName()));
             return;
         }
 
         BaseRaidingService raidingService = this.plugin.getService(BaseRaidingService.class);
 
         if (raidingService.getRaidingKitByRole(kit, role) == null) {
-            sender.sendMessage(CC.translate("&cThe &6" + kit.getName() + " &ckit does not have a raiding kit mapped for the &6" + role.name() + " &crole."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_RAIDING_ROLE_KIT_NOT_MAPPED)
+                    .replace("{kit-name}", kit.getName())
+                    .replace("{role}", role.name()));
             return;
         }
 
         raidingService.removeRaidingKitMapping(kit, role);
-        sender.sendMessage(CC.translate("&aSuccessfully removed the &6" + role + " &araiding role kit from &6" + roleKit.getName() + "&a for the &6" + kit.getName() + " &akit."));
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_RAIDING_ROLE_KIT_REMOVED)
+                .replace("{kit-name}", kit.getName())
+                .replace("{role}", role.name())
+                .replace("{role-kit-name}", roleKit.getName()));
     }
 }

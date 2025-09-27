@@ -9,6 +9,13 @@ import dev.revere.alley.core.profile.Profile;
  */
 public interface DatabaseProfile {
     /**
+     * Gets the type of the database profile.
+     *
+     * @return The type as a string.
+     */
+    DatabaseType getType();
+
+    /**
      * Saves a profile to the database.
      *
      * @param profile The profile to save.

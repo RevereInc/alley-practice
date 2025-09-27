@@ -1,6 +1,5 @@
 package dev.revere.alley.feature.cooldown.command;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.common.text.StringUtil;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -38,7 +37,7 @@ public class CooldownResetCommand extends BaseCommand {
         String targetName = args[0];
         Player target = this.plugin.getServer().getPlayer(targetName);
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -53,7 +52,7 @@ public class CooldownResetCommand extends BaseCommand {
         CooldownService repository = this.plugin.getService(CooldownService.class);
         Cooldown cooldown = repository.getCooldown(target.getUniqueId(), type);
         if (cooldown == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_NOT_FOUND)
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.COOLDOWN_NOT_FOUND)
                     .replace("{player-name}", target.getName())
                     .replace("{cooldown-type}", StringUtil.formatEnumName(type))
             );
@@ -61,7 +60,7 @@ public class CooldownResetCommand extends BaseCommand {
         }
 
         repository.removeCooldown(player.getUniqueId(), type);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.COOLDOWN_RESET)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.COOLDOWN_RESET)
                 .replace("{player-name}", target.getName())
                 .replace("{cooldown-type}", StringUtil.formatEnumName(type))
         );

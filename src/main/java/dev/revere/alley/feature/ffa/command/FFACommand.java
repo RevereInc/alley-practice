@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.ffa.command;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.ClickableUtil;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -55,12 +56,15 @@ public class FFACommand extends BaseCommand {
             try {
                 page = Integer.parseInt(args[0]);
             } catch (NumberFormatException exception) {
-                sender.sendMessage(CC.translate("&cInvalid page number."));
+                sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PAGE_NUMBER).replace("{input}", args[0]));
             }
         }
 
         if (page > this.pages.length || page < 1) {
-            sender.sendMessage(CC.translate("&cNo more pages available."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_NO_MORE_PAGES_AVAILABLE)
+                    .replace("{input}", String.valueOf(page))
+                    .replace("{max-pages}", String.valueOf(pages.length))
+            );
             return;
         }
 
@@ -79,21 +83,21 @@ public class FFACommand extends BaseCommand {
 
     private final String[][] pages = {
             {
-                    " &f● &6/ffa setup &8(&7ffaName&8) &8(&7arenaName&8) &8(&7maxPlayers&8) &8(&7menuSlot&8) &7| Set up a new FFA match",
-                    " &f● &6/ffa toggle &8(&7ffaName&8) &7| Enable or disable an FFA arena",
-                    " &f● &6/ffa list &7| List current FFA matches",
-                    " &f● &6/ffa listplayers &8(&7ffaName&8) &7| List all players playing ffa",
+                    " &f◆ &6/ffa setup &8(&7ffaName&8) &8(&7arenaName&8) &8(&7maxPlayers&8) &8(&7menuSlot&8) &7| Set up a new FFA match",
+                    " &f◆ &6/ffa toggle &8(&7ffaName&8) &7| Enable or disable an FFA arena",
+                    " &f◆ &6/ffa list &7| List current FFA matches",
+                    " &f◆ &6/ffa listplayers &8(&7ffaName&8) &7| List all players playing ffa",
             },
             {
-                    " &f● &6/ffa maxplayers &8(&7ffaName&8) &8(&7amount&8) &7| Set the max player count.",
-                    " &f● &6/ffa safezone &8(&7kitName&8) &8(&7pos1/pos2&8) &7| Set the spawn safezone bounds",
-                    " &f● &6/ffa setspawn &8(&7ffaName&8) &7| Set the spawn location for an FFA arena",
-                    " &f● &6/ffa setarena &8(&7ffaName&8) &7| Set arena of a ffa match",
-                    " &f● &6/ffa setslot &8(&7ffaName&8) &8(&7slotNumber&8) &7| Set menu slot"
+                    " &f◆ &6/ffa maxplayers &8(&7ffaName&8) &8(&7amount&8) &7| Set the max player count.",
+                    " &f◆ &6/ffa safezone &8(&7kitName&8) &8(&7pos1/pos2&8) &7| Set the spawn safezone bounds",
+                    " &f◆ &6/ffa setspawn &8(&7ffaName&8) &7| Set the spawn location for an FFA arena",
+                    " &f◆ &6/ffa setarena &8(&7ffaName&8) &7| Set arena of a ffa match",
+                    " &f◆ &6/ffa setslot &8(&7ffaName&8) &8(&7slotNumber&8) &7| Set menu slot"
             },
             {
-                    " &f● &6/ffa add &8(&7playerName&8) &8(&7ffaName&8) &7| Add a player",
-                    " &f● &6/ffa kick &8(&7playerName&8) &7| Kick a player"
+                    " &f◆ &6/ffa add &8(&7playerName&8) &8(&7ffaName&8) &7| Add a player",
+                    " &f◆ &6/ffa kick &8(&7playerName&8) &7| Kick a player"
             }
     };
 }

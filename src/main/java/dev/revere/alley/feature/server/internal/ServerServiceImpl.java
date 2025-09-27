@@ -150,7 +150,7 @@ public class ServerServiceImpl implements ServerService {
 
     @Override
     public void loadBlockedCraftingItems() {
-        List<String> blocked = this.localeService.getListRaw(SettingsLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST);
+        List<String> blocked = this.localeService.getStringListRaw(SettingsLocaleImpl.BLOCKED_CRAFTING_ITEMS_LIST);
 
         this.blockedCraftingItems.clear();
         for (String mat : blocked) {

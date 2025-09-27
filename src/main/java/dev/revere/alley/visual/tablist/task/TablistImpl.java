@@ -1,6 +1,7 @@
 package dev.revere.alley.visual.tablist.task;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.PlaceholderUtil;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
@@ -35,12 +36,28 @@ public class TablistImpl implements TablistAdapter {
 
     @Override
     public List<String> getHeader(Player player) {
-        return this.plugin.getService(LocaleService.class).getMessageList(VisualsLocaleImpl.TAB_LIST_HEADER);
+        List<String> message = this.plugin.getService(LocaleService.class).getStringList(VisualsLocaleImpl.TAB_LIST_HEADER);
+        message = message.stream()
+                .map(line -> line.replace("{player}", player.getName()))
+                .map(line -> line.replace("{online-players}", String.valueOf(this.plugin.getServer().getOnlinePlayers().size())))
+                .map(line -> line.replace("{max-players}", String.valueOf(this.plugin.getServer().getMaxPlayers())))
+                .map(line -> line.replace("{description}", this.plugin.getDescription().getDescription()))
+                .collect(Collectors.toList());
+
+        return PlaceholderUtil.setPapiSafe(player, message);
     }
 
     @Override
     public List<String> getFooter(Player player) {
-        return this.plugin.getService(LocaleService.class).getMessageList(VisualsLocaleImpl.TAB_LIST_FOOTER);
+        List<String> message = this.plugin.getService(LocaleService.class).getStringList(VisualsLocaleImpl.TAB_LIST_FOOTER);
+        message = message.stream()
+                .map(line -> line.replace("{player}", player.getName()))
+                .map(line -> line.replace("{online-players}", String.valueOf(this.plugin.getServer().getOnlinePlayers().size())))
+                .map(line -> line.replace("{max-players}", String.valueOf(this.plugin.getServer().getMaxPlayers())))
+                .map(line -> line.replace("{description}", this.plugin.getDescription().getDescription()))
+                .collect(Collectors.toList());
+
+        return PlaceholderUtil.setPapiSafe(player, message);
     }
 
     @Override

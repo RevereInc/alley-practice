@@ -2,10 +2,11 @@ package dev.revere.alley.feature.match.task;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.Representer;
 import dev.revere.alley.common.time.TimeUtil;
 import dev.revere.alley.core.locale.LocaleService;
-import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingRounds;
 import dev.revere.alley.feature.match.Match;
@@ -105,7 +106,7 @@ public class MatchTaskManager {
         if (this.match.getState() == MatchState.RUNNING && elapsedTime >= timeLimit) {
             String formattedTime = TimeUtil.formatLongMin(timeLimit);
 
-            List<String> message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_TIME_LIMIT_EXCEEDED_FORMAT);
+            List<String> message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_TIME_LIMIT_EXCEEDED_FORMAT);
             message.replaceAll(line -> line.replace("{time-limit}", formattedTime));
             message.forEach(line -> this.match.sendMessage(CC.translate(line)));
 
@@ -128,7 +129,7 @@ public class MatchTaskManager {
         Kit kit = this.match.getKit();
         String disclaimer = kit.getDisclaimer() == null ? "&c&lError: Missing Disclaimer" : kit.getDisclaimer();
 
-        List<String> format = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_STARTED_DISCLAIMER_FORMAT);
+        List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_STARTED_DISCLAIMER_FORMAT);
         format.forEach(message -> this.match.sendMessage(message
                 .replace("{kit-disclaimer}", disclaimer)
                 .replace("{kit-name}", kit.getName())
@@ -138,24 +139,32 @@ public class MatchTaskManager {
     public void sendStartingMessage() {
         LocaleService localeService = this.plugin.getService(LocaleService.class);
 
-        boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_STARTING_MESSAGE_ENABLED_BOOLEAN);
-        if (messageEnabled) {
-            List<String> format = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_STARTING_MESSAGE_FORMAT);
+        if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_STARTING_MESSAGE_ENABLED_BOOLEAN)) {
+            List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_STARTING_MESSAGE_FORMAT);
             format.forEach(message -> this.match.sendMessage(message
                     .replace("{kit-name}", this.match.getKit().getName())
                     .replace("{arena-name}", this.match.getArena().getName())
                     .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()))
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
             ));
         }
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_STARTING_HEADER).replace("{stage}", String.valueOf(this.match.getRunnable().getStage()));
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_STARTING_FOOTER);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_STARTING_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_STARTING_HEADER)
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()));
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_STARTING_FOOTER)
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
+                    .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()));
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_FADEOUT);
 
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTING_FADEOUT);
-
-        this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+            this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+        }
     }
 
     public void sendMatchStartedMessage() {
@@ -163,21 +172,23 @@ public class MatchTaskManager {
 
         boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_STARTED_MESSAGE_ENABLED_BOOLEAN);
         if (messageEnabled) {
-            List<String> format = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_STARTED_MESSAGE_FORMAT);
+            List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_STARTED_MESSAGE_FORMAT);
             format.forEach(message -> this.match.sendMessage(message
                     .replace("{kit-name}", this.match.getKit().getName())
                     .replace("{arena-name}", this.match.getArena().getName())
             ));
         }
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_STARTED_HEADER);
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_STARTED_FOOTER);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_STARTED_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_STARTED_HEADER);
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_STARTED_FOOTER);
 
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_FADEOUT);
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_STARTED_FADEOUT);
 
-        this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+            this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+        }
     }
 
     private void sendRestartingMessage() {
@@ -190,14 +201,35 @@ public class MatchTaskManager {
         RoundsMatch roundsMatch = (RoundsMatch) this.match;
         int currentRound = roundsMatch.getCurrentRound();
 
-        String header = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_HEADER).replace("{stage}", String.valueOf(this.match.getRunnable().getStage()));
-        String footer = localeService.getMessage(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FOOTER).replace("{current-round}", String.valueOf(currentRound));
+        if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_ROUND_STARTING_MESSAGE_ENABLED_BOOLEAN)) {
+            List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_ROUND_STARTING_MESSAGE_FORMAT);
+            format.forEach(message -> this.match.sendMessage(message
+                    .replace("{kit-name}", this.match.getKit().getName())
+                    .replace("{arena-name}", this.match.getArena().getName())
+                    .replace("{current-round}", String.valueOf(currentRound))
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
+                    .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()))
+            ));
+        }
 
-        int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FADE_IN);
-        int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_STAY);
-        int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FADEOUT);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_HEADER)
+                    .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()))
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{current-round}", String.valueOf(currentRound));
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FOOTER)
+                    .replace("{stage}", String.valueOf(this.match.getRunnable().getStage()))
+                    .replace("{colored-stage}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), false))
+                    .replace("{colored-stage-bold}", Representer.colorizeCountdown(this.match.getRunnable().getStage(), true))
+                    .replace("{current-round}", String.valueOf(currentRound));
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESTARTING_ROUND_FADEOUT);
 
-        this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+            this.match.sendTitle(header, footer, fadeIn, stay, fadeOut, false);
+        }
     }
 
     /**
@@ -213,7 +245,7 @@ public class MatchTaskManager {
             return;
         }
 
-        List<String> format = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_ROUND_STARTED_MESSAGE_FORMAT);
+        List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_ROUND_STARTED_MESSAGE_FORMAT);
         format.forEach(message -> match.sendMessage(message
                 .replace("{kit-name}", match.getKit().getName())
                 .replace("{arena-name}", match.getArena().getName())

@@ -1,6 +1,6 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
@@ -8,7 +8,6 @@ import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.annotation.CompleterData;
 import org.bukkit.entity.Player;
 
@@ -50,7 +49,7 @@ public class ArenaSetCuboidCommand extends BaseCommand {
 
         ArenaSelection arenaSelection = ArenaSelection.createSelection(player);
         if (!arenaSelection.hasSelection()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NO_SELECTION));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NO_SELECTION));
             return;
         }
 
@@ -58,12 +57,12 @@ public class ArenaSetCuboidCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (arena.getType() == ArenaType.FFA) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CAN_NOT_SET_CUBOID_FFA));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_CAN_NOT_SET_CUBOID_FFA));
             return;
         }
 
@@ -71,6 +70,6 @@ public class ArenaSetCuboidCommand extends BaseCommand {
         arena.setMaximum(arenaSelection.getMaximum());
         arenaService.saveArena(arena);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ARENA_CUBOID_SET).replace("{arena-name}", arena.getName()));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_CUBOID_SET).replace("{arena-name}", arena.getName()));
     }
 }

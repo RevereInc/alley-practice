@@ -34,7 +34,7 @@ public class PartyCloseCommand extends BaseCommand {
         }
 
         if (!profile.getState().equals(ProfileState.LOBBY)) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 

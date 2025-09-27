@@ -1,8 +1,6 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.ffa.FFAMatch;
 import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.feature.ffa.internal.DefaultFFAMatch;
@@ -42,24 +40,24 @@ public class FFAAddCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", args[1]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", args[1]));
             return;
         }
 
         Player targetPlayer = this.plugin.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         if (match.getPlayers().size() >= match.getMaxPlayers()) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_FULL));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_FULL));
             return;
         }
 
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.FFA_ADDED_PLAYER)
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_ADDED_PLAYER)
                 .replace("{player}", targetPlayer.getName())
                 .replace("{ffa-name}", match.getName())
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))

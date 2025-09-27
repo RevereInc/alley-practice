@@ -5,7 +5,6 @@ import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.serializer.Serializer;
-import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.spawn.SpawnService;
@@ -40,7 +39,7 @@ public class SpawnServiceImpl implements SpawnService {
     }
 
     private void loadSpawnLocation() {
-        Location location = Serializer.deserializeLocation(this.localeService.getMessage(SettingsLocaleImpl.SERVER_SPAWN_LOCATION));
+        Location location = Serializer.deserializeLocation(this.localeService.getString(SettingsLocaleImpl.SERVER_SPAWN_LOCATION));
         if (location == null) {
             Logger.error("Spawn location is null.");
             return;
@@ -54,14 +53,13 @@ public class SpawnServiceImpl implements SpawnService {
         if (location == null) return;
 
         this.location = location;
-        this.localeService.setMessage(SettingsLocaleImpl.SERVER_SPAWN_LOCATION, Serializer.serializeLocation(location));
+        this.localeService.setString(SettingsLocaleImpl.SERVER_SPAWN_LOCATION, Serializer.serializeLocation(location));
     }
 
     @Override
     public void teleportToSpawn(Player player) {
         if (this.location == null) {
             Logger.error("Cannot teleport " + player.getName() + " to spawn: Spawn location is not set.");
-            player.sendMessage(CC.translate("&cThe server spawn is not set. Please notify an administrator."));
             return;
         }
 

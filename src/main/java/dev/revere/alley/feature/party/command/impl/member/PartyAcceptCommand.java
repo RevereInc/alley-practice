@@ -56,7 +56,7 @@ public class PartyAcceptCommand extends BaseCommand {
 
         PartyRequest partyRequest = partyService.getRequest(player);
         if (partyRequest == null || !partyRequest.getSender().equals(target)) {
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NO_PARTY_INVITE_FROM_PLAYER)
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NO_PARTY_INVITE_FROM_PLAYER)
                     .replace("{name-color}", String.valueOf(this.getProfile(target.getUniqueId()).getNameColor()))
                     .replace("{player}", target.getName()))
             );

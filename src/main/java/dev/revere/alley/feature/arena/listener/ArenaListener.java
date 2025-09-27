@@ -48,7 +48,7 @@ public class ArenaListener implements Listener {
                 int getBlockY = clickedBlock.getLocation().getBlockY();
                 int getBlockZ = clickedBlock.getLocation().getBlockZ();
 
-                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ARENA_SELECTED_BOUNDARY)
+                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ARENA_SELECTED_BOUNDARY)
                         .replace("{boundary-type}", locationType == 1 ? "minimum" : "maximum")
                         .replace("{x}", String.valueOf(getBlockX))
                         .replace("{y}", String.valueOf(getBlockY))

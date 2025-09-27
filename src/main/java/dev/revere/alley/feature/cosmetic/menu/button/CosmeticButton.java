@@ -66,13 +66,13 @@ public class CosmeticButton extends Button {
         ProfileCosmeticData cosmeticData = profile.getProfileData().getCosmeticData();
 
         if (cosmeticData.isSelected(cosmetic)) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
 
         if (!player.hasPermission(cosmetic.getPermission())) {
-            player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_NOT_OWNED).replace("{cosmetic-name}", cosmetic.getName()));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_NOT_OWNED).replace("{cosmetic-name}", cosmetic.getName()));
             this.playFail(player);
             return;
         }
@@ -82,6 +82,6 @@ public class CosmeticButton extends Button {
         cosmeticData.setSelected(cosmetic);
 
         this.playSuccess(player);
-        player.sendMessage(localeService.getMessage(GlobalMessagesLocaleImpl.COSMETIC_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
+        player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_SELECTED).replace("{cosmetic-name}", cosmetic.getName()));
     }
 }

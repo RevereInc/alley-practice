@@ -188,8 +188,8 @@ public abstract class Button {
      * @param entry The locale entry.
      * @return The localized message.
      */
-    public String getMessage(LocaleEntry entry) {
-        return this.getLocaleService().getMessage(entry);
+    public String getString(LocaleEntry entry) {
+        return this.getLocaleService().getString(entry);
     }
 
     /**
@@ -198,8 +198,8 @@ public abstract class Button {
      * @param entry The locale entry.
      * @return The localized list of messages.
      */
-    public List<String> getMessageList(LocaleEntry entry) {
-        return this.getLocaleService().getMessageList(entry);
+    public List<String> getStringList(LocaleEntry entry) {
+        return this.getLocaleService().getStringList(entry);
     }
 
     /**

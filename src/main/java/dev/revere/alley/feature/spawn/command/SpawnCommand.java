@@ -47,7 +47,7 @@ public class SpawnCommand extends BaseCommand {
                 }
                 break;
             case PLAYING:
-                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             case SPECTATING:
                 profile.getMatch().removeSpectator(player, false);
                 break;
@@ -68,6 +68,6 @@ public class SpawnCommand extends BaseCommand {
         this.plugin.getService(SpawnService.class).teleportToSpawn(player);
         this.plugin.getService(HotbarService.class).applyHotbarItems(player);
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.SPAWN_TELEPORTED));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.SPAWN_TELEPORTED));
     }
 }

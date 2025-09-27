@@ -38,7 +38,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -52,7 +52,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
 
             String friendlyTypeName = StringUtil.formatEnumName(type);
 
-            player.sendMessage(CC.translate(String.format("      &f● &6%s: &f%s", friendlyTypeName, selectedName)));
+            player.sendMessage(CC.translate(String.format("      &f◆ &6%s: &f%s", friendlyTypeName, selectedName)));
         }
     }
 }

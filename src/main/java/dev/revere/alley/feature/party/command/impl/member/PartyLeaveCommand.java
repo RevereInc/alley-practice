@@ -36,10 +36,10 @@ public class PartyLeaveCommand extends BaseCommand {
 
         if (partyService.getPartyByMember(playerUUID) != null) {
             partyService.leaveParty(player);
-            player.sendMessage(CC.translate(this.getMessage(GlobalMessagesLocaleImpl.PARTY_YOU_LEFT)));
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.PARTY_YOU_LEFT)));
             return;
         }
 
-        player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
     }
 }

@@ -1,12 +1,15 @@
 package dev.revere.alley.feature.command.impl.main;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.common.text.CC;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,22 +47,38 @@ public class AlleyCommand extends BaseCommand {
         Arrays.asList(
                 "",
                 "     &6&lAlley Practice",
-                "      &6&l│ &fAuthors: &6" + this.plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", ""),
-                "      &6&l│ &fVersion: &6" + this.plugin.getDescription().getVersion(),
+                "      &6&l│ &fCreated by: &6Emmy &7(github.com/hmEmmy)",
+                "      &6&l│ &fMaintained by: &6Revere Inc. &7(github.com/RevereInc)",
+                "      &6&l│ &fPrimary Contributors: &6" + this.plugin.getDescription().getAuthors().toString().replace("[", "").replace("]", "").replace(",", "&7,&6"),
                 "",
-                "     &6&lDescription:",
-                "      &6&l│ &f" + this.plugin.getDescription().getDescription(),
+                "      &6&l│ &fLicense: &6CC BY-NC-SA 4.0",
+                "      &6&l│ &fVersion: &6" + this.plugin.getDescription().getVersion(),
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
 
-        if (sender.hasPermission(this.plugin.getService(PluginConstant.class).getAdminPermissionPrefix())) {
-            Arrays.asList(
-                    "     &6&lAdmin Help",
-                    "      &6&l│ &f/alley reload &7- &6Reloads the bootstrap.",
-                    "      &6&l│ &f/alley debug &7- &6Database Debugging.",
-                    "      &6&l│ &f/alley core &7- &6Core Hook Info.",
-                    ""
-            ).forEach(line -> sender.sendMessage(CC.translate(line)));
+        if (sender instanceof Player) {
+            TextComponent clickable = this.createLinkComponent();
+            command.getPlayer().spigot().sendMessage(clickable);
+            sender.sendMessage("");
         }
+    }
+
+    private @NotNull TextComponent createLinkComponent() {
+        TextComponent repositoryComponent = ClickableUtil.createLinkComponent("&f&l[GITHUB]", "https://github.com/hmEmmy/alley-practice", "&aClick to open the GitHub repository.");
+        TextComponent discordComponent = ClickableUtil.createLinkComponent("&9&l[DISCORD]", "https://discord.com/invite/eT4B65k5E4", "&aClick to join the Revere Discord.");
+        TextComponent builtByBitComponent = ClickableUtil.createLinkComponent("&b&l[BUILTBYBIT]", "https://builtbybit.com/resources/alley-next-generation-practice-core.73088/", "&aClick to open the BuiltByBit resource page.");
+        TextComponent spigotMcComponent = ClickableUtil.createLinkComponent("&e&l[SPIGOTMC]", "https://www.spigotmc.org/resources/alley-next-generation-practice-core.127500/", "&aClick to open the SpigotMC resource page.");
+
+        String SPACING = "  ";
+
+        TextComponent clickable = new TextComponent("     ");
+        clickable.addExtra(repositoryComponent);
+        clickable.addExtra(SPACING);
+        clickable.addExtra(discordComponent);
+        clickable.addExtra(SPACING);
+        clickable.addExtra(builtByBitComponent);
+        clickable.addExtra(SPACING);
+        clickable.addExtra(spigotMcComponent);
+        return clickable;
     }
 }

@@ -44,19 +44,22 @@ public class EnchantCommand extends BaseCommand {
         try {
             level = Integer.parseInt(args[1]);
         } catch (NumberFormatException exception) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(this.getMessage(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 
         String displayName = itemInHand.getItemMeta().getDisplayName() == null ? itemInHand.getType().name() : itemInHand.getItemMeta().getDisplayName();
 
         itemInHand.addUnsafeEnchantment(enchantment, level);
-        player.sendMessage(CC.translate("&aSuccessfully enchanted the &6" + displayName + " &aitem with &6" + enchantment.getName() + " &alevel &6" + level + "&a!"));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ITEM_ENCHANTED)
+                .replace("{enchantment}", enchantment.getName())
+                .replace("{level}", String.valueOf(level))
+                .replace("{item-name}", displayName));
     }
 }
