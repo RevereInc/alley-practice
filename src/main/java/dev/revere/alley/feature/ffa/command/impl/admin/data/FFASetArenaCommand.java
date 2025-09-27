@@ -1,16 +1,15 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
 import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.command.CommandSender;
 
 /**
@@ -22,46 +21,51 @@ public class FFASetArenaCommand extends BaseCommand {
     @CommandData(
             name = "ffa.setarena",
             isAdminOnly = true,
-            inGameOnly = false
+            inGameOnly = false,
+            usage = "ffa setarena <kitName> <arenaName>",
+            description = "Set the FFA arena for a kit."
     )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
-        if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/ffa setarena &6<arenaName>"));
-            return;
-        }
-
-        String arenaName = args[0];
-        ArenaService arenaService = this.plugin.getService(ArenaService.class);
-        Arena arena = arenaService.getArenaByName(arenaName);
-        if (arena == null) {
-            sender.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
-            return;
-        }
-
-        if (arena.getType() != ArenaType.FFA) {
-            sender.sendMessage(CC.translate("&cYou can only set the arena for Free-For-All arenas!"));
+        if (args.length < 2) {
+            command.sendUsage();
             return;
         }
 
         KitService kitService = this.plugin.getService(KitService.class);
-        Kit kit = kitService.getKit(arenaName);
+        Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            sender.sendMessage(CC.translate("&cA kit with that name does not exist!"));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND));
+            return;
+        }
+
+        String arenaName = args[1];
+        ArenaService arenaService = this.plugin.getService(ArenaService.class);
+        Arena arena = arenaService.getArenaByName(arenaName);
+        if (arena == null) {
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
+            return;
+        }
+
+        if (arena.getType() != ArenaType.FFA) {
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_CAN_ONLY_SETUP_IN_FFA_ARENA));
             return;
         }
 
         if (!kit.isFfaEnabled()) {
-            sender.sendMessage(CC.translate("&cFFA mode is not enabled for this kit!"));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_DISABLED).replace("{kit-name}", kit.getName()));
             return;
         }
 
         kit.setFfaArenaName(arena.getName());
         kitService.saveKit(kit);
         this.plugin.getService(FFAService.class).reloadFFAKits();
-        sender.sendMessage(CC.translate("&aFFA arena has been set for kit &6" + kit.getName() + "&a!"));
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_ARENA_SET)
+                .replace("{kit-name}", kit.getName())
+                .replace("{arena-name}", arena.getName())
+        );
     }
 }

@@ -5,13 +5,13 @@ import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.database.MongoService;
 import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.database.MongoService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
 
 /**
  * @author Emmy
@@ -21,23 +21,24 @@ import org.bukkit.configuration.file.FileConfiguration;
 @Getter
 @Service(provides = MongoService.class, priority = 30)
 public class MongoServiceImpl implements MongoService {
-    private final ConfigService configService;
+    private final LocaleService localeService;
 
     private MongoClient mongoClient;
     private MongoDatabase mongoDatabase;
 
     /**
-     * Constructor for DI. Receives the IConfigService from the AlleyContext.
+     * DI Constructor for the MongoServiceImpl class.
+     *
+     * @param localeService The locale service.
      */
-    public MongoServiceImpl(ConfigService configService) {
-        this.configService = configService;
+    public MongoServiceImpl(LocaleService localeService) {
+        this.localeService = localeService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        FileConfiguration dbConfig = configService.getDatabaseConfig();
-        String uri = dbConfig.getString("mongo.uri");
-        String databaseName = dbConfig.getString("mongo.database");
+        String uri = this.localeService.getString(SettingsLocaleImpl.MONGO_CREDENTIALS_URI);
+        String databaseName = this.localeService.getString(SettingsLocaleImpl.MONGO_CREDENTIALS_DATABASE);
 
         if (uri == null || uri.isEmpty() || databaseName == null || databaseName.isEmpty()) {
             Logger.error("MongoDB URI or database name is not configured in database.yml.");
@@ -67,13 +68,5 @@ public class MongoServiceImpl implements MongoService {
             this.mongoClient.close();
             Logger.info("MongoDB connection closed.");
         }
-    }
-
-    @Override
-    public MongoDatabase getMongoDatabase() {
-        if (this.mongoDatabase == null) {
-            throw new IllegalStateException("MongoService has not been initialized or failed to connect.");
-        }
-        return this.mongoDatabase;
     }
 }

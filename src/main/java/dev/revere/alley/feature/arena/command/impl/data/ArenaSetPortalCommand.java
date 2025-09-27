@@ -1,14 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**
@@ -17,14 +16,19 @@ import org.bukkit.entity.Player;
  * @since 02/03/2025
  */
 public class ArenaSetPortalCommand extends BaseCommand {
-    @CommandData(name = "arena.setportal", isAdminOnly = true)
+    @CommandData(
+            name = "arena.setportal",
+            isAdminOnly = true,
+            usage = "arena setportal <name> <red/blue>",
+            description = "Set the portal location for a standalone arena."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena setportal &6<name> <red/blue>"));
+            command.sendUsage();
             return;
         }
 
@@ -33,18 +37,18 @@ public class ArenaSetPortalCommand extends BaseCommand {
 
         Arena arena = arenaService.getArenaByName(name);
         if (arena == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", name));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", name));
             return;
         }
 
         if (arena.getType() != ArenaType.STANDALONE) {
-            player.sendMessage(CC.translate("&cYou can only set portals for standalone arenas."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_MUST_BE_STANDALONE).replace("{arena-name}", arena.getName()));
             return;
         }
 
         String portal = args[1];
         if (!portal.equalsIgnoreCase("red") && !portal.equalsIgnoreCase("blue")) {
-            player.sendMessage(CC.translate("&cInvalid portal. Please use 'red' or 'blue'."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_INVALID_PORTAL));
             return;
         }
 
@@ -56,6 +60,9 @@ public class ArenaSetPortalCommand extends BaseCommand {
         }
 
         arenaService.saveArena(arena);
-        player.sendMessage(ArenaLocale.PORTAL_SET.getMessage().replace("{arena-name}", arena.getName()).replace("{portal}", portal));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_PORTAL_SET)
+                .replace("{arena-name}", arena.getName())
+                .replace("{portal}", portal)
+        );
     }
 }

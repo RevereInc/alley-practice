@@ -1,16 +1,18 @@
 package dev.revere.alley.feature.queue.menu.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.queue.Queue;
 import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -81,7 +83,7 @@ public class RankedButton extends Button {
 
         ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
         if (!serverService.isQueueingAllowed()) {
-            player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
             player.closeInventory();
             return;
         }

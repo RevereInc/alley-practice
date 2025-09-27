@@ -1,14 +1,12 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.common.text.CC;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.List;
@@ -23,7 +21,13 @@ import java.util.stream.Collectors;
  */
 public class PartyInfoCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.info", aliases = {"p.info"})
+    @CommandData(
+            name = "party.info",
+            aliases = {"p.info"},
+            usage = "party info",
+            description = "View information about your party.",
+            cooldown = 1
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
 
@@ -31,7 +35,7 @@ public class PartyInfoCommand extends BaseCommand {
         Party party = partyService.getPartyByMember(player.getUniqueId());
 
         if (party == null) {
-            player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
@@ -44,13 +48,16 @@ public class PartyInfoCommand extends BaseCommand {
                 .map(Player::getName)
                 .collect(Collectors.joining(", "));
 
-        FileConfiguration config = this.plugin.getService(ConfigService.class).getMessagesConfig();
-        List<String> info = config.getStringList("party.info-command.text");
-        String noMembersFormat = CC.translate(config.getString("party.info-command.no-members-format"));
-
+        List<String> info = this.getStringList(GlobalMessagesLocaleImpl.PARTY_INFO);
+        String noMembersFormat = this.getString(GlobalMessagesLocaleImpl.PARTY_INFO_NO_MEMBERS_FORMAT);
         for (String line : info) {
             player.sendMessage(CC.translate(line)
+                    .replace("{name-color}", String.valueOf(this.getProfile(leaderUUID).getNameColor()))
                     .replace("{leader}", this.plugin.getServer().getPlayer(leaderUUID).getName())
+                    .replace("{privacy-desc}", party.getState().getDescription())
+                    .replace("{privacy}", party.getState().getName())
+                    .replace("{size}", "N/A") //TODO: implement max party size
+                    .replace("{members-amount}", String.valueOf(party.getMembers().size() - 1))
                     .replace("{members}", members.isEmpty() ? noMembersFormat : members));
         }
     }

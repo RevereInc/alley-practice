@@ -1,14 +1,16 @@
 package dev.revere.alley.feature.match.task.other;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.reflect.ReflectionService;
-import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -19,8 +21,6 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class MatchCampProtectionTask extends BukkitRunnable {
-    private final TitleReflectionServiceImpl titleReflectionServiceImpl = AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
-
     private final Player player;
     private int ticks;
 
@@ -72,21 +72,36 @@ public class MatchCampProtectionTask extends BukkitRunnable {
         this.ticks++;
         int damageStartPeriod = INITIAL_GRACE_PERIOD_SECONDS + COUNTDOWN_DURATION_SECONDS;
 
+        TitleReflectionServiceImpl titleReflectionService = AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+
         if (ticks <= damageStartPeriod) {
             int countdownValue = damageStartPeriod - ticks + 1;
 
-            this.titleReflectionServiceImpl.sendTitle(
-                    this.player,
-                    "&cCAMP PROTECTION",
-                    "&fYou will take damage in " + countdownValue + " seconds!"
-            );
+            if (localeService.getBoolean(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_ENABLED_BOOLEAN)) {
+                String header = localeService.getString(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_HEADER);
+                String footer = localeService.getString(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_FOOTER).replace("{seconds}", String.valueOf(countdownValue));
+
+                int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_FADE_IN);
+                int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_STAY);
+                int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_FADEOUT);
+
+                titleReflectionService.sendTitle(this.player, header, footer, fadeIn, stay, fadeOut);
+            }
         } else {
             this.player.damage(4.0);
-            this.titleReflectionServiceImpl.sendTitle(
-                    this.player,
-                    "&cTAKING DAMAGE!",
-                    "&fMove down!"
-            );
+
+            if (localeService.getBoolean(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_ENABLED_BOOLEAN)) {
+                String header = localeService.getString(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_HEADER);
+                String footer = localeService.getString(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_FOOTER);
+
+                int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_FADE_IN);
+                int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_STAY);
+                int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CAMP_PROTECTION_TAKING_DAMAGE_FADEOUT);
+
+                titleReflectionService.sendTitle(this.player, header, footer, fadeIn, stay, fadeOut);
+            }
         }
     }
 }

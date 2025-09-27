@@ -1,14 +1,15 @@
 package dev.revere.alley.feature.cosmetic.command.impl.admin;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.StringUtil;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
+import dev.revere.alley.feature.cosmetic.model.CosmeticType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.cosmetic.model.CosmeticType;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfileCosmeticData;
-import dev.revere.alley.common.text.StringUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,20 +19,26 @@ import org.bukkit.entity.Player;
  * @date 6/1/2024
  */
 public class CosmeticGetSelectedCommand extends BaseCommand {
-    @CommandData(name = "cosmetic.getselected", aliases = {"cosmetic.get"}, isAdminOnly = true)
+    @CommandData(
+            name = "cosmetic.getselected",
+            aliases = {"cosmetic.get"},
+            isAdminOnly = true,
+            usage = "cosmetic get <player>",
+            description = "Get the selected cosmetics of a player."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&cUsage: /cosmetic get <player>"));
+            command.sendUsage();
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found"));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -45,7 +52,7 @@ public class CosmeticGetSelectedCommand extends BaseCommand {
 
             String friendlyTypeName = StringUtil.formatEnumName(type);
 
-            player.sendMessage(CC.translate(String.format("      &f● &6%s: &f%s", friendlyTypeName, selectedName)));
+            player.sendMessage(CC.translate(String.format("      &f◆ &6%s: &f%s", friendlyTypeName, selectedName)));
         }
     }
 }

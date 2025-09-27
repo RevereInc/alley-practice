@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.duel.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
+import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.duel.DuelRequestService;
-import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -72,8 +72,8 @@ public class DuelArenaSelectorMenu extends PaginatedMenu {
             return new ItemBuilder(Material.PAPER)
                     .name("&6&l" + this.arena.getDisplayName())
                     .lore(
-                            " &f● &6Target: &f" + this.targetPlayer.getName(),
-                            " &f● &6Kit: &f" + this.kit.getDisplayName(),
+                            " &f◆ &6Target: &f" + this.targetPlayer.getName(),
+                            " &f◆ &6Kit: &f" + this.kit.getDisplayName(),
                             "",
                             "&aClick to send request!"
                     )

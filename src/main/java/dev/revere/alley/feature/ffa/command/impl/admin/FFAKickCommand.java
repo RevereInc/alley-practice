@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,33 +15,41 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFAKickCommand extends BaseCommand {
-    @CommandData(name = "ffa.kick", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.kick",
+            isAdminOnly = true,
+            usage = "ffa kick <player>",
+            description = "Kick a player from their current FFA match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
-        // /ffa kick <player>
-
         if (args.length != 1) {
-            player.sendMessage(CC.translate("&cUsage: /ffa kick <player>"));
+            command.sendUsage();
             return;
         }
 
-        Player target = player.getServer().getPlayer(args[0]);
-        if (target == null) {
-            player.sendMessage(CC.translate("&cThere is no player with the name " + args[0] + "."));
+        Player targetPlayer = player.getServer().getPlayer(args[0]);
+        if (targetPlayer == null) {
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
-        FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(target);
+        FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(targetPlayer);
         if (match == null) {
-            player.sendMessage(CC.translate("&cThis player is not in a FFA match."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_FFA)
+                    .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                    .replace("{player}", targetPlayer.getName()));
             return;
         }
 
-        match.leave(target);
-        target.sendMessage(CC.translate("&cYou have been kicked from the FFA match."));
-        player.sendMessage(CC.translate("&aSuccessfully kicked " + target.getName() + " from the FFA match."));
+        match.leave(targetPlayer);
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_KICKED_PLAYER)
+                .replace("{player}", targetPlayer.getName())
+                .replace("{ffa-name}", match.getName())
+                .replace("{name-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId()).getNameColor()))
+        );
     }
 }

@@ -1,13 +1,13 @@
-package dev.revere.alley.core.profile.command.admin.statistic;
+package dev.revere.alley.core.profile.data.command;
 
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.menu.reset.ResetConfirmMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.menu.reset.ResetConfirmMenu;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
@@ -20,14 +20,20 @@ import java.util.UUID;
  * @date 02/01/2025 - 20:58
  */
 public class ResetStatsCommand extends BaseCommand {
-    @CommandData(name = "resetstats", aliases = {"wipestats",}, isAdminOnly = true)
+    @CommandData(
+            name = "resetstats",
+            aliases = {"wipestats",},
+            isAdminOnly = true,
+            usage = "resetstats <player>",
+            description = "Reset a player's statistics."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/resetstats &6<player>"));
+            command.sendUsage();
             return;
         }
 
@@ -36,13 +42,13 @@ public class ResetStatsCommand extends BaseCommand {
 
         UUID uuid = target.getUniqueId();
         if (uuid == null) {
-            player.sendMessage(CC.translate("&cThat player is invalid."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(uuid);
         if (profile == null) {
-            player.sendMessage(CC.translate("&cThat player does not exist."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

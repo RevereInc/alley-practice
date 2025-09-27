@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.data;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,14 +14,19 @@ import org.bukkit.entity.Player;
  * @date 5/27/2024
  */
 public class FFAMaxPlayersCommand extends BaseCommand {
-    @CommandData(name = "ffa.maxplayers", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.maxplayers",
+            isAdminOnly = true,
+            usage = "ffa maxplayers <kit> <maxPlayers>",
+            description = "Set the max players for a FFA kit."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length != 2) {
-            player.sendMessage(CC.translate("&cUsage: /ffa maxplayers <kit> <maxPlayers>"));
+            command.sendUsage();
             return;
         }
 
@@ -30,11 +35,14 @@ public class FFAMaxPlayersCommand extends BaseCommand {
 
         FFAMatch match = this.plugin.getService(FFAService.class).getFFAMatch(kitName);
         if (match == null) {
-            player.sendMessage(CC.translate("&cThere is no FFA match with the name " + kitName + "."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", kitName));
             return;
         }
 
         match.setMaxPlayers(maxPlayers);
-        player.sendMessage(CC.translate("&aSuccessfully set the max players for the FFA match."));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_MAX_PLAYERS_SET)
+                .replace("{kit-name}", kitName)
+                .replace("{max-players}", String.valueOf(maxPlayers))
+        );
     }
 }

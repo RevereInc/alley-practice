@@ -1,0 +1,10 @@
+tab-list:
+  enabled: true
+  header:
+    - ''
+    - '&6&lAlley Network'
+    - ''
+  footer:
+    - ''
+    - '&fPlaying with &6&lAlley &fdeveloped by &6&lEmmy &f& &6&lRemi'
+    - ''

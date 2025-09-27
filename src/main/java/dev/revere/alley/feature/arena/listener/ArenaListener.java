@@ -1,7 +1,10 @@
 package dev.revere.alley.feature.arena.listener;
 
-import dev.revere.alley.feature.arena.selection.ArenaSelection;
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.arena.selection.ArenaSelection;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -45,10 +48,12 @@ public class ArenaListener implements Listener {
                 int getBlockY = clickedBlock.getLocation().getBlockY();
                 int getBlockZ = clickedBlock.getLocation().getBlockZ();
 
-                String coordinates = getBlockX + " | " + getBlockY + " | " + getBlockZ;
-                String message = locationType == 1 ? "&aSet minimum location to &6" + coordinates : "&aSet maximum location to &6" + coordinates;
-
-                player.sendMessage(CC.translate(message));
+                player.sendMessage(CC.translate(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ARENA_SELECTED_BOUNDARY)
+                        .replace("{boundary-type}", locationType == 1 ? "minimum" : "maximum")
+                        .replace("{x}", String.valueOf(getBlockX))
+                        .replace("{y}", String.valueOf(getBlockY))
+                        .replace("{z}", String.valueOf(getBlockZ))
+                ));
             }
         }
     }

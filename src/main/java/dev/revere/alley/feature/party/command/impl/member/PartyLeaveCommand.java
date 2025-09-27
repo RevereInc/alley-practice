@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.party.command.impl.member;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -17,7 +17,12 @@ import java.util.UUID;
  */
 public class PartyLeaveCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.leave", aliases = {"p.leave"})
+    @CommandData(
+            name = "party.leave",
+            aliases = {"p.leave"},
+            usage = "party leave",
+            description = "Leave your party."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         UUID playerUUID = player.getUniqueId();
@@ -31,10 +36,10 @@ public class PartyLeaveCommand extends BaseCommand {
 
         if (partyService.getPartyByMember(playerUUID) != null) {
             partyService.leaveParty(player);
-            player.sendMessage(CC.translate(PartyLocale.PARTY_LEFT.getMessage()));
+            player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.PARTY_YOU_LEFT)));
             return;
         }
 
-        player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
     }
 }

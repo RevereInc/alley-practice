@@ -1,21 +1,24 @@
 package dev.revere.alley.feature.queue;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.party.Party;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.party.PartyService;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -61,7 +64,7 @@ public class Queue {
      * @return The queue type.
      */
     public String getQueueType() {
-        return (this.ranked ? "Ranked" : "Unranked") + (this.duos ? " Duos" : " Solo");
+        return (this.ranked ? "Ranked" : "Unranked") + (this.duos ? " Duos" : "");
     }
 
     /**
@@ -124,7 +127,7 @@ public class Queue {
                 }
             } else {
                 if (profile.getState() != ProfileState.LOBBY) {
-                    player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
+                    player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                     return;
                 }
 
@@ -134,7 +137,7 @@ public class Queue {
             }
         } else {
             if (profile.getState() != ProfileState.LOBBY) {
-                player.sendMessage(CC.translate("&cYou must be in the lobby to queue."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
                 return;
             }
         }
@@ -166,7 +169,16 @@ public class Queue {
             }
         }
 
-        player.sendMessage(CC.translate("&aYou've joined the &6" + queueProfile.getQueue().getKit().getDisplayName() + " &aqueue."));
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_JOINED_BOOLEAN)) {
+            List<String> joinMessage = localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_JOINED);
+            for (String line : joinMessage) {
+                line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
+                line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());
+                player.sendMessage(CC.translate(line));
+            }
+        }
 
         hotbarService.applyHotbarItems(player);
     }
@@ -210,7 +222,16 @@ public class Queue {
 
             if (playerToRemove != null) {
                 hotbarService.applyHotbarItems(playerToRemove);
-                playerToRemove.sendMessage(CC.translate("&cYou've left the queue."));
+                LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+                if (localeService.getBoolean(GlobalMessagesLocaleImpl.QUEUE_LEFT_BOOLEAN)) {
+                    List<String> joinMessage = localeService.getStringList(GlobalMessagesLocaleImpl.QUEUE_LEFT);
+                    for (String line : joinMessage) {
+                        line = line.replace("{queue-type}", queueProfile.getQueue().getQueueType());
+                        line = line.replace("{kit}", queueProfile.getQueue().getKit().getDisplayName());
+                        playerToRemove.sendMessage(CC.translate(line));
+                    }
+                }
             }
         }
     }

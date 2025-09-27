@@ -4,6 +4,7 @@ import dev.revere.alley.common.logger.Logger;
 import lombok.experimental.UtilityClass;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Comparator;
 
@@ -73,4 +74,40 @@ public class FileUtil {
         }
     }
 
+    /**
+     * Converts single-quoted YAML values to double-quoted ones.
+     * <p>
+     * Regex pattern explanation:
+     * <ul>
+     *   <li><code>:\s+</code> – matches a colon followed by spaces (YAML key-value separator)</li>
+     *   <li><code>'</code> – matches opening single quote</li>
+     *   <li><code>[^']*</code> – captures everything that's not a single quote (the content)</li>
+     *   <li><code>'</code> – matches closing single quote</li>
+     *   <li><code>(?=\s*$)</code> – positive lookahead for end of line (with optional whitespace)</li>
+     * </ul>
+     * <p>
+     * This ensures that only single quotes wrapping entire values are replaced,
+     * while quotes within text (e.g., <code>can't</code>) remain untouched.
+     *
+     * @param content the YAML content to process
+     * @return processed content with double quotes
+     */
+    public String convertQuotesToDouble(String content) {
+        return content.replaceAll("(:\\s+)'([^']*)'(?=\\s*$)", "$1\"$2\"");
+    }
+
+    /**
+     * Post-processes a saved config file to convert single quotes to double quotes.
+     *
+     * @param file the config file to process.
+     */
+    public void postProcessConfigFile(File file) {
+        try {
+            String content = new String(Files.readAllBytes(file.toPath()));
+            String processedContent = convertQuotesToDouble(content);
+            Files.write(file.toPath(), processedContent.getBytes());
+        } catch (IOException exception) {
+            Logger.error("Failed to post-process config file: " + file.getName());
+        }
+    }
 }

@@ -1,12 +1,12 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.enums.ChatChannel;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ChatChannel;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,31 +15,34 @@ import org.bukkit.entity.Player;
  * @date 22/10/2024 - 12:14
  */
 public class ChatCommand extends BaseCommand {
-    @CommandData(name = "chat")
+    @CommandData(
+            name = "chat",
+            usage = "chat <chatChannel>",
+            description = "Set your chat channel."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/chat &6<chat-channel>"));
+            command.sendUsage();
             player.sendMessage(CC.translate("&cAvailable chat channels: " + ChatChannel.getChatChannelsSorted()));
             return;
         }
 
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
         if (ChatChannel.getExactChatChannel(args[0], true) == null) {
-            player.sendMessage(CC.translate("&cThe chat channel &6" + args[0] + " &cdoes not exist."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.CHAT_CHANNEL_NOT_EXIST).replace("{channel}", args[0]));
             return;
         }
 
         if (profile.getProfileData().getSettingData().getChatChannel().equalsIgnoreCase(args[0])) {
-            player.sendMessage(CC.translate("&cYou're already in the " + args[0] + " chat channel."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.CHAT_CHANNEL_ALREADY_IN).replace("{channel}", args[0]));
             return;
         }
 
         profile.getProfileData().getSettingData().setChatChannel(ChatChannel.getExactChatChannel(args[0], true));
-        player.sendMessage(CC.translate("&aSet your chat channel to &6" + args[0] + "&a."));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.CHAT_CHANNEL_SET).replace("{channel}", args[0]));
     }
 }

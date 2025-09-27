@@ -1,9 +1,10 @@
 package dev.revere.alley.feature.command.impl.other.gamemode;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 
@@ -13,7 +14,13 @@ import org.bukkit.entity.Player;
  * @since 13/06/2025
  */
 public class SurvivalCommand extends BaseCommand {
-    @CommandData(name = "gms", aliases = {"gm.s", "gamemode.s", "gm.0", "gm0", "gamemode.0", "gamemode.survival"}, isAdminOnly = true)
+    @CommandData(
+            name = "gms",
+            aliases = {"gm.s", "gamemode.s", "gm.0", "gm0", "gamemode.0", "gamemode.survival"},
+            isAdminOnly = true,
+            usage = "gamemode survival [player]",
+            description = "Sets your or another player's gamemode to Survival."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -27,7 +34,7 @@ public class SurvivalCommand extends BaseCommand {
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

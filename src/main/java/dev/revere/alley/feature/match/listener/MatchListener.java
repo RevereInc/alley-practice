@@ -1,7 +1,13 @@
 package dev.revere.alley.feature.match.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Menu;
+import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.ArenaType;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.kit.Kit;
@@ -12,14 +18,10 @@ import dev.revere.alley.feature.kit.setting.types.mode.*;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.feature.match.internal.types.RoundsMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.utility.MatchUtility;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Menu;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -168,7 +170,7 @@ public class MatchListener implements Listener {
         if (profile.getState() == ProfileState.PLAYING) {
             if (ListenerUtil.isSword(event.getItemDrop().getItemStack().getType())) {
                 event.setCancelled(true);
-                player.sendMessage(CC.translate("&cYou cannot drop your sword during this match."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GameMessagesLocaleImpl.GAME_CANNOT_DROP_SWORD));
                 return;
             }
         }

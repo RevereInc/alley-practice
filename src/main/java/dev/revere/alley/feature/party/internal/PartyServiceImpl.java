@@ -1,5 +1,21 @@
 package dev.revere.alley.feature.party.internal;
 
+import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.SoundUtil;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.ClickableUtil;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.cooldown.Cooldown;
@@ -8,36 +24,26 @@ import dev.revere.alley.feature.cooldown.CooldownType;
 import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.TeamGameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.PartyRequest;
 import dev.revere.alley.feature.party.PartyService;
 import dev.revere.alley.feature.queue.Queue;
 import dev.revere.alley.feature.queue.QueueProfile;
 import dev.revere.alley.feature.visibility.VisibilityService;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.model.TeamGameParticipant;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.reflect.ReflectionService;
-import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.SoundUtil;
-import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.ClickableUtil;
-import dev.revere.alley.common.text.Symbol;
 import lombok.Getter;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -48,7 +54,6 @@ import java.util.stream.Collectors;
 @Getter
 @Service(provides = PartyService.class, priority = 230)
 public class PartyServiceImpl implements PartyService {
-    private final ConfigService configService;
     private final ProfileService profileService;
     private final HotbarService hotbarService;
     private final ReflectionService reflectionService;
@@ -56,13 +61,25 @@ public class PartyServiceImpl implements PartyService {
     private final VisibilityService visibilityService;
     private final MatchService matchService;
     private final ArenaService arenaService;
+    private final LocaleService localeService;
 
     private final List<Party> parties = new ArrayList<>();
     private final List<PartyRequest> partyRequests = new ArrayList<>();
     private String chatFormat;
 
-    public PartyServiceImpl(ConfigService configService, ProfileService profileService, HotbarService hotbarService, ReflectionService reflectionService, CooldownService cooldownService, VisibilityService visibilityService, MatchService matchService, ArenaService arenaService) {
-        this.configService = configService;
+    /**
+     * DI Constructor for the PartyServiceImpl class.
+     *
+     * @param profileService    The ProfileService instance.
+     * @param hotbarService     The HotbarService instance.
+     * @param reflectionService The ReflectionService instance.
+     * @param cooldownService   The CooldownService instance.
+     * @param visibilityService The VisibilityService instance.
+     * @param matchService      The MatchService instance.
+     * @param arenaService      The ArenaService instance.
+     * @param localeService     The LocaleService instance.
+     */
+    public PartyServiceImpl(ProfileService profileService, HotbarService hotbarService, ReflectionService reflectionService, CooldownService cooldownService, VisibilityService visibilityService, MatchService matchService, ArenaService arenaService, LocaleService localeService) {
         this.profileService = profileService;
         this.hotbarService = hotbarService;
         this.reflectionService = reflectionService;
@@ -70,11 +87,12 @@ public class PartyServiceImpl implements PartyService {
         this.visibilityService = visibilityService;
         this.matchService = matchService;
         this.arenaService = arenaService;
+        this.localeService = localeService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        this.chatFormat = configService.getMessagesConfig().getString("party.chat-format");
+        this.chatFormat = this.localeService.getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_PARTY);
     }
 
     @Override
@@ -124,7 +142,7 @@ public class PartyServiceImpl implements PartyService {
     public void createParty(Player player) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou cannot create a party in this state."));
+            player.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
 
@@ -136,31 +154,40 @@ public class PartyServiceImpl implements PartyService {
 
         this.hotbarService.applyHotbarItems(player);
 
-        this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                player,
-                "&a&l" + Symbol.CROSSED_SWORDS + " Party Created",
-                "&7Type /p for help."
-        );
+        if (this.localeService.getBoolean(VisualsLocaleImpl.TITLE_PARTY_CREATED_ENABLED_BOOLEAN)) {
+            String header = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_CREATED_HEADER);
+            String footer = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_CREATED_FOOTER);
+
+            int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_FADE_IN);
+            int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_STAY);
+            int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_CREATED_FADEOUT);
+
+            this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                    player,
+                    header,
+                    footer,
+                    fadeIn, stay, fadeOut
+            );
+        }
 
         SoundUtil.playCustomSound(player, Sound.FIREWORK_TWINKLE, 1.0F, 1.0F);
 
-        Arrays.asList(
-                "",
-                "&6&lParty Created &a" + Symbol.TICK,
-                " &7Type /p for help.",
-                ""
-        ).forEach(line -> player.sendMessage(CC.translate(line)));
+        List<String> createPartyMessage = this.localeService.getStringList(GlobalMessagesLocaleImpl.PARTY_CREATED);
+        createPartyMessage.forEach(player::sendMessage);
     }
 
     @Override
     public void disbandParty(Player leader) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+            leader.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             return;
         }
 
-        party.notifyParty("&6&lParty &7&l" + Symbol.ARROW_R + " &6" + leader.getName() + " &cdisbanded the party.");
+        party.notifyParty(this.localeService.getString(GlobalMessagesLocaleImpl.PARTY_DISBANDED)
+                .replace("{player}", leader.getName())
+                .replace("{name-color}", String.valueOf(this.profileService.getProfile(leader.getUniqueId()).getNameColor()))
+        );
 
         for (UUID memberId : new ArrayList<>(party.getMembers())) {
             Player member = Bukkit.getPlayer(memberId);
@@ -185,11 +212,21 @@ public class PartyServiceImpl implements PartyService {
             cooldown.resetCooldown();
         }
 
-        this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                leader,
-                "&c&l✖ Party Disbanded",
-                "&7You've removed your party."
-        );
+        if (this.localeService.getBoolean(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_ENABLED_BOOLEAN)) {
+            String header = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_HEADER);
+            String footer = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FOOTER);
+
+            int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FADE_IN);
+            int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_STAY);
+            int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_DISBANDED_FADEOUT);
+
+            this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                    leader,
+                    header,
+                    footer,
+                    fadeIn, stay, fadeOut
+            );
+        }
 
         SoundUtil.playBanHammer(leader);
     }
@@ -199,7 +236,7 @@ public class PartyServiceImpl implements PartyService {
         Party party = this.getPartyByMember(player.getUniqueId());
         if (party == null) {
             if (player.isOnline()) {
-                player.sendMessage(CC.translate("&cYou are not in a party."));
+                player.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
             }
             return;
         }
@@ -212,7 +249,32 @@ public class PartyServiceImpl implements PartyService {
         }
 
         party.getMembers().remove(player.getUniqueId());
-        party.notifyParty("&a" + player.getName() + " has left the party.");
+
+        party.notifyParty(this.localeService.getString(GlobalMessagesLocaleImpl.PARTY_PLAYER_LEFT)
+                .replace("{player}", player.getName())
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{current-size}", String.valueOf(party.getMembers().size()))
+                .replace("{max-size}", "30") //TODO: Implement party size limit with permissions ect...
+        );
+
+        if (this.localeService.getBoolean(VisualsLocaleImpl.TITLE_PARTY_LEFT_ENABLED_BOOLEAN)) {
+            String title = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_LEFT_HEADER)
+                    .replace("{leader}", party.getLeader().getName())
+                    .replace("{name-color}", String.valueOf(this.profileService.getProfile(party.getLeader().getUniqueId()).getNameColor()));
+            String footer = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_LEFT_FOOTER)
+                    .replace("{leader}", party.getLeader().getName())
+                    .replace("{name-color}", String.valueOf(this.profileService.getProfile(party.getLeader().getUniqueId()).getNameColor()));
+            int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_LEFT_FADE_IN);
+            int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_LEFT_STAY);
+            int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_LEFT_FADEOUT);
+
+            this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                    player,
+                    title,
+                    footer,
+                    fadeIn, stay, fadeOut
+            );
+        }
 
         this.setupProfile(player, false);
     }
@@ -221,7 +283,8 @@ public class PartyServiceImpl implements PartyService {
     public void kickMember(Player leader, Player member) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(CC.translate("&cYou are not the leader of a party."));
+
+            leader.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
             return;
         }
 
@@ -239,7 +302,13 @@ public class PartyServiceImpl implements PartyService {
         QueueProfile queueProfile = profile.getQueueProfile();
 
         party.getMembers().remove(member.getUniqueId());
-        party.notifyParty("&c" + member.getName() + " has been kicked from the party.");
+
+        party.notifyParty(this.localeService.getString(GlobalMessagesLocaleImpl.PARTY_PLAYER_KICKED)
+                .replace("{player}", member.getName())
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{current-size}", String.valueOf(party.getMembers().size()))
+                .replace("{max-size}", "30") //TODO: Implement party size limit with permissions ect...
+        );
 
         if (queueProfile != null) {
             this.handlePartyMemberLeave(member);
@@ -252,7 +321,7 @@ public class PartyServiceImpl implements PartyService {
     public void banMember(Player leader, Player target) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(CC.translate("&cYou are not the leader of a party."));
+            leader.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
             return;
         }
 
@@ -278,15 +347,19 @@ public class PartyServiceImpl implements PartyService {
 
         this.setupProfile(target, false);
 
-        party.notifyParty(CC.translate("&c" + target.getName() + " has been banned from the party."));
-        target.sendMessage(CC.translate("&cYou have been banned from the party."));
+        party.notifyParty(this.localeService.getString(GlobalMessagesLocaleImpl.PARTY_PLAYER_BANNED)
+                .replace("{player}", target.getName())
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{current-size}", String.valueOf(party.getMembers().size()))
+                .replace("{max-size}", "30") //TODO: Implement party size limit with permissions ect...
+        );
     }
 
     @Override
     public void unbanMember(Player leader, Player target) {
         Party party = this.getPartyByLeader(leader);
         if (party == null) {
-            leader.sendMessage(CC.translate("&cYou are not the leader of a party."));
+            leader.sendMessage(this.localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
             return;
         }
 
@@ -304,7 +377,7 @@ public class PartyServiceImpl implements PartyService {
     public void joinParty(Player player, Player leader) {
         Profile profile = this.profileService.getProfile(player.getUniqueId());
         if (profile.getState() != ProfileState.LOBBY) {
-            player.sendMessage(CC.translate("&cYou must be in lobby to join a party."));
+            player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
             return;
         }
         Party party = this.getPartyByLeader(leader);
@@ -315,7 +388,7 @@ public class PartyServiceImpl implements PartyService {
 
         Party yourParty = this.getPartyByLeader(player);
         if (yourParty != null) {
-            player.sendMessage(CC.translate("&cYou are already in a party."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_PARTY));
             return;
         }
 
@@ -325,12 +398,15 @@ public class PartyServiceImpl implements PartyService {
         }
 
         if (party.getMembers().contains(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou are already in this party."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_THIS_PARTY));
             return;
         }
 
         if (party.getBannedPlayers().contains(player.getUniqueId())) {
-            player.sendMessage(CC.translate("&cYou are banned from &6" + leader.getName() + "&c's party."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_YOU_BANNED_FROM_PARTY)
+                    .replace("{player}", leader.getName())
+                    .replace("{name-color", String.valueOf(profileService.getProfile(leader.getUniqueId()).getNameColor()))
+            );
             return;
         }
 
@@ -343,9 +419,40 @@ public class PartyServiceImpl implements PartyService {
         }
 
         party.getMembers().add(player.getUniqueId());
-        party.notifyParty("&a" + player.getName() + " has joined the party.");
 
-        player.sendMessage(CC.translate(PartyLocale.JOINED_PARTY.getMessage().replace("{player}", leader.getName())));
+        party.notifyParty(localeService.getString(GlobalMessagesLocaleImpl.PARTY_PLAYER_JOINED)
+                .replace("{player}", player.getName())
+                .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                .replace("{current-size}", String.valueOf(party.getMembers().size()))
+                .replace("{max-size}", "30") //TODO: Implement party size limit with permissions ect...
+        );
+
+        List<String> joinedMessage = this.localeService.getStringList(GlobalMessagesLocaleImpl.PARTY_YOU_JOINED);
+        for (String line : joinedMessage) {
+            player.sendMessage(line
+                    .replace("{leader}", leader.getName())
+                    .replace("{name-color}", String.valueOf(leaderProfile.getNameColor()))
+            );
+        }
+
+        if (this.localeService.getBoolean(VisualsLocaleImpl.TITLE_PARTY_JOINED_ENABLED_BOOLEAN)) {
+            String title = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_JOINED_HEADER)
+                    .replace("{leader}", leader.getName())
+                    .replace("{name-color}", String.valueOf(this.profileService.getProfile(leader.getUniqueId()).getNameColor()));
+            String footer = this.localeService.getString(VisualsLocaleImpl.TITLE_PARTY_JOINED_FOOTER)
+                    .replace("{leader}", leader.getName())
+                    .replace("{name-color}", String.valueOf(this.profileService.getProfile(leader.getUniqueId()).getNameColor()));
+            int fadeIn = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_JOINED_FADE_IN);
+            int stay = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_JOINED_STAY);
+            int fadeOut = this.localeService.getInt(VisualsLocaleImpl.TITLE_PARTY_JOINED_FADEOUT);
+
+            this.reflectionService.getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                    player,
+                    title,
+                    footer,
+                    fadeIn, stay, fadeOut
+            );
+        }
 
         this.setupProfile(player, true);
     }
@@ -394,12 +501,41 @@ public class PartyServiceImpl implements PartyService {
         PartyRequest request = new PartyRequest(sender, target);
         this.partyRequests.add(request);
 
-        target.sendMessage("");
-        target.sendMessage(CC.translate("&6&lParty Invitation"));
-        target.sendMessage(CC.translate("&f&l ● &fFrom: &6" + sender.getName()));
-        target.sendMessage(CC.translate("&f&l ● &fPlayers: &6" + party.getMembers().size() + "&f/&630")); //TODO: Implement party size limit with permissions ect...
-        target.spigot().sendMessage(this.getClickable(sender));
-        target.sendMessage("");
+        List<String> sentMessage = this.localeService.getStringList(GameMessagesLocaleImpl.PARTY_INVITATION_SENT);
+        sentMessage = sentMessage.stream().map(line -> line
+                .replace("{target}", target.getName())
+                .replace("{name-color}", String.valueOf(this.profileService.getProfile(target.getUniqueId()).getNameColor()))
+                .replace("{sender}", sender.getName())
+                .replace("{party-size}", String.valueOf(party.getMembers().size()))
+        ).collect(Collectors.toList());
+        sentMessage.forEach(line -> sender.sendMessage(CC.translate(line)));
+
+        String clickableFormat = this.localeService.getString(GameMessagesLocaleImpl.PARTY_INVITATION_RECEIVED_CLICKABLE_FORMAT)
+                .replace("{sender}", sender.getName());
+        String command = this.localeService.getString(GameMessagesLocaleImpl.PARTY_INVITATION_RECEIVED_CLICKABLE_COMMAND)
+                .replace("{sender}", sender.getName());
+        String hover = this.localeService.getString(GameMessagesLocaleImpl.PARTY_INVITATION_RECEIVED_CLICKABLE_HOVER)
+                .replace("{sender}", sender.getName());
+
+        TextComponent clickableComponent = ClickableUtil.createComponent(
+                clickableFormat,
+                command,
+                hover
+        );
+
+        List<String> message = this.localeService.getStringList(GameMessagesLocaleImpl.PARTY_INVITATION_RECEIVED);
+        message = message.stream().map(line -> line
+                .replace("{sender}", sender.getName())
+                .replace("{name-color}", String.valueOf(this.profileService.getProfile(sender.getUniqueId()).getNameColor()))
+                .replace("{party-size}", String.valueOf(party.getMembers().size()))
+        ).collect(Collectors.toList());
+        message.forEach(line -> {
+            if (line.contains("{clickable}")) {
+                target.spigot().sendMessage(clickableComponent);
+            } else {
+                target.sendMessage(CC.translate(line));
+            }
+        });
     }
 
     @Override
@@ -429,11 +565,34 @@ public class PartyServiceImpl implements PartyService {
 
     @Override
     public void announceParty(Party party) {
-        Bukkit.getOnlinePlayers().forEach(player -> {
-            player.sendMessage("");
-            player.sendMessage(CC.translate("&6&l" + party.getLeader().getName() + " &a&lis inviting you to join &6&ltheir &a&lparty!"));
-            player.spigot().sendMessage(this.getClickable(party.getLeader()));
-            player.sendMessage("");
+        String clickableFormat = this.localeService.getString(GameMessagesLocaleImpl.PARTY_ANNOUNCEMENT_CLICKABLE_FORMAT)
+                .replace("{leader}", party.getLeader().getName());
+        String command = this.localeService.getString(GameMessagesLocaleImpl.PARTY_ANNOUNCEMENT_CLICKABLE_COMMAND)
+                .replace("{leader}", party.getLeader().getName());
+        String hover = this.localeService.getString(GameMessagesLocaleImpl.PARTY_ANNOUNCEMENT_CLICKABLE_HOVER)
+                .replace("{leader}", party.getLeader().getName());
+
+        TextComponent clickableComponent = ClickableUtil.createComponent(
+                clickableFormat,
+                command,
+                hover
+        );
+
+        AlleyPlugin.getInstance().getServer().getOnlinePlayers().forEach(player -> {
+            List<String> message = this.localeService.getStringList(GameMessagesLocaleImpl.PARTY_ANNOUNCEMENT);
+            message = message.stream()
+                    .map(line -> line.replace("{leader}", party.getLeader().getName())
+                            .replace("{name-color}", String.valueOf(this.profileService.getProfile(party.getLeader().getUniqueId()).getNameColor()))
+                            .replace("{party-size}", String.valueOf(party.getMembers().size()))
+                    )
+                    .collect(Collectors.toList());
+            message.forEach(line -> {
+                if (line.contains("{clickable}")) {
+                    player.spigot().sendMessage(clickableComponent);
+                } else {
+                    player.sendMessage(CC.translate(line));
+                }
+            });
         });
     }
 
@@ -466,19 +625,5 @@ public class PartyServiceImpl implements PartyService {
         }
 
         profile.setQueueProfile(null);
-    }
-
-    /**
-     * Gets the clickable text component for accepting a party invitation.
-     *
-     * @param sender The player who sent the invitation.
-     * @return The clickable text component.
-     */
-    private TextComponent getClickable(Player sender) {
-        return ClickableUtil.createComponent(
-                " &a(Click to accept)",
-                "/party accept " + sender.getName(),
-                "&aClick to accept &6" + sender.getName() + "&a's party invitation."
-        );
     }
 }

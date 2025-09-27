@@ -1,13 +1,15 @@
 package dev.revere.alley.feature.match.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchService;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Material;
@@ -85,9 +87,9 @@ public class CurrentMatchesMenu extends PaginatedMenu {
             return new ItemBuilder(match.getKit().getIcon()).name("&6&l" + match.getParticipants().get(0).getLeader().getUsername() + " &7vs &6&l" + match.getParticipants().get(1).getLeader().getUsername()).durability(match.getKit().getDurability()).hideMeta()
                     .lore(
                             CC.MENU_BAR,
-                            " &f● &6Arena: &f" + match.getArena().getName(),
-                            " &f● &6Kit: &f" + match.getKit().getDisplayName(),
-                            " &f● &6Queue: &f" + (match.getQueue() == null ? "None" : match.getQueue().getQueueType()),
+                            " &f◆ &6Arena: &f" + match.getArena().getName(),
+                            " &f◆ &6Kit: &f" + match.getKit().getDisplayName(),
+                            " &f◆ &6Queue: &f" + (match.getQueue() == null ? "None" : match.getQueue().getQueueType()),
                             " ",
                             "&aClick to spectate.",
                             CC.MENU_BAR
@@ -108,7 +110,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
             if (clickType != ClickType.LEFT) return;
 
             if (AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-                player.sendMessage(CC.translate("&cYou can't spectate a match in your current state."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_SPECTATING_MATCH));
                 return;
             }
 
@@ -129,7 +131,7 @@ public class CurrentMatchesMenu extends PaginatedMenu {
         public ItemStack getButtonItem(Player player) {
             return new ItemBuilder(Material.CARPET)
                     .name("&6&lRefresh")
-                    .lore(" &f● &6Press to refresh the matches")
+                    .lore(" &f◆ &6Press to refresh the matches")
                     .durability(2)
                     .build();
         }

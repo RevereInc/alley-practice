@@ -1,26 +1,30 @@
 package dev.revere.alley.feature.match.internal;
 
+import dev.revere.alley.bootstrap.AlleyContext;
+import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.KitSetting;
 import dev.revere.alley.feature.kit.setting.types.mode.*;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchService;
-import dev.revere.alley.feature.queue.QueueService;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.bootstrap.AlleyContext;
-import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.feature.match.internal.types.*;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
+import dev.revere.alley.feature.queue.QueueService;
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
@@ -39,18 +43,25 @@ public class MatchServiceImpl implements MatchService {
     private final ProfileService profileService;
     private final QueueService queueService;
     private final ConfigService configService;
+    private final LocaleService localeService;
 
     private final List<Match> matches = new CopyOnWriteArrayList<>();
     private final List<String> blockedCommands = new ArrayList<>();
     private final Map<Class<? extends KitSetting>, MatchFactory> matchFactoryRegistry = new LinkedHashMap<>();
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the MatchServiceImpl class.
+     *
+     * @param profileService The profile service.
+     * @param queueService   The queue service.
+     * @param configService  The configuration service.
+     * @param localeService  The locale service.
      */
-    public MatchServiceImpl(ProfileService profileService, QueueService queueService, ConfigService configService) {
+    public MatchServiceImpl(ProfileService profileService, QueueService queueService, ConfigService configService, LocaleService localeService) {
         this.profileService = profileService;
         this.queueService = queueService;
         this.configService = configService;
+        this.localeService = localeService;
     }
 
     @Override
@@ -67,11 +78,6 @@ public class MatchServiceImpl implements MatchService {
         Logger.info("Ending " + this.matches.size() + " active matches due to server shutdown...");
         new ArrayList<>(this.matches).forEach(Match::endMatch);
         this.matches.clear();
-    }
-
-    @Override
-    public List<Match> getMatches() {
-        return Collections.unmodifiableList(matches);
     }
 
     @Override
@@ -136,14 +142,12 @@ public class MatchServiceImpl implements MatchService {
     }
 
     private void loadBlockedCommands() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-
-        List<String> configBlockedCommands = config.getStringList("game.blocked-commands");
-        if (configBlockedCommands.isEmpty()) {
+        List<String> blockedCommands = this.localeService.getStringListRaw(SettingsLocaleImpl.GAME_BLOCKED_COMMANDS_DURING_MATCH_LIST);
+        if (blockedCommands.isEmpty()) {
             Logger.info("No blocked commands found in the configuration. Please check your settings.yml file.");
             return;
         }
 
-        this.blockedCommands.addAll(configBlockedCommands);
+        this.blockedCommands.addAll(blockedCommands);
     }
 }

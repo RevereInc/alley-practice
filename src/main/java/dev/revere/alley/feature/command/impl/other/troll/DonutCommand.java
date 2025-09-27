@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import net.minecraft.server.v1_8_R3.EntityBoat;
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy;
 import net.minecraft.server.v1_8_R3.PacketPlayOutSpawnEntity;
@@ -29,25 +29,34 @@ public class DonutCommand extends BaseCommand {
     private static final int TUBE_SEGMENTS = 250;
     private static int FAKE_ENTITY_ID_COUNTER = Integer.MAX_VALUE - 1_100_100;
 
-    @CommandData(name = "donut", permission = "alley.command.troll.donut")
+    @CommandData(
+            name = "donut",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "donut <player>",
+            description = "Spawns a donut of boats around a player"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length == 0) {
-            player.sendMessage(CC.translate("&cUsage: /donut <player>"));
+            command.sendUsage();
             return;
         }
 
         Player target = Bukkit.getPlayer(args[0]);
         if (target == null || !target.isOnline()) {
-            player.sendMessage(CC.translate("&cPlayer not found or not online."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         spawnDonut(target);
-        player.sendMessage(CC.translate("&aYou have successfully donut'd " + target.getName() + "!"));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_DONUTED)
+                .replace("{name-color}", String.valueOf(target.getDisplayName()))
+                .replace("{player}", target.getName())
+        );
     }
 
     private void spawnDonut(Player target) {
@@ -82,7 +91,7 @@ public class DonutCommand extends BaseCommand {
             }
         }
 
-        int [] idsToDestroy = fakeEntityIds.stream().mapToInt(Integer::intValue).toArray();
+        int[] idsToDestroy = fakeEntityIds.stream().mapToInt(Integer::intValue).toArray();
         PacketPlayOutEntityDestroy destroyPacket = new PacketPlayOutEntityDestroy(idsToDestroy);
 
         Bukkit.getScheduler().runTaskLater(AlleyPlugin.getInstance(), () -> {

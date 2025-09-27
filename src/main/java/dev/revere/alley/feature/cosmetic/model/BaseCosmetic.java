@@ -38,9 +38,8 @@ public abstract class BaseCosmetic implements Cosmetic {
         }
     }
 
-
     /**
-     * Gets the fully-formed permission node for this cosmetic.
+     * Gets the fully formed permission node for this cosmetic.
      *
      * @return The full permission string.
      */

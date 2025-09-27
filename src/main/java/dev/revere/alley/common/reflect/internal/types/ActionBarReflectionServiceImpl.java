@@ -1,17 +1,15 @@
 package dev.revere.alley.common.reflect.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.Reflection;
 import dev.revere.alley.common.text.CC;
-import dev.revere.alley.common.text.Symbol;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketPlayOutChat;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -72,8 +70,19 @@ public class ActionBarReflectionServiceImpl implements Reflection {
      * @param victim The player who died.
      */
     public void sendDeathMessage(Player killer, Player victim) {
-        Profile victimProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(victim.getUniqueId());
-        this.sendMessage(killer, "&c&lKILL! &f" + victimProfile.getFancyName(), 3);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+        if (localeService.getBoolean(VisualsLocaleImpl.ACTIONBAR_DEATH_MESSAGE_ENABLED_BOOLEAN)) {
+            Profile victimProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(victim.getUniqueId());
+            Profile killerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(killer.getUniqueId());
+
+            String deathMessage = localeService.getString(VisualsLocaleImpl.ACTIONBAR_DEATH_MESSAGE_FORMAT)
+                    .replace("{victim}", victim.getName())
+                    .replace("{killer}", killer.getName())
+                    .replace("{name-color}", String.valueOf(victimProfile.getNameColor()))
+                    .replace("{killer-name-color}", String.valueOf(killerProfile.getNameColor()));
+            this.sendMessage(killer, deathMessage, 3);
+        }
     }
 
     /**
@@ -83,38 +92,33 @@ public class ActionBarReflectionServiceImpl implements Reflection {
      * @param target The player whose health will be visualized.
      */
     public void visualizeTargetHealth(Player player, Player target) {
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getVisualsConfig();
-        String path = "game.health-bar";
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String symbol = config.getString(path + ".symbol.appearance", Symbol.HEART);
-        String fullColor = config.getString(path + ".symbol.color.full", "&a&l");
-        String emptyColor = config.getString(path + ".symbol.color.empty", "&7&l");
+        String message = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_MESSAGE_FORMAT)
+                .replace("{target}", target.getName())
+                .replace("{name-color}", AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(target.getUniqueId()).getNameColor().toString());
 
-        boolean roundUp = config.getBoolean(path + ".round-up-health", true);
+        String symbol = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_APPEARANCE);
+        String fullColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_FULL);
+        String halfColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_HALF);
+        String emptyColor = localeService.getString(VisualsLocaleImpl.ACTIONBAR_HEALTH_INDICATOR_SYMBOL_COLOR_EMPTY);
 
         int maxHealth = (int) target.getMaxHealth() / 2;
         double rawHealth = target.getHealth() / 2;
-        int currentHealth = roundUp ? (int) Math.ceil(rawHealth) : (int) Math.floor(rawHealth);
+        int currentHealth = (int) Math.ceil(rawHealth);
 
         StringBuilder healthBar = new StringBuilder();
         for (int i = 0; i < maxHealth; i++) {
             if (i < currentHealth) {
                 healthBar.append(CC.translate(fullColor + symbol));
+            } else if (i == currentHealth && rawHealth % 1 != 0) {
+                healthBar.append(CC.translate(halfColor + symbol));
             } else {
                 healthBar.append(CC.translate(emptyColor + symbol));
             }
         }
 
-        ChatColor nameColor = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(target.getUniqueId()).getNameColor();
-
-        String template = config.getString(path + ".message-format", "&6{name-color}{target} &f{health-bar}");
-        String message = CC.translate(
-                template
-                        .replace("{target}", target.getName())
-                        .replace("{name-color}", nameColor.toString())
-                        .replace("{health-bar}", healthBar.toString())
-        );
-
-        this.sendMessage(player, message);
+        String finalMessage = CC.translate(message.replace("{health-bar}", healthBar.toString()));
+        this.sendMessage(player, finalMessage);
     }
 }

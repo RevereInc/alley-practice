@@ -15,7 +15,11 @@ import org.bukkit.entity.Player;
  * @date 5/21/2024
  */
 public class LeaveQueueCommand extends BaseCommand {
-    @CommandData(name = "leavequeue")
+    @CommandData(
+            name = "leavequeue",
+            usage = "leavequeue",
+            description = "Leave the current queue."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

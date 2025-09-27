@@ -1,29 +1,29 @@
 package dev.revere.alley.feature.match.internal.types;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.combat.CombatService;
 import dev.revere.alley.feature.kit.Kit;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingBridges;
 import dev.revere.alley.feature.kit.setting.types.mode.KitSettingStickFight;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.TeamGameParticipant;
-import dev.revere.alley.common.reflect.ReflectionService;
-import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
+
+import java.util.List;
 
 /**
  * @author Emmy
@@ -62,6 +62,10 @@ public class RoundsMatch extends DefaultMatch {
         this.participantB = participantB;
         this.rounds = rounds;
         this.scorer = "Unknown";
+
+        if (this.currentRound == 0) {
+            this.currentRound = 1;
+        }
     }
 
     @Override
@@ -69,6 +73,7 @@ public class RoundsMatch extends DefaultMatch {
         this.winner = this.participantA.isAllDead() ? this.participantB : this.participantA;
         this.winner.getLeader().getData().incrementScore();
         this.loser = this.participantA.isAllDead() ? this.participantA : this.participantB;
+
         this.currentRound++;
 
         this.broadcastPlayerScoreMessage(this.winner, this.loser, this.scorer);
@@ -216,33 +221,50 @@ public class RoundsMatch extends DefaultMatch {
      * @param scorer The name of the player who scored.
      */
     public void broadcastPlayerScoreMessage(GameParticipant<MatchGamePlayer> winner, GameParticipant<MatchGamePlayer> loser, String scorer) {
-        ChatColor teamWinnerColor = this.getTeamColor(winner);
-        ChatColor teamLoserColor = this.getTeamColor(loser);
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String configPath = this.isTeamMatch() ? "match.scored.format.team" : "match.scored.format.solo";
-
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig();
-        if (config.getBoolean("match.scored.enabled")) {
-            for (String message : config.getStringList(configPath)) {
-                this.notifyAll(message
-                        .replace("{scorer}", scorer)
-                        .replace("{winner}", winner.getLeader().getUsername())
-                        .replace("{winner-color}", teamWinnerColor.toString())
-                        .replace("{winner-goals}", String.valueOf(winner.getLeader().getData().getScore()))
-                        .replace("{loser}", loser.getLeader().getUsername())
-                        .replace("{loser-color}", teamLoserColor.toString())
-                        .replace("{loser-goals}", String.valueOf(loser.getLeader().getData().getScore()))
-                );
+        boolean messageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_ENABLED_BOOLEAN);
+        if (messageEnabled) {
+            List<String> message;
+            if (this.isTeamMatch()) {
+                message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_SOLO_FORMAT);
+            } else {
+                message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_SCORED_MESSAGE_TEAM_FORMAT);
             }
+
+            message.forEach(line -> this.notifyAll(line
+                    .replace("{scorer}", scorer)
+                    .replace("{winner}", winner.getLeader().getUsername())
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
+                    .replace("{winner-goals}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{loser}", loser.getLeader().getUsername())
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
+                    .replace("{loser-goals}", String.valueOf(loser.getLeader().getData().getScore()))
+                    .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{max-rounds}", String.valueOf(this.rounds))
+            ));
         }
 
-        this.getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(uuid -> {
-            Player player = this.plugin.getServer().getPlayer(uuid.getUuid());
-            AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                    player,
-                    teamWinnerColor.toString() + scorer + " &fhas scored!",
-                    "&f" + winner.getLeader().getData().getScore() + " &7/&f " + this.rounds
-            );
-        }));
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_TEAM_SCORED_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_TEAM_SCORED_HEADER)
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
+                    .replace("{scorer}", scorer)
+                    .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{opponent-current-score}", String.valueOf(loser.getLeader().getData().getScore()))
+                    .replace("{max-rounds}", String.valueOf(this.rounds));
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_TEAM_SCORED_FOOTER)
+                    .replace("{loser-color}", String.valueOf(this.getTeamColor(loser)))
+                    .replace("{winner-color}", String.valueOf(this.getTeamColor(winner)))
+                    .replace("{scorer}", scorer)
+                    .replace("{current-score}", String.valueOf(winner.getLeader().getData().getScore()))
+                    .replace("{opponent-current-score}", String.valueOf(loser.getLeader().getData().getScore()))
+                    .replace("{max-rounds}", String.valueOf(this.rounds));
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_TEAM_SCORED_FADEOUT);
+
+            this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
+        }
     }
 }

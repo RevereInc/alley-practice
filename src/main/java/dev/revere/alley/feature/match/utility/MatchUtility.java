@@ -1,21 +1,22 @@
 package dev.revere.alley.feature.match.utility;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.kit.setting.types.mode.*;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import lombok.experimental.UtilityClass;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -70,23 +71,22 @@ public class MatchUtility {
     /**
      * Sends a match result message to all participants and spectators.
      *
-     * @param match         The match.
-     * @param winnerName    The name of the winning team.
-     * @param loserName     The name of the losing team.
-     * @param winnerUuid    The UUID of the winning team.
-     * @param loserUuid     The UUID of the losing team.
+     * @param match      The match.
+     * @param winnerName The name of the winning team.
+     * @param loserName  The name of the losing team.
+     * @param winnerUuid The UUID of the winning team.
+     * @param loserUuid  The UUID of the losing team.
      */
     public void sendMatchResult(Match match, String winnerName, String loserName, UUID winnerUuid, UUID loserUuid) {
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig();
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
-        String path = "match.ended.match-result.regular.";
+        List<String> format = localeService.getStringList(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_FORMAT);
+        String winnerCommand = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_COMMAND).replace("{winner}", String.valueOf(winnerUuid));
+        String winnerHover = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_WINNER_HOVER).replace("{winner}", winnerName);
+        String loserCommand = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_COMMAND).replace("{loser}", String.valueOf(loserUuid));
+        String loserHover = localeService.getString(GameMessagesLocaleImpl.MATCH_ENDED_MATCH_RESULT_REGULAR_LOSER_HOVER).replace("{loser}", loserName);
 
-        String winnerCommand = config.getString(path + "winner.command").replace("{winner}", String.valueOf(winnerUuid));
-        String winnerHover = config.getString(path + "winner.hover").replace("{winner}", winnerName);
-        String loserCommand = config.getString(path + "loser.command").replace("{loser}", String.valueOf(loserUuid));
-        String loserHover = config.getString(path + "loser.hover").replace("{loser}", loserName);
-
-        for (String line : AlleyPlugin.getInstance().getService(ConfigService.class).getMessagesConfig().getStringList(path + "format")) {
+        for (String line : format) {
             if (line.contains("{winner}") && line.contains("{loser}")) {
                 String[] parts = line.split("\\{winner}", 2);
 

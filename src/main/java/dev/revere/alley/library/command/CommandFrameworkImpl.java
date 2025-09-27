@@ -1,16 +1,18 @@
 package dev.revere.alley.library.command;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.library.command.annotation.CompleterData;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -26,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+@Getter
 @Service(provides = CommandFramework.class, priority = 40)
 public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
     private final Map<String, Map.Entry<Method, Object>> commandMap = new HashMap<>();
@@ -36,15 +39,19 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
 
     private final AlleyPlugin plugin;
     private final PluginConstant pluginConstant;
-    private final ConfigService configService;
+    private final LocaleService localeService;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the CommandFrameworkImpl class.
+     *
+     * @param plugin         the AlleyPlugin instance.
+     * @param pluginConstant the Plugin constant.
+     * @param localeService  the Locale service.
      */
-    public CommandFrameworkImpl(AlleyPlugin plugin, PluginConstant pluginConstant, ConfigService configService) {
+    public CommandFrameworkImpl(AlleyPlugin plugin, PluginConstant pluginConstant, LocaleService localeService) {
         this.plugin = plugin;
         this.pluginConstant = pluginConstant;
-        this.configService = configService;
+        this.localeService = localeService;
     }
 
     @Override
@@ -274,36 +281,36 @@ public class CommandFrameworkImpl implements CommandFramework, CommandExecutor {
         }
     }
 
+    /**
+     * Method to handle colon syntax command execution.
+     * Reference: "pluginName:command" is restricted, only users with specific permission can use it.
+     *
+     * @param args The command arguments.
+     */
     private void defaultCommand(CommandArgs args) {
         String label = args.getLabel();
         String[] parts = label.split(":");
 
-        if (configService != null && configService.getSettingsConfig() != null) {
-            if (args.getSender().hasPermission(configService.getSettingsConfig().getString("command.syntax-bypass-perm"))) {
-                if (parts.length > 1) {
-                    String commandToExecute = parts[1];
+        if (args.getSender().hasPermission(this.localeService.getString(SettingsLocaleImpl.PERMISSION_COMMAND_SYNTAX_BYPASS))) {
+            if (parts.length > 1) {
+                String commandToExecute = parts[1];
 
-                    StringBuilder commandBuilder = new StringBuilder(commandToExecute);
-                    for (String arg : args.getArgs()) {
-                        commandBuilder.append(" ").append(arg);
-                    }
-                    String command = commandBuilder.toString();
+                StringBuilder commandBuilder = new StringBuilder(commandToExecute);
+                for (String arg : args.getArgs()) {
+                    commandBuilder.append(" ").append(arg);
+                }
+                String command = commandBuilder.toString();
 
-                    if (args.getSender() instanceof Player) {
-                        ((Player) args.getSender()).performCommand(command);
-                    } else {
-                        args.getSender().getServer().dispatchCommand(args.getSender(), command);
-                    }
+                if (args.getSender() instanceof Player) {
+                    args.getPlayer().performCommand(command);
                 } else {
-                    args.getSender().sendMessage(CC.translate("&cMissing arguments / Wrong format or Internal error."));
+                    args.getSender().getServer().dispatchCommand(args.getSender(), command);
                 }
             } else {
-                args.getSender().sendMessage(CC.translate(configService.getSettingsConfig().getString("command.anti-syntax-message").replace("{argument}", args.getLabel())));
+                args.getSender().sendMessage(CC.translate("&cMissing arguments / Wrong format or Internal error."));
             }
         } else {
-            args.getSender().sendMessage(ChatColor.RED + "An internal error occurred with command handling. Please contact an administrator.");
-            Logger.error("ConfigService or settingsConfig is null in defaultCommand! This indicates a severe initialization issue.");
+            args.getSender().sendMessage(this.localeService.getString(SettingsLocaleImpl.COMMAND_ANTI_SYNTAX_MESSAGE).replace("{argument}", args.getLabel()));
         }
     }
-
 }

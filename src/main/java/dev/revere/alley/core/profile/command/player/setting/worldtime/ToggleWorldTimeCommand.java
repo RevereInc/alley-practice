@@ -1,11 +1,10 @@
 package dev.revere.alley.core.profile.command.player.setting.worldtime;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,29 +13,33 @@ import org.bukkit.entity.Player;
  * @date 13/10/2024 - 10:25
  */
 public class ToggleWorldTimeCommand extends BaseCommand {
-    @CommandData(name = "toggleworldtime")
+    @CommandData(
+            name = "toggleworldtime",
+            cooldown = 1,
+            usage = "toggleworldtime",
+            description = "Toggle through your world time settings."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
 
         switch (profile.getProfileData().getSettingData().getWorldTime()) {
             case DEFAULT:
                 profile.getProfileData().getSettingData().setTimeDay(player);
-                player.sendMessage(CC.translate("&aYou have set the time to day."));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case DAY:
                 profile.getProfileData().getSettingData().setTimeSunset(player);
-                player.sendMessage(CC.translate("&aYou have set the time to sunset."));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case SUNSET:
                 profile.getProfileData().getSettingData().setTimeNight(player);
-                player.sendMessage(CC.translate("&aYou have set the time to night."));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
             case NIGHT:
                 profile.getProfileData().getSettingData().setTimeDefault(player);
-                player.sendMessage(CC.translate("&aYou have reset your world time."));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.PROFILE_WORLD_TIME_SET).replace("{time}", profile.getProfileData().getSettingData().getTime().toLowerCase()));
                 break;
         }
     }

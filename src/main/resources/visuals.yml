@@ -1,9 +1,0 @@
-game:
-  health-bar:
-    symbol:
-      appearance: "❤"
-      color:
-        full: "&4&l"
-        empty: "&c&l"
-    round-up-health: true
-    message-format: "{name-color}{target} {health-bar}"

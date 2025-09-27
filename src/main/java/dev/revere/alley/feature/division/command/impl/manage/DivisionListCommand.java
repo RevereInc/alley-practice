@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.division.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class DivisionListCommand extends BaseCommand {
-    @CommandData(name = "division.list", isAdminOnly = true)
+    @CommandData(
+            name = "division.list",
+            isAdminOnly = true,
+            usage = "division list",
+            description = "Sends a list of all divisions."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -22,10 +27,10 @@ public class DivisionListCommand extends BaseCommand {
         player.sendMessage("");
         player.sendMessage(CC.translate("     &6&lDivision List &f(" + divisionService.getDivisions().size() + "&f)"));
         if (divisionService.getDivisions().isEmpty()) {
-            player.sendMessage(CC.translate("      &f● &cNo Divisions available."));
+            player.sendMessage(CC.translate("      &f◆ &cNo Divisions available."));
         }
         divisionService.getDivisions()
-                .forEach(division -> player.sendMessage(CC.translate("      &f● &6" + division.getDisplayName() + " &f(" + division.getTiers().get(0).getRequiredWins() + " wins)")));
+                .forEach(division -> player.sendMessage(CC.translate("      &f◆ &6" + division.getDisplayName() + " &f(" + division.getTiers().get(0).getRequiredWins() + " wins)")));
         player.sendMessage("");
 
     }

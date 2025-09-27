@@ -1,13 +1,18 @@
 package dev.revere.alley.feature.match.task.other;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.match.MatchState;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.match.MatchState;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
 
 /**
  * @author Emmy
@@ -45,14 +50,27 @@ public class MatchRespawnTask extends BukkitRunnable {
             return;
         }
 
-        AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                player,
-                "&6&lRespawn",
-                "&fRespawning in &6" + this.count + "s",
-                0, 23, 20
-        );
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_ENABLED_BOOLEAN)) {
+            String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_HEADER).replace("{seconds}", String.valueOf(this.count));
+            String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FOOTER).replace("{seconds}", String.valueOf(this.count));
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_RESPAWNING_FADEOUT);
 
-        this.player.sendMessage(CC.translate("&a" + this.count + "..."));
+            AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                    player,
+                    header,
+                    footer,
+                    fadeIn, stay, fadeOut
+            );
+        }
+
+        List<String> messageFormat = localeService.getStringList(GameMessagesLocaleImpl.MATCH_RESPAWNING_MESSAGE_FORMAT);
+        if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_RESPAWNING_MESSAGE_ENABLED_BOOLEAN)) {
+            messageFormat.forEach(message -> this.player.sendMessage(CC.translate(message.replace("{seconds}", String.valueOf(this.count)))));
+        }
+
         this.count--;
     }
 }

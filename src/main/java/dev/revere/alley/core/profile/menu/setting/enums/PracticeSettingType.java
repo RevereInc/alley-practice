@@ -1,8 +1,11 @@
 package dev.revere.alley.core.profile.menu.setting.enums;
 
-import dev.revere.alley.core.profile.data.types.ProfileSettingData;
-import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.profile.data.types.ProfileSettingData;
 import org.bukkit.Material;
 
 import java.util.Arrays;
@@ -93,7 +96,12 @@ public enum PracticeSettingType {
                     CC.MENU_BAR,
                     "&7Hide rude and offensive words.",
                     "",
-                    LoreHelper.displayEnabled(settings.isProfanityFilterEnabled()),
+                    AlleyPlugin.getInstance().getService(LocaleService.class).getBoolean(SettingsLocaleImpl.SERVER_CHAT_FORMAT_ENABLED_BOOLEAN)
+                            ?
+                            LoreHelper.displayEnabled(settings.isProfanityFilterEnabled())
+                            :
+                            "&cServer has disabled this setting."
+                    ,
                     "",
                     "&aClick to toggle.",
                     CC.MENU_BAR

@@ -4,6 +4,7 @@ import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
 import lombok.experimental.UtilityClass;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 import java.util.Arrays;
@@ -38,6 +39,15 @@ public class Logger {
      */
     public void info(String message) {
         consoleSender.sendMessage(CC.translate(CC.PREFIX + message));
+    }
+
+    /**
+     * Log a message to the console without any prefix.
+     *
+     * @param message the message to log
+     */
+    public void infoNoPrefix(String message) {
+        consoleSender.sendMessage(CC.translate(message));
     }
 
     /**
@@ -202,5 +212,16 @@ public class Logger {
     public void logPhaseComplete(String phaseName) {
         consoleSender.sendMessage(CC.translate(PHASE_HEADER_PREFIX + phaseName.toUpperCase() + " COMPLETE" + PHASE_HEADER_SUFFIX));
         consoleSender.sendMessage(CC.translate(""));
+    }
+
+    /**
+     * Sends a message to both the command sender and the console log with a standard prefix.
+     *
+     * @param sender  The command sender to send the message to.
+     * @param message The message to send.
+     */
+    public void sendMessageAndLog(CommandSender sender, String message) {
+        sender.sendMessage(CC.translate(CC.PREFIX + message));
+        Logger.info(message);
     }
 }

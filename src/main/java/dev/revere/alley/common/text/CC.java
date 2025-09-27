@@ -25,7 +25,7 @@ public class CC {
         MENU_BAR = translate("&8&m----------------------");
         PREFIX = translate("&f[&6" + AlleyPlugin.getInstance().getDescription().getName() + "&f] &r");
         ERROR_PREFIX = translate("&c[&4" + AlleyPlugin.getInstance().getDescription().getName() + "&c] &r");
-        WARNING_PREFIX = translate("&6[&e" + AlleyPlugin.getInstance().getDescription().getName() + "&6] &r");
+        WARNING_PREFIX = translate("&f[&c" + AlleyPlugin.getInstance().getDescription().getName() + "&f] &r");
     }
 
     /**

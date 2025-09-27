@@ -12,7 +12,7 @@ import java.io.File;
  */
 public interface ConfigService extends Service {
     /**
-     * Reloads all configuration files from disk.
+     * Reloads all configurations from disk.
      */
     void reloadConfigs();
 
@@ -44,7 +44,7 @@ public interface ConfigService extends Service {
 
     FileConfiguration getHotbarConfig();
 
-    FileConfiguration getMessagesConfig();
+    FileConfiguration getGlobalMessagesConfig();
 
     FileConfiguration getDatabaseConfig();
 

@@ -17,7 +17,13 @@ import java.util.Arrays;
  * @since 26/04/2025
  */
 public class AlleyCoreCommand extends BaseCommand {
-    @CommandData(name = "alley.server", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "alley.core",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "alley core",
+            description = "Displays information about the core hook."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -26,7 +32,9 @@ public class AlleyCoreCommand extends BaseCommand {
         Arrays.asList(
                 "",
                 "&6&lCore Hook Information",
-                " &f&l● &6Plugin: &f" + core.getType().getPluginName() + " &7made by &f" + core.getType().getPluginAuthor(),
+                " &6&l│ &rPlugin: &6" + core.getType().getPluginName(),
+                //" &6&l│ &rVersion: &6" + core.getType().getPluginVersion(),
+                " &6&l│ &rAuthors: &6" + core.getType().getPluginAuthor(),
                 ""
         ).forEach(line -> sender.sendMessage(CC.translate(line)));
 

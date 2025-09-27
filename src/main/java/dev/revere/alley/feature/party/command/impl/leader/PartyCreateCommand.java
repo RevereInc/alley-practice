@@ -1,14 +1,14 @@
 package dev.revere.alley.feature.party.command.impl.leader;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.party.PartyService;
+import dev.revere.alley.feature.server.ServerService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.server.ServerService;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
-import dev.revere.alley.feature.party.PartyService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.enums.ProfileState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -20,7 +20,12 @@ import java.util.UUID;
  */
 public class PartyCreateCommand extends BaseCommand {
     @Override
-    @CommandData(name = "party.create", aliases = {"p.create"})
+    @CommandData(
+            name = "party.create",
+            aliases = {"p.create"},
+            usage = "party create",
+            description = "Create a party."
+    )
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         UUID playerUUID = player.getUniqueId();
@@ -35,7 +40,7 @@ public class PartyCreateCommand extends BaseCommand {
         }
 
         if (partyService.getPartyByLeader(player) != null) {
-            player.sendMessage(CC.translate(PartyLocale.ALREADY_IN_PARTY.getMessage()));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_IN_PARTY));
             return;
         }
 
@@ -45,6 +50,5 @@ public class PartyCreateCommand extends BaseCommand {
         }
 
         partyService.createParty(player);
-        //player.sendMessage(CC.translate(PartyLocale.PARTY_CREATED.getMessage()));
     }
 }

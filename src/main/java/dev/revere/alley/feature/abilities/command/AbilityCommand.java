@@ -19,7 +19,12 @@ public class AbilityCommand extends BaseCommand {
 
     private AlleyPlugin plugin = AlleyPlugin.getInstance();
 
-    @CommandData(name = "ability", permission = "hypractice.command.ability")
+    @CommandData(
+            name = "ability",
+            permission = "hypractice.command.ability",
+            usage = "ability",
+            description = "Manage abilities."
+    )
     @Override
     public void onCommand(CommandArgs commandArgs) {
         Player player = commandArgs.getPlayer();
@@ -32,7 +37,7 @@ public class AbilityCommand extends BaseCommand {
         switch (args[0].toLowerCase()) {
             case "give":
                 if (args.length < 4) {
-                    CC.sender(player, "&cUsage: /" + "ability" + " give <player> <ability|all> <amount>");
+                    commandArgs.sendUsage();
                     return;
                 }
 

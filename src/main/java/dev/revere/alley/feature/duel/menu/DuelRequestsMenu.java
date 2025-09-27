@@ -1,14 +1,15 @@
 package dev.revere.alley.feature.duel.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.pagination.PaginatedMenu;
-import dev.revere.alley.feature.server.ServerService;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.duel.DuelRequest;
 import dev.revere.alley.feature.duel.DuelRequestService;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.server.ServerService;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.pagination.PaginatedMenu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -78,26 +79,28 @@ public class DuelRequestsMenu extends PaginatedMenu {
         public void clicked(Player player, ClickType clickType) {
             if (clickType != ClickType.LEFT) return;
 
+            LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
             if (this.duelRequest.hasExpired()) {
-                player.sendMessage(CC.translate("&cThis duel request has expired."));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_EXPIRED));
                 new DuelRequestsMenu().openMenu(player);
                 return;
             }
 
             if (this.duelRequest.getArena() == null) {
-                player.sendMessage(CC.translate("&cThis duel request has no setup arena."));
+                player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.ERROR_DUEL_REQUESTS_NO_ARENA));
                 new DuelRequestsMenu().openMenu(player);
                 return;
             }
 
             if (AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getMatch() != null) {
-                player.sendMessage(CC.translate("&cYou are already in a match."));
+                player.sendMessage(this.plugin.getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.ERROR_YOU_ALREADY_PLAYING_MATCH));
                 return;
             }
 
             ServerService serverService = AlleyPlugin.getInstance().getService(ServerService.class);
             if (!serverService.isQueueingAllowed()) {
-                player.sendMessage(CC.translate("&cQueueing is temporarily disabled. Please try again later."));
+                player.sendMessage(AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.QUEUE_TEMPORARILY_DISABLED));
                 player.closeInventory();
                 return;
             }

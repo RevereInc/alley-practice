@@ -1,13 +1,17 @@
 package dev.revere.alley.feature.match.internal.types;
 
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.feature.match.model.TeamGameParticipant;
 import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.reflect.ReflectionService;
+import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -15,9 +19,8 @@ import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Emmy
@@ -107,49 +110,42 @@ public class BedMatch extends DefaultMatch {
     /**
      * Alerts the participants about the bed destruction.
      *
-     * @param breaker  The player who broke the bed.
-     * @param opponent The opponent whose bed was destroyed.
+     * @param breaker             The player who broke the bed.
+     * @param opponentParticipant The opponent whose bed was destroyed.
      */
-    public void alertBedDestruction(Player breaker, GameParticipant<MatchGamePlayer> opponent) {
-        String destructionMessage = "&6&lBED DESTRUCTION!";
-        String subMessage = getBreakMessage(breaker, opponent);
+    public void alertBedDestruction(Player breaker, GameParticipant<MatchGamePlayer> opponentParticipant) {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        TitleReflectionServiceImpl titleService = this.plugin.getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class);
 
-        this.sendMessage(
-                Arrays.asList(
-                        "",
-                        destructionMessage,
-                        subMessage,
-                        ""
-                )
-        );
+        if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_ENABLED_BOOLEAN)) {
+            String bedDestroyedHeader = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_HEADER);
+            String bedDestroyedFooter = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FOOTER);
+            int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADE_IN);
+            int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_STAY);
+            int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_BED_DESTROYED_FADEOUT);
 
-        this.sendTitle(
-                destructionMessage,
-                subMessage
-        );
-
-        this.playSound(Sound.ENDERDRAGON_GROWL);
-    }
-
-    private @NotNull String getBreakMessage(Player breaker, GameParticipant<MatchGamePlayer> opponent) {
-        String subMessage;
-        if (opponent instanceof TeamGameParticipant) {
-            String opponentTeamName;
-            String color;
-
-            if (this.getParticipantA() == opponent) {
-                opponentTeamName = "&9Blue Team";
-                color = "&c";
-            } else {
-                opponentTeamName = "&cRed Team";
-                color = "&9";
-            }
-
-            subMessage = color + breaker.getName() + " &7has destroyed the bed of " + opponentTeamName + "&7!";
-        } else {
-            subMessage = " &c" + breaker.getName() + " &7has destroyed the bed of &9" + opponent.getLeader().getUsername() + "&7!";
+            opponentParticipant.getPlayers().forEach(matchGamePlayer -> {
+                Player player = this.plugin.getServer().getPlayer(matchGamePlayer.getUuid());
+                titleService.sendTitle(player, bedDestroyedHeader, bedDestroyedFooter, fadeIn, stay, fadeOut);
+            });
         }
-        return subMessage;
+
+        this.playSound(opponentParticipant, Sound.WITHER_DEATH);
+
+        GameParticipant<MatchGamePlayer> breakerParticipant = this.getParticipant(breaker);
+        this.playSound(breakerParticipant, Sound.ENDERDRAGON_GROWL);
+
+        if (localeService.getBoolean(GameMessagesLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_ENABLED_BOOLEAN)) {
+            List<String> message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_BED_DESTRUCTION_MESSAGE_FORMAT);
+            message.forEach(line -> {
+                String formattedLine = line
+                        .replace("{bed-color}", String.valueOf(this.getTeamColor(opponentParticipant)))
+                        .replace("{breaker-color}", String.valueOf(this.getTeamColor(breakerParticipant)))
+                        .replace("{bed}", this.getParticipantA() == opponentParticipant ? "Blue Bed" : "Red Bed")
+                        .replace("{breaker}", breaker.getName());
+                this.sendMessage(formattedLine);
+            });
+        }
     }
 
     /**

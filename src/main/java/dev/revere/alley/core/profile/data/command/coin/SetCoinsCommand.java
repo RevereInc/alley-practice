@@ -1,11 +1,12 @@
-package dev.revere.alley.core.profile.command.admin.statistic;
+package dev.revere.alley.core.profile.data.command.coin;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,20 +15,25 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class SetCoinsCommand extends BaseCommand {
-    @CommandData(name = "coins.set", isAdminOnly = true)
+    @CommandData(
+            name = "coins.set",
+            isAdminOnly = true,
+            usage = "coins set <player> <amount>",
+            description = "Set a player's coins."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length != 2) {
-            player.sendMessage(CC.translate("&cUsage: /coins set <player> <amount>"));
+            command.sendUsage();
             return;
         }
 
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-            player.sendMessage(CC.translate("&cPlayer not found."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -38,7 +44,7 @@ public class SetCoinsCommand extends BaseCommand {
             profile.getProfileData().setCoins(amount);
             player.sendMessage(CC.translate("&aSuccessfully set " + target.getName() + "'s coins to " + amount + "."));
         } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cInvalid number."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
         }
     }
 }

@@ -1,16 +1,18 @@
 package dev.revere.alley.feature.match.listener.types;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingCheckpoint;
-import dev.revere.alley.feature.match.internal.types.CheckpointMatch;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
-import dev.revere.alley.feature.match.model.GameParticipant;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.common.ListenerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
-import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingCheckpoint;
+import dev.revere.alley.feature.match.internal.types.CheckpointMatch;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -60,11 +62,25 @@ public class MatchInteractListener implements Listener {
                 matchGamePlayer.getCheckpoints().add(checkpointLocation);
                 matchGamePlayer.setCheckpointCount(matchGamePlayer.getCheckpointCount() + 1);
 
-                AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
-                        player,
-                        "&aCHECKPOINT!",
-                        "&7(" + player.getLocation().getBlockX() + ", " + player.getLocation().getBlockY() + ", " + player.getLocation().getBlockZ() + ")"
-                );
+                LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
+
+                if (localeService.getBoolean(VisualsLocaleImpl.TITLE_CHECKPOINT_ENABLED_BOOLEAN)) {
+                    String header = localeService.getString(VisualsLocaleImpl.TITLE_CHECKPOINT_HEADER);
+                    String footer = localeService.getString(VisualsLocaleImpl.TITLE_CHECKPOINT_FOOTER)
+                            .replace("{x}", String.valueOf(player.getLocation().getBlockX()))
+                            .replace("{y}", String.valueOf(player.getLocation().getBlockY()))
+                            .replace("{z}", String.valueOf(player.getLocation().getBlockZ()));
+                    int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADE_IN);
+                    int stay = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_STAY);
+                    int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_CHECKPOINT_FADEOUT);
+
+                    AlleyPlugin.getInstance().getService(ReflectionService.class).getReflectionService(TitleReflectionServiceImpl.class).sendTitle(
+                            player,
+                            header,
+                            footer,
+                            fadeIn, stay, fadeOut
+                    );
+                }
             }
 
             return;

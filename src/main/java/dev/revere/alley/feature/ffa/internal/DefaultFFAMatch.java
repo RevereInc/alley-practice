@@ -6,6 +6,8 @@ import dev.revere.alley.common.PlayerUtil;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.ActionBarReflectionServiceImpl;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
@@ -21,6 +23,8 @@ import dev.revere.alley.feature.spawn.SpawnService;
 import dev.revere.alley.feature.visibility.VisibilityService;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.List;
 
 /**
  * @author Remi
@@ -49,14 +53,29 @@ public class DefaultFFAMatch extends FFAMatch {
      */
     @Override
     public void join(Player player) {
+        if (this.getArena() == null) return;
+        if (this.getArena().getPos1() == null) return;
+
+        Profile profile = this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId());
         GameFFAPlayer gameFFAPlayer = new GameFFAPlayer(player.getUniqueId(), player.getName());
-        if (this.getPlayers().size() >= this.getMaxPlayers()) {
-            player.sendMessage(CC.translate("&cThis FFA match is full. " + getMaxPlayers() + " players are already in the match."));
-            return;
-        }
+        if (this.getPlayers().size() >= this.getMaxPlayers()) return;
 
         this.getPlayers().add(gameFFAPlayer);
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate("&a" + player.getName() + " has joined the FFA match.")));
+
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        boolean ffaPlayerLeftMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_JOIN_MESSAGE_ENABLED_BOOLEAN);
+        if (ffaPlayerLeftMessageEnabled) {
+            List<String> ffaPlayerLeftMessageFormat = localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_JOIN_MESSAGE_FORMAT);
+            for (String line : ffaPlayerLeftMessageFormat) {
+                this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
+                        CC.translate(line
+                                .replace("{name-color}", profile.getNameColor().toString())
+                                .replace("{player}", profile.getName())
+                        )
+                ));
+            }
+        }
+
         this.setupPlayer(player);
     }
 
@@ -66,9 +85,11 @@ public class DefaultFFAMatch extends FFAMatch {
      * @param player The player
      */
     public void forceJoin(Player player) {
+        if (this.getArena() == null) return;
+        if (this.getArena().getPos1() == null) return;
+
         GameFFAPlayer gameFFAPlayer = new GameFFAPlayer(player.getUniqueId(), player.getName());
         this.getPlayers().add(gameFFAPlayer);
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate("&a" + player.getName() + " has been forced into the FFA match.")));
         this.setupPlayer(player);
     }
 
@@ -80,16 +101,24 @@ public class DefaultFFAMatch extends FFAMatch {
     @Override
     public void leave(Player player) {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         GameFFAPlayer gameFFAPlayer = this.getGameFFAPlayer(player);
         this.getPlayers().remove(gameFFAPlayer);
 
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate(
-                "&c" + profile.getFancyName() + " has left the FFA match."))
-        );
-
-        player.sendMessage(CC.translate("&aYou have left the FFA match."));
+        boolean ffaPlayerLeftMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_LEFT_MESSAGE_ENABLED_BOOLEAN);
+        if (ffaPlayerLeftMessageEnabled) {
+            List<String> ffaPlayerLeftMessageFormat = localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_LEFT_MESSAGE_FORMAT);
+            for (String line : ffaPlayerLeftMessageFormat) {
+                this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
+                        CC.translate(line
+                                .replace("{name-color}", profile.getNameColor().toString())
+                                .replace("{player}", profile.getName())
+                        )
+                ));
+            }
+        }
 
         profile.setState(ProfileState.LOBBY);
         profile.setFfaMatch(null);
@@ -166,6 +195,7 @@ public class DefaultFFAMatch extends FFAMatch {
     @Override
     public void handleDeath(Player player, Player killer) {
         ProfileService profileService = this.plugin.getService(ProfileService.class);
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
 
         if (killer == null) {
             Profile profile = profileService.getProfile(player.getUniqueId());
@@ -173,9 +203,18 @@ public class DefaultFFAMatch extends FFAMatch {
             ffaData.incrementDeaths();
             ffaData.resetKillstreak();
 
-            this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate(
-                    "&c" + profile.getFancyName() + " has died."))
-            );
+            boolean suicideDeathMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_DIED_MESSAGE_ENABLED_BOOLEAN);
+            if (suicideDeathMessageEnabled) {
+                for (String line : localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_DIED_MESSAGE_FORMAT)) {
+                    this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
+                            CC.translate(line
+                                    .replace("{name-color}", profile.getNameColor().toString())
+                                    .replace("{player}", profile.getName())
+                            )
+                    ));
+                }
+            }
+
             this.handleRespawn(player);
             return;
         }
@@ -195,11 +234,21 @@ public class DefaultFFAMatch extends FFAMatch {
         this.plugin.getService(ReflectionService.class).getReflectionService(ActionBarReflectionServiceImpl.class).sendDeathMessage(killer, player);
         this.plugin.getService(CombatService.class).resetCombatLog(player);
 
-        this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(CC.translate(
-                "&6" + profile.getFancyName() + " &ahas been killed by &6" + killerProfile.getFancyName() + "&a."))
-        );
-        this.sendKillstreakAlertMessage(killer);
+        boolean killDeathMessageEnabled = localeService.getBoolean(GameMessagesLocaleImpl.FFA_PLAYER_KILLED_PLAYER_MESSAGE_ENABLED_BOOLEAN);
+        if (killDeathMessageEnabled) {
+            for (String line : localeService.getStringList(GameMessagesLocaleImpl.FFA_PLAYER_KILLED_PLAYER_MESSAGE_FORMAT)) {
+                this.getPlayers().forEach(ffaPlayer -> ffaPlayer.getPlayer().sendMessage(
+                        CC.translate(line
+                                .replace("{name-color}", profile.getNameColor().toString())
+                                .replace("{player}", profile.getName())
+                                .replace("{killer-name-color}", killerProfile.getNameColor().toString())
+                                .replace("{killer}", killerProfile.getName())
+                        )
+                ));
+            }
+        }
 
+        this.sendKillstreakAlertMessage(killer);
         this.handleRespawn(player);
     }
 }

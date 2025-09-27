@@ -1,16 +1,19 @@
 package dev.revere.alley.feature.match.internal.types;
 
+import dev.revere.alley.common.ListenerUtil;
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.Queue;
-import dev.revere.alley.feature.match.model.GamePlayer;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.GamePlayer;
 import dev.revere.alley.feature.match.model.TeamGameParticipant;
-import dev.revere.alley.common.ListenerUtil;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
+import dev.revere.alley.feature.queue.Queue;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -128,7 +131,18 @@ public class HideAndSeekMatch extends DefaultMatch {
         long totalDelayTicks = (hidingTimeSeconds + preMatchCountdownSeconds) * 20L;
 
         this.seekerReleaseTask = plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-            sendTitle("&c&lSeekers Released!", "&7The hunt has begun!");
+            LocaleService localeService = plugin.getService(LocaleService.class);
+
+            if (localeService.getBoolean(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_ENABLED_BOOLEAN)) {
+                String header = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_HEADER);
+                String footer = localeService.getString(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FOOTER);
+                int fadeIn = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADE_IN);
+                int stay = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_STAY);
+                int fadeOut = localeService.getInt(VisualsLocaleImpl.TITLE_MATCH_SEEKERS_RELEASED_FADEOUT);
+
+                this.sendTitle(header, footer, fadeIn, stay, fadeOut, true);
+            }
+
             playSound(Sound.ENDERDRAGON_GROWL);
 
             getParticipantA().getPlayers().forEach(seeker -> {
@@ -160,7 +174,10 @@ public class HideAndSeekMatch extends DefaultMatch {
                 super.handleDeath(player, cause);
             } else {
                 if (gameEndTask != null) {
-                    sendMessage(CC.translate("&c&lDEATH! &fSeeker &c" + player.getName() + " &fhas respawned."));
+                    this.sendMessage(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_SEEKER_RESPAWNED)
+                            .replace("{player}", player.getName())
+                            .replace("{name-color}", String.valueOf(this.plugin.getService(ProfileService.class).getProfile(player.getUniqueId()).getNameColor()))
+                    );
                 }
                 this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> handleRespawn(player), 1L);
             }

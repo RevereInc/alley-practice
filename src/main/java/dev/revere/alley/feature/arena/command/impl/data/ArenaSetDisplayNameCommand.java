@@ -1,12 +1,11 @@
 package dev.revere.alley.feature.arena.command.impl.data;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
@@ -17,14 +16,20 @@ import java.util.Arrays;
  * @date 15/09/2024 - 11:45
  */
 public class ArenaSetDisplayNameCommand extends BaseCommand {
-    @CommandData(name = "arena.setdisplayname", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "arena.setdisplayname",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "arena setdisplayname <arenaName> <displayName>",
+            description = "Sets the display name of an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            sender.sendMessage(CC.translate("&6Usage: &e/arena setdisplayname &6<arenaName> <displayName>"));
+            command.sendUsage();
             return;
         }
 
@@ -32,7 +37,7 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena == null) {
-            sender.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
@@ -41,6 +46,9 @@ public class ArenaSetDisplayNameCommand extends BaseCommand {
         arena.setDisplayName(displayName);
         arenaService.saveArena(arena);
 
-        sender.sendMessage(CC.translate("&aSuccessfully set the display name of the arena &e" + arenaName + " &ato &e" + displayName + "&a."));
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_DISPLAY_NAME_SET)
+                .replace("{arena-name}", arenaName)
+                .replace("{display-name}", displayName)
+        );
     }
 }

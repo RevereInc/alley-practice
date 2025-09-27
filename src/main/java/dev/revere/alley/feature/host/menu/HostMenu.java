@@ -1,8 +1,8 @@
 package dev.revere.alley.feature.host.menu;
 
+import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.common.item.ItemBuilder;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -33,7 +33,7 @@ public class HostMenu extends Menu {
                 "&fHost an event with different",
                 "&funique implementations.",
                 "",
-                " &f● &6Types: &7Sumo",
+                " &f◆ &6Types: &7Sumo",
                 " &f● &cMore soon...",
                 "",
                 "&aClick to host!"

@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin.manage;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,27 +15,32 @@ import org.bukkit.entity.Player;
  * @since 11/04/2025
  */
 public class FFAToggleCommand extends BaseCommand {
-    @CommandData(name = "ffa.toggle", isAdminOnly = true)
+    @CommandData(
+            name = "ffa.toggle",
+            isAdminOnly = true,
+            usage = "ffa toggle <kitName>",
+            description = "Toggle a kit's eligibility for FFA matches."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/ffa toggle &6<kitName>"));
+            command.sendUsage();
             return;
         }
 
         KitService kitService = this.plugin.getService(KitService.class);
         Kit kit = kitService.getKit(args[0]);
         if (kit == null) {
-            player.sendMessage(CC.translate("&cA kit with that name does not exist!"));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", args[0]));
             return;
         }
 
         FFAService ffaService = this.plugin.getService(FFAService.class);
         if (ffaService.isNotEligibleForFFA(kit)) {
-            player.sendMessage(CC.translate("&cThis kit is not eligible for FFA due to the kit setting it has enabled!"));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_KIT_NOT_ELIGIBLE));
             return;
         }
 
@@ -44,7 +49,10 @@ public class FFAToggleCommand extends BaseCommand {
 
         kitService.saveKit(kit);
         ffaService.reloadFFAKits();
-        player.sendMessage(CC.translate("&aFFA mode has been " + (ffaEnabled ? "&aenabled" : "&cdisabled") + " for kit &6" + kit.getName() + "&a!"));
-        player.sendMessage(CC.translate("&7Additionally, all FFA matches have been reloaded."));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_TOGGLED)
+                .replace("{kit-name}", kit.getName())
+                .replace("{status}", ffaEnabled ? "enabled" : "disabled")
+        );
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_KITS_RELOADED));
     }
 }

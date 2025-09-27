@@ -2,6 +2,9 @@ package dev.revere.alley.library.command;
 
 import dev.revere.alley.bootstrap.lifecycle.Service;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+
 /**
  * @author Remi
  * @project alley-practice
@@ -24,4 +27,6 @@ public interface CommandFramework extends Service {
      * Generates and registers the main help topic for the bootstrap.
      */
     void registerHelp();
+
+    Map<String, Map.Entry<Method, Object>> getCommandMap();
 }

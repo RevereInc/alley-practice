@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.server.menu.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
 import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.library.menu.Button;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
@@ -40,7 +40,7 @@ public class ServiceClearChatButton extends Button {
                 onlinePlayer.sendMessage(this.getRandomizedCharacters());
             }
 
-            onlinePlayer.sendMessage(CC.translate("&c&lCHAT HAS BEEN CLEARED BY STAFF!"));
+            this.getString(GlobalMessagesLocaleImpl.CHAT_CLEARED_BY_STAFF);
         });
     }
 

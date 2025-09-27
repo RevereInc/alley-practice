@@ -13,14 +13,19 @@ import org.bukkit.entity.Player;
  * @date 11/12/2024 - 13:33
  */
 public class PartyUnbanCommand extends BaseCommand {
-    @CommandData(name = "party.unban", aliases = "p.unban")
+    @CommandData(
+            name = "party.unban",
+            aliases = "p.unban",
+            usage = "party unban <player>",
+            description = "Unban a player from your party."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/party unban &6<player>"));
+            command.sendUsage();
             return;
         }
 

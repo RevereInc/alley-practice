@@ -2,11 +2,11 @@ package dev.revere.alley.feature.emoji.internal;
 
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
-import dev.revere.alley.core.config.ConfigService;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.emoji.EmojiService;
 import dev.revere.alley.feature.emoji.EmojiType;
 import lombok.Getter;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,19 +21,23 @@ import java.util.Optional;
 @Getter
 @Service(provides = EmojiService.class, priority = 420)
 public class EmojiServiceImpl implements EmojiService {
-    private final ConfigService configService;
+    private final LocaleService localeService;
 
     private final Map<String, String> emojis = new HashMap<>();
     private boolean enabled = false;
 
-    public EmojiServiceImpl(ConfigService configService) {
-        this.configService = configService;
+    /**
+     * DI Constructor for the EmojiServiceImpl class.
+     *
+     * @param localeService The locale service.
+     */
+    public EmojiServiceImpl(LocaleService localeService) {
+        this.localeService = localeService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        FileConfiguration settingsConfig = this.configService.getSettingsConfig();
-        this.enabled = settingsConfig.getBoolean("essentials.emojis", false);
+        this.enabled = this.localeService.getBoolean(SettingsLocaleImpl.SERVER_ESSENTIAL_EMOJI_FEATURE_BOOLEAN);
         if (!enabled) return;
 
         for (EmojiType value : EmojiType.values()) {

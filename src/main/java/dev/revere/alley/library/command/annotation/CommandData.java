@@ -22,7 +22,7 @@ public @interface CommandData {
 
     String[] aliases() default {};
 
-    String description() default "";
+    String description();
 
     String usage() default "";
 

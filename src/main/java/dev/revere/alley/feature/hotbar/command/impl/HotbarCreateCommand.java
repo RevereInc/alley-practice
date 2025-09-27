@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.EnumFormatter;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.hotbar.HotbarService;
+import dev.revere.alley.feature.hotbar.HotbarType;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.feature.hotbar.HotbarType;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -16,7 +17,9 @@ import org.bukkit.entity.Player;
 public class HotbarCreateCommand extends BaseCommand {
     @CommandData(
             name = "hotbar.create",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "hotbar create <name> <type>",
+            description = "Create a new hotbar item."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -24,7 +27,7 @@ public class HotbarCreateCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/hotbar create &6<name> <type>"));
+            command.sendUsage();
             return;
         }
 
@@ -33,12 +36,15 @@ public class HotbarCreateCommand extends BaseCommand {
         HotbarType type;
         try {
             type = HotbarType.valueOf(args[1].toUpperCase());
-        } catch (IllegalArgumentException e) {
-            player.sendMessage(CC.translate("&cInvalid hotbar type! Valid types are: " + HotbarType.availableTypes()));
+        } catch (IllegalArgumentException exception) {
+            player.sendMessage(EnumFormatter.outputAvailableValues(HotbarType.class));
             return;
         }
 
         this.plugin.getService(HotbarService.class).createHotbarItem(name, type);
-        player.sendMessage(CC.translate("&aHotbar item &e" + name + " &acreated successfully with type &e" + type.name() + "&a!"));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.HOTBAR_CREATED_ITEM)
+                .replace("{name}", name)
+                .replace("{type}", type.name())
+        );
     }
 }

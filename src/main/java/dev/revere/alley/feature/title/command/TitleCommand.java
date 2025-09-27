@@ -13,7 +13,12 @@ import org.bukkit.entity.Player;
  * @since 22/04/2025
  */
 public class TitleCommand extends BaseCommand {
-    @CommandData(name = "title", aliases = {"titles"})
+    @CommandData(
+            name = "title",
+            aliases = {"titles"},
+            usage = "title",
+            description = "Open the title menu."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

@@ -1,19 +1,7 @@
 package dev.revere.alley.core.profile;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.queue.QueueProfile;
-import dev.revere.alley.feature.queue.QueueType;
-import dev.revere.alley.feature.abilities.Ability;
-import dev.revere.alley.feature.abilities.cooldown.AbilityCooldown;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.feature.division.model.DivisionTier;
-import dev.revere.alley.feature.leaderboard.LeaderboardType;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.match.Match;
-import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.adapter.core.CoreAdapter;
 import dev.revere.alley.core.profile.data.ProfileData;
 import dev.revere.alley.core.profile.data.types.ProfileFFAData;
 import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
@@ -21,6 +9,19 @@ import dev.revere.alley.core.profile.data.types.ProfileRankedKitData;
 import dev.revere.alley.core.profile.data.types.ProfileUnrankedKitData;
 import dev.revere.alley.core.profile.enums.GlobalCooldown;
 import dev.revere.alley.core.profile.enums.ProfileState;
+import dev.revere.alley.feature.abilities.Ability;
+import dev.revere.alley.feature.abilities.cooldown.AbilityCooldown;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
+import dev.revere.alley.feature.division.model.DivisionTier;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.leaderboard.LeaderboardType;
+import dev.revere.alley.feature.match.Match;
+import dev.revere.alley.feature.party.Party;
+import dev.revere.alley.feature.queue.QueueProfile;
+import dev.revere.alley.feature.queue.QueueType;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -78,6 +79,31 @@ public class Profile {
     }
 
     /**
+     * Advanced method to retrieve the player's current color.
+     * Before accessing, check if the cached color is up to date. If not, re-assign it using the CoreAdapter.
+     * Logic is in place to avoid unnecessary calls to the CoreAdapter.
+     *
+     * @return The ChatColor representing the player's name color.
+     */
+    public ChatColor getNameColor() {
+        CoreAdapter adapter = AlleyPlugin.getInstance().getService(CoreAdapter.class);
+        if (adapter == null) {
+            return this.nameColor;
+        }
+
+        ChatColor upToDateColor = adapter.getCore().getPlayerColor(AlleyPlugin.getInstance().getServer().getPlayer(this.uuid));
+        if (upToDateColor == null) {
+            upToDateColor = this.nameColor;
+        }
+
+        if (this.nameColor != upToDateColor) {
+            this.nameColor = upToDateColor;
+        }
+
+        return this.nameColor;
+    }
+
+    /**
      * Gets the fancy name of the profile with the color.
      *
      * @return The colored name of the profile.
@@ -93,6 +119,15 @@ public class Profile {
      */
     public boolean isBusy() {
         return this.state != ProfileState.LOBBY;
+    }
+
+    /**
+     * Checks if the profile is in the lobby or in a queue.
+     *
+     * @return True if the profile is in the lobby or in a queue, otherwise false.
+     */
+    public boolean isInLobbyOrInQueue() {
+        return this.state == ProfileState.LOBBY || this.state == ProfileState.WAITING;
     }
 
     /**
@@ -124,6 +159,7 @@ public class Profile {
 
     /**
      * Gets the cooldown object for a specific global cooldown type.
+     *
      * @param type The global cooldown type from the enum.
      * @return The AbilityCooldown object.
      */

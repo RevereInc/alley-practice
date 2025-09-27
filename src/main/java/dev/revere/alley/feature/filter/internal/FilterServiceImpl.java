@@ -1,16 +1,15 @@
 package dev.revere.alley.feature.filter.internal;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.common.constants.PluginConstant;
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
+import dev.revere.alley.common.constants.PluginConstant;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
 import dev.revere.alley.feature.filter.FilterService;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
@@ -27,36 +26,37 @@ import java.util.Set;
 @Service(provides = FilterService.class, priority = 340)
 public class FilterServiceImpl implements FilterService {
     private final AlleyPlugin plugin;
-    private final ConfigService configService;
+
+    private final LocaleService localeService;
     private final PluginConstant pluginConstant;
 
     private final Set<String> filteredWords = new HashSet<>();
     private String notificationMessage;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FilterServiceImpl class.
+     *
+     * @param plugin         The main Alley plugin instance.
+     * @param localeService  The locale service.
+     * @param pluginConstant The plugin constant.
      */
-    public FilterServiceImpl(AlleyPlugin plugin, ConfigService configService, PluginConstant pluginConstant) {
+    public FilterServiceImpl(AlleyPlugin plugin, LocaleService localeService, PluginConstant pluginConstant) {
         this.plugin = plugin;
-        this.configService = configService;
+        this.localeService = localeService;
         this.pluginConstant = pluginConstant;
     }
 
     @Override
     public void initialize(AlleyContext context) {
-        this.notificationMessage = this.configService.getSettingsConfig().getString("profanity-filter.staff-notification-format");
+        this.notificationMessage = this.localeService.getString(SettingsLocaleImpl.PROFANITY_FILTER_STAFF_NOTIFICATION_FORMAT);
         this.loadFilteredWords();
     }
 
     private void loadFilteredWords() {
-        FileConfiguration config = this.configService.getSettingsConfig();
-        ConfigurationSection section = config.getConfigurationSection("profanity-filter");
+        List<String> words = this.localeService.getStringListRaw(SettingsLocaleImpl.PROFANITY_FILTER_FILTERED_WORDS_LIST);
+        this.filteredWords.addAll(words);
 
-        if (section != null) {
-            this.filteredWords.addAll(section.getStringList("filtered-words"));
-        }
-
-        if (config.getBoolean("profanity-filter.add-default-words")) {
+        if (this.localeService.getBoolean(SettingsLocaleImpl.PROFANITY_FILTER_ADD_DEFAULT_WORDS_BOOLEAN)) {
             this.filteredWords.addAll(this.getDefaultFilteredWords());
         }
     }

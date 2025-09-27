@@ -1,0 +1,266 @@
+duel-requests:
+  accepted: '&aYou have accepted the duel request from &6{name-color}{player}&a!'
+duel:
+  request:
+    sent:
+      solo:
+        format:
+          - ''
+          - '&6&lDuel Request'
+          - ' &6&l│ &fTarget: &6{name-color}{target}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ''
+      party:
+        format:
+          - ''
+          - '&6&lParty Duel Request'
+          - ' &6&l│ &fTarget: &6{name-color}{target}&f''s Party &6(&a{party-size}&6)'
+          - ' &6&l│ &fKit: &6{kit}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ''
+    received:
+      solo:
+        clickable:
+          format: ' &a(Click To Accept)'
+          command: /accept {sender}
+          hover: '&aClick to accept &6{sender}&a''s duel request.'
+        format:
+          - ''
+          - '&6&lDuel Request'
+          - ' &6&l│ &fFrom: &6{name-color}{sender}'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - '{clickable}'
+          - ''
+      party:
+        clickable:
+          format: ' &a(Click To Accept)'
+          command: /accept {sender}
+          hover: '&aClick to accept &6{sender}&a''s party duel request.'
+        format:
+          - ''
+          - '&6&lParty Duel Request'
+          - ' &6&l│ &fFrom: &6{name-color}{sender}&f''s Party &6(&a{party-size}&6)'
+          - ' &6&l│ &fArena: &6{arena}'
+          - ' &6&l│ &fKit: &6{kit}'
+          - '{clickable}'
+          - ''
+    expired:
+      sender:
+        enabled: true
+        format:
+          - ''
+          - '&c&lDuel Request Expired'
+          - ' &c&l│ &fYour duel request to &6{target} &fhas expired.'
+          - ''
+      target:
+        enabled: true
+        format:
+          - ''
+          - '&c&lDuel Request Expired'
+          - ' &c&l│ &fThe duel request from &6{sender} &fhas expired.'
+          - ''
+ffa:
+  killstreak-alert:
+    enabled: true
+    interval: 5
+    message:
+      - ''
+      - '&6&lKill Streak'
+      - ' &6&l│ &f{name-color}{player} &fis on a &6{killstreak} &fkill streak!'
+      - ''
+  combat-log:
+    death-message: '&7(Combat Log) &c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f.'
+  teleported-to-safe-zone: '&aYou have been teleported to the safe zone.'
+  player:
+    join-message:
+      enabled: false
+      format:
+        - '&a{name-color}{player} &ahas joined the FFA match.'
+    left-message:
+      enabled: false
+      format:
+        - '&c{name-color}{player} &chas left the FFA match.'
+    death:
+      no-killer-message:
+        enabled: true
+        format:
+          - '&c{name-color}{player} &fhas died!'
+      killed-message:
+        enabled: true
+        format:
+          - '&c{name-color}{player} &fwas killed by &c{killer-name-color}{killer}&f!'
+game:
+  cannot-drop-sword: '&cYou cannot drop your sword!'
+match:
+  death-message:
+    generic: '&c&lDEATH! &f{name-color}{player} &fhas died.'
+    generic-killer: '&c&lDEATH! &f{name-color}{victim} &fwas killed by &c{killer-name-color}{killer}&f.'
+    custom: '&c&lDEATH! &f{message}'
+  seeker-respawned: '&c&lDEATH! &fSeeker &c{name-color}{player} &fhas respawned.'
+  started:
+    kit-disclaimer:
+      enabled: true
+      format:
+        - ''
+        - '&6&l{kit-name}'
+        - ' &6&l│ &f{kit-disclaimer}'
+        - ''
+    message:
+      regular:
+        enabled: true
+        format:
+          - '&aThe match has started!'
+      round:
+        enabled: true
+        format:
+          - '&aRound &6{current-round} &ahas started.'
+  elevator:
+    no-safe-spot-found: '&cNo safe spot to teleport to!'
+  cannot-interact-during-match: '&cYou cannot interact with that during a match!'
+  cannot-interact-as-raider: '&cYou cannot interact with that as a raider!'
+  cannot-place-blocks-during-hiding-phase: '&cYou cannot place blocks during the hiding
+    phase!'
+  cannot-place-blocks-above-height-limit: '&cYou cannot place blocks above the height
+    limit!'
+  cannot-build-near-portal: '&cYou cannot build near a portal!'
+  cannot-break-blocks-during-hiding-phase: '&cYou cannot break blocks during the hiding
+    phase!'
+  cannot-break-own-bed: '&cYou cannot break your own bed!'
+  starting:
+    message:
+      enabled: true
+      format:
+        - '&a{stage}...'
+  round-starting:
+    message:
+      enabled: true
+      format:
+        - '&a{stage}...'
+  respawning:
+    message:
+      enabled: true
+      format:
+        - '&a{seconds}...'
+  ending:
+    time-limit-exceeded:
+      format:
+        - '&cMatch ended due to reaching the time limit of &6{time-limit} minutes&c.'
+  scored:
+    enabled: true
+    format:
+      solo:
+        - ''
+        - '{winner-color}&l{scorer} &6&lscored!'
+        - '{winner-color}&l{winner-goals} &7- {loser-color}&l{loser-goals}'
+        - ''
+      team:
+        - ''
+        - '{winner-color}&l{winner}''s Team &6&lscored!'
+        - '{winner-color}&l{winner-goals} &7- {loser-color}&l{loser-goals}'
+        - ''
+  bed-destruction:
+    enabled: true
+    format:
+      - ''
+      - '&6&lBED DESTRUCTION! &6{bed-color}{bed} &fwas destroyed by &6{breaker-color}{breaker}&f!'
+      - ''
+  ended:
+    spectators-list:
+      - '&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)'
+    match-result:
+      regular:
+        format:
+          - ''
+          - '&6&lMatch Results: &7(click to view)'
+          - '&aWinner: &f{winner} &7| &cLoser: &f{loser}'
+          - ''
+        winner:
+          command: /inventory {winner}
+          hover: '&aClick to view {winner}''s inventory'
+        loser:
+          command: /inventory {loser}
+          hover: '&cClick to view {loser}''s inventory'
+    elo-changes:
+      enabled: true
+      format:
+        - '&6&lElo Changes'
+        - ' &6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
+        - ' &6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
+        - ''
+  blocks-reset:
+    enabled: true
+    format:
+      - '&4{name-color}{player} &ffelt like being a nerd and reset the blocks!'
+  platform-decay:
+    will-no-longer-decay:
+      - '&c&lThe platform will no longer decay!'
+    notifications:
+      '75':
+        format:
+          - '&6The arena has begun to crumble...'
+      '50':
+        format:
+          - '&e&lWARNING! &eThe arena has shrunk by half!'
+      '25':
+        format:
+          - '&c&lDANGER! &cThe platform is collapsing fast!'
+  versus-message:
+    solo:
+      enabled: true
+      format:
+        - '&7[&6Match&7] &6{playerA} &avs &6{playerB}'
+    team:
+      enabled: true
+      format:
+        - '&7[&6Match&7] &6{teamA-leader}''s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}''s
+        Team &7(&a{teamB-size}&7)'
+party:
+  invitation:
+    received:
+      clickable:
+        format: ' &a(Click To Accept)'
+        command: /party accept {sender}
+        hover: '&aClick to accept &6{sender}&a''s party invitation.'
+      format:
+        - ''
+        - '&6&lParty Invitation'
+        - ' &6&l│ &fFrom: &6{name-color}{sender}'
+        - ' &6&l│ &fPlayers: &6{party-size}&f/&6N/A'
+        - '{clickable}'
+        - ''
+    sent:
+      format:
+        - ''
+        - '&6&lParty Invitation Sent'
+        - ' &6&l│ &fTarget: &6{name-color}{target}'
+        - ''
+  announcement:
+    clickable:
+      format: ' &a(Click To Join)'
+      command: /party join {leader}
+      hover: '&aClick to join &6{leader}&a''s party.'
+    format:
+      - ''
+      - '&6&lPublic Party Invite'
+      - ' &6&l│ &fLeader: &6{name-color}{leader}'
+      - ' &6&l│ &fPlayers: &6{party-size}&f/&6N/A'
+      - '{clickable}'
+      - ''
+  request:
+    expired:
+      sender:
+        enabled: true
+        format:
+          - ''
+          - '&c&lParty Request Expired'
+          - ' &c&l│ &fYour party request to &6{target} &fhas expired.'
+          - ''
+      target:
+        enabled: true
+        format:
+          - ''
+          - '&c&lParty Request Expired'
+          - ' &c&l│ &fThe party request from &6{sender} &fhas expired.'
+          - ''

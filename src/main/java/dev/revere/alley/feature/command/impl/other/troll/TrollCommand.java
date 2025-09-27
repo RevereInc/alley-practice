@@ -1,10 +1,10 @@
 package dev.revere.alley.feature.command.impl.other.troll;
 
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -17,20 +17,26 @@ import java.lang.reflect.Method;
  * @date 28/10/2024 - 09:00
  */
 public class TrollCommand extends BaseCommand {
+    @CommandData(
+            name = "troll",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "troll <player>",
+            description = "Opens demo screen for target player"
+    )
     @Override
-    @CommandData(name = "troll", aliases = "playertroll", inGameOnly = false, permission = "alley.command.troll.demo-menu")
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            sender.sendMessage(CC.translate("&6Usage: &e/troll &6(player)"));
+            command.sendUsage();
             return;
         }
 
         Player targetPlayer = this.plugin.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(CC.translate("&cPlayer not found."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
@@ -53,6 +59,9 @@ public class TrollCommand extends BaseCommand {
             Logger.error("An error occurred while trying to troll " + targetPlayer.getName() + ": " + ex.getMessage());
         }
 
-        sender.sendMessage(CC.translate("&eYou have trolled &d" + targetPlayer.getName() + "&e."));
+        sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_DEMO_MENU_OPENED)
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+                .replace("{player}", targetPlayer.getName())
+        );
     }
 }

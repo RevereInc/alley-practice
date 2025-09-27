@@ -1,10 +1,11 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.common.item.EnchantUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.item.EnchantUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -16,14 +17,19 @@ import org.bukkit.inventory.ItemStack;
  * @date 28/05/2024 - 20:28
  */
 public class EnchantCommand extends BaseCommand {
-    @CommandData(name = "enchant", permission = "alley.command.enchant")
+    @CommandData(
+            name = "enchant",
+            isAdminOnly = true,
+            usage = "enchant <enchantment> <level>",
+            description = "Enchant the item in your hand with the specified enchantment and level"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&cUsage: /enchant (enchantment) (level)"));
+            command.sendUsage();
             return;
         }
 
@@ -37,20 +43,23 @@ public class EnchantCommand extends BaseCommand {
         int level;
         try {
             level = Integer.parseInt(args[1]);
-        } catch (NumberFormatException e) {
-            player.sendMessage(CC.translate("&cEnchantment level must be a number!"));
+        } catch (NumberFormatException exception) {
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_NUMBER).replace("{input}", args[1]));
             return;
         }
 
         ItemStack itemInHand = player.getInventory().getItemInHand();
         if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to enchant!"));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 
         String displayName = itemInHand.getItemMeta().getDisplayName() == null ? itemInHand.getType().name() : itemInHand.getItemMeta().getDisplayName();
 
         itemInHand.addUnsafeEnchantment(enchantment, level);
-        player.sendMessage(CC.translate("&aSuccessfully enchanted the &6" + displayName + " &aitem with &6" + enchantment.getName() + " &alevel &6" + level + "&a!"));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ITEM_ENCHANTED)
+                .replace("{enchantment}", enchantment.getName())
+                .replace("{level}", String.valueOf(level))
+                .replace("{item-name}", displayName));
     }
 }

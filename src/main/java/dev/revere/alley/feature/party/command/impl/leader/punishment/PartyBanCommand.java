@@ -13,14 +13,19 @@ import org.bukkit.entity.Player;
  * @date 11/12/2024 - 13:25
  */
 public class PartyBanCommand extends BaseCommand {
-    @CommandData(name = "party.ban", aliases = "p.ban")
+    @CommandData(
+            name = "party.ban",
+            aliases = "p.ban",
+            usage = "party ban <player>",
+            description = "Ban a player from your party."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/party ban &6<player>"));
+            command.sendUsage();
             return;
         }
 

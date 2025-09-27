@@ -15,15 +15,21 @@ import java.io.File;
  * @project Alley
  * @since 16/06/2025
  */
-public class ArenaPasteTestCommand extends BaseCommand {
-    @CommandData(name = "arena.paste", isAdminOnly = true, inGameOnly = false)
+public class ArenaPasteCommand extends BaseCommand {
+    @CommandData(
+            name = "arena.paste",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "arena paste <schematicName>",
+            description = "Pastes a schematic at your location."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena paste &6<schematicName>"));
+            command.sendUsage();
             return;
         }
 

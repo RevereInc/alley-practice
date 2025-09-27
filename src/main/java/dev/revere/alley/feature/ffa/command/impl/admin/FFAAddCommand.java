@@ -1,12 +1,12 @@
 package dev.revere.alley.feature.ffa.command.impl.admin;
 
-import dev.revere.alley.library.command.BaseCommand;
-import dev.revere.alley.library.command.CommandArgs;
-import dev.revere.alley.library.command.annotation.CommandData;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.ffa.FFAMatch;
 import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.feature.ffa.internal.DefaultFFAMatch;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.command.BaseCommand;
+import dev.revere.alley.library.command.CommandArgs;
+import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,14 +15,20 @@ import org.bukkit.entity.Player;
  * @since 04/06/2025
  */
 public class FFAAddCommand extends BaseCommand {
-    @CommandData(name = "ffa.add", isAdminOnly = true, usage = "/ffa add <player> <kit>", description = "Add a player to an FFA match", aliases = {"ffa.addplayer", "ffa.addp"})
+    @CommandData(
+            name = "ffa.add",
+            aliases = {"ffa.addplayer", "ffa.addp"},
+            isAdminOnly = true,
+            usage = "ffa add <player> <kit>",
+            description = "Add a player to an FFA match"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/ffa add &6<player> <kit>"));
+            command.sendUsage();
             return;
         }
 
@@ -34,23 +40,27 @@ public class FFAAddCommand extends BaseCommand {
                 .orElse(null);
 
         if (match == null) {
-            player.sendMessage(CC.translate("&cNo FFA match found for kit: " + args[1]));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_NOT_FOUND).replace("{ffa-name}", args[1]));
             return;
         }
 
         Player targetPlayer = this.plugin.getServer().getPlayer(targetName);
         if (targetPlayer == null) {
-            player.sendMessage(CC.translate("&cPlayer not found: " + targetName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         if (match.getPlayers().size() >= match.getMaxPlayers()) {
-            player.sendMessage(CC.translate("&cThe FFA match is full!"));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_FULL));
             return;
         }
 
         DefaultFFAMatch defaultMatch = (DefaultFFAMatch) match;
         defaultMatch.forceJoin(targetPlayer);
-        player.sendMessage(CC.translate("&aSuccessfully added " + targetName + " to the FFA match for kit: " + args[1]));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.FFA_ADDED_PLAYER)
+                .replace("{player}", targetPlayer.getName())
+                .replace("{ffa-name}", match.getName())
+                .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
+        );
     }
 }

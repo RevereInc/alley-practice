@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  * @since 09/03/2025
  */
 public class ServiceMenuCommand extends BaseCommand {
-    @CommandData(name = "service.menu", isAdminOnly = true, usage = "/service menu", description = "Service menu command.")
+    @CommandData(name = "service.menu", isAdminOnly = true, usage = "service menu", description = "Service menu command.")
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();

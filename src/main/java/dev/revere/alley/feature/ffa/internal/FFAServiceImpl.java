@@ -1,17 +1,17 @@
 package dev.revere.alley.feature.ffa.internal;
 
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.ffa.FFAMatch;
-import dev.revere.alley.feature.ffa.FFAService;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.feature.kit.Kit;
-import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingBuildImpl;
-import dev.revere.alley.feature.kit.setting.types.mode.KitSettingBoxing;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.ffa.FFAMatch;
+import dev.revere.alley.feature.ffa.FFAService;
+import dev.revere.alley.feature.kit.Kit;
+import dev.revere.alley.feature.kit.KitService;
+import dev.revere.alley.feature.kit.setting.types.mechanic.KitSettingBuildImpl;
+import dev.revere.alley.feature.kit.setting.types.mode.KitSettingBoxing;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 

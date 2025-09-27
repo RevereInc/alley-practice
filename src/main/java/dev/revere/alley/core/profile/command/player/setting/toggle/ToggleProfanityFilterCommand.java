@@ -1,12 +1,13 @@
 package dev.revere.alley.core.profile.command.player.setting.toggle;
 
+import dev.revere.alley.common.constants.MessageConstant;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.config.internal.locale.impl.ProfileLocale;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -15,15 +16,30 @@ import org.bukkit.entity.Player;
  * @since 27/04/2025
  */
 public class ToggleProfanityFilterCommand extends BaseCommand {
-    @CommandData(name = "toggleprofanityfilter", aliases = {"tpf"})
+    @CommandData(
+            name = "toggleprofanityfilter",
+            aliases = {"tpf"},
+            cooldown = 1,
+            usage = "toggleprofanityfilter",
+            description = "Toggle the profanity filter on or off."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
-
-        ProfileService profileService = this.plugin.getService(ProfileService.class);
-        Profile profile = profileService.getProfile(player.getUniqueId());
+        Profile profile = this.getProfile(player.getUniqueId());
         profile.getProfileData().getSettingData().setProfanityFilterEnabled(!profile.getProfileData().getSettingData().isProfanityFilterEnabled());
 
-        player.sendMessage(CC.translate(ProfileLocale.TOGGLED_PROFANITY_FILTER.getMessage().replace("{status}", profile.getProfileData().getSettingData().isProfanityFilterEnabled() ? "&aenabled" : "&cdisabled")));
+        boolean chatFormatEnabled = this.getBoolean(SettingsLocaleImpl.SERVER_CHAT_FORMAT_ENABLED_BOOLEAN);
+        if (!chatFormatEnabled) {
+            player.sendMessage(MessageConstant.FEATURE_CURRENTLY_DISABLED);
+            if (player.isOp()) {
+                player.sendMessage(CC.translate("&cYou seem to be an operator. This feature is disabled because you're currently &c&lnot &cusing &6&lAlley's &cchat format. &7To enable it, head to settings config and enable chat format."));
+            }
+            return;
+        }
+
+        player.sendMessage(CC.translate(this.getString(GlobalMessagesLocaleImpl.PROFILE_TOGGLED_PROFANITY_FILTER)
+                .replace("{status}", profile.getProfileData().getSettingData().isProfanityFilterEnabled() ? "&aenabled" : "&cdisabled"))
+        );
     }
 }

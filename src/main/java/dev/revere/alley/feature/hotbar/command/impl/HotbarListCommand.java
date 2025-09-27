@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.hotbar.command.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.hotbar.HotbarItem;
+import dev.revere.alley.feature.hotbar.HotbarService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.hotbar.HotbarItem;
-import dev.revere.alley.feature.hotbar.HotbarService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -18,7 +19,9 @@ import java.util.Collection;
 public class HotbarListCommand extends BaseCommand {
     @CommandData(
             name = "hotbar.list",
-            isAdminOnly = true
+            isAdminOnly = true,
+            usage = "hotbar list",
+            description = "Sends a list of all hotbar items."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -28,7 +31,7 @@ public class HotbarListCommand extends BaseCommand {
         Collection<HotbarItem> hotbarItems = hotbarService.getHotbarItems();
 
         if (hotbarItems.isEmpty()) {
-            player.sendMessage(CC.translate("&cNo hotbar items have been created yet."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.HOTBAR_NO_HOTBAR_ITEMS_CREATED));
             return;
         }
 

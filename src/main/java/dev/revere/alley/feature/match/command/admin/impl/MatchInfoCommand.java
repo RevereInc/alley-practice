@@ -1,11 +1,12 @@
 package dev.revere.alley.feature.match.command.admin.impl;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,35 +17,45 @@ import org.bukkit.entity.Player;
  * @date 15/09/2024 - 11:39
  */
 public class MatchInfoCommand extends BaseCommand {
-    @CommandData(name = "match.info", permission = "alley.command.match.info", inGameOnly = false)
+    @CommandData(
+            name = "match.info",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "match info <player>",
+            description = "Get information about a player's current match."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
         if (args.length == 0) {
-            sender.sendMessage(CC.translate("&6Usage: &e/match info &6<player>"));
+            command.sendUsage();
             return;
         }
 
         String playerName = args[0];
         Player target = Bukkit.getPlayer(playerName);
         if (target == null) {
-            sender.sendMessage(CC.translate("&cPlayer not found."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile profile = this.plugin.getService(ProfileService.class).getProfile(target.getUniqueId());
         if (profile.getMatch() == null) {
-            sender.sendMessage(CC.translate("&cThis player is not in a match."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_PLAYER_NOT_PLAYING_MATCH)
+                    .replace("{name-color}", String.valueOf(profile.getNameColor()))
+                    .replace("{player}", target.getName()));
             return;
         }
 
+        //TODO: Add more match info
+
         sender.sendMessage(CC.translate("&c&lMatch Information"));
         sender.sendMessage(CC.translate(" &f&l● &fPlayers:"));
-        profile.getMatch().getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(gamePlayer -> {
-            sender.sendMessage(CC.translate("   &f* &c" + gamePlayer.getUsername()));
-        }));
+        profile.getMatch().getParticipants().forEach(gameParticipant -> gameParticipant.getPlayers().forEach(gamePlayer ->
+                sender.sendMessage(CC.translate("   &f* &c" + gamePlayer.getUsername())))
+        );
 
         sender.sendMessage(CC.translate(" &f&l● &fSpectators:"));
         if (profile.getMatch().getSpectators().isEmpty()) {

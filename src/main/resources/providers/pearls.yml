@@ -15,7 +15,6 @@ TalibanPearl:
 return-pearl: true
 tp-with-taliban-disabled: true
 
-
 Message: '&cInvalid Pearl'
 Invalid-Pearl-Message: false
 invalid-if-block-in-front: true

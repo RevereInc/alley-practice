@@ -1,9 +1,12 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.menu.music.MusicDiscSelectorMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.menu.music.MusicDiscSelectorMenu;
+import org.bukkit.entity.Player;
 
 /**
  * @author Emmy
@@ -14,10 +17,18 @@ public class LobbyMusicCommand extends BaseCommand {
     @CommandData(
             name = "lobbymusic",
             aliases = {"music"},
-            permission = "alley.donator.command.lobbymusic"
+            usage = "lobbymusic",
+            description = "Open the lobby music selector menu"
     )
     @Override
     public void onCommand(CommandArgs command) {
-        new MusicDiscSelectorMenu().openMenu(command.getPlayer());
+        Player player = command.getPlayer();
+        Profile profile = this.getProfile(player.getUniqueId());
+        if (!profile.isInLobbyOrInQueue()) {
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_BE_IN_LOBBY));
+            return;
+        }
+
+        new MusicDiscSelectorMenu().openMenu(player);
     }
 }

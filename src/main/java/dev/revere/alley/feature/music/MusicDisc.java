@@ -32,6 +32,14 @@ public enum MusicDisc {
     private final String soundName;
     private final int duration;
 
+    /**
+     * Constructor for the MusicDisc enum.
+     *
+     * @param material  The material type of the music disc.
+     * @param title     The title of the music disc.
+     * @param soundName The unique sound identifier for the music disc.
+     * @param duration  The duration of the music disc in seconds.
+     */
     MusicDisc(Material material, String title, String soundName, int duration) {
         this.material = material;
         this.title = title;

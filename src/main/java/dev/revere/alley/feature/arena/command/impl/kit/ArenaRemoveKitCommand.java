@@ -1,15 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.kit;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.kit.KitService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.feature.kit.KitService;
-import dev.revere.alley.core.config.internal.locale.impl.ArenaLocale;
-import dev.revere.alley.core.config.internal.locale.impl.KitLocale;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -21,7 +19,6 @@ import java.util.List;
  * @date 5/20/2024
  */
 public class ArenaRemoveKitCommand extends BaseCommand {
-
     @CompleterData(name = "arena.removekit")
     public List<String> arenaRemoveKitCompleter(CommandArgs command) {
         List<String> completion = new ArrayList<>();
@@ -33,14 +30,19 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         return completion;
     }
 
-    @CommandData(name = "arena.removekit", isAdminOnly = true)
+    @CommandData(
+            name = "arena.removekit",
+            isAdminOnly = true,
+            usage = "arena removekit <arenaName> <kitName>",
+            description = "Removes a kit from an arena"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/arena removekit &6<arenaName> <kitName>"));
+            command.sendUsage();
             return;
         }
 
@@ -50,23 +52,29 @@ public class ArenaRemoveKitCommand extends BaseCommand {
         ArenaService arenaService = this.plugin.getService(ArenaService.class);
         Arena arena = arenaService.getArenaByName(arenaName);
         if (arena.getName() == null) {
-            player.sendMessage(ArenaLocale.NOT_FOUND.getMessage().replace("{arena-name}", arenaName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_NOT_FOUND).replace("{arena-name}", arenaName));
             return;
         }
 
         if (this.plugin.getService(KitService.class).getKit(kitName).getName() == null) {
-            player.sendMessage(KitLocale.KIT_NOT_FOUND.getMessage().replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.KIT_NOT_FOUND).replace("{kit-name}", kitName));
             return;
         }
 
         if (!arena.getKits().contains(kitName)) {
-            player.sendMessage(ArenaLocale.ARENA_DOES_NOT_HAVE_KIT.getMessage().replace("{arena-name}", arenaName).replace("{kit-name}", kitName));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_ARENA_DOES_NOT_HAVE_KIT)
+                    .replace("{arena-name}", arenaName)
+                    .replace("{kit-name}", kitName)
+            );
             return;
         }
 
         arena.getKits().remove(kitName);
         arenaService.saveArena(arena);
 
-        player.sendMessage(ArenaLocale.KIT_REMOVED.getMessage().replace("{arena-name}", arenaName).replace("{kit-name}", kitName));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ARENA_KIT_REMOVED)
+                .replace("{arena-name}", arenaName)
+                .replace("{kit-name}", kitName)
+        );
     }
 }

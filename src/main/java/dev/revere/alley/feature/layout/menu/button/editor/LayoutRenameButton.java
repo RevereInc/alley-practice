@@ -1,9 +1,10 @@
 package dev.revere.alley.feature.layout.menu.button.editor;
 
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.layout.data.LayoutData;
+import dev.revere.alley.common.constants.MessageConstant;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.feature.layout.data.LayoutData;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -39,6 +40,6 @@ public class LayoutRenameButton extends Button {
     public void clicked(Player player, ClickType clickType) {
         if (clickType != ClickType.LEFT) return;
 
-        player.sendMessage("&c&lThis feature is not yet implemented!");
+        player.sendMessage(MessageConstant.IN_DEVELOPMENT);
     }
 }

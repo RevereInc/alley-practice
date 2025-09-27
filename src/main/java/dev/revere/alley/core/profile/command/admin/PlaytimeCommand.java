@@ -1,15 +1,16 @@
 package dev.revere.alley.core.profile.command.admin;
 
+import dev.revere.alley.common.PlayerUtil;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.time.DateFormat;
+import dev.revere.alley.common.time.DateFormatter;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.data.types.ProfilePlayTimeData;
-import dev.revere.alley.common.time.DateFormatter;
-import dev.revere.alley.common.time.DateFormat;
-import dev.revere.alley.common.PlayerUtil;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -23,26 +24,32 @@ import java.util.List;
  * @date 24/05/2024 - 18:45
  */
 public class PlaytimeCommand extends BaseCommand {
+    @CommandData(
+            name = "playtime",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "playtime <player>",
+            description = "Check a player's playtime."
+    )
     @Override
-    @CommandData(name = "playtime", isAdminOnly = true, inGameOnly = false)
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
         String[] args = command.getArgs();
 
         if (command.length() < 1) {
-            sender.sendMessage(CC.translate("&cUsage: /playtime (player)"));
+            command.sendUsage();
             return;
         }
 
         OfflinePlayer targetPlayer = PlayerUtil.getOfflinePlayerByName(args[0]);
         if (targetPlayer == null) {
-            sender.sendMessage(CC.translate("&cThe player you are trying to check is not online."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
         Profile targetProfile = this.plugin.getService(ProfileService.class).getProfile(targetPlayer.getUniqueId());
         if (targetProfile == null) {
-            sender.sendMessage(CC.translate("&cThe player profile could not be found."));
+            sender.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 

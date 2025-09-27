@@ -1,10 +1,11 @@
 package dev.revere.alley.feature.kit.command.helper.impl;
 
+import dev.revere.alley.common.reflect.utility.ReflectionUtility;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.reflect.utility.ReflectionUtility;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -27,13 +28,13 @@ public class GlowCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&6Usage: &e/glow &6<true|false>"));
+            command.sendUsage();
             return;
         }
 
         ItemStack item = player.getItemInHand();
         if (item == null || item.getType() == Material.AIR) {
-            player.sendMessage(CC.translate("&cYou must be holding an item to modify glow state."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_MUST_HOLD_ITEM));
             return;
         }
 

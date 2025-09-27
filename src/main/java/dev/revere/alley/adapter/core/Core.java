@@ -1,11 +1,16 @@
 package dev.revere.alley.adapter.core;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.level.LevelService;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+
+import java.util.Objects;
 
 /**
  * @author Emmy
@@ -96,11 +101,26 @@ public interface Core {
         ChatColor tagColor = this.getTagColor(player);
 
         String selectedTitle = CC.translate(profile.getProfileData().getSelectedTitle());
+        String level = CC.translate(AlleyPlugin.getInstance().getService(LevelService.class).getLevel(profile.getProfileData().getGlobalLevel()).getDisplayName());
 
-        if (player.hasPermission("alley.chat.color")) {
+        String tagAppearanceFormat = AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_TAG_APPEARANCE_FORMAT)
+                .replace("{tag-color}", String.valueOf(tagColor))
+                .replace("{tag-prefix}", CC.translate(tagPrefix));
+
+        if (player.hasPermission(AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.PERMISSION_USE_OF_COLOR_CODES_IN_CHAT))) {
             eventMessage = CC.translate(eventMessage);
         }
 
-        return prefix + rankColor + nameColor + player.getName() + suffix + tagColor + tagPrefix + separator + eventMessage + selectedTitle;
+        return AlleyPlugin.getInstance().getService(LocaleService.class).getString(SettingsLocaleImpl.SERVER_CHAT_FORMAT_GLOBAL)
+                .replace("{prefix}", prefix)
+                .replace("{rank-color}", String.valueOf(rankColor))
+                .replace("{name-color}", String.valueOf(nameColor))
+                .replace("{player}", player.getName())
+                .replace("{suffix}", suffix)
+                .replace("{tag}", tagPrefix.isEmpty() ? "" : tagAppearanceFormat)
+                .replace("{separator}", separator)
+                .replace("{message}", eventMessage)
+                .replace("{level}", Objects.requireNonNull(CC.translate(level), "Level cannot be null"))
+                .replace("{selected-title}", selectedTitle);
     }
 }

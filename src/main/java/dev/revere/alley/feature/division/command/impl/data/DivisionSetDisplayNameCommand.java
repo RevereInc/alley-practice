@@ -1,11 +1,11 @@
 package dev.revere.alley.feature.division.command.impl.data;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.feature.division.Division;
+import dev.revere.alley.feature.division.DivisionService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.division.Division;
-import dev.revere.alley.feature.division.DivisionService;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -14,27 +14,35 @@ import org.bukkit.entity.Player;
  * @since 28/01/2025
  */
 public class DivisionSetDisplayNameCommand extends BaseCommand {
-    @CommandData(name = "division.setdisplayname", isAdminOnly = true, usage = "division setdisplayname <name> <displayName>")
+    @CommandData(
+            name = "division.setdisplayname",
+            isAdminOnly = true,
+            usage = "division setdisplayname <name> <displayName>",
+            description = "Set the display name of a division."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 2) {
-            player.sendMessage(CC.translate("&6Usage: &e/division setdisplayname &6<name> <displayName>"));
+            command.sendUsage();
             return;
         }
 
         DivisionService divisionService = this.plugin.getService(DivisionService.class);
         Division division = divisionService.getDivision(args[0]);
         if (division == null) {
-            player.sendMessage(CC.translate("&cA division with that name does not exist."));
+            player.sendMessage(this.getString(GlobalMessagesLocaleImpl.DIVISION_NOT_FOUND).replace("{division-name}", args[0]));
             return;
         }
 
         String displayName = args[1];
         division.setDisplayName(displayName);
         divisionService.saveDivision(division);
-        player.sendMessage(CC.translate("&aSuccessfully set the display name of the division &6" + division.getName() + " &ato &6" + displayName + "&a."));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.DIVISION_DISPLAY_NAME_SET)
+                .replace("{division-name}", division.getName())
+                .replace("{display-name}", displayName)
+        );
     }
 }

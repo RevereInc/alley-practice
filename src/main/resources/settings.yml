@@ -1,63 +1,103 @@
-auto-update: true
+plugin:
+  # Whether to automatically update Alley Practice upon server start when a new version is available.
+  auto-update: true
 
-command:
-  anti-syntax-message: "&cYou cannot execute {argument}."
-  # Allows you to execute for example alley:alley (syntax)
-  syntax-bypass-perm: "alley.owner"
-  # The dispatched/executed command by console when the players buy a cosmetic
-  grant-cosmetic-permission-command: "permission set {player} {permission}"
+crafting-operations:
+  blocked-items: [ ]
 
-spawn:
-  # The spawn location of the server
-  join-location: world:0.5:73.0:0.5:90.0:0.0
+commands:
+  anti-syntax-message: '&cYou cannot execute {argument}.'
+  # this command is executed whenever a player purchases a cosmetic item from the in game shop menu
+  grant-cosmetic-permission: permission set {player} {permission}
 
-game:
-  blocked-commands: # Commands that will be blocked in-game, players won't be able to execute them.
-    - "kill"
-    - "gamemode"
-    - "troll"
-  # The amount of lives each player will have in a lives match.
-  lives: 3
-  # The radius of the portal in blocks.
-  portal-radius: 5
-
-essentials:
-  emojis: true
+configuration:
+  arena-default-display-name:
+    # When creating an arena, these are the default values that will be applied to it.
+    ffa: '&6{arena-name}'
+    shared: '&6{arena-name}'
+    standalone: '&6{arena-name}'
+  default-kit-values:
+    # When creating a kit, these are the default values that will be applied to it.
+    description: ''
+    disclaimer: '&7{kit-name} kit disclaimer.'
+    display-name: '&6{kit-name}'
+    menu-title: '&6&l{kit-name}'
 
 explosive:
-  enabled: true # Whether to enable explosives or not (in case if you want to use your own custom approach)
+  # Whether you want to use Alley's built-in explosive mechanics. (Fireball & Instant-TNT)
+  enabled: true
   values:
-    range: 3.0 # Measured in blocks (the distance in which other players will be affected by the explosives)
-    speed: 1.2
-    vertical: 0.8
-    horizontal: 1.2
-    tnt-fuse-ticks: 80
+    fireball:
+      # The affected radius of the explosion measured in blocks.
+      explosion-range: 3.0
+      # The horizontal knockback multiplier applied to entities hit by the explosion.
+      horizontal-kb: 2.5
+      # The speed at which the fireball is thrown.
+      throw-speed: 0.7
+      # The vertical knockback multiplier applied to entities hit by the explosion.
+      vertical-kb: 2.2
+    tnt:
+      # The affected radius of the explosion measured in blocks.
+      explosion-range: 3.0
+      # The fuse duration in ticks before the TNT explodes.
+      fuse-ticks: 60
 
-parkour:
-  starter-location: world:-5.1145064347201865:69.0:40.13243289901497:-1.9397448:20.588186
+game:
+  # The radius of the end portal thats going to act as the goal. (Better not change this unless you know what you're doing)
+  portal-radius: 5
+  # Blocked commands during matches
+  blocked-commands:
+    - kill
+    - tp
+  # the amount of lives each player will have (such as pearlfight)
+  lives-per-game: 3
 
-arena:
-  # When creating an arena, the following display-name for each
-  # arena type will be set. {arena} represents the arena name.
-  default-display-name:
-    shared: "&6{arena-name}"
-    standalone: "&6{arena-name}"
-    ffa: "&6{arena-name}"
-
-kit:
-  # The default name and description that's going to be set when creating a kit.
-  default-values:
-    display-name: "&6{kit-name}"
-    description: ""
-    disclaimer: "&7{kit-name} kit disclaimer."
-    menu-title: "&6&l{kit-name}"
-
-blocked-crafting-items: []
+permissions:
+  syntax-bypass-permission: alley.syntax.bypass
+  color-code-usage-permission: alley.chat.color
+  donators:
+    # Allows players to select an arena in parties
+    party-arena-selector: alley.donator.duel.arena.selector
+    # Allows players to select an arena in /duel menu
+    duel-arena-selector: alley.donator.duel.arena.selector
+    # allow players to fly in the lobby / queue
+    lobby-flight-bypass: alley.donator.lobby.flight
+    # allow players to use emojis in chat (:sad:, etc)
+    emoji-usage-permission: alley.donator.chat.emoji
 
 profanity-filter:
-  add-default-words: false # Alley has a built-in list of rude and toxic words, set this to true if you want them to apply (The list below will be used in addition to the built-in list).
-  staff-notification-format: "&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f: &7{message}"
+  # Alley has a built in list of insults, if this is set to true, those will be used in addition to the custom list below
+  add-default-words: true
   filtered-words:
-    - "shit"
-    - "fuck"
-    - "bitch"
+    - shit
+    - fuck
+    - bitch
+  staff-notification-format: '&6[S] &f(&6Alley: &fProfanity Detected) &c{player}&f: &7{message}'
+
+server:
+  chat-format:
+    global:
+      enabled: true
+      format: '&7[{level}&7]&r {prefix}{rank-color}{name-color}{player}{suffix}{tag}{separator}{message}'
+      separator: '&7: &f'
+    tag-appearance:
+      format: ' {tag-color}{tag-prefix}'
+    party:
+      format: '&7[&6Party&7] &6{player}&7: &f{message}'
+  essentials:
+    emoji-feature: true
+  locations:
+    spawn: world:10.0:100.0:100.0:0.0:0.0
+
+sounds:
+  match:
+    platform-decay-notifications:
+      '50':
+        enabled: true
+        value: WITHER_HURT
+      '25':
+        enabled: true
+        value: ENDERDRAGON_GROWL
+      '75':
+        enabled: true
+        value: DIG_STONE

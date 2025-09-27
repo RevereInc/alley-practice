@@ -1,9 +1,9 @@
 package dev.revere.alley.feature.command.impl.other;
 
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.entity.Player;
 
 /**
@@ -12,14 +12,19 @@ import org.bukkit.entity.Player;
  * @date 22/06/2025
  */
 public class SudoAllCommand extends BaseCommand {
-    @CommandData(name = "sudoall", isAdminOnly = true, permission = "alley.admin.sudoall")
+    @CommandData(
+            name = "sudoall",
+            isAdminOnly = true,
+            usage = "sudoall <message>",
+            description = "Make all players say a message"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.sendMessage(CC.translate("&cUsage: /sudoall <message>"));
+            command.sendUsage();
             return;
         }
 
@@ -28,6 +33,6 @@ public class SudoAllCommand extends BaseCommand {
             onlinePlayer.chat(message);
         }
 
-        player.sendMessage(CC.translate("&aSuccessfully sent message to all players: " + message));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.OTHER_SUDO_ALL_PLAYERS).replace("{message}", message));
     }
 }

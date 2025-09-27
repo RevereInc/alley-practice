@@ -1,16 +1,17 @@
 package dev.revere.alley.core.profile.menu.shop.button;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.core.config.ConfigService;
-import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.core.profile.Profile;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
+import dev.revere.alley.feature.cosmetic.model.BaseCosmetic;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
@@ -55,25 +56,29 @@ public class ShopItemButton extends Button {
     @Override
     public void clicked(Player player, ClickType clickType) {
         Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        LocaleService localeService = AlleyPlugin.getInstance().getService(LocaleService.class);
 
         if (player.hasPermission(cosmetic.getPermission())) {
-            player.sendMessage(CC.translate("&cYou already own this cosmetic."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_ALREADY_OWNED));
             this.playFail(player);
             return;
         }
 
         if (profile.getProfileData().getCoins() < cosmetic.getPrice()) {
-            player.sendMessage(CC.translate("&cYou don't have enough coins to purchase this."));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_INSUFFICIENT_FUNDS));
             this.playFail(player);
             return;
         }
 
         profile.getProfileData().setCoins(profile.getProfileData().getCoins() - cosmetic.getPrice());
 
-        FileConfiguration config = AlleyPlugin.getInstance().getService(ConfigService.class).getSettingsConfig();
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), config.get("command.grant-cosmetic-permission-command").toString().replace("{player}", player.getName()).replace("%permission%", cosmetic.getPermission()));
+        String command = localeService.getString(SettingsLocaleImpl.GRANT_COSMETIC_PERMISSION_COMMAND)
+                .replace("{player}", player.getName())
+                .replace("{permission}", cosmetic.getPermission());
 
-        player.sendMessage(CC.translate("&aSuccessfully purchased the &6" + cosmetic.getName() + " &acosmetic!"));
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+
+        player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COSMETIC_PURCHASE_SUCCESS).replace("{cosmetic}", cosmetic.getName()));
         this.playSuccess(player);
     }
 }

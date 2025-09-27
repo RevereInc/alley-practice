@@ -1,0 +1,136 @@
+action-bars:
+  health-indicator:
+    message-format: '{name-color}{target} {health-bar}'
+    symbol:
+      appearance: ❤
+      color:
+        full: '&4&l'
+        half: '&c&l'
+        empty: '&7&l'
+  queue-indicator:
+    enabled: true
+    message-format: '&6{queue-type} {kit-name} &7│ &f{elapsed-time}'
+  death-message:
+    enabled: true
+    format: '&c&lKILL! &f{victim-name-color}{victim}'
+titles:
+  join-message:
+    enabled: true
+    header: '&6&lWelcome to Alley Practice'
+    subheader: '&fMade by &6Emmy &f& &6Remi'
+    fade-in: 10
+    stay: 40
+    fade-out: 10
+  match-starting:
+    enabled: true
+    header: '&a&l{colored-stage-bold}'
+    footer: ''
+    fade-in: 0
+    stay: 23
+    fade-out: 5
+  match-restarting-round:
+    enabled: true
+    header: '&a&l{colored-stage-bold}'
+    footer: ''
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  match-started:
+    enabled: true
+    header: '&6&lMatch started'
+    footer: '&fGood Luck!'
+    fade-in: 0
+    stay: 25
+    fade-out: 20
+  match-respawning:
+    enabled: true
+    header: '&c&lYOU DIED!'
+    footer: '&fRespawning in &6{seconds}&f...'
+    fade-in: 0
+    stay: 23
+    fade-out: 0
+  match-respawned:
+    enabled: true
+  match-victory:
+    header: '&a&lVICTORY!'
+    footer: '&a{winner} &fwon the Match!'
+    fade-in: 0
+    stay: 20
+    fade-out: 20
+  match-defeat:
+    enabled: true
+    header: '&c&lDEFEAT!'
+    footer: '&c{winner} &fwon the Match!'
+    fade-in: 0
+    stay: 20
+    fade-out: 20
+  team-scored:
+    enabled: true
+    header: '{winner-color}&l{scorer} &fscored!'
+    footer: '&r{winner-color}{current-score} &7- &r{loser-color}{opponent-current-score}'
+    fade-in: 0
+    stay: 15
+    fade-out: 5
+  checkpoint:
+    enabled: true
+    header: '&aCHECKPOINT!'
+    footer: '&7({x}, {y}, {z})'
+    fade-in: 10
+    stay: 20
+    fade-out: 20
+  match-bed-destroyed:
+    enabled: true
+    header: '&c&lBED DESTROYED!'
+    footer: '&fYou will no longer respawn!'
+    fade-in: 10
+    stay: 60
+    fade-out: 10
+  match-seekers-released:
+    enabled: true
+    header: '&c&lSEEKERS RELEASED!'
+    footer: '&fTHe hunt has begun!'
+    fade-in: 10
+    stay: 40
+    fade-out: 20
+  camp-protection:
+    enabled: true
+    header: '&c&lCAMP PROTECTION'
+    footer: '&fYou will take damage in &6{seconds} &fseconds!'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  camp-protection-taking-damage:
+    enabled: true
+    header: '&c&lTAKING DAMAGE!'
+    footer: '&fMove down!'
+    fade-in: 0
+    stay: 23
+    fade-out: 20
+  party-left:
+    enabled: true
+    header: '&c&l✖ Left {leader}''s Party'
+    footer: '&7You''ve left your party.'
+    fade-in: 5
+    stay: 15
+    fade-out: 5
+  party-joined:
+    enabled: true
+    header: '&a&l⚔ Joined {leader}''s Party'
+    footer: '&7Type /p for help.'
+    fade-in: 5
+    stay: 15
+    fade-out: 5
+  party-disbanded:
+    enabled: true
+    header: '&c&l✖ Party Disbanded'
+    footer: '&7You''ve removed your party.'
+    fade-in: 5
+    stay: 15
+    fade-out: 5
+  party-created:
+    enabled: true
+    header: '&a&l⚔ Party Created'
+    footer: '&7Type /p for help.'
+    fade-in: 5
+    stay: 15
+    fade-out: 5

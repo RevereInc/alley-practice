@@ -1,15 +1,15 @@
 package dev.revere.alley.feature.party.menu.event;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.library.menu.Menu;
-import dev.revere.alley.core.config.internal.locale.impl.PartyLocale;
+import dev.revere.alley.common.item.ItemBuilder;
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
+import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.feature.party.Party;
 import dev.revere.alley.feature.party.menu.event.impl.PartyEventFFAMenu;
 import dev.revere.alley.feature.party.menu.event.impl.PartyEventSplitMenu;
-import dev.revere.alley.core.profile.ProfileService;
-import dev.revere.alley.common.item.ItemBuilder;
-import dev.revere.alley.common.text.CC;
+import dev.revere.alley.library.menu.Button;
+import dev.revere.alley.library.menu.Menu;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -110,17 +110,17 @@ public class PartyEventMenu extends Menu {
 
             Party party = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId()).getParty();
             if (party == null) {
-                player.sendMessage(CC.translate(PartyLocale.NOT_IN_PARTY.getMessage()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_IN_PARTY));
                 return;
             }
 
             if (party.getLeader() != player) {
-                player.sendMessage(CC.translate(PartyLocale.NOT_LEADER.getMessage()));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_NOT_PARTY_LEADER));
                 return;
             }
 
             if (party.getMembers().size() < 2) {
-                player.sendMessage(CC.translate("&cYou need at least 2 players in your party to start an event."));
+                player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_YOU_PARTY_NEED_TWO_PLAYERS));
                 return;
             }
 

@@ -16,7 +16,13 @@ import java.util.UUID;
  * @since 03/04/2025
  */
 public class ViewErrorCommand extends BaseCommand {
-    @CommandData(name = "viewerror", isAdminOnly = true, inGameOnly = false)
+    @CommandData(
+            name = "viewerror",
+            isAdminOnly = true,
+            inGameOnly = false,
+            usage = "viewerror <error>",
+            description = "View a logged error by its ID."
+    )
     @Override
     public void onCommand(CommandArgs command) {
         CommandSender sender = command.getSender();
@@ -28,7 +34,7 @@ public class ViewErrorCommand extends BaseCommand {
         }
 
         if (args.length == 0) {
-            sender.sendMessage(CC.translate("&cUsage: /viewerror <error>"));
+            command.sendUsage();
             return;
         }
 

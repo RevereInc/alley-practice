@@ -1,16 +1,20 @@
 package dev.revere.alley.feature.match.task.mode;
 
 import dev.revere.alley.AlleyPlugin;
+import dev.revere.alley.core.locale.LocaleService;
+import dev.revere.alley.core.locale.internal.impl.SettingsLocaleImpl;
+import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.internal.types.StandAloneArena;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.common.text.CC;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.World;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Remi
@@ -18,7 +22,7 @@ import org.bukkit.scheduler.BukkitRunnable;
  * @date 22/07/2025
  */
 public class PlatformDecayTask extends BukkitRunnable {
-    private final JavaPlugin plugin;
+    private final AlleyPlugin plugin;
     private final Match match;
     private final int initialRadius;
     private final int sideRadius;
@@ -76,12 +80,16 @@ public class PlatformDecayTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (match.getState() != MatchState.RUNNING) {
             return;
         }
 
         if (currentRadius <= 5) {
-            match.sendMessage(CC.translate("&c&lThe platform will no longer decay!"));
+            List<String> message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_WILL_NO_LONGER_DECAY);
+            for (String line : message) {
+                match.sendMessage(line);
+            }
             this.cancel();
             return;
         }
@@ -120,53 +128,110 @@ public class PlatformDecayTask extends BukkitRunnable {
         Location center = arena.getCenter();
         Location minBound = arena.getMinimum();
         Location maxBound = arena.getMaximum();
+
         World world = center.getWorld();
+
         int centerX = center.getBlockX();
         int centerZ = center.getBlockZ();
         int foundEdgeX = centerX;
+
         scanLoopX:
         for (int x = maxBound.getBlockX(); x >= centerX; x--) {
             for (int y = maxBound.getBlockY(); y >= minBound.getBlockY(); y--) {
-                if (world.getBlockAt(x, y, centerZ).getType() != Material.AIR) {
+                if (Objects.requireNonNull(world).getBlockAt(x, y, centerZ).getType() != Material.AIR) {
                     foundEdgeX = x;
                     break scanLoopX;
                 }
             }
         }
         int foundEdgeZ = centerZ;
+
         scanLoopZ:
         for (int z = maxBound.getBlockZ(); z >= centerZ; z--) {
             for (int y = maxBound.getBlockY(); y >= minBound.getBlockY(); y--) {
-                if (world.getBlockAt(centerX, y, z).getType() != Material.AIR) {
+                if (Objects.requireNonNull(world).getBlockAt(centerX, y, z).getType() != Material.AIR) {
                     foundEdgeZ = z;
                     break scanLoopZ;
                 }
             }
         }
+
         int radiusX = Math.abs(foundEdgeX - centerX);
         int radiusZ = Math.abs(foundEdgeZ - centerZ);
         int sideRadius = Math.max(radiusX, radiusZ);
         int cornerRadius = radiusX + radiusZ;
+
         return new int[]{sideRadius, cornerRadius};
     }
 
     private void handleNotifications() {
+
+        //TODO: add titles
+
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
         if (initialRadius == 0) return;
         float remainingPercentage = ((float) currentRadius / initialRadius) * 100;
+
+        List<String> message;
+        Sound sound;
+        boolean soundEnabled;
+
         if (remainingPercentage <= 25 && !notifiedAt25) {
-            sendMessageAndSound("&c&lDANGER! &cThe platform is collapsing fast!", Sound.ENDERDRAGON_GROWL);
+            message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_25_FORMAT);
+            sound = Sound.valueOf(localeService.getString(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_25));
+            soundEnabled = localeService.getBoolean(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_25_ENABLED_BOOLEAN);
             notifiedAt25 = true;
         } else if (remainingPercentage <= 50 && !notifiedAt50) {
-            sendMessageAndSound("&e&lWARNING! &eThe arena has shrunk by half!", Sound.WITHER_HURT);
+            message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_50_FORMAT);
+            sound = Sound.valueOf(localeService.getString(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_50));
+            soundEnabled = localeService.getBoolean(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_50_ENABLED_BOOLEAN);
             notifiedAt50 = true;
         } else if (remainingPercentage <= 75 && !notifiedAt75) {
-            sendMessageAndSound("&6The arena has begun to crumble...", Sound.DIG_STONE);
+            message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_PLATFORM_DECAY_NOTIFICATION_75_FORMAT);
+            sound = Sound.valueOf(localeService.getString(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_75));
+            soundEnabled = localeService.getBoolean(SettingsLocaleImpl.SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_75_ENABLED_BOOLEAN);
             notifiedAt75 = true;
+        } else {
+            return;
         }
-    }
 
-    private void sendMessageAndSound(String message, Sound sound) {
-        match.sendMessage(CC.translate(message));
-        match.playSound(sound);
+        for (String line : message) {
+            match.sendMessage(line);
+        }
+
+        if (soundEnabled) {
+            match.playSound(sound);
+        }
+
+        //List<String> message;
+        //        Sound sound;
+        //        boolean soundEnabled;
+        //
+        //        int notificationPercentage;
+        //
+        //        if (remainingPercentage <= 25 && !notifiedAt25) {
+        //            notificationPercentage = 25;
+        //            notifiedAt25 = true;
+        //        } else if (remainingPercentage <= 50 && !notifiedAt50) {
+        //            notificationPercentage = 50;
+        //            notifiedAt50 = true;
+        //        } else if (remainingPercentage <= 75 && !notifiedAt75) {
+        //            notificationPercentage = 75;
+        //            notifiedAt75 = true;
+        //        } else {
+        //            return;
+        //        }
+        //
+        //        message = localeService.getMessageList(GameMessagesLocaleImpl.valueOf("MATCH_PLATFORM_DECAY_NOTIFICATION_" + notificationPercentage + "_FORMAT"));
+        //        sound = Sound.valueOf(localeService.getMessage(SettingsLocaleImpl.valueOf("SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_" + notificationPercentage)));
+        //        soundEnabled = localeService.getBoolean(SettingsLocaleImpl.valueOf("SOUND_MATCH_PLATFORM_DECAY_NOTIFICATION_" + notificationPercentage + "_ENABLED_BOOLEAN"));
+        //
+        //        for (String line : message) {
+        //            match.sendMessage(line);
+        //        }
+        //
+        //        if (soundEnabled) {
+        //            match.playSound(sound);
+        //        }
     }
 }

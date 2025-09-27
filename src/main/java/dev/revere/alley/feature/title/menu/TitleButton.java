@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.title.menu;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.library.menu.Button;
-import dev.revere.alley.feature.title.model.TitleRecord;
-import dev.revere.alley.core.profile.Profile;
-import dev.revere.alley.core.profile.progress.ProgressService;
-import dev.revere.alley.core.profile.progress.PlayerProgress;
 import dev.revere.alley.common.item.ItemBuilder;
 import dev.revere.alley.common.text.CC;
+import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.progress.PlayerProgress;
+import dev.revere.alley.core.profile.progress.ProgressService;
+import dev.revere.alley.feature.title.model.TitleRecord;
+import dev.revere.alley.library.menu.Button;
 import lombok.AllArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;

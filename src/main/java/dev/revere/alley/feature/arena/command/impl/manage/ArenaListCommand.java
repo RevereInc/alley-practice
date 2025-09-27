@@ -1,13 +1,13 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
+import dev.revere.alley.common.text.LoreHelper;
+import dev.revere.alley.common.text.TextFormatter;
+import dev.revere.alley.feature.arena.Arena;
+import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.feature.arena.Arena;
-import dev.revere.alley.feature.arena.ArenaService;
-import dev.revere.alley.common.text.LoreHelper;
-import dev.revere.alley.common.text.TextFormatter;
-import dev.revere.alley.common.text.CC;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -22,8 +22,13 @@ import java.util.Comparator;
  * @date 10/07/2025
  */
 public class ArenaListCommand extends BaseCommand {
-
-    @CommandData(name = "arena.list", aliases = {"arenas"}, isAdminOnly = true)
+    @CommandData(
+            name = "arena.list",
+            aliases = {"arenas"},
+            isAdminOnly = true,
+            usage = "arena list",
+            description = "Lists all arenas on the server"
+    )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
@@ -34,7 +39,7 @@ public class ArenaListCommand extends BaseCommand {
         player.sendMessage(CC.translate("     &6&lArena List &f(" + arenaService.getArenas().size() + "&f)"));
 
         if (arenaService.getArenas().isEmpty()) {
-            player.sendMessage(CC.translate("      &f● &cNo arenas available."));
+            player.sendMessage(CC.translate("      &f◆ &cNo arenas available."));
             return;
         }
 

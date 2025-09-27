@@ -1,10 +1,9 @@
 package dev.revere.alley.core.profile.command.player;
 
+import dev.revere.alley.core.profile.menu.shop.ShopMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
-import dev.revere.alley.core.profile.menu.shop.ShopMenu;
-import org.bukkit.entity.Player;
 
 /**
  * @author Remi
@@ -12,10 +11,13 @@ import org.bukkit.entity.Player;
  * @date 6/2/2024
  */
 public class ShopCommand extends BaseCommand {
-    @CommandData(name = "shop")
+    @CommandData(
+            name = "shop",
+            usage = "shop",
+            description = "Open the server shop"
+    )
     @Override
     public void onCommand(CommandArgs command) {
-        Player player = command.getPlayer();
-        new ShopMenu().openMenu(player);
+        new ShopMenu().openMenu(command.getPlayer());
     }
 }
