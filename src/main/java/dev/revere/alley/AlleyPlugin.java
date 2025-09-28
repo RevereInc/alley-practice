@@ -1,17 +1,16 @@
 package dev.revere.alley;
 
-import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.lifecycle.Service;
+import dev.revere.alley.common.logger.Logger;
+import dev.revere.alley.common.logger.PluginLogger;
+import dev.revere.alley.core.database.task.RepositoryCleanupTask;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.feature.cosmetic.task.CosmeticTask;
-import dev.revere.alley.visual.tablist.task.TablistUpdateTask;
 import dev.revere.alley.feature.match.task.other.ArrowRemovalTask;
 import dev.revere.alley.feature.match.task.other.MatchPearlCooldownTask;
-import dev.revere.alley.core.database.task.RepositoryCleanupTask;
-import dev.revere.alley.common.logger.Logger;
-import dev.revere.alley.common.logger.PluginLogger;
+import dev.revere.alley.visual.tablist.task.TablistUpdateTask;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
