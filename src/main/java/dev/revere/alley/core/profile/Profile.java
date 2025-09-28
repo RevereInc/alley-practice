@@ -24,7 +24,6 @@ import dev.revere.alley.feature.queue.QueueProfile;
 import dev.revere.alley.feature.queue.QueueType;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 
 import java.util.*;
@@ -63,13 +62,14 @@ public class Profile {
      * Constructor for the Profile class.
      *
      * @param uuid The UUID of the player.
+     * @param name The name of the player.
      */
-    public Profile(UUID uuid) {
+    public Profile(UUID uuid, String name) {
         this.uuid = uuid;
         this.firstJoin = System.currentTimeMillis();
         this.state = ProfileState.LOBBY;
         this.profileData = new ProfileData();
-        this.name = Bukkit.getOfflinePlayer(this.uuid).getName();
+        this.name = name;
         this.leaderboardType = LeaderboardType.RANKED;
         this.queueType = QueueType.UNRANKED;
         this.nameColor = ChatColor.WHITE;

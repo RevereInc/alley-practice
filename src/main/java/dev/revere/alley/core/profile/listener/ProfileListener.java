@@ -46,15 +46,17 @@ public class ProfileListener implements Listener {
             return;
         }
 
+        Player player = event.getPlayer();
+
         if (event.getResult() != PlayerLoginEvent.Result.ALLOWED) {
             return;
         }
 
-        Profile profile = new Profile(event.getPlayer().getUniqueId());
+        Profile profile = new Profile(player.getUniqueId(), player.getName());
         profile.load();
 
         ProfileService profileService = AlleyPlugin.getInstance().getService(ProfileService.class);
-        profileService.getProfile(event.getPlayer().getUniqueId());
+        profileService.getProfile(player.getUniqueId());
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

@@ -1,6 +1,7 @@
 package dev.revere.alley.core.profile.internal;
 
 import com.mongodb.client.MongoCollection;
+import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.logger.Logger;
@@ -58,7 +59,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public Profile getProfile(UUID uuid) {
         return this.profiles.computeIfAbsent(uuid, k -> {
-            Profile profile = new Profile(k);
+            String name = AlleyPlugin.getInstance().getServer().getOfflinePlayer(k).getName();
+            Profile profile = new Profile(k, name);
             profile.load();
             return profile;
         });
