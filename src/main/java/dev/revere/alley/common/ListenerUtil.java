@@ -108,6 +108,19 @@ public class ListenerUtil {
         player.teleport(spawnLocation);
     }
 
+    public void teleportAndClearSpawn(Player player, Location spawnLocation, boolean teleport) {
+        for (int i = 0; i <= 2; i++) {
+            Block block = spawnLocation.clone().add(0, i, 0).getBlock();
+            if (block.getType() != Material.AIR) {
+                block.setType(Material.AIR);
+            }
+        }
+
+        if (teleport) {
+            player.teleport(spawnLocation);
+        }
+    }
+
     /**
      * List of pressure plate materials.
      */

@@ -867,7 +867,7 @@ public abstract class Match {
         }
 
         Location spawnLocation = this.arena.getCenter();
-        ListenerUtil.teleportAndClearSpawn(player, spawnLocation);
+        ListenerUtil.teleportAndClearSpawn(player, spawnLocation, false);
 
         new MatchRespawnTask(player, this, 3).runTaskTimer(this.plugin, 0L, 20L);
     }
