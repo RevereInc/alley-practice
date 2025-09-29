@@ -944,9 +944,21 @@ public abstract class Match {
                 .skip(3)
                 .forEach(player -> remainingSpectators.add(player.getEntityId()));
 
-        this.notifyAll(this.plugin.getService(LocaleService.class).getString(GameMessagesLocaleImpl.MATCH_ENDED_SPECTATORS_LIST)
-                .replace("{spectators}", String.join(", ", firstThreeSpectatorNames))
-                .replace("{more_count}", String.valueOf(remainingSpectators.size())));
+        List<String> message;
+        if (remainingSpectators.isEmpty()) {
+            message = this.plugin.getService(LocaleService.class).getStringList(GameMessagesLocaleImpl.MATCH_ENDED_SPECTATORS_LIST);
+            message.forEach(line -> {
+                line = line.replace("{spectators}", String.join(", ", firstThreeSpectatorNames));
+                this.notifyAll(CC.translate(line));
+            });
+        } else {
+            message = this.plugin.getService(LocaleService.class).getStringList(GameMessagesLocaleImpl.MATCH_ENDED_SPECTATORS_LIST_AND_MORE);
+            message.forEach(line -> {
+                line = line.replace("{spectators}", String.join(", ", firstThreeSpectatorNames));
+                line = line.replace("{more_count}", String.valueOf(remainingSpectators.size()));
+                this.notifyAll(CC.translate(line));
+            });
+        }
 
         this.spectators.forEach(uuid -> {
             Player player = this.plugin.getServer().getPlayer(uuid);

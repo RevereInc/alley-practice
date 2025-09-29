@@ -162,7 +162,9 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
             ""
     )),
 
-    MATCH_ENDED_SPECTATORS_LIST("messages/game-messages.yml", "match.ended.spectators-list", Collections.singletonList("&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)")),
+    MATCH_ENDED_SPECTATORS_LIST("messages/game-messages.yml", "match.ended.spectators-list.regular", Collections.singletonList("&6&lSpectators: &f{spectators}")),
+    MATCH_ENDED_SPECTATORS_LIST_AND_MORE("messages/game-messages.yml", "match.ended.spectators-list.more", Collections.singletonList("&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)")),
+
     MATCH_ENDED_MATCH_RESULT_REGULAR_FORMAT("messages/game-messages.yml", "match.ended.match-result.regular.format", Arrays.asList(
             "",
             "&6&lMatch Results: &7(click to view)",

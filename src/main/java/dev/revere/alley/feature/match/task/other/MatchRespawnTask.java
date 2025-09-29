@@ -9,9 +9,7 @@ import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
-import dev.revere.alley.feature.match.model.GameParticipant;
 import dev.revere.alley.feature.match.model.GamePlayer;
-import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
