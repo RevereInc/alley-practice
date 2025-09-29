@@ -18,7 +18,7 @@ import java.util.Arrays;
  */
 public class KitSetDescriptionCommand extends BaseCommand {
     @CommandData(
-            name = "kit.description",
+            name = "kit.setdescription",
             aliases = "kit.setdesc",
             isAdminOnly = true,
             usage = "kit description <kitName> <description/clear>",
