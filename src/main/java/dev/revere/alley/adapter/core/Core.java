@@ -118,9 +118,11 @@ public interface Core {
                 .replace("{player}", player.getName())
                 .replace("{suffix}", suffix)
                 .replace("{tag}", tagPrefix.isEmpty() ? "" : tagAppearanceFormat)
+                .replace("{level}", Objects.requireNonNull(CC.translate(level), "Level cannot be null"))
+                .replace("{selected-title}", selectedTitle)
+                //Keep these two at last to avoid replacing them within the event message
                 .replace("{separator}", separator)
                 .replace("{message}", eventMessage)
-                .replace("{level}", Objects.requireNonNull(CC.translate(level), "Level cannot be null"))
-                .replace("{selected-title}", selectedTitle);
+                ;
     }
 }
