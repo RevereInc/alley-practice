@@ -1,12 +1,15 @@
 package dev.revere.alley.feature.arena.command.impl.manage;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
+import dev.revere.alley.feature.arena.menu.ArenaPositionMenu;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import dev.revere.alley.library.command.annotation.CompleterData;
+import io.netty.channel.epoll.Epoll;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -58,8 +61,9 @@ public class ArenaTeleportCommand extends BaseCommand {
         }
 
         if (arena.getCenter() == null) {
-            //TODO: open menu to choose specific position to teleport to
-            throw new UnsupportedOperationException("Arena center is not set.");
+            player.sendMessage(CC.translate("&cCenter appears to be not set for this arena."));
+            new ArenaPositionMenu(arena).openMenu(player);
+            return;
         }
 
         player.teleport(arena.getCenter());

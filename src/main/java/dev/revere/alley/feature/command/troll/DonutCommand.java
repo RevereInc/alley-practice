@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.troll;
+package dev.revere.alley.feature.command.troll;
 
 import dev.revere.alley.AlleyPlugin;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;

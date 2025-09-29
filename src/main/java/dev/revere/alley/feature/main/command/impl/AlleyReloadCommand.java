@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.main.impl;
+package dev.revere.alley.feature.main.command.impl;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.config.ConfigService;

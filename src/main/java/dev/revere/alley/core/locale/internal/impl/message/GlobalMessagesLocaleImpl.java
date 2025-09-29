@@ -110,6 +110,7 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     ERROR_DUEL_REQUESTS_INVALID_FROM_PLAYER("messages/global-messages.yml", "error-messages.duel-requests.error.no-pending-request", "&cYou do not have a pending duel request from that player."),
     ERROR_DUEL_REQUESTS_REQUESTS_DISABLED_PLAYER("messages/global-messages.yml", "error-messages.duel-requests.error.player-requests-disabled", "&c{name-color}{player} has duel requests disabled."),
 
+    ERROR_INVALID_LOCATION("messages/global-messages.yml", "error-messages.invalid-location", "&cThat location is not valid!"),
     ERROR_INVALID_PAGE_NUMBER("messages/global-messages.yml", "error-messages.invalid-page-number", "&c'{input}' is not a valid page number! Please enter a valid number."),
     ERROR_INVALID_NUMBER("messages/global-messages.yml", "error-messages.invalid.number", "&c'{input}' is not a valid number! Please enter a valid number."),
     ERROR_INVALID_PLAYER("messages/global-messages.yml", "error-messages.invalid.player", "&cThat player could not be found!"),

@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.gamemode;
+package dev.revere.alley.feature.command.gamemode;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 13/06/2025
  */
-public class SurvivalCommand extends BaseCommand {
+public class CreativeCommand extends BaseCommand {
     @CommandData(
-            name = "gms",
-            aliases = {"gm.s", "gamemode.s", "gm.0", "gm0", "gamemode.0", "gamemode.survival"},
+            name = "gmc",
+            aliases = {"gm.c", "gamemode.c", "gm.1", "gm1", "gamemode.1", "gamemode.creative"},
             isAdminOnly = true,
-            usage = "gamemode survival [player]",
-            description = "Sets your or another player's gamemode to Survival."
+            usage = "gamemode creative [player]",
+            description = "Set your or another player's gamemode to Creative."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -27,8 +27,8 @@ public class SurvivalCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.setGameMode(GameMode.SURVIVAL);
-            player.sendMessage(CC.translate("&eYour gamemode has been updated to Survival."));
+            player.setGameMode(GameMode.CREATIVE);
+            player.sendMessage(CC.translate("&eYour gamemode has been updated to Creative."));
             return;
         }
 
@@ -38,8 +38,8 @@ public class SurvivalCommand extends BaseCommand {
             return;
         }
 
-        targetPlayer.setGameMode(GameMode.SURVIVAL);
-        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Survival."));
-        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Survival."));
+        targetPlayer.setGameMode(GameMode.CREATIVE);
+        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Creative."));
+        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Creative."));
     }
 }

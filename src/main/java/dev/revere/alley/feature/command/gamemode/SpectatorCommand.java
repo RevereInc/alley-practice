@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.gamemode;
+package dev.revere.alley.feature.command.gamemode;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 13/06/2025
  */
-public class CreativeCommand extends BaseCommand {
+public class SpectatorCommand extends BaseCommand {
     @CommandData(
-            name = "gmc",
-            aliases = {"gm.c", "gamemode.c", "gm.1", "gm1", "gamemode.1", "gamemode.creative"},
+            name = "gmsp",
+            aliases = {"gm.sp", "gamemode.sp", "gm.3", "gm3", "gamemode.3", "gamemode.spectator"},
             isAdminOnly = true,
-            usage = "gamemode creative [player]",
-            description = "Set your or another player's gamemode to Creative."
+            usage = "gamemode spectator [player]",
+            description = "Sets your or another player's gamemode to Spectator."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -27,8 +27,8 @@ public class CreativeCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.setGameMode(GameMode.CREATIVE);
-            player.sendMessage(CC.translate("&eYour gamemode has been updated to Creative."));
+            player.setGameMode(GameMode.SPECTATOR);
+            player.sendMessage(CC.translate("&eYour gamemode has been updated to Spectator."));
             return;
         }
 
@@ -38,8 +38,8 @@ public class CreativeCommand extends BaseCommand {
             return;
         }
 
-        targetPlayer.setGameMode(GameMode.CREATIVE);
-        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Creative."));
-        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Creative."));
+        targetPlayer.setGameMode(GameMode.SPECTATOR);
+        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Spectator."));
+        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Spectator."));
     }
 }

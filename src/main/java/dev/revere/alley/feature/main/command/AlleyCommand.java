@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.main;
+package dev.revere.alley.feature.main.command;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.common.text.ClickableUtil;

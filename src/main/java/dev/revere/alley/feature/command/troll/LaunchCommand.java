@@ -1,42 +1,50 @@
-package dev.revere.alley.feature.command.impl.other.troll;
+package dev.revere.alley.feature.command.troll;
 
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.library.command.BaseCommand;
 import dev.revere.alley.library.command.CommandArgs;
 import dev.revere.alley.library.command.annotation.CommandData;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 /**
- * @author Emmy
+ * @author Remi
  * @project Alley
- * @date 28/10/2024 - 09:09
+ * @date 6/19/2024
  */
-public class HeartAttackCommand extends BaseCommand {
+public class LaunchCommand extends BaseCommand {
     @CommandData(
-            name = "heartattack",
+            name = "launch",
             isAdminOnly = true,
-            usage = "heartattack <player>",
-            description = "Gives a player a heart attack."
+            inGameOnly = false,
+            description = "Launch a player",
+            usage = "launch <player> | all"
     )
     @Override
     public void onCommand(CommandArgs command) {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
-        if (args.length < 1) {
+        if (args.length == 0) {
             command.sendUsage();
             return;
         }
 
-        String targetName = args[0];
-        Player targetPlayer = player.getServer().getPlayer(targetName);
+        if (args[0].equalsIgnoreCase("all")) {
+            player.getServer().getOnlinePlayers().forEach(target -> target.setVelocity(new Vector(0, 1, 0).multiply(15)));
+            player.sendMessage(CC.translate("&fYou've launched all players"));
+            return;
+        }
+
+        Player targetPlayer = player.getServer().getPlayer(args[0]);
         if (targetPlayer == null) {
             player.sendMessage(this.getString(GlobalMessagesLocaleImpl.ERROR_INVALID_PLAYER));
             return;
         }
 
-        targetPlayer.setHealth(0.5D);
-        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_GIVEN_HEART_ATTACK)
+        targetPlayer.setVelocity(new Vector(0, 1, 0).multiply(15));
+        player.sendMessage(this.getString(GlobalMessagesLocaleImpl.TROLL_PLAYER_LAUNCHED)
                 .replace("{name-color}", String.valueOf(this.getProfile(targetPlayer.getUniqueId()).getNameColor()))
                 .replace("{player}", targetPlayer.getName())
         );

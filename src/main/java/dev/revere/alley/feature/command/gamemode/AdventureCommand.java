@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.gamemode;
+package dev.revere.alley.feature.command.gamemode;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;

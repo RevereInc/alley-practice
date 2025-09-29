@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.main.impl;
+package dev.revere.alley.feature.main.command.impl;
 
 import dev.revere.alley.adapter.core.Core;
 import dev.revere.alley.adapter.core.CoreAdapter;

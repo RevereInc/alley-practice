@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other;
+package dev.revere.alley.feature.command;
 
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;

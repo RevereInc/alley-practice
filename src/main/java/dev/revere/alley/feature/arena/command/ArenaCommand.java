@@ -29,7 +29,7 @@ public class ArenaCommand extends BaseCommand {
                     "create", "delete", "list", "kitlist", "setcuboid", "setcenter",
                     "setspawn", "removekit", "addkit", "teleport", "toggle", "tool",
                     "setdisplayname", "setheightlimit", "setvoidlevel", "setportal",
-                    "view", "test", "paste", "saveall", "save"
+                    "view", "test", "paste", "saveall", "save", "positions"
             ));
         }
 
@@ -86,6 +86,7 @@ public class ArenaCommand extends BaseCommand {
                     " &f◆ &6/arena delete &8(&7arenaName&8) &7| Delete an arena",
                     " &f◆ &6/arena toggle &8(&7arenaName&8) &7| Enable or Disable an Arena",
                     " &f◆ &6/arena view &8(&7arenaName&8) &7| View arena information",
+                    " &f◆ &6/arena positions &8(&7arenaName&8) &7| View all positions of an arena",
                     " &f◆ &6/arena teleport &8(&7arenaName&8) &7| Teleport to an arena",
                     " &f◆ &6/arena tool &7| Get the Arena Selection tool"
             },

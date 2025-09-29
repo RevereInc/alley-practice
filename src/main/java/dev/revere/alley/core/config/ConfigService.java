@@ -4,6 +4,7 @@ import dev.revere.alley.bootstrap.lifecycle.Service;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.io.File;
+import java.util.Map;
 
 /**
  * @author Remi
@@ -11,6 +12,8 @@ import java.io.File;
  * @date 2/07/2025
  */
 public interface ConfigService extends Service {
+    Map<String, FileConfiguration> getFileConfigurations();
+
     /**
      * Reloads all configurations from disk.
      */

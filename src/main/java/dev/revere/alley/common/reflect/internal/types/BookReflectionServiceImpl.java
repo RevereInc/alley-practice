@@ -55,6 +55,9 @@ public class BookReflectionServiceImpl implements Reflection {
      * @return the book ItemStack
      */
     public ItemStack createBook(String title, String author, String[] pages) {
+
+        //TODO: fix this method, something about it is broken
+
         ItemStack bookItem = new ItemStack(Material.WRITTEN_BOOK, 1);
 
         net.minecraft.server.v1_8_R3.ItemStack itemStackCopy = CraftItemStack.asNMSCopy(bookItem);

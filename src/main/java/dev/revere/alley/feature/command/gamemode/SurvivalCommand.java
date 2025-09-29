@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.command.impl.other.gamemode;
+package dev.revere.alley.feature.command.gamemode;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -13,13 +13,13 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @since 13/06/2025
  */
-public class SpectatorCommand extends BaseCommand {
+public class SurvivalCommand extends BaseCommand {
     @CommandData(
-            name = "gmsp",
-            aliases = {"gm.sp", "gamemode.sp", "gm.3", "gm3", "gamemode.3", "gamemode.spectator"},
+            name = "gms",
+            aliases = {"gm.s", "gamemode.s", "gm.0", "gm0", "gamemode.0", "gamemode.survival"},
             isAdminOnly = true,
-            usage = "gamemode spectator [player]",
-            description = "Sets your or another player's gamemode to Spectator."
+            usage = "gamemode survival [player]",
+            description = "Sets your or another player's gamemode to Survival."
     )
     @Override
     public void onCommand(CommandArgs command) {
@@ -27,8 +27,8 @@ public class SpectatorCommand extends BaseCommand {
         String[] args = command.getArgs();
 
         if (args.length < 1) {
-            player.setGameMode(GameMode.SPECTATOR);
-            player.sendMessage(CC.translate("&eYour gamemode has been updated to Spectator."));
+            player.setGameMode(GameMode.SURVIVAL);
+            player.sendMessage(CC.translate("&eYour gamemode has been updated to Survival."));
             return;
         }
 
@@ -38,8 +38,8 @@ public class SpectatorCommand extends BaseCommand {
             return;
         }
 
-        targetPlayer.setGameMode(GameMode.SPECTATOR);
-        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Spectator."));
-        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Spectator."));
+        targetPlayer.setGameMode(GameMode.SURVIVAL);
+        player.sendMessage(CC.translate("&eYou have updated &d" + targetPlayer.getName() + "'s &egamemode to Survival."));
+        targetPlayer.sendMessage(CC.translate("&eYour gamemode has been updated to Survival."));
     }
 }
