@@ -26,7 +26,7 @@ public enum VisualsLocaleImpl implements LocaleEntry {
     ACTIONBAR_QUEUE_INDICATOR_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.queue-indicator.message-format", "&6{queue-type} {kit-name} &7│ &f{elapsed-time}"),
 
     ACTIONBAR_DEATH_MESSAGE_ENABLED_BOOLEAN("providers/visuals.yml", "action-bars.death-message.enabled", true),
-    ACTIONBAR_DEATH_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.death-message.format", "&c&lKILL! &f{victim-name-color}{victim}"),
+    ACTIONBAR_DEATH_MESSAGE_FORMAT("providers/visuals.yml", "action-bars.death-message.format", "&c&lKILL! &f{name-color}{victim}"),
 
     TAB_LIST_ENABLED_BOOLEAN("providers/tab-list.yml", "tab-list.enabled", true),
     TAB_LIST_HEADER("providers/tab-list.yml", "tab-list.header", Arrays.asList("", "&6&lAlley Network", "")),

@@ -12,7 +12,7 @@ action-bars:
     message-format: '&6{queue-type} {kit-name} &7│ &f{elapsed-time}'
   death-message:
     enabled: true
-    format: '&c&lKILL! &f{victim-name-color}{victim}'
+    format: '&c&lKILL! &f{name-color}{victim}'
 titles:
   join-message:
     enabled: true
