@@ -9,6 +9,9 @@ import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
 import dev.revere.alley.feature.match.Match;
 import dev.revere.alley.feature.match.MatchState;
+import dev.revere.alley.feature.match.model.GameParticipant;
+import dev.revere.alley.feature.match.model.GamePlayer;
+import dev.revere.alley.feature.match.model.internal.MatchGamePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -41,6 +44,15 @@ public class MatchRespawnTask extends BukkitRunnable {
     public void run() {
         if (this.count == 0) {
             this.cancel();
+            if (this.match.getState() == MatchState.ENDING_MATCH || this.match.getState() == MatchState.ENDING_ROUND) {
+                return;
+            }
+
+            GamePlayer gamePlayer = this.match.getGamePlayer(this.player);
+            if (gamePlayer.isDisconnected() || gamePlayer.isDead()) {
+                return;
+            }
+
             this.match.handleRespawn(this.player);
             return;
         }
