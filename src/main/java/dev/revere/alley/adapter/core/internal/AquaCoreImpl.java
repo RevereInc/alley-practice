@@ -43,7 +43,18 @@ public class AquaCoreImpl implements Core {
 
     @Override
     public ChatColor getPlayerColor(Player player) {
-        return this.aquaCoreAPI.getPlayerNameColor(player.getUniqueId());
+        ChatColor ccSelectedColor = this.aquaCoreAPI.getPlayerData(player.getUniqueId()).getChatColor();
+        ChatColor playerNameColor = this.aquaCoreAPI.getPlayerNameColor(player.getUniqueId());
+
+        if (ccSelectedColor != null) {
+            return ccSelectedColor;
+        }
+
+        if (playerNameColor != null) {
+            return playerNameColor;
+        }
+
+        return ChatColor.WHITE;
     }
 
     @Override
