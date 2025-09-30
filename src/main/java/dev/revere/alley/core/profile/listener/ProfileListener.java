@@ -210,4 +210,24 @@ public class ProfileListener implements Listener {
 
         message.forEach(line -> player.sendMessage(CC.translate(line)));
     }
+
+    @EventHandler
+    public void onPlayerDamage(EntityDamageEvent event) {
+        Player player = (Player) event.getEntity();
+        if (player == null) return;
+
+        Profile profile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(player.getUniqueId());
+        ProfileState state = profile.getState();
+
+        if (state == ProfileState.LOBBY
+                || state == ProfileState.EDITING
+                || state == ProfileState.WAITING) {
+            if (player.getGameMode() == GameMode.CREATIVE) return;
+
+            if (player.getLocation().getY() < 0) {
+                AlleyPlugin.getInstance().getService(SpawnService.class).teleportToSpawn(player);
+                AlleyPlugin.getInstance().getService(HotbarService.class).applyHotbarItems(player);
+            }
+        }
+    }
 }
