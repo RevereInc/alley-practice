@@ -366,7 +366,7 @@ public class DefaultMatch extends Match {
         }
 
         message.replaceAll(string -> string
-                .replace("{next-division}", progress.getCurrentDivision().getName() + " " + progress.getNextTier().getName())
+                .replace("{next-division}", winnerProfile.getNextDivisionAndTier(this.getKit().getName()))
                 .replace("{wins-required}", String.valueOf(progress.getRemainingWins()))
                 .replace("{win-or-wins}", progress.getRemainingWins() == 1 ? "win" : "wins")
                 .replace("{progress-bar}", progress.getProgressBar(12, "■"))
