@@ -120,6 +120,7 @@ public class ProfileListener implements Listener {
         Profile profile = profileService.getProfile(player.getUniqueId());
 
         if (profile.getState() == ProfileState.LOBBY
+                || profile.getState() == ProfileState.WAITING
                 || profile.getState() == ProfileState.EDITING
                 || profile.getState() == ProfileState.SPECTATING) {
             if (player.getGameMode() == GameMode.CREATIVE) return;
