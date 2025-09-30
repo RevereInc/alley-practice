@@ -137,8 +137,9 @@ public class MatchPearlListener implements Listener {
         );
 
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            cancelPearlAndRefund(player, event,
-                    "&cYou must wait " + optionalCooldown.get().remainingTime() + " seconds before using another ender pearl.");
+            cancelPearlAndRefund(player, event, AlleyPlugin.getInstance().getService(LocaleService.class).getString(GlobalMessagesLocaleImpl.COOLDOWN_PEARL_MUST_WAIT)
+                    .replace("{time}", String.valueOf(optionalCooldown.get().remainingTime()))
+            );
             return true;
         }
 

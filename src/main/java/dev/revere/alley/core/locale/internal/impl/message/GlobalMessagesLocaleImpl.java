@@ -57,13 +57,13 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     COOLDOWN_NOT_FOUND("messages/global-messages.yml", "cooldown.error.not-found", "&cNo cooldown found for &6{player-name} &cof type &6{cooldown-type}&c."),
     COOLDOWN_RESET("messages/global-messages.yml", "cooldown.command.reset", "&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been reset."),
 
-    COOLDOWN_PEARL_MUST_WAIT("messages/global-messages.yml", "cooldown.pearl.must-wait", "&cYou must wait &6{time} &cbefore you can throw another ender pearl!"),
     COOLDOWN_CAN_NOW_USE_PEARLS_AGAIN("messages/global-messages.yml", "cooldown.pearl.can-now-use-pearls-again", "&aYou can now use ender pearls again!"),
     COOLDOWN_CANNOT_USE_AT_FFA_SPAWN("messages/global-messages.yml", "cooldown.pearl.cannot-use-at-ffa-spawn", "&cYou cannot use ender pearls while in an FFA spawn!"),
 
-    COOLDOWN_FIREBALL_MUST_WAIT("messages/global-messages.yml", "cooldown.fireball.must-wait", "&cYou must wait &6{time} &cbefore you can throw another fireball!"),
-    COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT("messages/global-messages.yml", "cooldown.party-announce.must-wait", "&cYou must wait &6{time} &cbefore you can announce your party again!"),
-    COOLDOWN_GOLDEN_HEAD_MUST_WAIT("messages/global-messages.yml", "cooldown.golden-head.must-wait", "&cYou must wait &6{time} &cbefore you can eat another golden head!"),
+    COOLDOWN_PEARL_MUST_WAIT("messages/global-messages.yml", "cooldown.pearl.must-wait", "&cYou must wait &6{time}s &cbefore you can throw another ender pearl!"),
+    COOLDOWN_FIREBALL_MUST_WAIT("messages/global-messages.yml", "cooldown.fireball.must-wait", "&cYou must wait &6{time}s &cbefore you can throw another fireball!"),
+    COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT("messages/global-messages.yml", "cooldown.party-announce.must-wait", "&cYou must wait &6{time}s &cbefore you can announce your party again!"),
+    COOLDOWN_GOLDEN_HEAD_MUST_WAIT("messages/global-messages.yml", "cooldown.golden-head.must-wait", "&cYou must wait &6{time}s &cbefore you can eat another golden head!"),
 
     COSMETIC_NOT_OWNED("messages/global-messages.yml", "cosmetics.not-owned", "&cYou do not own the &6{cosmetic-name}&c cosmetic!"),
     COSMETIC_SELECTED("messages/global-messages.yml", "cosmetics.selected", "&aSuccessfully selected the &6{cosmetic-name} &acosmetic!"),

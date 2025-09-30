@@ -67,7 +67,7 @@ public class ItemListener implements Listener {
         CooldownType cooldownType = CooldownType.GOLDEN_HEAD_CONSUME;
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_GOLDEN_HEAD_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTime())));
             return true;
         }
 

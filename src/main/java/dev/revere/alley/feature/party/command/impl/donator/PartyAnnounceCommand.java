@@ -56,7 +56,7 @@ public class PartyAnnounceCommand extends BaseCommand {
         CooldownService cooldownService = this.plugin.getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), CooldownType.PARTY_ANNOUNCE_COOLDOWN));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_PARTY_ANNOUNCE_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTime())));
             return;
         }
 

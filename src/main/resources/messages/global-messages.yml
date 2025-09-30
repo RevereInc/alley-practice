@@ -55,15 +55,15 @@ cooldown:
     reset: '&aCooldown for &6{player-name} &aof type &6{cooldown-type} &ahas been
       reset.'
   pearl:
-    must-wait: '&cYou must wait &6{time} &cbefore you can throw another ender pearl!'
+    must-wait: '&cYou must wait &6{time}s &cbefore you can throw another ender pearl!'
     can-now-use-pearls-again: '&aYou can now use ender pearls again!'
     cannot-use-at-ffa-spawn: '&cYou cannot use ender pearls while in an FFA spawn!'
   fireball:
-    must-wait: '&cYou must wait &6{time} &cbefore you can throw another fireball!'
+    must-wait: '&cYou must wait &6{time}s &cbefore you can throw another fireball!'
   party-announce:
-    must-wait: '&cYou must wait &6{time} &cbefore you can announce your party again!'
+    must-wait: '&cYou must wait &6{time}s &cbefore you can announce your party again!'
   golden-head:
-    must-wait: '&cYou must wait &6{time} &cbefore you can eat another golden head!'
+    must-wait: '&cYou must wait &6{time}s &cbefore you can eat another golden head!'
 cosmetics:
   not-owned: '&cYou do not own the &6{cosmetic-name}&c cosmetic!'
   selected: '&aSuccessfully selected the &6{cosmetic-name} &acosmetic!'

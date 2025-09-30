@@ -79,7 +79,7 @@ public class ExplosiveListener implements Listener {
         CooldownService cooldownService = AlleyPlugin.getInstance().getService(CooldownService.class);
         Optional<Cooldown> optionalCooldown = Optional.ofNullable(cooldownService.getCooldown(player.getUniqueId(), cooldownType));
         if (optionalCooldown.isPresent() && optionalCooldown.get().isActive()) {
-            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeInMinutes())));
+            player.sendMessage(localeService.getString(GlobalMessagesLocaleImpl.COOLDOWN_FIREBALL_MUST_WAIT).replace("{time}", String.valueOf(optionalCooldown.get().remainingTimeMillis() / 1000)));
             return;
         }
 
