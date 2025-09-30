@@ -36,7 +36,10 @@ public class FFAServiceImpl implements FFAService {
     private final int defaultPlayerSize = 20;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FFAServiceImpl class.
+     *
+     * @param kitService The KitService instance.
+     * @param arenaService The ArenaService instance.
      */
     public FFAServiceImpl(KitService kitService, ArenaService arenaService) {
         this.kitService = kitService;

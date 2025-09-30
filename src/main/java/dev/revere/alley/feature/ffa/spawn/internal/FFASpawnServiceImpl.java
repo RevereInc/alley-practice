@@ -1,5 +1,6 @@
 package dev.revere.alley.feature.ffa.spawn.internal;
 
+import com.mysql.jdbc.log.Log;
 import dev.revere.alley.bootstrap.AlleyContext;
 import dev.revere.alley.bootstrap.annotation.Service;
 import dev.revere.alley.common.geom.Cuboid;
@@ -9,6 +10,7 @@ import dev.revere.alley.core.config.ConfigService;
 import dev.revere.alley.feature.arena.Arena;
 import dev.revere.alley.feature.arena.ArenaService;
 import dev.revere.alley.feature.arena.ArenaType;
+import dev.revere.alley.feature.ffa.FFAService;
 import dev.revere.alley.feature.ffa.spawn.FFASpawnService;
 import lombok.Getter;
 import org.bukkit.Location;
@@ -24,6 +26,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 public class FFASpawnServiceImpl implements FFASpawnService {
     private final ConfigService configService;
     private final ArenaService arenaService;
+    private final FFAService ffaService;
 
     private Location minimum;
     private Location maximum;
@@ -31,15 +34,24 @@ public class FFASpawnServiceImpl implements FFASpawnService {
     private Cuboid cuboid;
 
     /**
-     * Constructor for DI.
+     * DI Constructor for the FFASpawnServiceImpl class.
+     *
+     * @param configService the config service
+     * @param arenaService  the arena service
+     * @param ffaService    the ffa service
      */
-    public FFASpawnServiceImpl(ConfigService configService, ArenaService arenaService) {
+    public FFASpawnServiceImpl(ConfigService configService, ArenaService arenaService, FFAService ffaService) {
         this.configService = configService;
         this.arenaService = arenaService;
+        this.ffaService = ffaService;
     }
 
     @Override
     public void initialize(AlleyContext context) {
+        if (this.ffaService.getFfaKits().isEmpty()) {
+            return;
+        }
+
         this.loadCuboid();
     }
 
