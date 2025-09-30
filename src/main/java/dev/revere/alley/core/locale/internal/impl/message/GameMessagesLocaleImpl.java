@@ -1,5 +1,6 @@
 package dev.revere.alley.core.locale.internal.impl.message;
 
+import dev.revere.alley.common.text.Symbol;
 import dev.revere.alley.core.locale.LocaleEntry;
 import lombok.Getter;
 
@@ -217,6 +218,28 @@ public enum GameMessagesLocaleImpl implements LocaleEntry {
 
     MATCH_PLAYER_VS_PLAYER_TEAM_ENABLED_BOOLEAN("messages/game-messages.yml", "match.versus-message.team.enabled", true),
     MATCH_PLAYER_VS_PLAYER_TEAM_FORMAT("messages/game-messages.yml", "match.versus-message.team.format", Collections.singletonList("&7[&6Match&7] &6{teamA-leader}'s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}'s Team &7(&a{teamB-size}&7)")),
+
+    PARTY_YOU_JOINED("messages/game-messages.yml", "party.joined", Arrays.asList(
+                    "",
+                    "&6&lParty Joined &a" + Symbol.TICK,
+                    " &7You joined &6{name-color}{leader}'s &aparty.",
+                    " &7Type /p for help.",
+                    ""
+    )),
+    PARTY_YOU_LEFT("messages/global-messages.yml", "party.left", Arrays.asList(
+            "",
+            "&6&lParty Left &a" + Symbol.CROSS,
+            " &7You left the party.",
+            ""
+    )),
+    PARTY_CREATED("messages/game-messages.yml", "party.created",
+            Arrays.asList(
+                    "",
+                    "&6&lParty Created &a" + Symbol.TICK,
+                    " &7Type /p for help.",
+                    ""
+            )
+    ),
 
     PARTY_INVITATION_RECEIVED_CLICKABLE_FORMAT("messages/game-messages.yml", "party.invitation.received.clickable.format", " &a(Click To Accept)"),
     PARTY_INVITATION_RECEIVED_CLICKABLE_COMMAND("messages/game-messages.yml", "party.invitation.received.clickable.command", "/party accept {sender}"),

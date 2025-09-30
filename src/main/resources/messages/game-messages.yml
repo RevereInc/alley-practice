@@ -168,7 +168,10 @@ match:
       - ''
   ended:
     spectators-list:
-      - '&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)'
+      regular:
+        - '&6&lSpectators: &f{spectators}'
+      more:
+        - '&6&lSpectators: &f{spectators} &7(and &6{more_count} &7more...)'
     match-result:
       regular:
         format:
@@ -189,6 +192,24 @@ match:
         - ' &6&l│ &f{winner} &a+{math-winner-elo} &7(&f{old-winner-elo} &7-> &f{new-winner-elo})'
         - ' &6&l│ &f{loser} &c-{math-loser-elo} &7(&f{old-loser-elo} &7-> &f{new-loser-elo})'
         - ''
+    division-progress:
+      enabled: true
+      format:
+        ongoing:
+          - ''
+          - '&6&lProgress'
+          - ' &6&l│ &fUnlock &6{next-division} &fwith {wins-required} more {win-or-wins}!'
+          - '  &7({progress-bar}&7) {progress-percentage}'
+          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
+          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
+          - ''
+        reached:
+          - ''
+          - '&a&lCONGRATULATIONS!'
+          - ' &6&l│ &fReached: &6{reached-new-division}'
+          - ' &6&l│ &fDaily Streak: &6{daily-streak} &f(Best: {best-daily-streak})'
+          - ' &6&l│ &fWin Streak: &6{win-streak} &f(Best: {best-win-streak})'
+          - ''
   blocks-reset:
     enabled: true
     format:
@@ -217,6 +238,17 @@ match:
         - '&7[&6Match&7] &6{teamA-leader}''s Team &7(&a{teamA-size}&7) &avs &6{teamB-leader}''s
         Team &7(&a{teamB-size}&7)'
 party:
+  joined:
+    - ''
+    - '&6&lParty Joined &a✔'
+    - ' &7You joined &6{name-color}{leader}''s &aparty.'
+    - ' &7Type /p for help.'
+    - ''
+  created:
+    - ''
+    - '&6&lParty Created &a✔'
+    - ' &7Type /p for help.'
+    - ''
   invitation:
     received:
       clickable:

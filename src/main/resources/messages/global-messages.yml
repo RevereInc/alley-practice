@@ -311,22 +311,10 @@ other:
     all-players: '&aYou have sudo-ed all players to say: &r{message}'
 party:
   disbanded: '&6&lParty &7&l» &6{name-color}{player} &cdisbanded the party.'
-  joined:
-    - ''
-    - '&6&lParty Joined &a✔'
-    - ' &7You joined &6{name-color}{leader}''s &aparty.'
-    - ' &7Type /p for help.'
-    - ''
-  left: '&cYou''ve left the party!'
   player-joined: '&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})'
   player-left: '&6{name-color}{player} &cleft the party. &7({current-size}/{max-size})'
   player-kicked: '&6{name-color}{player} &chas been kicked from the party. &7({current-size}/{max-size})'
   player-banned: '&6{name-color}{player} &chas been banned from the party. &7({current-size}/{max-size})'
-  created:
-    - ''
-    - '&6&lParty Created &a✔'
-    - ' &7Type /p for help.'
-    - ''
   lookup:
     - ''
     - ' &6&l{leader}''s Party'
@@ -345,6 +333,11 @@ party:
       - '  &6&l│ &rPrivacy: &6{privacy}'
       - '  &6&l│ &rSize: &6{size}'
       - ''
+  left:
+    - ''
+    - '&6&lParty Left &a✘'
+    - ' &7You left the party.'
+    - ''
 queue:
   error:
     temporarily-disabled: '&cQueueing is temporarily disabled. Please try again later.'

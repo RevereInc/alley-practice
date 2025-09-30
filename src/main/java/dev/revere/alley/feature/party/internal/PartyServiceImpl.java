@@ -172,7 +172,7 @@ public class PartyServiceImpl implements PartyService {
 
         SoundUtil.playCustomSound(player, Sound.FIREWORK_TWINKLE, 1.0F, 1.0F);
 
-        List<String> createPartyMessage = this.localeService.getStringList(GlobalMessagesLocaleImpl.PARTY_CREATED);
+        List<String> createPartyMessage = this.localeService.getStringList(GameMessagesLocaleImpl.PARTY_CREATED);
         createPartyMessage.forEach(player::sendMessage);
     }
 
@@ -427,7 +427,7 @@ public class PartyServiceImpl implements PartyService {
                 .replace("{max-size}", "30") //TODO: Implement party size limit with permissions ect...
         );
 
-        List<String> joinedMessage = this.localeService.getStringList(GlobalMessagesLocaleImpl.PARTY_YOU_JOINED);
+        List<String> joinedMessage = this.localeService.getStringList(GameMessagesLocaleImpl.PARTY_YOU_JOINED);
         for (String line : joinedMessage) {
             player.sendMessage(line
                     .replace("{leader}", leader.getName())

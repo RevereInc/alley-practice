@@ -250,31 +250,12 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
     OTHER_SUDO_ALL_PLAYERS("messages/global-messages.yml", "other.sudo.all-players", "&aYou have sudo-ed all players to say: &r{message}"),
 
     PARTY_DISBANDED("messages/global-messages.yml", "party.disbanded", "&6&lParty &7&l" + Symbol.ARROW_R + " &6{name-color}{player} &cdisbanded the party."),
-    PARTY_YOU_JOINED("messages/global-messages.yml", "party.joined",
-            Arrays.asList(
-                    "",
-                    "&6&lParty Joined &a" + Symbol.TICK,
-                    " &7You joined &6{name-color}{leader}'s &aparty.",
-                    " &7Type /p for help.",
-                    ""
-            )
-    ),
-    PARTY_YOU_LEFT("messages/global-messages.yml", "party.left", "&cYou've left the party!"),
-
     PARTY_PLAYER_JOINED("messages/global-messages.yml", "party.player-joined", "&6{name-color}{player} &ahas joined the party! &7({current-size}/{max-size})"),
     PARTY_PLAYER_LEFT("messages/global-messages.yml", "party.player-left", "&6{name-color}{player} &cleft the party. &7({current-size}/{max-size})"),
 
     PARTY_PLAYER_KICKED("messages/global-messages.yml", "party.player-kicked", "&6{name-color}{player} &chas been kicked from the party. &7({current-size}/{max-size})"),
     PARTY_PLAYER_BANNED("messages/global-messages.yml", "party.player-banned", "&6{name-color}{player} &chas been banned from the party. &7({current-size}/{max-size})"),
 
-    PARTY_CREATED("messages/global-messages.yml", "party.created",
-            Arrays.asList(
-                    "",
-                    "&6&lParty Created &a" + Symbol.TICK,
-                    " &7Type /p for help.",
-                    ""
-            )
-    ),
     PARTY_LOOKUP("messages/global-messages.yml", "party.lookup", Arrays.asList(
             "",
             " &6&l{leader}'s Party",
