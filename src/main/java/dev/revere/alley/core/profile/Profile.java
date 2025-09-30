@@ -282,6 +282,28 @@ public class Profile {
     }
 
     /**
+     * Get the next tier for a given profile and kit.
+     *
+     * @param kitName The name of the kit.
+     * @return The next tier.
+     */
+    public DivisionTier getNextTier(String kitName) {
+        ProfileUnrankedKitData data = profileData.getUnrankedKitData().get(kitName);
+        int wins = data.getWins();
+
+        DivisionService divisionService = AlleyPlugin.getInstance().getService(DivisionService.class);
+        for (Division division : divisionService.getDivisions()) {
+            for (DivisionTier tier : division.getTiers()) {
+                if (tier.getRequiredWins() > wins) {
+                    return tier;
+                }
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * Updates the last play time of the profile.
      */
     public void updatePlayTime() {

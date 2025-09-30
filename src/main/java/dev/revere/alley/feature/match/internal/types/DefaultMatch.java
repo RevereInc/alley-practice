@@ -10,6 +10,7 @@ import dev.revere.alley.common.elo.OldEloResult;
 import dev.revere.alley.common.logger.Logger;
 import dev.revere.alley.common.reflect.ReflectionService;
 import dev.revere.alley.common.reflect.internal.types.TitleReflectionServiceImpl;
+import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.LocaleService;
 import dev.revere.alley.core.locale.internal.impl.VisualsLocaleImpl;
 import dev.revere.alley.core.locale.internal.impl.message.GameMessagesLocaleImpl;
@@ -41,8 +42,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author Remi
@@ -342,74 +342,42 @@ public class DefaultMatch extends Match {
      * @param winner The winning player.
      */
     public void sendProgressToWinner(Player winner) {
-
-        /*
-         * TODO: Fix this retarded calculation its pmo
-         *  "next thing i know half the core is f---ed" - Titanic Swim Team, Remi (13/07/2025 - 00:37)
-         */
-
         Profile winnerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(winner.getUniqueId());
-        PlayerProgress progress = AlleyPlugin.getInstance().getService(ProgressService.class).calculateProgress(winnerProfile, this.getKit().getName());
 
-        String progressLine;
+        ProgressService progressService = AlleyPlugin.getInstance().getService(ProgressService.class);
+        PlayerProgress progress = progressService.calculateProgress(winnerProfile, this.getKit().getName());
 
-        if (progress.isMaxRank() && progress.getCurrentWins() >= progress.getWinsForNextTier()) {
-            progressLine = " &6&l● &fCONGRATULATIONS! You have reached the maximum rank!";
-        } else {
-            progressLine = String.format(" &6&l● &fUnlock &6%s &fwith %d more %s!",
-                    progress.getNextRankName(),
-                    progress.getWinsRequired(),
-                    progress.getWinOrWins()
-            );
+        LocaleService localeService = this.plugin.getService(LocaleService.class);
+        if (!localeService.getBoolean(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN)) {
+            return;
         }
 
-//        Arrays.asList(
-//                "&6&lProgress",
-//                progressLine,
-//                "  &7(" + progress.getProgressBar(12, "■") + "&7) " + progress.getProgressPercentage(),
-//                " &6&l● &fDaily Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
-//                " &6&l● &fWin Streak: &6" + "N/A" + " &f(Best: " + "N/A" + ")",
-//                ""
-//        ).forEach(line -> winner.sendMessage(CC.translate(line)));
+        List<String> message;
 
-//        LocaleService localeService = this.plugin.getService(LocaleService.class);
-//        if (!localeService.getBoolean(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ENABLED_BOOLEAN)) {
-//            return;
-//        }
-//
-//        Profile winnerProfile = AlleyPlugin.getInstance().getService(ProfileService.class).getProfile(winner.getUniqueId());
-//        PlayerProgress progress = AlleyPlugin.getInstance().getService(ProgressService.class).calculateProgress(winnerProfile, this.getKit().getName());
-//
-//        List<String> message;
-//
-//        DivisionTier reachedTier = AlleyPlugin.getInstance().getService(DivisionService.class).getDivisions().stream()
-//                .flatMap(div -> div.getTiers().stream())
-//                .filter(tier -> tier.getRequiredWins() == progress.getCurrentWins())
-//                .findFirst()
-//                .orElse(null);
-//
-//        if (reachedTier != null) {
-//            message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_REACHED_FORMAT)
-//                    .stream()
-//                    .map(line -> line.replace("{reached-new-division}", progress.getNextRankName() + " " + reachedTier.getName()))
-//                    .collect(Collectors.toList());
-//        } else {
-//            message = localeService.getMessageList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ONGOING_FORMAT);
-//        }
-//
-//        message.replaceAll(string -> string
-//                .replace("{next-division}", Objects.requireNonNull(reachedTier).getName())
-//                .replace("{wins-required}", String.valueOf(progress.getWinsRequired()))
-//                .replace("{win-or-wins}", progress.getWinOrWins())
-//                .replace("{progress-bar}", progress.getProgressBar(12, "■"))
-//                .replace("{progress-percentage}", progress.getProgressPercentage())
-//                .replace("{daily-streak}", "N/A")
-//                .replace("{best-daily-streak}", "N/A")
-//                .replace("{win-streak}", String.valueOf(winnerProfile.getProfileData().getUnrankedKitData().get(this.getKit().getName()).getWinstreak()))
-//                .replace("{best-win-streak}", "N/A")
-//        );
-//
-//        message.forEach(line -> winner.sendMessage(CC.translate(line)));
+        if (progress.getCurrentWins() == progress.getCurrentTier().getRequiredWins()) {
+            message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_REACHED_FORMAT)
+                    .stream()
+                    .map(line -> line.replace("{reached-new-division}", progress.getCurrentDivision().getName() + " " + progress.getCurrentTier().getName()))
+                    .collect(java.util.stream.Collectors.toList());
+        } else if (progress.getRemainingWins() != -1) {
+            message = localeService.getStringList(GameMessagesLocaleImpl.MATCH_DIVISION_PROGRESS_ONGOING_FORMAT);
+        } else {
+            message = Collections.singletonList("&cYou absolute fucking piece of no life, how did you even get here?");
+        }
+
+        message.replaceAll(string -> string
+                .replace("{next-division}", progress.getCurrentDivision().getName() + " " + progress.getNextTier().getName())
+                .replace("{wins-required}", String.valueOf(progress.getRemainingWins()))
+                .replace("{win-or-wins}", progress.getRemainingWins() == 1 ? "win" : "wins")
+                .replace("{progress-bar}", progress.getProgressBar(12, "■"))
+                .replace("{progress-percentage}", progress.getProgressPercentage())
+                .replace("{daily-streak}", "N/A")
+                .replace("{best-daily-streak}", "N/A")
+                .replace("{win-streak}", String.valueOf(winnerProfile.getProfileData().getUnrankedKitData().get(this.getKit().getName()).getWinstreak()))
+                .replace("{best-win-streak}", "N/A")
+        );
+
+        message.forEach(line -> winner.sendMessage(CC.translate(line)));
     }
 
 

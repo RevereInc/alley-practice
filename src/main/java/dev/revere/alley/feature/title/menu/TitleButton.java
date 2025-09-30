@@ -86,9 +86,9 @@ public class TitleButton extends Button {
                 " &c&lLOCKED",
                 "",
                 String.format(" &fUnlock &6%s &fwith %d more %s.",
-                        progress.getNextRankName(),
-                        progress.getWinsRequired(),
-                        progress.getWinOrWins()
+                        this.profile.getNextDivisionAndTier(this.title.getKit().getName()),
+                        progress.getRemainingWins(),
+                        progress.getRemainingWins() == 1 ? "win" : "wins"
                 ),
                 "&f " + progress.getProgressBar(12, "■") + " &7" + progress.getProgressPercentage(),
                 "",
