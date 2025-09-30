@@ -1,8 +1,8 @@
 package dev.revere.alley.common.server.listener;
 
 import dev.revere.alley.AlleyPlugin;
-import dev.revere.alley.core.profile.ProfileService;
 import dev.revere.alley.core.profile.Profile;
+import dev.revere.alley.core.profile.ProfileService;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -11,6 +11,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.ChunkUnloadEvent;
@@ -22,6 +23,11 @@ import org.bukkit.event.world.WorldLoadEvent;
  * @date 15/09/2024 - 19:23
  */
 public class ServerEnvironmentListener implements Listener {
+
+    @EventHandler
+    private void onPlayerBedEnter(PlayerBedEnterEvent event) {
+        event.setCancelled(true);
+    }
 
     @EventHandler
     private void onUnlockChunk(ChunkUnloadEvent event) {
