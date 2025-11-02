@@ -13,7 +13,7 @@ import dev.revere.alley.feature.queue.command.player.QueuesCommand;
 import dev.revere.alley.feature.queue.command.player.UnrankedCommand;
 import dev.revere.alley.feature.spawn.command.SetSpawnCommand;
 import dev.revere.alley.feature.spawn.command.SpawnCommand;
-import dev.revere.alley.feature.spawn.command.SpawnItemsCommand;
+import dev.revere.alley.feature.hotbar.command.impl.storage.HotbarGiveAllCommand;
 import dev.revere.alley.feature.command.impl.main.AlleyCommand;
 import dev.revere.alley.feature.command.impl.other.*;
 import dev.revere.alley.feature.command.impl.other.gamemode.AdventureCommand;
@@ -93,7 +93,7 @@ public class CommandUtility {
             new RemoveEnchantsCommand();
             new RenameCommand();
             new PlaytimeCommand();
-            new SpawnItemsCommand();
+            new HotbarGiveAllCommand();
             new SetSpawnCommand();
             new SpawnCommand();
             new SetCoinsCommand();

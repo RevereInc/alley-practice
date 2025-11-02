@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.hotbar.command.impl;
+package dev.revere.alley.feature.hotbar.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;

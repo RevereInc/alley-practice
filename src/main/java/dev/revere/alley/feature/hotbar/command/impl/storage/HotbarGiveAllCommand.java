@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.spawn.command;
+package dev.revere.alley.feature.hotbar.command.impl.storage;
 
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
 import dev.revere.alley.feature.hotbar.HotbarService;
@@ -12,12 +12,12 @@ import org.bukkit.entity.Player;
  * @project Alley
  * @date 29/04/2024 - 18:45
  */
-public class SpawnItemsCommand extends BaseCommand {
+public class HotbarGiveAllCommand extends BaseCommand {
     @CommandData(
-            name = "spawnitems",
-            aliases = {"lobbyitems"},
+            name = "hotbaritems",
+            aliases = {"spawnitems", "lobbyitems"},
             isAdminOnly = true,
-            usage = "spawnitems",
+            usage = "hotbaritems",
             description = "Gives the player the spawn items."
     )
     @Override
