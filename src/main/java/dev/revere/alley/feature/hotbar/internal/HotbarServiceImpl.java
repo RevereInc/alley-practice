@@ -355,6 +355,7 @@ public class HotbarServiceImpl implements HotbarService {
         }
     }
 
+    // TODO: Generalize this so there's a single source for menu names.
     public final String[] menuNames = {
         "UNRANKED_MENU",
         "LAYOUT_EDITOR_MENU",
