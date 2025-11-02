@@ -108,7 +108,7 @@
     <repositories>
         <repository>
             <id>revere-internal</id>
-            <url>https://revereinc.github.io/maven-repo/</url>
+            <url>https://revere-group.github.io/maven-repo/</url>
         </repository>
         <repository>
             <id>jitpack.io</id>
