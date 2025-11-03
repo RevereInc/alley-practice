@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.hotbar.command.impl;
+package dev.revere.alley.feature.hotbar.command.impl.manage;
 
 import dev.revere.alley.common.text.EnumFormatter;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -43,7 +43,7 @@ public class HotbarCreateCommand extends BaseCommand {
 
         this.plugin.getService(HotbarService.class).createHotbarItem(name, type);
         player.sendMessage(this.getString(GlobalMessagesLocaleImpl.HOTBAR_CREATED_ITEM)
-                .replace("{name}", name)
+                .replace("{hotbar-name}", name)
                 .replace("{type}", type.name())
         );
     }

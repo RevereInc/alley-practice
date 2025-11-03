@@ -1,4 +1,4 @@
-package dev.revere.alley.feature.hotbar.command.impl;
+package dev.revere.alley.feature.hotbar.command.impl.manage;
 
 import dev.revere.alley.common.text.CC;
 import dev.revere.alley.core.locale.internal.impl.message.GlobalMessagesLocaleImpl;
@@ -37,7 +37,7 @@ public class HotbarListCommand extends BaseCommand {
 
         player.sendMessage(CC.translate("&6Hotbar Items:"));
         for (HotbarItem item : hotbarItems) {
-            player.sendMessage(CC.translate(" &e• &f" + item.getName()));
+            player.sendMessage(CC.translate(" &e• &f" + item.getDisplayName() + " &7(" + item.getName() + ")"));
         }
     }
 }

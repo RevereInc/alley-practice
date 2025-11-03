@@ -136,6 +136,12 @@ public class HotbarServiceImpl implements HotbarService {
         }
     }
 
+    @Override
+    public void refreshCache() {
+        this.hotbarItems.clear();
+        this.initialize(AlleyPlugin.getInstance().getContext());
+    }
+
     /**
      * Creates a HotbarItem with the specified parameters.
      *
@@ -210,6 +216,11 @@ public class HotbarServiceImpl implements HotbarService {
                 .filter(typeData -> typeData.getType() == type)
                 .findFirst()
                 .ifPresent(typeData -> typeData.setEnabled(true));
+
+        HotbarActionData actionData = new HotbarActionData(HotbarAction.OPEN_MENU);
+        actionData.setCommand("toBeChanged");
+        actionData.setMenuName("");
+        hotbarItem.setActionData(actionData);
 
         this.hotbarItems.add(hotbarItem);
         this.saveToConfig(hotbarItem);
@@ -343,4 +354,19 @@ public class HotbarServiceImpl implements HotbarService {
                 throw new IllegalArgumentException("Unknown menu type: " + name);
         }
     }
+
+    // TODO: Generalize this so there's a single source for menu names.
+    public final String[] menuNames = {
+        "UNRANKED_MENU",
+        "LAYOUT_EDITOR_MENU",
+        "CURRENT_MATCHES_MENU",
+        "SETTINGS_MENU",
+        "HOST_EVENTS_MENU",
+        "LEADERBOARD_MENU",
+        "PARTY_EVENT_MENU",
+        "PARTY_DUEL_MENU",
+        "SPECTATOR_TELEPORTER_MENU",
+        "RANKED_MENU",
+        "UNRANKED_DUO_MENU"
+    };
 }

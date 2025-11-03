@@ -170,11 +170,25 @@ public enum GlobalMessagesLocaleImpl implements LocaleEntry {
 
     FFA_KITS_RELOADED("messages/global-messages.yml", "ffa.command.kits-reloaded", "&aSuccessfully reloaded all FFA kits!"),
 
+    HOTBAR_SET_SLOT("messages/global-messages.yml", "hotbar.command.set-slot", "&aYou have set the slot of hotbar item &e{hotbar-name} &ato &r{slot} &ain &r{type} &ahotbar."),
+    HOTBAR_TOGGLED_TYPE("messages/global-messages.yml", "hotbar.command.toggled-type", "&aYou have &6{status} &athe hotbar type &e{hotbar-type} &aof hotbar item &e{hotbar-name}&a."),
+    HOTBAR_SET_MATERIAL("messages/global-messages.yml", "hotbar.command.set-material", "&aYou have set the material of hotbar item &e{hotbar-name} &ato &r{material}&a."),
+    HOTBAR_SET_COMMAND("messages/global-messages.yml", "hotbar.command.set-command", "&aYou have set the command of hotbar item &e{hotbar-name} &ato &r{command}&a."),
+    HOTBAR_SET_MENU("messages/global-messages.yml", "hotbar.command.set-menu", "&aYou have set the menu name of hotbar item &e{hotbar-name} &ato &r{menu-name}&a."),
+    HOTBAR_REFRESHED("messages/global-messages.yml", "hotbar.command.refreshed", "&aSuccessfully refreshed the hotbar items cache!"),
     HOTBAR_NOT_FOUND("messages/global-messages.yml", "hotbar.error.not-found", "&cThe hotbar item named &e{hotbar-name} &cdoes not exist."),
     HOTBAR_NO_HOTBAR_ITEMS_CREATED("messages/global-messages.yml", "hotbar.error.no-hotbar-items-created", "&cNo hotbar items have been created yet."),
+    HOTBAR_INVALID_LORE_LINE("messages/global-messages.yml", "hotbar.error.invalid-lore-line", "&cThe hotbar item named &e{hotbar-name} &cdoes not have that many lore lines."),
+    HOTBAR_REMOVED_LORE("messages/global-messages.yml", "hotbar.command.removed-lore", "&aYou have removed a lore line from hotbar item &e{hotbar-name}&a."),
+    HOTBAR_GIVEN_ITEM("messages/global-messages.yml", "hotbar.command.given-item", "&aYou have been given the hotbar item &e{hotbar-name}&a."),
 
     HOTBAR_CREATED_ITEM("messages/global-messages.yml", "hotbar.command.created", "&aYou have created a new hotbar item named &e{hotbar-name}&a."),
     HOTBAR_DELETED_ITEM("messages/global-messages.yml", "hotbar.command.deleted", "&aYou have deleted the hotbar item named &e{hotbar-name}&a."),
+    HOTBAR_SET_DISPLAY_NAME("messages/global-messages.yml", "hotbar.command.set-display-name", "&aYou have set the display name of hotbar item &e{hotbar-name} &ato &r{display-name}&a."),
+    HOTBAR_ADDED_LORE("messages/global-messages.yml", "hotbar.command.added-lore", "&aYou have added the lore line &r{lore-line} &ato hotbar item &e{hotbar-name}&a."),
+    HOTBAR_SAVED("messages/global-messages.yml", "hotbar.command.saved", "&aSuccessfully saved the hotbar item &e{hotbar-name}&a!"),
+    HOTBAR_SAVED_ALL("messages/global-messages.yml", "hotbar.command.saved-all", "&aSuccessfully saved all hotbar items!"),
+
 
     ITEM_GIVEN("messages/global-messages.yml", "item.command.given-item", "&aYou have been given &6{amount} &a{item-name}&a."),
     ITEM_NOT_CONFIGURED("messages/global-messages.yml", "item.error.item-not-configured", "&cThe item named &6{item-name} &cis not configured."),

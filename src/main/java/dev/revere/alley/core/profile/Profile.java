@@ -130,6 +130,15 @@ public class Profile {
         return this.state == ProfileState.LOBBY || this.state == ProfileState.WAITING;
     }
 
+    public boolean isInGame() {
+        return this.state == ProfileState.PLAYING
+                || this.state == ProfileState.FIGHTING_BOT
+                || this.state == ProfileState.PLAYING_TOURNAMENT
+                || this.state == ProfileState.PLAYING_EVENT
+                || this.state == ProfileState.FFA
+                || this.state == ProfileState.SPECTATING;
+    }
+
     /**
      * Loads the profile from the database.
      */

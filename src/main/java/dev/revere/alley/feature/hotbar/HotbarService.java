@@ -15,6 +15,11 @@ import java.util.List;
  */
 public interface HotbarService extends Service {
     /**
+     * Refreshes the hotbar item cache.
+     */
+    void refreshCache();
+
+    /**
      * Method to retrieve the list of hotbar items.
      *
      * @return A list of HotbarItem objects representing the items in the hotbar.
@@ -107,4 +112,6 @@ public interface HotbarService extends Service {
      * @return the menu instance
      */
     Menu getMenuInstanceFromName(String name, Player player);
+
+    String[] getMenuNames();
 }
