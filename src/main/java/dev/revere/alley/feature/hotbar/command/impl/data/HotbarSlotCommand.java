@@ -27,7 +27,7 @@ public class HotbarSlotCommand extends BaseCommand {
         Player player = command.getPlayer();
         String[] args = command.getArgs();
 
-        if (args.length < 2) {
+        if (args.length < 3) {
             command.sendUsage();
             return;
         }
